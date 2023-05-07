@@ -1,3 +1,4 @@
+import 'package:dive_club/resources/l10n/l10n.dart';
 import 'package:flutter/material.dart';
 
 import 'application/navigation/feature.dart';
@@ -21,6 +22,7 @@ class MyApp extends StatelessWidget {
       navigatorKey: NavigationService.key,
       onGenerateRoute: AppRouter.generateRoutes,
       localizationsDelegates: const [
+        AppLocalizations.delegate,
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
         GlobalCupertinoLocalizations.delegate,

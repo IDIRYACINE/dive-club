@@ -1,4 +1,7 @@
 {
     "submit" : "Submit",
-    "login" : "Login"
+    "login" : "Login",
+    "loginButtonLabel" : "Login",
+    "loginUsernameLabel" : "Username",
+    "loginPasswordLabel" : "Password"
 }
