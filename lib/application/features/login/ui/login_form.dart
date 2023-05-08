@@ -1,6 +1,8 @@
 import 'package:dive_club/resources/l10n/l10n.dart';
 import 'package:flutter/material.dart';
 
+import '../logic/helpers.dart';
+
 class LoginForm extends StatelessWidget {
   const LoginForm({super.key});
 
@@ -22,7 +24,7 @@ class LoginForm extends StatelessWidget {
             ),
           ),
           MaterialButton(
-            onPressed: () {},
+            onPressed: handleLogin,
             child: Text(localizations.loginButtonLabel),
           ),
         ],
