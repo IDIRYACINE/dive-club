@@ -1,7 +1,14 @@
 {
-    "submit" : "Submit",
-    "login" : "Login",
-    "loginButtonLabel" : "Login",
-    "loginUsernameLabel" : "Username",
-    "loginPasswordLabel" : "Password"
+    "submit": "Submit",
+    "login": "Login",
+    "loginButtonLabel": "Login",
+    "loginUsernameLabel": "Username",
+    "loginPasswordLabel": "Password",
+    "nameLabel": "Name",
+    "birthdateLabel": "BirthDate",
+    "competitionLabel": "Competition",
+    "specialityLabel": "Speciality",
+    "addParticipantLabel" : "Add Participant",
+    "participantLabel" : "Participant",
+    "participantListLabel" : "Participants List"
 }

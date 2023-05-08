@@ -1,3 +1,5 @@
+import 'package:dive_club/application/features/participants/feature.dart';
+import 'package:dive_club/resources/measures.dart';
 import 'package:flutter/material.dart';
 
 class AppContent extends StatelessWidget {
@@ -7,12 +9,17 @@ class AppContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return IndexedStack(
-      index: index,
-      children: const [
-        Text("screen 0 "),
-        Text("screen 1 "),
-      ],
+    return Scaffold(
+      body: Padding(
+        padding: const EdgeInsets.all(AppMeasures.paddings),
+        child: IndexedStack(
+          index: index,
+          children: const [
+            ParticipantsView(),
+            Text("screen 1 "),
+          ],
+        ),
+      ),
     );
   }
 }
