@@ -10,5 +10,14 @@
     "specialityLabel": "Speciality",
     "addParticipantLabel" : "Add Participant",
     "participantLabel" : "Participant",
-    "participantListLabel" : "Participants List"
+    "participantListLabel" : "Participants List",
+    "registrationFormTitle" : "Registration Form",
+    "birthDateLabel" : "Birth Date",
+    "confirmLabel" : "Confirm",
+    "cancelLabel" : "Cancel",
+    "idLabel" : "Id",
+    "addSpecialityLabel" : "Add Speciality",
+    "specialityListLabel" : "Specialities List",
+    "addDivisionLabel" : "Add Division",
+    "divisionListLabel" : "Divisions List"
 }

@@ -2,17 +2,17 @@ import 'package:dive_club/core/domain/diving/export.dart';
 import 'package:dive_club/core/infrastrucutre/database/export.dart';
 
 class CompetitonMapper
-    implements DatabaseMapper<DivingCompetitionEntity, DivingCompetition> {
+    implements DatabaseMapper<DivingDivisionEntity, DivingDivision> {
   @override
-  DivingCompetitionEntity toDomainEntity(DivingCompetition persistance) {
-    return DivingCompetitionEntity(
-      competitionId: CompetitionId(persistance.id),
-      competitionName: CompetiotnName(persistance.name),
+  DivingDivisionEntity toDomainEntity(DivingDivision persistance) {
+    return DivingDivisionEntity(
+      competitionId: DivisionId(persistance.id),
+      competitionName: DivisionName(persistance.name),
     );
   }
 
   @override
-  DivingCompetition toPersistanceEntity(DivingCompetitionEntity domain) {
+  DivingDivision toPersistanceEntity(DivingDivisionEntity domain) {
     throw UnimplementedError();
   }
 }

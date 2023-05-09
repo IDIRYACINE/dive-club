@@ -2,11 +2,11 @@
 
 import 'value_objects.dart';
 
-class DivingCompetitionEntity{
-  final CompetitionId competitionId;
-  final CompetiotnName competitionName;
+class DivingDivisionEntity{
+  final DivisionId competitionId;
+  final DivisionName competitionName;
 
-  DivingCompetitionEntity({required this.competitionId,required this.competitionName});
+  DivingDivisionEntity({required this.competitionId,required this.competitionName});
 }
 
 class DivingSpecialityEntity{

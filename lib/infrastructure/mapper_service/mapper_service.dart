@@ -5,7 +5,7 @@ import 'package:dive_club/core/infrastrucutre/database/export.dart';
 
 class MapperService implements MapperServicePort {
   @override
-  final CompetitionMapperPort competitionMapper = CompetitonMapper();
+  final DivisionMapperPort competitionMapper = CompetitonMapper();
 
   @override
   final ParticipantMapperPort participantMapper = ParticipantMapper();

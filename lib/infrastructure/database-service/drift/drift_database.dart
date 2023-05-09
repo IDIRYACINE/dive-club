@@ -10,10 +10,10 @@ class DriftDatabaseService implements DatabasePort {
   DriftDatabaseService(this._mapperService);
 
   @override
-  Future<DatabaseOperationResult> insertDivingCompetition(
-      CreateDivingCompetitionOptions options) async {
+  Future<DatabaseOperationResult> insertDivingDivision(
+      CreateDivingDivisionOptions options) async {
     return _database
-        .createDivingCompetitions(name: options.competitionName)
+        .createDivingDivisions(name: options.divisionName)
         .then((value) => DatabaseOperationResult());
   }
 
@@ -34,7 +34,7 @@ class DriftDatabaseService implements DatabasePort {
         .createParticipant(
             name: options.participant.name,
             birthDate: options.participant.birthDate,
-            competitionId: options.participant.competitionId,
+            divisionId: options.participant.divisionId,
             specialtyId: options.participant.specialityId)
         .then((value) {
       return DatabaseOperationResult();
@@ -47,9 +47,9 @@ class DriftDatabaseService implements DatabasePort {
     final score = options.score;
     return _database
         .createScore(
-            participantId: score.competitionId,
+            participantId: score.participantId,
             date: score.date,
-            competitionId: score.competitionId,
+            divisionId: score.divisionId,
             specialtyId: score.specialityId,
             score: score.score)
         .then((value) => DatabaseOperationResult());
@@ -65,9 +65,9 @@ class DriftDatabaseService implements DatabasePort {
 
   @override
   Future<LoadDivingCompetitionsResult> loadDivingCompetitions() async {
-    return _database.selectDivingCompetitions().get().then((value) =>
+    return _database.selectDivingDivisions().get().then((value) =>
         LoadDivingCompetitionsResult(
-            competitions: mapToDomainDivingCompetitions(
+            competitions: mapToDomainDivingDivisions(
                 value, _mapperService.competitionMapper)));
   }
 
@@ -82,21 +82,21 @@ class DriftDatabaseService implements DatabasePort {
   @override
   Future<LoadParticipantsResult> loadParticipants(
       LoadParticipantsOptions options) async {
-    if (options.competitionId == null && options.specialityId == null) {
+    if (options.divisionId == null && options.specialityId == null) {
       return _database.selectParticiapnts().get().then((value) =>
           LoadParticipantsResult(
               participants: mapToDomainParticipants(
                   value, _mapperService.participantMapper)));
     }
-    if (options.competitionId != null && options.specialityId == null) {
+    if (options.divisionId != null && options.specialityId == null) {
       return _database
-          .selectParticiapntsByCompetition(id: options.competitionId!)
+          .selectParticiapntsByDivision(id: options.divisionId!)
           .get()
           .then((value) => LoadParticipantsResult(
               participants: mapToDomainParticipants(
                   value, _mapperService.participantMapper)));
     }
-    if (options.competitionId == null && options.specialityId != null) {
+    if (options.divisionId == null && options.specialityId != null) {
       return _database
           .selectParticiapnsBySpecialty(id: options.specialityId!)
           .get()
@@ -106,9 +106,8 @@ class DriftDatabaseService implements DatabasePort {
     }
 
     return _database
-        .selectParticiapntsByCompetitionAndSpecialty(
-            competitionId: options.competitionId!,
-            specialtyId: options.specialityId!)
+        .selectParticiapntsByDivisionAndSpecialty(
+            divisionId: options.divisionId!, specialtyId: options.specialityId!)
         .get()
         .then((value) => LoadParticipantsResult(
             participants: mapToDomainParticipants(
@@ -116,11 +115,10 @@ class DriftDatabaseService implements DatabasePort {
   }
 
   @override
-  Future<DatabaseOperationResult> updateDivingCompetition(
-      UpdateDivingCompetitionOptions options) async {
+  Future<DatabaseOperationResult> updateDivingDivision(
+      UpdateDivingDivisionOptions options) async {
     return _database
-        .updateDivingCompetitions(
-            name: options.newName, id: options.competitionId)
+        .updateDivingDivisions(name: options.newName, id: options.divisionId)
         .then((value) => DatabaseOperationResult());
   }
 
@@ -139,7 +137,7 @@ class DriftDatabaseService implements DatabasePort {
     return _database
         .updateScore(
             participantId: options.participantId,
-            competitionId: options.competitionId,
+            divisionId: options.divisionId,
             specialtyId: options.specialityId,
             score: options.score)
         .then((value) => DatabaseOperationResult());

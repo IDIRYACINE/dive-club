@@ -6,7 +6,7 @@ class ParticipantEntity {
   final ParticipantId participantId;
   final ParticipantName participantName;
   final ParticipantBirthDate participantBirthDate;
-  final CompetitionId competitionId;
+  final DivisionId competitionId;
   final SpecialtyId specialtyId;
 
   ParticipantEntity(

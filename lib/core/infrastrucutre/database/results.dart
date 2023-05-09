@@ -2,7 +2,6 @@ import 'package:dive_club/core/domain/competition/export.dart';
 import 'package:dive_club/core/domain/diving/export.dart';
 import 'package:dive_club/core/domain/participants/export.dart';
 
-import 'value_objects.dart';
 
 class DatabaseOperationResult {
   DatabaseOperationResult({
@@ -28,7 +27,7 @@ class LoadParticipantsResult extends DatabaseOperationResult {
 }
 
 class LoadDivingCompetitionsResult extends DatabaseOperationResult {
-  final List<DivingCompetitionEntity> competitions;
+  final List<DivingDivisionEntity> competitions;
 
   LoadDivingCompetitionsResult({
     required this.competitions,

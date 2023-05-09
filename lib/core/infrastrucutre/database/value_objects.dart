@@ -5,23 +5,23 @@ class Participant extends DatabaseEntity {
   final int id;
   final String name;
   final DateTime birthDate;
-  final int competitionId;
+  final int divisionId;
   final int specialityId;
 
   Participant({
     required this.id,
     required this.name,
     required this.birthDate,
-    required this.competitionId,
+    required this.divisionId,
     required this.specialityId,
   });
 }
 
-class DivingCompetition extends DatabaseEntity {
+class DivingDivision extends DatabaseEntity {
   final int id;
   final String name;
 
-  DivingCompetition({
+  DivingDivision({
     required this.id,
     required this.name,
   });
@@ -39,14 +39,14 @@ class DivingSpeciality extends DatabaseEntity {
 
 class CompetitionScore extends DatabaseEntity {
   final int participantId;
-  final int competitionId;
+  final int divisionId;
   final int specialityId;
   final double score;
   final DateTime date;
 
   CompetitionScore({
     required this.participantId,
-    required this.competitionId,
+    required this.divisionId,
     required this.specialityId,
     required this.score,
     required this.date,

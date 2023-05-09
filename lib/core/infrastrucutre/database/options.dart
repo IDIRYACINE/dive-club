@@ -10,13 +10,13 @@ class SearchParticipantOptions {
 
 class UpdateScoreOptions {
   final int participantId;
-  final int competitionId;
+  final int divisionId;
   final int specialityId;
   final double score;
 
   UpdateScoreOptions({
     required this.participantId,
-    required this.competitionId,
+    required this.divisionId,
     required this.specialityId,
     required this.score,
   });
@@ -37,20 +37,20 @@ class CreateParticipantOptions {
   });
 }
 
-class CreateDivingCompetitionOptions {
-  final String competitionName;
-  CreateDivingCompetitionOptions({
-    required this.competitionName,
+class CreateDivingDivisionOptions {
+  final String divisionName;
+  CreateDivingDivisionOptions({
+    required this.divisionName,
   });
 }
 
-class UpdateDivingCompetitionOptions {
+class UpdateDivingDivisionOptions {
   final String newName;
-  final int competitionId;
+  final int divisionId;
 
-  UpdateDivingCompetitionOptions({
+  UpdateDivingDivisionOptions({
     required this.newName,
-    required this.competitionId,
+    required this.divisionId,
   });
 }
 
@@ -73,10 +73,10 @@ class UpdateDivingSpecialityOptions {
 
 class LoadParticipantsOptions{
   final int? specialityId;
-  final int? competitionId;
+  final int? divisionId;
 
   LoadParticipantsOptions({
-    this.competitionId,
+    this.divisionId,
     this.specialityId
   });
 }
@@ -84,10 +84,10 @@ class LoadParticipantsOptions{
 
 class LoadCompetitionScoresOptions{
   final int? specialityId;
-  final int? competitionId;
+  final int? divisionId;
 
   LoadCompetitionScoresOptions({
-    this.competitionId,
+    this.divisionId,
     this.specialityId
   });
 }

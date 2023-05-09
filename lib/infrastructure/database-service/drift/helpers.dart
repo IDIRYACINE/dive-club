@@ -13,7 +13,7 @@ List<ParticipantEntity> mapToDomainParticipants(List<raw.Participant> participan
 
   for( raw.Participant participant in participants){
     final temp = Participant(id: participant.id, name: participant.participantName,
-     birthDate: participant.birthDate, competitionId: participant.competitionId, specialityId: participant.specialtyId);
+     birthDate: participant.birthDate, divisionId: participant.divisionId, specialityId: participant.specialtyId);
 
      final res = mapper.toDomainEntity(temp);
 
@@ -31,7 +31,7 @@ List<CompetitionScoreEntity> mapToDomainScores(List<raw.Score> scores , ScoreMap
 
   for( raw.Score score in scores){
     final temp = CompetitionScore(participantId: score.participantId,
-     competitionId: score.competitionId, specialityId: score.specialtyId, score: score.score, date: score.scoreDate);
+     divisionId: score.divisionId, specialityId: score.specialtyId, score: score.score, date: score.scoreDate);
      final res = mapper.toDomainEntity(temp);
 
      results.add(res);
@@ -44,11 +44,11 @@ List<CompetitionScoreEntity> mapToDomainScores(List<raw.Score> scores , ScoreMap
 
 
 
-List<DivingCompetitionEntity> mapToDomainDivingCompetitions(List<raw.DivingCompetition> divingCompetitions , CompetitionMapperPort mapper){
-  List<DivingCompetitionEntity> results = [];
+List<DivingDivisionEntity> mapToDomainDivingDivisions(List<raw.DivingDivision> divingDevisions , DivisionMapperPort mapper){
+  List<DivingDivisionEntity> results = [];
 
-  for( raw.DivingCompetition divingCompetition in divingCompetitions){
-    final temp = DivingCompetition(id: divingCompetition.id, name: divingCompetition.name);
+  for( raw.DivingDivision divingDevision in divingDevisions){
+    final temp = DivingDivision(id: divingDevision.id, name: divingDevision.name);
      final res = mapper.toDomainEntity(temp);
 
      results.add(res);

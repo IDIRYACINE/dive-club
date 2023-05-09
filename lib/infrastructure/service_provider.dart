@@ -8,7 +8,7 @@ import 'mapper_service/mapper_service.dart';
 class ServicesProvider implements ServicesProviderPort {
   static ServicesProvider? _instance;
 
-  ServicesProvider._(this.databasePort, this.mapperService) {}
+  ServicesProvider._(this.databasePort, this.mapperService) ;
 
   @override
   final DatabasePort databasePort;

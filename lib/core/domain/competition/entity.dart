@@ -6,7 +6,7 @@ import 'value_objects.dart';
 
 class CompetitionScoreEntity{
   final ParticipantId participantId;
-  final CompetitionId competitionId;
+  final DivisionId competitionId;
   final SpecialtyId specialtyId;
   final Score score;
 

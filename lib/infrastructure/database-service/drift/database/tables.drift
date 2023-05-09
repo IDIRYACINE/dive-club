@@ -3,7 +3,7 @@ CREATE TABLE DivingSpecialties(
     name TEXT NOT NULL
 );
 
-CREATE TABLE DivingCompetitions(
+CREATE TABLE DivingDivisions(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     name TEXT NOT NULL
 );
@@ -12,17 +12,17 @@ CREATE TABLE Participants(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     participant_name TEXT NOT NULL,
     birth_date Date NOT NULL,
-    competition_id INTEGER NOT NULL REFERENCES DivingCompetitions(id),
+    division_id INTEGER NOT NULL REFERENCES DivingDivisions(id),
     specialty_id INTEGER NOT NULL REFERENCES DivingSpecialties(id)
 );
 
 CREATE TABLE Scores(
     participant_id INTEGER NOT NULL REFERENCES Participants(id),
-    competition_id INTEGER NOT NULL REFERENCES DivingCompetitions(id),
+    division_id INTEGER NOT NULL REFERENCES DivingDivisions(id),
     specialty_id INTEGER NOT NULL REFERENCES DivingSpecialties(id),
     score_date Date NOT NULL DEFAULT (CURRENT_DATE),
     score REAL NOT NULL,
-    PRIMARY KEY (participant_id, competition_id, specialty_id)
+    PRIMARY KEY (participant_id, division_id, specialty_id)
 );
 
 CREATE INDEX score_idx ON Scores(score);
@@ -30,21 +30,21 @@ CREATE INDEX score_idx ON Scores(score);
 createParticipant(
     REQUIRED :name AS TEXT,
     REQUIRED :birthDate AS DATE,
-    REQUIRED :competitionId AS INTEGER,
+    REQUIRED :divisionId AS INTEGER,
     REQUIRED :specialtyId AS INTEGER
 ):
 INSERT INTO
     Participants(
         participant_name,
         birth_date,
-        competition_id,
+        division_id,
         specialty_id
     )
 values
     (
         :name,
         :birthDate,
-        :competitionId,
+        :divisionId,
         :specialtyId
     );
 
@@ -52,7 +52,7 @@ updateParticipant(
     REQUIRED :id AS INTEGER,
     REQUIRED :name AS TEXT,
     REQUIRED :birthDate AS DATE,
-    REQUIRED :competitionId AS INTEGER,
+    REQUIRED :divisionId AS INTEGER,
     REQUIRED :specialtyId AS INTEGER
 ):
 UPDATE
@@ -60,14 +60,14 @@ UPDATE
 SET
     participant_name = :name,
     birth_date = :birthDate,
-    competition_id = :competitionId,
+    division_id = :divisionId,
     specialty_id = :specialtyId
 WHERE
     id = :id;
 
 createScore(
     REQUIRED :participantId AS INTEGER,
-    REQUIRED :competitionId AS INTEGER,
+    REQUIRED :divisionId AS INTEGER,
     REQUIRED :specialtyId AS INTEGER,
     REQUIRED :date AS DATE,
     REQUIRED :score AS REAL
@@ -77,7 +77,7 @@ INSERT
         participant_id,
         score_date,
         score,
-        competition_id,
+        division_id,
         specialty_id
     )
 values
@@ -85,14 +85,14 @@ values
         :participantId,
         :date,
         :score,
-        :competitionId,
+        :divisionId,
         :specialtyId
     );
 
 updateScore(
     REQUIRED :participantId AS INTEGER,
     REQUIRED :score AS REAL,
-    REQUIRED :competitionId AS INTEGER,
+    REQUIRED :divisionId AS INTEGER,
     REQUIRED :specialtyId AS INTEGER
 ):
 UPDATE
@@ -102,7 +102,7 @@ SET
     score = :score
 WHERE
     participant_id = :participantId
-    AND competition_id = :competitionId
+    AND division_id = :divisionId
     AND specialty_id = :specialtyId;
 
 createDivingSpecialties(REQUIRED :name AS TEXT):
@@ -119,15 +119,15 @@ SET
 WHERE
     id = :id;
 
-createDivingCompetitions(REQUIRED :name AS TEXT):
+createDivingDivisions(REQUIRED :name AS TEXT):
 INSERT INTO
-    DivingCompetitions(name)
+    DivingDivisions(name)
 values
     (:name);
 
-updateDivingCompetitions(REQUIRED :id AS INTEGER, REQUIRED :name AS TEXT):
+updateDivingDivisions(REQUIRED :id AS INTEGER, REQUIRED :name AS TEXT):
 UPDATE
-    DivingCompetitions
+    DivingDivisions
 SET
     name = :name
 WHERE
@@ -147,11 +147,11 @@ SELECT
 FROM
     DivingSpecialties;
 
-selectDivingCompetitions:
+selectDivingDivisions:
 SELECT
     *
 FROM
-    DivingCompetitions;
+    DivingDivisions;
 
 searchParticipantsByName(REQUIRED :name AS TEXT):
 SELECT
@@ -175,16 +175,16 @@ FROM
 where
     specialty_id = :id;
 
-selectParticiapntsByCompetition(REQUIRED :id AS INTEGER):
+selectParticiapntsByDivision(REQUIRED :id AS INTEGER):
 SELECT
     *
 FROM
     Participants
 where
-    competition_id = :id;
+    division_id = :id;
 
-selectParticiapntsByCompetitionAndSpecialty (
-    REQUIRED :competition_id AS INTEGER,
+selectParticiapntsByDivisionAndSpecialty (
+    REQUIRED :division_id AS INTEGER,
     REQUIRED :specialty_id AS INTEGER
 ):
 SELECT
@@ -192,5 +192,5 @@ SELECT
 FROM
     Participants
 where
-    competition_id = :competition_id
+    division_id = :division_id
     AND specialty_id = :specialty_id;

@@ -1,15 +1,15 @@
 
 
-class CompetitionId{
+class DivisionId{
   final int value;
 
-  CompetitionId(this.value);
+  DivisionId(this.value);
 }
 
-class CompetiotnName{
+class DivisionName{
   final String value;
 
-  CompetiotnName(this.value);
+  DivisionName(this.value);
 }
 
 class SpecialtyId{

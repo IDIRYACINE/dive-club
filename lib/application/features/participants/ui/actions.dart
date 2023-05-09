@@ -24,3 +24,32 @@ class ParticipantsActions extends StatelessWidget{
     );
   }
 }
+
+
+class RegistartionFormActions extends StatelessWidget{
+  const RegistartionFormActions({Key? key, required this.onConfirmPressed, required this.onCancelPressed}) : super(key: key);
+
+  final VoidCallback onConfirmPressed;
+  final VoidCallback onCancelPressed;
+
+  @override
+  Widget build(BuildContext context) {
+    final localizations = AppLocalizations.of(context)!;
+
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      mainAxisSize: MainAxisSize.max,
+      children: [
+        ButtonPrimary(
+          onPressed: () {},
+          text: localizations.confirmLabel,
+        ),
+
+         ButtonPrimary(
+          onPressed: () {},
+          text: localizations.cancelLabel,
+        ),
+      ],
+    );
+  }
+}

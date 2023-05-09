@@ -12,8 +12,8 @@ abstract class DatabaseMapper<D, P extends DatabaseEntity> {
   // List<P> toManyPersistanceEntities(List<D> domain);
 }
 
-typedef CompetitionMapperPort
-    = DatabaseMapper<DivingCompetitionEntity, DivingCompetition>;
+typedef DivisionMapperPort
+    = DatabaseMapper<DivingDivisionEntity, DivingDivision>;
 typedef ParticipantMapperPort = DatabaseMapper<ParticipantEntity, Participant>;
 typedef ScoreMapperPort
     = DatabaseMapper<CompetitionScoreEntity, CompetitionScore>;
@@ -23,6 +23,6 @@ typedef SpecialityMapperPort
 abstract class MapperServicePort {
   ScoreMapperPort get scoreMapper;
   ParticipantMapperPort get participantMapper;
-  CompetitionMapperPort get competitionMapper;
+  DivisionMapperPort get competitionMapper;
   SpecialityMapperPort get specialtyMapper;
 }
