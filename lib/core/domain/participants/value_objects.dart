@@ -1,9 +1,9 @@
 
 
-class ParticiantId{
+class ParticipantId{
   final int value;
 
-  ParticiantId(this.value);
+  ParticipantId(this.value);
 
 }
 

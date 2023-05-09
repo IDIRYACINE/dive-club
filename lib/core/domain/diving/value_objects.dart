@@ -1,7 +1,7 @@
 
 
 class CompetitionId{
-  final String value;
+  final int value;
 
   CompetitionId(this.value);
 }

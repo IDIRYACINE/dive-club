@@ -3,7 +3,7 @@ import 'package:dive_club/core/domain/diving/value_objects.dart';
 import 'value_objects.dart';
 
 class ParticipantEntity {
-  final ParticiantId participantId;
+  final ParticipantId participantId;
   final ParticipantName participantName;
   final ParticipantBirthDate participantBirthDate;
   final CompetitionId competitionId;

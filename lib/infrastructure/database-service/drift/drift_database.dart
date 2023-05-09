@@ -1,15 +1,19 @@
 import 'package:dive_club/core/infrastrucutre/database/export.dart';
+import 'package:dive_club/infrastructure/database-service/drift/helpers.dart';
 
 import 'database/database.dart';
 
 class DriftDatabaseService implements DatabasePort {
   final AppDb _database = AppDb();
+  final MapperServicePort _mapperService;
+
+  DriftDatabaseService(this._mapperService);
 
   @override
   Future<DatabaseOperationResult> insertDivingCompetition(
       CreateDivingCompetitionOptions options) async {
     return _database
-        .createDivingCompetition(name: options.competitionName)
+        .createDivingCompetitions(name: options.competitionName)
         .then((value) => DatabaseOperationResult());
   }
 
@@ -17,7 +21,7 @@ class DriftDatabaseService implements DatabasePort {
   Future<DatabaseOperationResult> insertDivingSpeciality(
       CreateDivingSpecialityOptions options) async {
     return _database
-        .createDivingSpecialty(name: options.specialityName)
+        .createDivingSpecialties(name: options.specialityName)
         .then((value) {
       return DatabaseOperationResult();
     });
@@ -54,38 +58,68 @@ class DriftDatabaseService implements DatabasePort {
   @override
   Future<LoadCompetitionScoresResult> loadCompetitionScores(
       LoadCompetitionScoresOptions options) async {
-    return _database
-        .selectCompetitionScores()
-        .then((value) => LoadCompetitionScoresResult(scores: value));
+    return _database.selectCompetitionScores().get().then((value) =>
+        LoadCompetitionScoresResult(
+            scores: mapToDomainScores(value, _mapperService.scoreMapper)));
   }
 
   @override
   Future<LoadDivingCompetitionsResult> loadDivingCompetitions() async {
-    return _database
-        .selectDivingCompetitions()
-        .then((value) => LoadDivingCompetitionsResult(competitions: value));
+    return _database.selectDivingCompetitions().get().then((value) =>
+        LoadDivingCompetitionsResult(
+            competitions: mapToDomainDivingCompetitions(
+                value, _mapperService.competitionMapper)));
   }
 
   @override
   Future<LoadDivingSpecialitiesResult> loadDivingSpecialities() async {
-    return _database
-        .selectDivingSpecialties()
-        .then((value) => LoadDivingSpecialitiesResult(specialities: value));
+    return _database.selectDivingSpecialties().get().then((value) =>
+        LoadDivingSpecialitiesResult(
+            specialities: mapToDomainDivingSpecialitys(
+                value, _mapperService.specialtyMapper)));
   }
 
   @override
   Future<LoadParticipantsResult> loadParticipants(
       LoadParticipantsOptions options) async {
+    if (options.competitionId == null && options.specialityId == null) {
+      return _database.selectParticiapnts().get().then((value) =>
+          LoadParticipantsResult(
+              participants: mapToDomainParticipants(
+                  value, _mapperService.participantMapper)));
+    }
+    if (options.competitionId != null && options.specialityId == null) {
+      return _database
+          .selectParticiapntsByCompetition(id: options.competitionId!)
+          .get()
+          .then((value) => LoadParticipantsResult(
+              participants: mapToDomainParticipants(
+                  value, _mapperService.participantMapper)));
+    }
+    if (options.competitionId == null && options.specialityId != null) {
+      return _database
+          .selectParticiapnsBySpecialty(id: options.specialityId!)
+          .get()
+          .then((value) => LoadParticipantsResult(
+              participants: mapToDomainParticipants(
+                  value, _mapperService.participantMapper)));
+    }
+
     return _database
-        .selectParticipants()
-        .then((value) => LoadParticipantsResult(participants: value));
+        .selectParticiapntsByCompetitionAndSpecialty(
+            competitionId: options.competitionId!,
+            specialtyId: options.specialityId!)
+        .get()
+        .then((value) => LoadParticipantsResult(
+            participants: mapToDomainParticipants(
+                value, _mapperService.participantMapper)));
   }
 
   @override
   Future<DatabaseOperationResult> updateDivingCompetition(
       UpdateDivingCompetitionOptions options) async {
     return _database
-        .updateDivingCompetition(
+        .updateDivingCompetitions(
             name: options.newName, id: options.competitionId)
         .then((value) => DatabaseOperationResult());
   }
@@ -94,7 +128,7 @@ class DriftDatabaseService implements DatabasePort {
   Future<DatabaseOperationResult> updateDivingSpeciality(
       UpdateDivingSpecialityOptions options) async {
     return _database
-        .updateDivingSpecialty(
+        .updateDivingSpecialties(
             name: options.specialityName, id: options.specialityId)
         .then((value) => DatabaseOperationResult());
   }
@@ -106,7 +140,7 @@ class DriftDatabaseService implements DatabasePort {
         .updateScore(
             participantId: options.participantId,
             competitionId: options.competitionId,
-            specialityId: options.specialityId,
+            specialtyId: options.specialityId,
             score: options.score)
         .then((value) => DatabaseOperationResult());
   }

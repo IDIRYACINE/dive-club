@@ -5,10 +5,10 @@ import 'package:dive_club/core/domain/participants/export.dart';
 import 'value_objects.dart';
 
 class CompetitionScoreEntity{
-  final ParticiantId participantId;
+  final ParticipantId participantId;
   final CompetitionId competitionId;
   final SpecialtyId specialtyId;
-  final CompetitionScore score;
+  final Score score;
 
   CompetitionScoreEntity({
     required this.participantId,

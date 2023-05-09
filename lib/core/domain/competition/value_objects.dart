@@ -1,6 +1,6 @@
-class CompetitionScore {
+class Score {
   final double value;
-  CompetitionScore(
+  Score(
     this.value,
   );
 }
