@@ -1,4 +1,4 @@
-import 'package:dive_club/core/domain/participants/feature.dart';
+import 'package:dive_club/core/domain/participants/export.dart';
 import 'package:dive_club/resources/l10n/l10n.dart';
 import 'package:flutter/material.dart';
 

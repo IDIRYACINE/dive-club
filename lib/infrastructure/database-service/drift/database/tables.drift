@@ -1,0 +1,162 @@
+CREATE TABLE DivingSpecialty(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name TEXT NOT NULL
+);
+
+CREATE TABLE DivingCompetition(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name TEXT NOT NULL
+);
+
+CREATE TABLE Participants(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    participant_name TEXT NOT NULL,
+    birth_date Date NOT NULL,
+    competition_id INTEGER REFERENCES DivingCompetition(id),
+    specialty_id INTEGER REFERENCES DivingSpecialty(id)
+);
+
+CREATE TABLE Scores(
+    participant_id INTEGER REFERENCES Participants(id),
+    competition_id INTEGER REFERENCES DivingCompetition(id),
+    specialty_id INTEGER REFERENCES DivingSpecialty(id),
+    score_date Date DEFAULT (CURRENT_DATE),
+    score REAL NOT NULL,
+    PRIMARY KEY (participant_id, competition_id, specialty_id)
+);
+
+CREATE INDEX score_idx ON Scores(score);
+
+createParticipant(
+    REQUIRED :name AS TEXT,
+    REQUIRED :birthDate AS DATE,
+    REQUIRED :competitionId AS INTEGER,
+    REQUIRED :specialtyId AS INTEGER
+):
+INSERT INTO
+    Participants(
+        participant_name,
+        birth_date,
+        competition_id,
+        specialty_id
+    )
+values
+    (
+        :name,
+        :birthDate,
+        :competitionId,
+        :specialtyId
+    );
+
+updateParticipant(
+    REQUIRED :id AS INTEGER,
+    REQUIRED :name AS TEXT,
+    REQUIRED :birthDate AS DATE,
+    REQUIRED :competitionId AS INTEGER,
+    REQUIRED :specialtyId AS INTEGER
+):
+UPDATE
+    Participants
+SET
+    participant_name = :name,
+    birth_date = :birthDate,
+    competition_id = :competitionId,
+    specialty_id = :specialtyId
+WHERE
+    id = :id;
+
+createScore(
+    REQUIRED :participantId AS INTEGER,
+    REQUIRED :competitionId AS INTEGER,
+    REQUIRED :specialtyId AS INTEGER,
+    REQUIRED :date AS DATE,
+    REQUIRED :score AS REAL
+):
+INSERT
+    OR REPLACE INTO Scores(
+        participant_id,
+        score_date,
+        score,
+        competition_id,
+        specialty_id
+    )
+values
+    (
+        :participantId,
+        :date,
+        :score,
+        :competitionId,
+        :specialtyId
+    );
+
+updateScore(
+    REQUIRED :participantId AS INTEGER,
+    REQUIRED :score AS REAL,
+    REQUIRED :competitionId AS INTEGER,
+    REQUIRED :specialtyId AS INTEGER,
+):
+UPDATE
+    Scores
+SET
+    score_date = CURRENT_DATE,
+    score = :score
+WHERE
+    participant_id = :participantId
+    AND competition_id = :competitionId
+    AND specialty_id = :specialtyId;
+
+createDivingSpecialty(REQUIRED :name AS TEXT):
+INSERT INTO
+    DivingSpecialty(name)
+values
+    (:name);
+
+updateDivingSpecialty(REQUIRED :id AS INTEGER, REQUIRED :name AS TEXT):
+UPDATE
+    DivingSpecialty
+SET
+    name = :name
+WHERE
+    id = :id;
+
+createDivingCompetition(REQUIRED :name AS TEXT):
+INSERT INTO
+    DivingCompetition(name)
+values
+    (:name);
+
+updateDivingCompetition(REQUIRED :id AS INTEGER, REQUIRED :name AS TEXT):
+UPDATE
+    DivingCompetition
+SET
+    name = :name
+WHERE
+    id = :id;
+
+selectCompetitionScores:
+SELECT
+    *
+FROM
+    Scores
+ORDER BY
+    score DESC;
+
+selectDivingSpecialties:
+SELECT
+    *
+FROM
+    DivingSpecialty;
+
+selectDivingCompetitions:
+SELECT
+    *
+FROM
+    DivingCompetition;
+
+searchParticipantsByName(REQUIRED :name AS TEXT):
+SELECT
+    *
+FROM
+    Participants
+WHERE
+    participant_name LIKE :name;
