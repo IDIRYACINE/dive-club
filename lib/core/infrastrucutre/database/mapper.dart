@@ -18,7 +18,7 @@ typedef ParticipantMapperPort = DatabaseMapper<ParticipantEntity, Participant>;
 typedef ScoreMapperPort
     = DatabaseMapper<CompetitionScoreEntity, CompetitionScore>;
 typedef SpecialityMapperPort
-    = DatabaseMapper<DivingSpecialityEntity, DivingSpeciality>;
+    = DatabaseMapper<DivingSpecialtyEntity, DivingSpeciality>;
 
 abstract class MapperServicePort {
   ScoreMapperPort get scoreMapper;

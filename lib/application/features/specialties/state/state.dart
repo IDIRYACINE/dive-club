@@ -6,12 +6,12 @@ import 'package:dive_club/core/domain/diving/export.dart';
 class SpecialtyState{
 
 
-  final List<DivingSpecialityEntity> specialties;
+  final List<DivingSpecialtyEntity> specialties;
 
   SpecialtyState(this.specialties);
 
 
-  SpecialtyState copyWith({List<DivingSpecialityEntity>? specialties}){
+  SpecialtyState copyWith({List<DivingSpecialtyEntity>? specialties}){
     return SpecialtyState(specialties ?? this.specialties);
   }
 

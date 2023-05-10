@@ -15,7 +15,7 @@ import 'resources/themes.dart';
 void main() {
   runApp(MultiBlocProvider(providers: [
     BlocProvider(create: (context) => AppBloc()),
-    BlocProvider(create: (context) => SpecialityBloc()),
+    BlocProvider(create: (context) => SpecialtyBloc()),
     BlocProvider(create: (context) => DivisionBloc()),
     BlocProvider(create: (context) => ParticipantBloc()),
   ], child: const MyApp()));

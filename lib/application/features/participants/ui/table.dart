@@ -24,7 +24,7 @@ class ParticipantsTable extends StatelessWidget {
       cells: [
         DataCell(Text(participant.participantName.value)),
         DataCell(Text(participant.participantBirthDate.value.toString())),
-        DataCell(Text(participant.competitionId.value.toString())),
+        DataCell(Text(participant.divisionId.value.toString())),
         DataCell(Text(participant.specialtyId.value.toString())),
       ],
     );
@@ -36,6 +36,10 @@ class ParticipantsTable extends StatelessWidget {
     final theme = Theme.of(context);
 
     return DataTable(
+      decoration: BoxDecoration(
+    border: Border.all(color: theme.primaryColor, width: 1),
+    borderRadius: const BorderRadius.all(Radius.circular(5)),
+  ),
       columns: [
         DataColumn(label: Text(localizations.nameLabel)),
         DataColumn(label: Text(localizations.birthdateLabel)),

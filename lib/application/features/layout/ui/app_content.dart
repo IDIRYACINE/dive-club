@@ -1,4 +1,6 @@
+import 'package:dive_club/application/features/divisions/feature.dart';
 import 'package:dive_club/application/features/participants/feature.dart';
+import 'package:dive_club/application/features/specialties/feature.dart';
 import 'package:dive_club/resources/measures.dart';
 import 'package:flutter/material.dart';
 
@@ -16,7 +18,8 @@ class AppContent extends StatelessWidget {
           index: index,
           children: const [
             ParticipantsView(),
-            Text("screen 1 "),
+            DivisionsView(),
+            SpecialtiesView(),
           ],
         ),
       ),

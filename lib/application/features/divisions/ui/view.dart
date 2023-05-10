@@ -1,8 +1,10 @@
 
 
+import 'package:dive_club/application/features/divisions/feature.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'actions.dart';
+import '../logic/division_controller.dart';
 import 'table.dart';
 
 class DivisionsView extends StatelessWidget{
@@ -10,10 +12,16 @@ class DivisionsView extends StatelessWidget{
 
   @override
   Widget build(BuildContext context) {
+    final DivisionController formController = DivisionController();
+    
     return Column(
-      children: const [
-        DivisionsActions(),
-        DivisionsTable(),
+      children:  [
+        DivisionsActions(formController: formController,),
+        BlocBuilder<DivisionBloc,DivisionState>(
+          builder: (context,state) {
+            return  DivisionsTable(divisions: state.divisions,);
+          }
+        ),
       ],
     );
   }

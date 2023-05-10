@@ -7,20 +7,20 @@ abstract class SpecialityEvent{
 
 
 class LoadSpecialtiesEvent extends SpecialityEvent{
-  final List<DivingSpecialityEntity> specialty;
+  final List<DivingSpecialtyEntity> specialties;
 
-  LoadSpecialtiesEvent(this.specialty);
+  LoadSpecialtiesEvent(this.specialties);
 }
 
 
 class AddSpecialtyEvent extends SpecialityEvent{
-  final DivingSpecialityEntity specialty;
+  final DivingSpecialtyEntity specialty;
 
   AddSpecialtyEvent(this.specialty);
 }
 
 class UpdateSpecialtyEvent extends  SpecialityEvent{
-   final DivingSpecialityEntity specialty;
+   final DivingSpecialtyEntity specialty;
 
   UpdateSpecialtyEvent(this.specialty);
 }

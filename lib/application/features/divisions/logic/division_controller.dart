@@ -1,3 +1,4 @@
+import 'package:dive_club/application/features/divisions/ui/forms.dart';
 import 'package:dive_club/application/navigation/feature.dart';
 import 'package:dive_club/core/domain/diving/export.dart';
 import 'package:flutter/material.dart';
@@ -5,20 +6,19 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../state/bloc.dart';
 import '../state/events.dart';
-import '../ui/forms.dart';
 
-class SpecialtyDataHolder {
+class DivisionDataHolder {
   String name;
 
-  SpecialtyDataHolder({this.name = ''});
+  DivisionDataHolder({this.name = ''});
 }
 
-class SpecialtyController {
+class DivisionController {
   static final key = GlobalKey<FormState>();
 
-  SpecialtyController();
+  DivisionController();
 
-  final SpecialtyDataHolder _data = SpecialtyDataHolder();
+  final DivisionDataHolder _data = DivisionDataHolder();
 
   void onCancel() {
     NavigationService.pop();
@@ -27,14 +27,16 @@ class SpecialtyController {
   void onRegister(BuildContext context) {
     final isFormValid = key.currentState!.validate();
     if (isFormValid) {
-      final bloc = BlocProvider.of<SpecialtyBloc>(context);
+      final bloc = BlocProvider.of<DivisionBloc>(context);
 
-      final entity = DivingSpecialtyEntity(
-          specialtyId: SpecialtyId(bloc.state.specialties.length),
-          specialtyName: SpecialtyName(_data.name));
-      final event = AddSpecialtyEvent(entity);
+      final entity = DivingDivisionEntity(
+        divisionId: DivisionId(bloc.state.divisions.length),
+        divisionName: DivisionName(_data.name),
+      );
+      final event = AddDivisionEvent(entity);
 
       bloc.add(event);
+
       NavigationService.pop();
     }
   }
@@ -43,8 +45,8 @@ class SpecialtyController {
     _data.name = value;
   }
 
-  void addSpecialty() {
-    const dialog = SpecialtyDialog();
+  void addDivision() {
+    const dialog = DivisionDialog();
     NavigationService.displayDialog(dialog);
   }
 }

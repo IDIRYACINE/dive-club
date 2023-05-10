@@ -5,10 +5,10 @@ import 'package:flutter/material.dart';
 class SpecialtiesTable extends StatelessWidget {
   const SpecialtiesTable({super.key, this.specialties = const []});
 
-  final List<DivingSpecialityEntity> specialties;
+  final List<DivingSpecialtyEntity> specialties;
 
   DataRow _buildRow(int index, ThemeData theme) {
-    DivingSpecialityEntity specialty = specialties[index];
+    DivingSpecialtyEntity specialty = specialties[index];
 
     return DataRow(
       color: MaterialStateProperty.resolveWith<Color?>(
@@ -34,6 +34,10 @@ class SpecialtiesTable extends StatelessWidget {
     final theme = Theme.of(context);
 
     return DataTable(
+       decoration: BoxDecoration(
+    border: Border.all(color: theme.primaryColor, width: 1),
+    borderRadius: const BorderRadius.all(Radius.circular(5)),
+  ),
       columns: [
         DataColumn(label: Text(localizations.idLabel)),
         DataColumn(label: Text(localizations.nameLabel)),

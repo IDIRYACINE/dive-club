@@ -10,7 +10,7 @@ class ParticipantMapper
         participantId: ParticipantId(persistance.id),
         participantName: ParticipantName(persistance.name),
         participantBirthDate: ParticipantBirthDate(persistance.birthDate),
-        competitionId: DivisionId(persistance.divisionId),
+        divisionId: DivisionId(persistance.divisionId),
         specialtyId: SpecialtyId(persistance.specialityId));
   }
 

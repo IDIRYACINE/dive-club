@@ -60,8 +60,8 @@ List<DivingDivisionEntity> mapToDomainDivingDivisions(List<raw.DivingDivision> d
 }
 
 
-List<DivingSpecialityEntity> mapToDomainDivingSpecialitys(List<raw.DivingSpecialtie> divingSpecialitys , SpecialityMapperPort mapper){
-  List<DivingSpecialityEntity> results = [];
+List<DivingSpecialtyEntity> mapToDomainDivingSpecialitys(List<raw.DivingSpecialtie> divingSpecialitys , SpecialityMapperPort mapper){
+  List<DivingSpecialtyEntity> results = [];
 
   for( raw.DivingSpecialtie divingSpeciality in divingSpecialitys){
     final temp = DivingSpeciality(id: divingSpeciality.id, name: divingSpeciality.name);

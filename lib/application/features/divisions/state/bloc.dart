@@ -7,7 +7,6 @@ import 'state.dart';
 
 class DivisionBloc extends Bloc<DivisionEvent, DivisionState> {
   DivisionBloc() : super(DivisionState.initial()) {
-    
     on<LoadDivisionsEvent>(_handleLoadDivisionsEvent);
     on<AddDivisionEvent>(_handleAddDivisionEvent);
     on<UpdateDivisionEvent>(_handleUpdateDivisionEvent);
@@ -17,8 +16,15 @@ class DivisionBloc extends Bloc<DivisionEvent, DivisionState> {
       UpdateDivisionEvent event, Emitter<DivisionState> emit) {}
 
   FutureOr<void> _handleAddDivisionEvent(
-      AddDivisionEvent event, Emitter<DivisionState> emit) {}
+      AddDivisionEvent event, Emitter<DivisionState> emit) {
+    final newState =
+        state.copyWith(divisions: [...state.divisions, event.division]);
+
+    emit(newState);
+  }
 
   FutureOr<void> _handleLoadDivisionsEvent(
-      LoadDivisionsEvent event, Emitter<DivisionState> emit) {}
+      LoadDivisionsEvent event, Emitter<DivisionState> emit) {
+    emit(state.copyWith(divisions: event.divisions));
+  }
 }

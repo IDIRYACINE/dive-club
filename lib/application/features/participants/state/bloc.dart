@@ -16,8 +16,14 @@ class ParticipantBloc extends Bloc<ParticipantEvent, ParticipantState> {
       UpdateParticipantEvent event, Emitter<ParticipantState> emit) {}
 
   FutureOr<void> _handleAddParticipantEvent(
-      AddParticipantEvent event, Emitter<ParticipantState> emit) {}
+      AddParticipantEvent event, Emitter<ParticipantState> emit) {
+    final newState = state
+        .copyWith(participants: [...state.participants, event.participant]);
+    emit(newState);
+  }
 
   FutureOr<void> _handleLoadParticipantsEvent(
-      LoadParticipantsEvent event, Emitter<ParticipantState> emit) {}
+      LoadParticipantsEvent event, Emitter<ParticipantState> emit) {
+    emit(state.copyWith(participants: event.participants));
+  }
 }

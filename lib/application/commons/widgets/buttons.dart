@@ -26,9 +26,10 @@ class ButtonPrimary extends StatelessWidget {
   }
 }
 
-
-class GenericFormActions extends StatelessWidget{
-  const GenericFormActions({Key? key, required this.onConfirmPressed, required this.onCancelPressed}) : super(key: key);
+class GenericFormActions extends StatelessWidget {
+  const GenericFormActions(
+      {Key? key, required this.onConfirmPressed, required this.onCancelPressed})
+      : super(key: key);
 
   final VoidCallback onConfirmPressed;
   final VoidCallback onCancelPressed;
@@ -42,13 +43,12 @@ class GenericFormActions extends StatelessWidget{
       mainAxisSize: MainAxisSize.max,
       children: [
         ButtonPrimary(
-          onPressed: () {},
-          text: localizations.confirmLabel,
-        ),
-
-         ButtonPrimary(
-          onPressed: () {},
+          onPressed: onCancelPressed,
           text: localizations.cancelLabel,
+        ),
+        ButtonPrimary(
+          onPressed: onConfirmPressed,
+          text: localizations.confirmLabel,
         ),
       ],
     );

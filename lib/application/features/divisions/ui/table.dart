@@ -22,8 +22,8 @@ class DivisionsTable extends StatelessWidget {
         return null;
       }),
       cells: [
-        DataCell(Text(division.competitionId.value.toString())),
-        DataCell(Text(division.competitionName.value)),
+        DataCell(Text(division.divisionId.value.toString())),
+        DataCell(Text(division.divisionName.value)),
       ],
     );
   }
@@ -34,6 +34,10 @@ class DivisionsTable extends StatelessWidget {
     final theme = Theme.of(context);
 
     return DataTable(
+      decoration: BoxDecoration(
+        border: Border.all(color: theme.primaryColor, width: 1),
+        borderRadius: const BorderRadius.all(Radius.circular(5)),
+      ),
       columns: [
         DataColumn(label: Text(localizations.idLabel)),
         DataColumn(label: Text(localizations.nameLabel)),

@@ -1,3 +1,4 @@
+import 'package:dive_club/application/commons/utility/validators.dart';
 import 'package:dive_club/application/commons/widgets/buttons.dart';
 import 'package:dive_club/resources/l10n/l10n.dart';
 import 'package:flutter/material.dart';
@@ -9,24 +10,44 @@ class SpecialtyForm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final controller = SpecialtyFormController();
+    final controller = SpecialtyController();
     final localizations = AppLocalizations.of(context)!;
 
     return Form(
-      key: SpecialtyFormController.key,
+      key: SpecialtyController.key,
       child: Column(
+        mainAxisSize: MainAxisSize.min,
         children: [
           TextFormField(
             decoration: InputDecoration(
               labelText: localizations.nameLabel,
             ),
+            onChanged: controller.updateName,
+            validator: validatorEmptyText,
+          ),
+          const SizedBox(
+            height: 20,
           ),
           GenericFormActions(
-            onConfirmPressed: controller.onRegister,
+            onConfirmPressed: () => controller.onRegister(context),
             onCancelPressed: controller.onCancel,
           )
         ],
       ),
+    );
+  }
+}
+
+class SpecialtyDialog extends StatelessWidget {
+  const SpecialtyDialog({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final localizations = AppLocalizations.of(context)!;
+
+    return AlertDialog(
+      title: Text(localizations.addSpecialityLabel),
+      content: const SpecialtyForm(),
     );
   }
 }

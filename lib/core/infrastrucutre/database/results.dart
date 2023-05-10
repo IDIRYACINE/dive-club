@@ -37,7 +37,7 @@ class LoadDivingCompetitionsResult extends DatabaseOperationResult {
 }
 
 class LoadDivingSpecialitiesResult extends DatabaseOperationResult {
-  final List<DivingSpecialityEntity> specialities;
+  final List<DivingSpecialtyEntity> specialities;
 
   LoadDivingSpecialitiesResult({
     required this.specialities,

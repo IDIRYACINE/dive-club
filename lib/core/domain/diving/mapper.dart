@@ -6,8 +6,8 @@ class CompetitonMapper
   @override
   DivingDivisionEntity toDomainEntity(DivingDivision persistance) {
     return DivingDivisionEntity(
-      competitionId: DivisionId(persistance.id),
-      competitionName: DivisionName(persistance.name),
+      divisionId: DivisionId(persistance.id),
+      divisionName: DivisionName(persistance.name),
     );
   }
 
@@ -18,17 +18,17 @@ class CompetitonMapper
 }
 
 class SpecialtyMapper
-    implements DatabaseMapper<DivingSpecialityEntity, DivingSpeciality> {
+    implements DatabaseMapper<DivingSpecialtyEntity, DivingSpeciality> {
   @override
-  DivingSpecialityEntity toDomainEntity(DivingSpeciality persistance) {
-    return DivingSpecialityEntity(
+  DivingSpecialtyEntity toDomainEntity(DivingSpeciality persistance) {
+    return DivingSpecialtyEntity(
       specialtyId: SpecialtyId(persistance.id),
       specialtyName: SpecialtyName(persistance.name),
     );
   }
 
   @override
-  DivingSpeciality toPersistanceEntity(DivingSpecialityEntity domain) {
+  DivingSpeciality toPersistanceEntity(DivingSpecialtyEntity domain) {
     throw UnimplementedError();
   }
 }

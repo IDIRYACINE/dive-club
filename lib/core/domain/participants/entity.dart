@@ -6,13 +6,13 @@ class ParticipantEntity {
   final ParticipantId participantId;
   final ParticipantName participantName;
   final ParticipantBirthDate participantBirthDate;
-  final DivisionId competitionId;
+  final DivisionId divisionId;
   final SpecialtyId specialtyId;
 
   ParticipantEntity(
       {required this.participantId,
       required this.participantName,
       required this.participantBirthDate,
-      required this.competitionId,
+      required this.divisionId,
       required this.specialtyId});
 }

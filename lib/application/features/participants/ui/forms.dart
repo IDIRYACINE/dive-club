@@ -1,47 +1,85 @@
 import 'package:dive_club/application/commons/utility/validators.dart';
+import 'package:dive_club/application/commons/widgets/buttons.dart';
+import 'package:dive_club/application/features/divisions/feature.dart';
+import 'package:dive_club/application/features/specialties/feature.dart';
+import 'package:dive_club/core/domain/diving/entity.dart';
 import 'package:dive_club/resources/l10n/l10n.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../logic/registration_form_controller.dart';
-import 'actions.dart';
+import '../logic/participant_controller.dart';
 
-class ParticipantRegistartionForm extends StatelessWidget {
-  ParticipantRegistartionForm({super.key});
+class ParticipantForm extends StatelessWidget {
+  ParticipantForm(
+      {super.key, required this.divisions, required this.specialties});
 
-  final RegistrationFormController controller = RegistrationFormController();
+  final ParticipantController controller = ParticipantController();
+
+  final List<DivingDivisionEntity> divisions;
+  final List<DivingSpecialtyEntity> specialties;
 
   @override
   Widget build(BuildContext context) {
     final localizations = AppLocalizations.of(context)!;
-    final theme = Theme.of(context);
 
     return Form(
-      key: RegistrationFormController.key,
+      key: ParticipantController.key,
       child: Column(
-        mainAxisSize: MainAxisSize.max,
+        mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          Text(localizations.registrationFormTitle,
-              style: theme.textTheme.displaySmall),
           TextFormField(
             decoration: InputDecoration(
               labelText: localizations.nameLabel,
             ),
-            validator: validateName,
-            onChanged: controller.onNameChanged,
+            validator: validatorEmptyText,
+            onChanged: controller.updateName,
           ),
-          TextField(
+          TextFormField(
             decoration: InputDecoration(
               labelText: localizations.birthDateLabel,
             ),
+            controller: controller.birthDateTextController,
             readOnly: true,
             onTap: () => controller.selectBirthDate(context),
+            validator: validatorEmptyText,
           ),
-          RegistartionFormActions(
+          DivisionDropdown(
+            items: divisions,
+            onSelected: controller.updateDivision,
+          ),
+          SpecialtyDropdown(
+            items: specialties,
+            onSelected: controller.updateSpecialty,
+          ),
+          const SizedBox(
+            height: 20,
+          ),
+          GenericFormActions(
             onCancelPressed: controller.onCancel,
-            onConfirmPressed: controller.onRegister,
+            onConfirmPressed: () => controller.onRegister(context),
           )
         ],
+      ),
+    );
+  }
+}
+
+class ParticipantDialog extends StatelessWidget {
+  const ParticipantDialog({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final localizations = AppLocalizations.of(context)!;
+    final divisions = BlocProvider.of<DivisionBloc>(context).state.divisions;
+    final specialties =
+        BlocProvider.of<SpecialtyBloc>(context).state.specialties;
+
+    return AlertDialog(
+      title: Text(localizations.addParticipantLabel),
+      content: ParticipantForm(
+        divisions: divisions,
+        specialties: specialties,
       ),
     );
   }

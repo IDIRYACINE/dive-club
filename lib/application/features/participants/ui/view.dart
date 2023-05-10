@@ -1,8 +1,12 @@
 
 
+import 'package:dive_club/application/features/participants/state/bloc.dart';
+import 'package:dive_club/application/features/participants/state/state.dart';
 import 'package:dive_club/application/features/participants/ui/table.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../logic/participant_controller.dart';
 import 'actions.dart';
 
 class ParticipantsView extends StatelessWidget{
@@ -10,10 +14,15 @@ class ParticipantsView extends StatelessWidget{
 
   @override
   Widget build(BuildContext context) {
+    final  controller = ParticipantController();
     return Column(
-      children: const [
-        ParticipantsActions(),
-        ParticipantsTable(),
+      children:  [
+        ParticipantsActions(controler: controller,),
+        BlocBuilder<ParticipantBloc,ParticipantState>(
+          builder: (context,state) {
+            return ParticipantsTable(participants: state.participants,);
+          }
+        ),
       ],
     );
   }
