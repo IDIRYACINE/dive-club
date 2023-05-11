@@ -1,5 +1,7 @@
+import 'package:dive_club/application/commons/widgets_custom/sized_query_box.dart';
 import 'package:dive_club/core/domain/diving/export.dart';
 import 'package:dive_club/resources/l10n/l10n.dart';
+import 'package:dive_club/resources/measures.dart';
 import 'package:flutter/material.dart';
 
 class SpecialtiesTable extends StatelessWidget {
@@ -33,18 +35,23 @@ class SpecialtiesTable extends StatelessWidget {
     final localizations = AppLocalizations.of(context)!;
     final theme = Theme.of(context);
 
-    return DataTable(
-       decoration: BoxDecoration(
-    border: Border.all(color: theme.primaryColor, width: 1),
-    borderRadius: const BorderRadius.all(Radius.circular(5)),
-  ),
-      columns: [
-        DataColumn(label: Text(localizations.idLabel)),
-        DataColumn(label: Text(localizations.nameLabel)),
-      ],
-      rows: List<DataRow>.generate(
-        specialties.length,
-        (index) => _buildRow(index, theme),
+    return SizedQueryBox(
+      widthPercentage: AppMeasures.tableWidthPercentage,
+      child: SingleChildScrollView(
+        child: DataTable(
+          decoration: BoxDecoration(
+            border: Border.all(color: theme.primaryColor, width: 1),
+            borderRadius: const BorderRadius.all(Radius.circular(5)),
+          ),
+          columns: [
+            DataColumn(label: Text(localizations.idLabel)),
+            DataColumn(label: Text(localizations.nameLabel)),
+          ],
+          rows: List<DataRow>.generate(
+            specialties.length,
+            (index) => _buildRow(index, theme),
+          ),
+        ),
       ),
     );
   }

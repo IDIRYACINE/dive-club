@@ -1,16 +1,16 @@
 import 'package:dive_club/application/commons/widgets_custom/sized_query_box.dart';
-import 'package:dive_club/core/domain/diving/export.dart';
+import 'package:dive_club/core/domain/competition/export.dart';
 import 'package:dive_club/resources/l10n/l10n.dart';
 import 'package:dive_club/resources/measures.dart';
 import 'package:flutter/material.dart';
 
-class DivisionsTable extends StatelessWidget {
-  const DivisionsTable({super.key, this.divisions = const []});
+class CompetitionTable extends StatelessWidget {
+  const CompetitionTable({super.key, this.scores = const []});
 
-  final List<DivingDivisionEntity> divisions;
+  final List<CompetitionScoreEntity> scores;
 
   DataRow _buildRow(int index, ThemeData theme) {
-    DivingDivisionEntity division = divisions[index];
+    CompetitionScoreEntity score = scores[index];
 
     return DataRow(
       color: MaterialStateProperty.resolveWith<Color?>(
@@ -24,8 +24,9 @@ class DivisionsTable extends StatelessWidget {
         return null;
       }),
       cells: [
-        DataCell(Text(division.divisionId.value.toString())),
-        DataCell(Text(division.divisionName.value)),
+        DataCell(Text(index.toString())),
+        DataCell(Text(score.participantId.value.toString())),
+        DataCell(Text(score.score.value.toString())),
       ],
     );
   }
@@ -44,11 +45,12 @@ class DivisionsTable extends StatelessWidget {
             borderRadius: const BorderRadius.all(Radius.circular(5)),
           ),
           columns: [
-            DataColumn(label: Text(localizations.idLabel)),
-            DataColumn(label: Text(localizations.nameLabel)),
+            DataColumn(label: Text(localizations.participantRankingLabel)),
+            DataColumn(label: Text(localizations.participantNameLabel)),
+            DataColumn(label: Text(localizations.participantScoreLabel)),
           ],
           rows: List<DataRow>.generate(
-            divisions.length,
+            scores.length,
             (index) => _buildRow(index, theme),
           ),
         ),

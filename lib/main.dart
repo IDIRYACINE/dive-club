@@ -1,3 +1,4 @@
+import 'package:dive_club/application/features/competition/feature.dart';
 import 'package:dive_club/resources/l10n/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -18,6 +19,7 @@ void main() {
     BlocProvider(create: (context) => SpecialtyBloc()),
     BlocProvider(create: (context) => DivisionBloc()),
     BlocProvider(create: (context) => ParticipantBloc()),
+    BlocProvider(create: (context) => CompetitionBloc()),
   ], child: const MyApp()));
 }
 

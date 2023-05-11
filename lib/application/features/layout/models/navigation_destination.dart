@@ -30,4 +30,9 @@ const navgiationDestinations = [
       route: Routes.specialties,
       uniqueId: 2,
       icon: Icons.event),
+  NavigationEntity(
+      title: 'Competition',
+      route: Routes.competitionRoute,
+      uniqueId: 3,
+      icon: Icons.event),
 ];

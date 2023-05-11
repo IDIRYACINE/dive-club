@@ -15,7 +15,7 @@ abstract class DatabasePort{
   Future<DatabaseOperationResult> updateDivingSpeciality(UpdateDivingSpecialityOptions options);
 
   Future<LoadCompetitionScoresResult> loadCompetitionScores(LoadCompetitionScoresOptions options);
-  Future<LoadDivingCompetitionsResult> loadDivingCompetitions();
+  Future<LoadDivingDivisionsResult> loadDivingDivisions();
   Future<LoadDivingSpecialitiesResult> loadDivingSpecialities();
   Future<LoadParticipantsResult> loadParticipants(LoadParticipantsOptions options);
 

@@ -6,13 +6,13 @@ import 'value_objects.dart';
 
 class CompetitionScoreEntity{
   final ParticipantId participantId;
-  final DivisionId competitionId;
+  final DivisionId divisionId;
   final SpecialtyId specialtyId;
   final Score score;
 
   CompetitionScoreEntity({
     required this.participantId,
-    required this.competitionId,
+    required this.divisionId,
     required this.specialtyId,
     required this.score,
   });

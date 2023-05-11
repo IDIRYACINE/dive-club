@@ -4,7 +4,7 @@ import 'package:dive_club/infrastructure/database-service/drift/helpers.dart';
 import 'database/database.dart';
 
 class DriftDatabaseService implements DatabasePort {
-  final AppDb _database = AppDb();
+  final AppDb _database = AppDb.instance();
   final MapperServicePort _mapperService;
 
   DriftDatabaseService(this._mapperService);
@@ -64,10 +64,10 @@ class DriftDatabaseService implements DatabasePort {
   }
 
   @override
-  Future<LoadDivingCompetitionsResult> loadDivingCompetitions() async {
+  Future<LoadDivingDivisionsResult> loadDivingDivisions() async {
     return _database.selectDivingDivisions().get().then((value) =>
-        LoadDivingCompetitionsResult(
-            competitions: mapToDomainDivingDivisions(
+        LoadDivingDivisionsResult(
+            divisions: mapToDomainDivingDivisions(
                 value, _mapperService.competitionMapper)));
   }
 
@@ -75,7 +75,7 @@ class DriftDatabaseService implements DatabasePort {
   Future<LoadDivingSpecialitiesResult> loadDivingSpecialities() async {
     return _database.selectDivingSpecialties().get().then((value) =>
         LoadDivingSpecialitiesResult(
-            specialities: mapToDomainDivingSpecialitys(
+            specialties: mapToDomainDivingSpecialitys(
                 value, _mapperService.specialtyMapper)));
   }
 

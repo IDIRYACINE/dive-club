@@ -9,7 +9,16 @@ part 'database.g.dart';
   include: {'tables.drift'},
 )
 class AppDb extends _$AppDb {
-  AppDb() : super(_openConnection());
+  static AppDb? _instance;
+
+
+  AppDb._() : super(_openConnection());
+
+  factory AppDb.instance(){
+    _instance ??= AppDb._();
+
+    return _instance!;
+  }
 
   @override
   int get schemaVersion => 1;

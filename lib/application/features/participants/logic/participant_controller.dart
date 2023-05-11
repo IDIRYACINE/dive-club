@@ -1,8 +1,11 @@
+import 'package:dive_club/application/commons/utility/formaters.dart';
 import 'package:dive_club/application/features/participants/ui/forms.dart';
 import 'package:dive_club/application/navigation/feature.dart';
 import 'package:dive_club/core/domain/diving/entity.dart';
 import 'package:dive_club/core/domain/diving/export.dart';
 import 'package:dive_club/core/domain/participants/export.dart';
+import 'package:dive_club/core/infrastrucutre/database/export.dart';
+import 'package:dive_club/infrastructure/service_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -44,7 +47,7 @@ class ParticipantController {
     if (date != null) {
       _data.birthDate = date;
       _data.birthDateTextController.text =
-          '${date.day}/${date.month}/${date.year}';
+         formatDateTimeToDisplay(date);
     }
   }
 
@@ -58,11 +61,13 @@ class ParticipantController {
       final bloc = BlocProvider.of<ParticipantBloc>(context);
 
       final entity = ParticipantEntity(
-          participantId: ParticipantId(bloc.state.participants.length),
+          participantId: ParticipantId(bloc.state.participants.length + 1),
           participantName: ParticipantName(_data.name),
           divisionId: _data.division!.divisionId,
           participantBirthDate: ParticipantBirthDate(_data.birthDate),
           specialtyId: _data.specialty!.specialtyId);
+
+      _registerParticipant(entity);
 
       final event = AddParticipantEvent(entity);
 
@@ -87,5 +92,16 @@ class ParticipantController {
 
   void updateSpecialty(DivingSpecialtyEntity? item) {
     _data.specialty = item;
+  }
+
+  Future<void> _registerParticipant(ParticipantEntity entity) async {
+    final options = CreateParticipantOptions(
+        participant: Participant(
+            id: entity.participantId.value,
+            name: entity.participantName.value,
+            birthDate: entity.participantBirthDate.value,
+            divisionId: entity.divisionId.value,
+            specialityId: entity.specialtyId.value));
+    ServicesProvider.instance().databasePort.insertParticipant(options);
   }
 }

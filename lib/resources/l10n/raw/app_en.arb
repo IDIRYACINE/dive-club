@@ -19,5 +19,10 @@
     "addSpecialityLabel" : "Add Speciality",
     "specialityListLabel" : "Specialities List",
     "addDivisionLabel" : "Add Division",
-    "divisionListLabel" : "Divisions List"
+    "divisionListLabel" : "Divisions List",
+    "printRankingsLabel" : "Print Rankings",
+    "printPrizesLabel" : "Print Prizes",
+    "participantRankingLabel" : "Participant Ranking",
+    "participantNameLabel" : "Participant Name",
+    "participantScoreLabel" : "Participant Score"
 }

@@ -11,7 +11,7 @@ class ScoreMapper
   CompetitionScoreEntity toDomainEntity(CompetitionScore persistance) {
     return CompetitionScoreEntity(
         participantId: ParticipantId(persistance.participantId),
-        competitionId: DivisionId(persistance.divisionId),
+        divisionId: DivisionId(persistance.divisionId),
         specialtyId: SpecialtyId(persistance.specialityId),
         score: Score(persistance.score));
   }

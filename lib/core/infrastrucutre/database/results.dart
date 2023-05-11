@@ -26,21 +26,21 @@ class LoadParticipantsResult extends DatabaseOperationResult {
   }) : super(isSuccess: isSuccess, message: message);
 }
 
-class LoadDivingCompetitionsResult extends DatabaseOperationResult {
-  final List<DivingDivisionEntity> competitions;
+class LoadDivingDivisionsResult extends DatabaseOperationResult {
+  final List<DivingDivisionEntity> divisions;
 
-  LoadDivingCompetitionsResult({
-    required this.competitions,
+  LoadDivingDivisionsResult({
+    required this.divisions,
     bool? isSuccess,
     String? message,
   }) : super(isSuccess: isSuccess, message: message);
 }
 
 class LoadDivingSpecialitiesResult extends DatabaseOperationResult {
-  final List<DivingSpecialtyEntity> specialities;
+  final List<DivingSpecialtyEntity> specialties;
 
   LoadDivingSpecialitiesResult({
-    required this.specialities,
+    required this.specialties,
     bool? isSuccess,
     String? message,
   }) : super(isSuccess: isSuccess, message: message);
