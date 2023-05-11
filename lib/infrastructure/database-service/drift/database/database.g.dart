@@ -9,21 +9,23 @@ class DivingSpecialties extends Table
   final GeneratedDatabase attachedDatabase;
   final String? _alias;
   DivingSpecialties(this.attachedDatabase, [this._alias]);
-  static const VerificationMeta _idMeta = const VerificationMeta('id');
-  late final GeneratedColumn<int> id = GeneratedColumn<int>(
-      'id', aliasedName, false,
+  static const VerificationMeta _specialtyIdMeta =
+      const VerificationMeta('specialtyId');
+  late final GeneratedColumn<int> specialtyId = GeneratedColumn<int>(
+      'specialty_id', aliasedName, false,
       hasAutoIncrement: true,
       type: DriftSqlType.int,
       requiredDuringInsert: false,
       $customConstraints: 'PRIMARY KEY AUTOINCREMENT');
-  static const VerificationMeta _nameMeta = const VerificationMeta('name');
-  late final GeneratedColumn<String> name = GeneratedColumn<String>(
-      'name', aliasedName, false,
+  static const VerificationMeta _specialtyNameMeta =
+      const VerificationMeta('specialtyName');
+  late final GeneratedColumn<String> specialtyName = GeneratedColumn<String>(
+      'specialty_name', aliasedName, false,
       type: DriftSqlType.string,
       requiredDuringInsert: true,
       $customConstraints: 'NOT NULL');
   @override
-  List<GeneratedColumn> get $columns => [id, name];
+  List<GeneratedColumn> get $columns => [specialtyId, specialtyName];
   @override
   String get aliasedName => _alias ?? 'DivingSpecialties';
   @override
@@ -33,28 +35,33 @@ class DivingSpecialties extends Table
       {bool isInserting = false}) {
     final context = VerificationContext();
     final data = instance.toColumns(true);
-    if (data.containsKey('id')) {
-      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
-    }
-    if (data.containsKey('name')) {
+    if (data.containsKey('specialty_id')) {
       context.handle(
-          _nameMeta, name.isAcceptableOrUnknown(data['name']!, _nameMeta));
+          _specialtyIdMeta,
+          specialtyId.isAcceptableOrUnknown(
+              data['specialty_id']!, _specialtyIdMeta));
+    }
+    if (data.containsKey('specialty_name')) {
+      context.handle(
+          _specialtyNameMeta,
+          specialtyName.isAcceptableOrUnknown(
+              data['specialty_name']!, _specialtyNameMeta));
     } else if (isInserting) {
-      context.missing(_nameMeta);
+      context.missing(_specialtyNameMeta);
     }
     return context;
   }
 
   @override
-  Set<GeneratedColumn> get $primaryKey => {id};
+  Set<GeneratedColumn> get $primaryKey => {specialtyId};
   @override
   DivingSpecialtie map(Map<String, dynamic> data, {String? tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
     return DivingSpecialtie(
-      id: attachedDatabase.typeMapping
-          .read(DriftSqlType.int, data['${effectivePrefix}id'])!,
-      name: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}name'])!,
+      specialtyId: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}specialty_id'])!,
+      specialtyName: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}specialty_name'])!,
     );
   }
 
@@ -69,21 +76,22 @@ class DivingSpecialties extends Table
 
 class DivingSpecialtie extends DataClass
     implements Insertable<DivingSpecialtie> {
-  final int id;
-  final String name;
-  const DivingSpecialtie({required this.id, required this.name});
+  final int specialtyId;
+  final String specialtyName;
+  const DivingSpecialtie(
+      {required this.specialtyId, required this.specialtyName});
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
-    map['id'] = Variable<int>(id);
-    map['name'] = Variable<String>(name);
+    map['specialty_id'] = Variable<int>(specialtyId);
+    map['specialty_name'] = Variable<String>(specialtyName);
     return map;
   }
 
   DivingSpecialtiesCompanion toCompanion(bool nullToAbsent) {
     return DivingSpecialtiesCompanion(
-      id: Value(id),
-      name: Value(name),
+      specialtyId: Value(specialtyId),
+      specialtyName: Value(specialtyName),
     );
   }
 
@@ -91,78 +99,80 @@ class DivingSpecialtie extends DataClass
       {ValueSerializer? serializer}) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return DivingSpecialtie(
-      id: serializer.fromJson<int>(json['id']),
-      name: serializer.fromJson<String>(json['name']),
+      specialtyId: serializer.fromJson<int>(json['specialty_id']),
+      specialtyName: serializer.fromJson<String>(json['specialty_name']),
     );
   }
   @override
   Map<String, dynamic> toJson({ValueSerializer? serializer}) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return <String, dynamic>{
-      'id': serializer.toJson<int>(id),
-      'name': serializer.toJson<String>(name),
+      'specialty_id': serializer.toJson<int>(specialtyId),
+      'specialty_name': serializer.toJson<String>(specialtyName),
     };
   }
 
-  DivingSpecialtie copyWith({int? id, String? name}) => DivingSpecialtie(
-        id: id ?? this.id,
-        name: name ?? this.name,
+  DivingSpecialtie copyWith({int? specialtyId, String? specialtyName}) =>
+      DivingSpecialtie(
+        specialtyId: specialtyId ?? this.specialtyId,
+        specialtyName: specialtyName ?? this.specialtyName,
       );
   @override
   String toString() {
     return (StringBuffer('DivingSpecialtie(')
-          ..write('id: $id, ')
-          ..write('name: $name')
+          ..write('specialtyId: $specialtyId, ')
+          ..write('specialtyName: $specialtyName')
           ..write(')'))
         .toString();
   }
 
   @override
-  int get hashCode => Object.hash(id, name);
+  int get hashCode => Object.hash(specialtyId, specialtyName);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
       (other is DivingSpecialtie &&
-          other.id == this.id &&
-          other.name == this.name);
+          other.specialtyId == this.specialtyId &&
+          other.specialtyName == this.specialtyName);
 }
 
 class DivingSpecialtiesCompanion extends UpdateCompanion<DivingSpecialtie> {
-  final Value<int> id;
-  final Value<String> name;
+  final Value<int> specialtyId;
+  final Value<String> specialtyName;
   const DivingSpecialtiesCompanion({
-    this.id = const Value.absent(),
-    this.name = const Value.absent(),
+    this.specialtyId = const Value.absent(),
+    this.specialtyName = const Value.absent(),
   });
   DivingSpecialtiesCompanion.insert({
-    this.id = const Value.absent(),
-    required String name,
-  }) : name = Value(name);
+    this.specialtyId = const Value.absent(),
+    required String specialtyName,
+  }) : specialtyName = Value(specialtyName);
   static Insertable<DivingSpecialtie> custom({
-    Expression<int>? id,
-    Expression<String>? name,
+    Expression<int>? specialtyId,
+    Expression<String>? specialtyName,
   }) {
     return RawValuesInsertable({
-      if (id != null) 'id': id,
-      if (name != null) 'name': name,
+      if (specialtyId != null) 'specialty_id': specialtyId,
+      if (specialtyName != null) 'specialty_name': specialtyName,
     });
   }
 
-  DivingSpecialtiesCompanion copyWith({Value<int>? id, Value<String>? name}) {
+  DivingSpecialtiesCompanion copyWith(
+      {Value<int>? specialtyId, Value<String>? specialtyName}) {
     return DivingSpecialtiesCompanion(
-      id: id ?? this.id,
-      name: name ?? this.name,
+      specialtyId: specialtyId ?? this.specialtyId,
+      specialtyName: specialtyName ?? this.specialtyName,
     );
   }
 
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
-    if (id.present) {
-      map['id'] = Variable<int>(id.value);
+    if (specialtyId.present) {
+      map['specialty_id'] = Variable<int>(specialtyId.value);
     }
-    if (name.present) {
-      map['name'] = Variable<String>(name.value);
+    if (specialtyName.present) {
+      map['specialty_name'] = Variable<String>(specialtyName.value);
     }
     return map;
   }
@@ -170,8 +180,8 @@ class DivingSpecialtiesCompanion extends UpdateCompanion<DivingSpecialtie> {
   @override
   String toString() {
     return (StringBuffer('DivingSpecialtiesCompanion(')
-          ..write('id: $id, ')
-          ..write('name: $name')
+          ..write('specialtyId: $specialtyId, ')
+          ..write('specialtyName: $specialtyName')
           ..write(')'))
         .toString();
   }
@@ -183,21 +193,23 @@ class DivingDivisions extends Table
   final GeneratedDatabase attachedDatabase;
   final String? _alias;
   DivingDivisions(this.attachedDatabase, [this._alias]);
-  static const VerificationMeta _idMeta = const VerificationMeta('id');
-  late final GeneratedColumn<int> id = GeneratedColumn<int>(
-      'id', aliasedName, false,
+  static const VerificationMeta _divisionIdMeta =
+      const VerificationMeta('divisionId');
+  late final GeneratedColumn<int> divisionId = GeneratedColumn<int>(
+      'division_id', aliasedName, false,
       hasAutoIncrement: true,
       type: DriftSqlType.int,
       requiredDuringInsert: false,
       $customConstraints: 'PRIMARY KEY AUTOINCREMENT');
-  static const VerificationMeta _nameMeta = const VerificationMeta('name');
-  late final GeneratedColumn<String> name = GeneratedColumn<String>(
-      'name', aliasedName, false,
+  static const VerificationMeta _divisionNameMeta =
+      const VerificationMeta('divisionName');
+  late final GeneratedColumn<String> divisionName = GeneratedColumn<String>(
+      'division_name', aliasedName, false,
       type: DriftSqlType.string,
       requiredDuringInsert: true,
       $customConstraints: 'NOT NULL');
   @override
-  List<GeneratedColumn> get $columns => [id, name];
+  List<GeneratedColumn> get $columns => [divisionId, divisionName];
   @override
   String get aliasedName => _alias ?? 'DivingDivisions';
   @override
@@ -207,28 +219,33 @@ class DivingDivisions extends Table
       {bool isInserting = false}) {
     final context = VerificationContext();
     final data = instance.toColumns(true);
-    if (data.containsKey('id')) {
-      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
-    }
-    if (data.containsKey('name')) {
+    if (data.containsKey('division_id')) {
       context.handle(
-          _nameMeta, name.isAcceptableOrUnknown(data['name']!, _nameMeta));
+          _divisionIdMeta,
+          divisionId.isAcceptableOrUnknown(
+              data['division_id']!, _divisionIdMeta));
+    }
+    if (data.containsKey('division_name')) {
+      context.handle(
+          _divisionNameMeta,
+          divisionName.isAcceptableOrUnknown(
+              data['division_name']!, _divisionNameMeta));
     } else if (isInserting) {
-      context.missing(_nameMeta);
+      context.missing(_divisionNameMeta);
     }
     return context;
   }
 
   @override
-  Set<GeneratedColumn> get $primaryKey => {id};
+  Set<GeneratedColumn> get $primaryKey => {divisionId};
   @override
   DivingDivision map(Map<String, dynamic> data, {String? tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
     return DivingDivision(
-      id: attachedDatabase.typeMapping
-          .read(DriftSqlType.int, data['${effectivePrefix}id'])!,
-      name: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}name'])!,
+      divisionId: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}division_id'])!,
+      divisionName: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}division_name'])!,
     );
   }
 
@@ -242,21 +259,21 @@ class DivingDivisions extends Table
 }
 
 class DivingDivision extends DataClass implements Insertable<DivingDivision> {
-  final int id;
-  final String name;
-  const DivingDivision({required this.id, required this.name});
+  final int divisionId;
+  final String divisionName;
+  const DivingDivision({required this.divisionId, required this.divisionName});
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
-    map['id'] = Variable<int>(id);
-    map['name'] = Variable<String>(name);
+    map['division_id'] = Variable<int>(divisionId);
+    map['division_name'] = Variable<String>(divisionName);
     return map;
   }
 
   DivingDivisionsCompanion toCompanion(bool nullToAbsent) {
     return DivingDivisionsCompanion(
-      id: Value(id),
-      name: Value(name),
+      divisionId: Value(divisionId),
+      divisionName: Value(divisionName),
     );
   }
 
@@ -264,78 +281,80 @@ class DivingDivision extends DataClass implements Insertable<DivingDivision> {
       {ValueSerializer? serializer}) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return DivingDivision(
-      id: serializer.fromJson<int>(json['id']),
-      name: serializer.fromJson<String>(json['name']),
+      divisionId: serializer.fromJson<int>(json['division_id']),
+      divisionName: serializer.fromJson<String>(json['division_name']),
     );
   }
   @override
   Map<String, dynamic> toJson({ValueSerializer? serializer}) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return <String, dynamic>{
-      'id': serializer.toJson<int>(id),
-      'name': serializer.toJson<String>(name),
+      'division_id': serializer.toJson<int>(divisionId),
+      'division_name': serializer.toJson<String>(divisionName),
     };
   }
 
-  DivingDivision copyWith({int? id, String? name}) => DivingDivision(
-        id: id ?? this.id,
-        name: name ?? this.name,
+  DivingDivision copyWith({int? divisionId, String? divisionName}) =>
+      DivingDivision(
+        divisionId: divisionId ?? this.divisionId,
+        divisionName: divisionName ?? this.divisionName,
       );
   @override
   String toString() {
     return (StringBuffer('DivingDivision(')
-          ..write('id: $id, ')
-          ..write('name: $name')
+          ..write('divisionId: $divisionId, ')
+          ..write('divisionName: $divisionName')
           ..write(')'))
         .toString();
   }
 
   @override
-  int get hashCode => Object.hash(id, name);
+  int get hashCode => Object.hash(divisionId, divisionName);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
       (other is DivingDivision &&
-          other.id == this.id &&
-          other.name == this.name);
+          other.divisionId == this.divisionId &&
+          other.divisionName == this.divisionName);
 }
 
 class DivingDivisionsCompanion extends UpdateCompanion<DivingDivision> {
-  final Value<int> id;
-  final Value<String> name;
+  final Value<int> divisionId;
+  final Value<String> divisionName;
   const DivingDivisionsCompanion({
-    this.id = const Value.absent(),
-    this.name = const Value.absent(),
+    this.divisionId = const Value.absent(),
+    this.divisionName = const Value.absent(),
   });
   DivingDivisionsCompanion.insert({
-    this.id = const Value.absent(),
-    required String name,
-  }) : name = Value(name);
+    this.divisionId = const Value.absent(),
+    required String divisionName,
+  }) : divisionName = Value(divisionName);
   static Insertable<DivingDivision> custom({
-    Expression<int>? id,
-    Expression<String>? name,
+    Expression<int>? divisionId,
+    Expression<String>? divisionName,
   }) {
     return RawValuesInsertable({
-      if (id != null) 'id': id,
-      if (name != null) 'name': name,
+      if (divisionId != null) 'division_id': divisionId,
+      if (divisionName != null) 'division_name': divisionName,
     });
   }
 
-  DivingDivisionsCompanion copyWith({Value<int>? id, Value<String>? name}) {
+  DivingDivisionsCompanion copyWith(
+      {Value<int>? divisionId, Value<String>? divisionName}) {
     return DivingDivisionsCompanion(
-      id: id ?? this.id,
-      name: name ?? this.name,
+      divisionId: divisionId ?? this.divisionId,
+      divisionName: divisionName ?? this.divisionName,
     );
   }
 
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
-    if (id.present) {
-      map['id'] = Variable<int>(id.value);
+    if (divisionId.present) {
+      map['division_id'] = Variable<int>(divisionId.value);
     }
-    if (name.present) {
-      map['name'] = Variable<String>(name.value);
+    if (divisionName.present) {
+      map['division_name'] = Variable<String>(divisionName.value);
     }
     return map;
   }
@@ -343,8 +362,8 @@ class DivingDivisionsCompanion extends UpdateCompanion<DivingDivision> {
   @override
   String toString() {
     return (StringBuffer('DivingDivisionsCompanion(')
-          ..write('id: $id, ')
-          ..write('name: $name')
+          ..write('divisionId: $divisionId, ')
+          ..write('divisionName: $divisionName')
           ..write(')'))
         .toString();
   }
@@ -355,9 +374,10 @@ class Participants extends Table with TableInfo<Participants, Participant> {
   final GeneratedDatabase attachedDatabase;
   final String? _alias;
   Participants(this.attachedDatabase, [this._alias]);
-  static const VerificationMeta _idMeta = const VerificationMeta('id');
-  late final GeneratedColumn<int> id = GeneratedColumn<int>(
-      'id', aliasedName, false,
+  static const VerificationMeta _participantIdMeta =
+      const VerificationMeta('participantId');
+  late final GeneratedColumn<int> participantId = GeneratedColumn<int>(
+      'participant_id', aliasedName, false,
       hasAutoIncrement: true,
       type: DriftSqlType.int,
       requiredDuringInsert: false,
@@ -382,17 +402,18 @@ class Participants extends Table with TableInfo<Participants, Participant> {
       'division_id', aliasedName, false,
       type: DriftSqlType.int,
       requiredDuringInsert: true,
-      $customConstraints: 'NOT NULL REFERENCES DivingDivisions(id)');
+      $customConstraints: 'NOT NULL REFERENCES DivingDivisions(division_id)');
   static const VerificationMeta _specialtyIdMeta =
       const VerificationMeta('specialtyId');
   late final GeneratedColumn<int> specialtyId = GeneratedColumn<int>(
       'specialty_id', aliasedName, false,
       type: DriftSqlType.int,
       requiredDuringInsert: true,
-      $customConstraints: 'NOT NULL REFERENCES DivingSpecialties(id)');
+      $customConstraints:
+          'NOT NULL REFERENCES DivingSpecialties(specialty_id)');
   @override
   List<GeneratedColumn> get $columns =>
-      [id, participantName, birthDate, divisionId, specialtyId];
+      [participantId, participantName, birthDate, divisionId, specialtyId];
   @override
   String get aliasedName => _alias ?? 'Participants';
   @override
@@ -402,8 +423,11 @@ class Participants extends Table with TableInfo<Participants, Participant> {
       {bool isInserting = false}) {
     final context = VerificationContext();
     final data = instance.toColumns(true);
-    if (data.containsKey('id')) {
-      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    if (data.containsKey('participant_id')) {
+      context.handle(
+          _participantIdMeta,
+          participantId.isAcceptableOrUnknown(
+              data['participant_id']!, _participantIdMeta));
     }
     if (data.containsKey('participant_name')) {
       context.handle(
@@ -439,13 +463,13 @@ class Participants extends Table with TableInfo<Participants, Participant> {
   }
 
   @override
-  Set<GeneratedColumn> get $primaryKey => {id};
+  Set<GeneratedColumn> get $primaryKey => {participantId};
   @override
   Participant map(Map<String, dynamic> data, {String? tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
     return Participant(
-      id: attachedDatabase.typeMapping
-          .read(DriftSqlType.int, data['${effectivePrefix}id'])!,
+      participantId: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}participant_id'])!,
       participantName: attachedDatabase.typeMapping.read(
           DriftSqlType.string, data['${effectivePrefix}participant_name'])!,
       birthDate: attachedDatabase.typeMapping
@@ -467,13 +491,13 @@ class Participants extends Table with TableInfo<Participants, Participant> {
 }
 
 class Participant extends DataClass implements Insertable<Participant> {
-  final int id;
+  final int participantId;
   final String participantName;
   final DateTime birthDate;
   final int divisionId;
   final int specialtyId;
   const Participant(
-      {required this.id,
+      {required this.participantId,
       required this.participantName,
       required this.birthDate,
       required this.divisionId,
@@ -481,7 +505,7 @@ class Participant extends DataClass implements Insertable<Participant> {
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
-    map['id'] = Variable<int>(id);
+    map['participant_id'] = Variable<int>(participantId);
     map['participant_name'] = Variable<String>(participantName);
     map['birth_date'] = Variable<DateTime>(birthDate);
     map['division_id'] = Variable<int>(divisionId);
@@ -491,7 +515,7 @@ class Participant extends DataClass implements Insertable<Participant> {
 
   ParticipantsCompanion toCompanion(bool nullToAbsent) {
     return ParticipantsCompanion(
-      id: Value(id),
+      participantId: Value(participantId),
       participantName: Value(participantName),
       birthDate: Value(birthDate),
       divisionId: Value(divisionId),
@@ -503,7 +527,7 @@ class Participant extends DataClass implements Insertable<Participant> {
       {ValueSerializer? serializer}) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return Participant(
-      id: serializer.fromJson<int>(json['id']),
+      participantId: serializer.fromJson<int>(json['participant_id']),
       participantName: serializer.fromJson<String>(json['participant_name']),
       birthDate: serializer.fromJson<DateTime>(json['birth_date']),
       divisionId: serializer.fromJson<int>(json['division_id']),
@@ -514,7 +538,7 @@ class Participant extends DataClass implements Insertable<Participant> {
   Map<String, dynamic> toJson({ValueSerializer? serializer}) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return <String, dynamic>{
-      'id': serializer.toJson<int>(id),
+      'participant_id': serializer.toJson<int>(participantId),
       'participant_name': serializer.toJson<String>(participantName),
       'birth_date': serializer.toJson<DateTime>(birthDate),
       'division_id': serializer.toJson<int>(divisionId),
@@ -523,13 +547,13 @@ class Participant extends DataClass implements Insertable<Participant> {
   }
 
   Participant copyWith(
-          {int? id,
+          {int? participantId,
           String? participantName,
           DateTime? birthDate,
           int? divisionId,
           int? specialtyId}) =>
       Participant(
-        id: id ?? this.id,
+        participantId: participantId ?? this.participantId,
         participantName: participantName ?? this.participantName,
         birthDate: birthDate ?? this.birthDate,
         divisionId: divisionId ?? this.divisionId,
@@ -538,7 +562,7 @@ class Participant extends DataClass implements Insertable<Participant> {
   @override
   String toString() {
     return (StringBuffer('Participant(')
-          ..write('id: $id, ')
+          ..write('participantId: $participantId, ')
           ..write('participantName: $participantName, ')
           ..write('birthDate: $birthDate, ')
           ..write('divisionId: $divisionId, ')
@@ -548,13 +572,13 @@ class Participant extends DataClass implements Insertable<Participant> {
   }
 
   @override
-  int get hashCode =>
-      Object.hash(id, participantName, birthDate, divisionId, specialtyId);
+  int get hashCode => Object.hash(
+      participantId, participantName, birthDate, divisionId, specialtyId);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
       (other is Participant &&
-          other.id == this.id &&
+          other.participantId == this.participantId &&
           other.participantName == this.participantName &&
           other.birthDate == this.birthDate &&
           other.divisionId == this.divisionId &&
@@ -562,20 +586,20 @@ class Participant extends DataClass implements Insertable<Participant> {
 }
 
 class ParticipantsCompanion extends UpdateCompanion<Participant> {
-  final Value<int> id;
+  final Value<int> participantId;
   final Value<String> participantName;
   final Value<DateTime> birthDate;
   final Value<int> divisionId;
   final Value<int> specialtyId;
   const ParticipantsCompanion({
-    this.id = const Value.absent(),
+    this.participantId = const Value.absent(),
     this.participantName = const Value.absent(),
     this.birthDate = const Value.absent(),
     this.divisionId = const Value.absent(),
     this.specialtyId = const Value.absent(),
   });
   ParticipantsCompanion.insert({
-    this.id = const Value.absent(),
+    this.participantId = const Value.absent(),
     required String participantName,
     required DateTime birthDate,
     required int divisionId,
@@ -585,14 +609,14 @@ class ParticipantsCompanion extends UpdateCompanion<Participant> {
         divisionId = Value(divisionId),
         specialtyId = Value(specialtyId);
   static Insertable<Participant> custom({
-    Expression<int>? id,
+    Expression<int>? participantId,
     Expression<String>? participantName,
     Expression<DateTime>? birthDate,
     Expression<int>? divisionId,
     Expression<int>? specialtyId,
   }) {
     return RawValuesInsertable({
-      if (id != null) 'id': id,
+      if (participantId != null) 'participant_id': participantId,
       if (participantName != null) 'participant_name': participantName,
       if (birthDate != null) 'birth_date': birthDate,
       if (divisionId != null) 'division_id': divisionId,
@@ -601,13 +625,13 @@ class ParticipantsCompanion extends UpdateCompanion<Participant> {
   }
 
   ParticipantsCompanion copyWith(
-      {Value<int>? id,
+      {Value<int>? participantId,
       Value<String>? participantName,
       Value<DateTime>? birthDate,
       Value<int>? divisionId,
       Value<int>? specialtyId}) {
     return ParticipantsCompanion(
-      id: id ?? this.id,
+      participantId: participantId ?? this.participantId,
       participantName: participantName ?? this.participantName,
       birthDate: birthDate ?? this.birthDate,
       divisionId: divisionId ?? this.divisionId,
@@ -618,8 +642,8 @@ class ParticipantsCompanion extends UpdateCompanion<Participant> {
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
-    if (id.present) {
-      map['id'] = Variable<int>(id.value);
+    if (participantId.present) {
+      map['participant_id'] = Variable<int>(participantId.value);
     }
     if (participantName.present) {
       map['participant_name'] = Variable<String>(participantName.value);
@@ -639,7 +663,7 @@ class ParticipantsCompanion extends UpdateCompanion<Participant> {
   @override
   String toString() {
     return (StringBuffer('ParticipantsCompanion(')
-          ..write('id: $id, ')
+          ..write('participantId: $participantId, ')
           ..write('participantName: $participantName, ')
           ..write('birthDate: $birthDate, ')
           ..write('divisionId: $divisionId, ')
@@ -660,21 +684,22 @@ class Scores extends Table with TableInfo<Scores, Score> {
       'participant_id', aliasedName, false,
       type: DriftSqlType.int,
       requiredDuringInsert: true,
-      $customConstraints: 'NOT NULL REFERENCES Participants(id)');
+      $customConstraints: 'NOT NULL REFERENCES Participants(participant_id)');
   static const VerificationMeta _divisionIdMeta =
       const VerificationMeta('divisionId');
   late final GeneratedColumn<int> divisionId = GeneratedColumn<int>(
       'division_id', aliasedName, false,
       type: DriftSqlType.int,
       requiredDuringInsert: true,
-      $customConstraints: 'NOT NULL REFERENCES DivingDivisions(id)');
+      $customConstraints: 'NOT NULL REFERENCES DivingDivisions(division_id)');
   static const VerificationMeta _specialtyIdMeta =
       const VerificationMeta('specialtyId');
   late final GeneratedColumn<int> specialtyId = GeneratedColumn<int>(
       'specialty_id', aliasedName, false,
       type: DriftSqlType.int,
       requiredDuringInsert: true,
-      $customConstraints: 'NOT NULL REFERENCES DivingSpecialties(id)');
+      $customConstraints:
+          'NOT NULL REFERENCES DivingSpecialties(specialty_id)');
   static const VerificationMeta _scoreDateMeta =
       const VerificationMeta('scoreDate');
   late final GeneratedColumn<DateTime> scoreDate = GeneratedColumn<DateTime>(
@@ -996,7 +1021,7 @@ abstract class _$AppDb extends GeneratedDatabase {
       required int specialtyId,
       required int id}) {
     return customUpdate(
-      'UPDATE Participants SET participant_name = ?1, birth_date = ?2, division_id = ?3, specialty_id = ?4 WHERE id = ?5',
+      'UPDATE Participants SET participant_name = ?1, birth_date = ?2, division_id = ?3, specialty_id = ?4 WHERE participant_id = ?5',
       variables: [
         Variable<String>(name),
         Variable<DateTime>(birthDate),
@@ -1048,7 +1073,7 @@ abstract class _$AppDb extends GeneratedDatabase {
 
   Future<int> createDivingSpecialties({required String name}) {
     return customInsert(
-      'INSERT INTO DivingSpecialties (name) VALUES (?1)',
+      'INSERT INTO DivingSpecialties (specialty_name) VALUES (?1)',
       variables: [Variable<String>(name)],
       updates: {divingSpecialties},
     );
@@ -1056,7 +1081,7 @@ abstract class _$AppDb extends GeneratedDatabase {
 
   Future<int> updateDivingSpecialties({required String name, required int id}) {
     return customUpdate(
-      'UPDATE DivingSpecialties SET name = ?1 WHERE id = ?2',
+      'UPDATE DivingSpecialties SET specialty_name = ?1 WHERE specialty_id = ?2',
       variables: [Variable<String>(name), Variable<int>(id)],
       updates: {divingSpecialties},
       updateKind: UpdateKind.update,
@@ -1065,7 +1090,7 @@ abstract class _$AppDb extends GeneratedDatabase {
 
   Future<int> createDivingDivisions({required String name}) {
     return customInsert(
-      'INSERT INTO DivingDivisions (name) VALUES (?1)',
+      'INSERT INTO DivingDivisions (division_name) VALUES (?1)',
       variables: [Variable<String>(name)],
       updates: {divingDivisions},
     );
@@ -1073,19 +1098,34 @@ abstract class _$AppDb extends GeneratedDatabase {
 
   Future<int> updateDivingDivisions({required String name, required int id}) {
     return customUpdate(
-      'UPDATE DivingDivisions SET name = ?1 WHERE id = ?2',
+      'UPDATE DivingDivisions SET division_name = ?1 WHERE division_id = ?2',
       variables: [Variable<String>(name), Variable<int>(id)],
       updates: {divingDivisions},
       updateKind: UpdateKind.update,
     );
   }
 
-  Selectable<Score> selectCompetitionScores() {
-    return customSelect('SELECT * FROM Scores ORDER BY score DESC',
+  Selectable<SelectCompetitionScoresResult> selectCompetitionScores() {
+    return customSelect(
+        'SELECT Scores.*, DivingSpecialties.specialty_name, DivingDivisions.division_name, Participants.participant_name FROM Scores INNER JOIN DivingSpecialties USING(specialty_id)INNER JOIN DivingDivisions USING(division_id)INNER JOIN Participants USING(participant_id)ORDER BY score DESC',
         variables: [],
         readsFrom: {
+          divingSpecialties,
+          divingDivisions,
+          participants,
           scores,
-        }).asyncMap(scores.mapFromRow);
+        }).map((QueryRow row) {
+      return SelectCompetitionScoresResult(
+        participantId: row.read<int>('participant_id'),
+        divisionId: row.read<int>('division_id'),
+        specialtyId: row.read<int>('specialty_id'),
+        scoreDate: row.read<DateTime>('score_date'),
+        score: row.read<double>('score'),
+        specialtyName: row.read<String>('specialty_name'),
+        divisionName: row.read<String>('division_name'),
+        participantName: row.read<String>('participant_name'),
+      );
+    });
   }
 
   Selectable<DivingSpecialtie> selectDivingSpecialties() {
@@ -1104,56 +1144,123 @@ abstract class _$AppDb extends GeneratedDatabase {
         }).asyncMap(divingDivisions.mapFromRow);
   }
 
-  Selectable<Participant> searchParticipantsByName({required String name}) {
+  Selectable<SearchParticipantsByNameResult> searchParticipantsByName(
+      {required String name}) {
     return customSelect(
-        'SELECT * FROM Participants WHERE participant_name LIKE ?1',
+        'SELECT Participants.*, DivingSpecialties.specialty_name, DivingDivisions.division_name FROM Participants INNER JOIN DivingSpecialties ON DivingSpecialties.specialty_id = Participants.specialty_id INNER JOIN DivingDivisions ON DivingDivisions.division_id = Participants.division_id WHERE participant_name LIKE ?1',
         variables: [
           Variable<String>(name)
         ],
         readsFrom: {
+          divingSpecialties,
+          divingDivisions,
           participants,
-        }).asyncMap(participants.mapFromRow);
+        }).map((QueryRow row) {
+      return SearchParticipantsByNameResult(
+        participantId: row.read<int>('participant_id'),
+        participantName: row.read<String>('participant_name'),
+        birthDate: row.read<DateTime>('birth_date'),
+        divisionId: row.read<int>('division_id'),
+        specialtyId: row.read<int>('specialty_id'),
+        specialtyName: row.read<String>('specialty_name'),
+        divisionName: row.read<String>('division_name'),
+      );
+    });
   }
 
-  Selectable<Participant> selectParticiapnts() {
-    return customSelect('SELECT * FROM Participants',
+  Selectable<SelectParticiapntsResult> selectParticiapnts() {
+    return customSelect(
+        'SELECT Participants.*, DivingSpecialties.specialty_name, DivingDivisions.division_name FROM Participants INNER JOIN DivingSpecialties ON DivingSpecialties.specialty_id = Participants.specialty_id INNER JOIN DivingDivisions ON DivingDivisions.division_id = Participants.division_id',
         variables: [],
         readsFrom: {
+          divingSpecialties,
+          divingDivisions,
           participants,
-        }).asyncMap(participants.mapFromRow);
+        }).map((QueryRow row) {
+      return SelectParticiapntsResult(
+        participantId: row.read<int>('participant_id'),
+        participantName: row.read<String>('participant_name'),
+        birthDate: row.read<DateTime>('birth_date'),
+        divisionId: row.read<int>('division_id'),
+        specialtyId: row.read<int>('specialty_id'),
+        specialtyName: row.read<String>('specialty_name'),
+        divisionName: row.read<String>('division_name'),
+      );
+    });
   }
 
-  Selectable<Participant> selectParticiapnsBySpecialty({required int id}) {
-    return customSelect('SELECT * FROM Participants WHERE specialty_id = ?1',
-        variables: [
-          Variable<int>(id)
-        ],
-        readsFrom: {
-          participants,
-        }).asyncMap(participants.mapFromRow);
-  }
-
-  Selectable<Participant> selectParticiapntsByDivision({required int id}) {
-    return customSelect('SELECT * FROM Participants WHERE division_id = ?1',
-        variables: [
-          Variable<int>(id)
-        ],
-        readsFrom: {
-          participants,
-        }).asyncMap(participants.mapFromRow);
-  }
-
-  Selectable<Participant> selectParticiapntsByDivisionAndSpecialty(
-      {required int divisionId, required int specialtyId}) {
+  Selectable<SelectParticiapnsBySpecialtyResult> selectParticiapnsBySpecialty(
+      {required int id}) {
     return customSelect(
-        'SELECT * FROM Participants WHERE division_id = ?1 AND specialty_id = ?2',
+        'SELECT Participants.*, DivingSpecialties.specialty_name, DivingDivisions.division_name FROM Participants INNER JOIN DivingSpecialties ON DivingSpecialties.specialty_id = Participants.specialty_id INNER JOIN DivingDivisions ON DivingDivisions.division_id = Participants.division_id WHERE Participants.specialty_id = ?1',
+        variables: [
+          Variable<int>(id)
+        ],
+        readsFrom: {
+          divingSpecialties,
+          divingDivisions,
+          participants,
+        }).map((QueryRow row) {
+      return SelectParticiapnsBySpecialtyResult(
+        participantId: row.read<int>('participant_id'),
+        participantName: row.read<String>('participant_name'),
+        birthDate: row.read<DateTime>('birth_date'),
+        divisionId: row.read<int>('division_id'),
+        specialtyId: row.read<int>('specialty_id'),
+        specialtyName: row.read<String>('specialty_name'),
+        divisionName: row.read<String>('division_name'),
+      );
+    });
+  }
+
+  Selectable<SelectParticiapntsByDivisionResult> selectParticiapntsByDivision(
+      {required int id}) {
+    return customSelect(
+        'SELECT Participants.*, DivingSpecialties.specialty_name, DivingDivisions.division_name FROM Participants INNER JOIN DivingSpecialties ON DivingSpecialties.specialty_id = Participants.specialty_id INNER JOIN DivingDivisions ON DivingDivisions.division_id = Participants.division_id WHERE Participants.division_id = ?1',
+        variables: [
+          Variable<int>(id)
+        ],
+        readsFrom: {
+          divingSpecialties,
+          divingDivisions,
+          participants,
+        }).map((QueryRow row) {
+      return SelectParticiapntsByDivisionResult(
+        participantId: row.read<int>('participant_id'),
+        participantName: row.read<String>('participant_name'),
+        birthDate: row.read<DateTime>('birth_date'),
+        divisionId: row.read<int>('division_id'),
+        specialtyId: row.read<int>('specialty_id'),
+        specialtyName: row.read<String>('specialty_name'),
+        divisionName: row.read<String>('division_name'),
+      );
+    });
+  }
+
+  Selectable<SelectParticiapntsByDivisionAndSpecialtyResult>
+      selectParticiapntsByDivisionAndSpecialty(
+          {required int divisionId, required int specialtyId}) {
+    return customSelect(
+        'SELECT Participants.*, DivingSpecialties.specialty_name, DivingDivisions.division_name FROM Participants INNER JOIN DivingSpecialties ON DivingSpecialties.specialty_id = Participants.specialty_id INNER JOIN DivingDivisions ON DivingDivisions.division_id = Participants.division_id WHERE Participants.division_id = ?1 AND Participants.specialty_id = ?2',
         variables: [
           Variable<int>(divisionId),
           Variable<int>(specialtyId)
         ],
         readsFrom: {
+          divingSpecialties,
+          divingDivisions,
           participants,
-        }).asyncMap(participants.mapFromRow);
+        }).map((QueryRow row) {
+      return SelectParticiapntsByDivisionAndSpecialtyResult(
+        participantId: row.read<int>('participant_id'),
+        participantName: row.read<String>('participant_name'),
+        birthDate: row.read<DateTime>('birth_date'),
+        divisionId: row.read<int>('division_id'),
+        specialtyId: row.read<int>('specialty_id'),
+        specialtyName: row.read<String>('specialty_name'),
+        divisionName: row.read<String>('division_name'),
+      );
+    });
   }
 
   @override
@@ -1162,4 +1269,120 @@ abstract class _$AppDb extends GeneratedDatabase {
   @override
   List<DatabaseSchemaEntity> get allSchemaEntities =>
       [divingSpecialties, divingDivisions, participants, scores, scoreIdx];
+}
+
+class SelectCompetitionScoresResult {
+  final int participantId;
+  final int divisionId;
+  final int specialtyId;
+  final DateTime scoreDate;
+  final double score;
+  final String specialtyName;
+  final String divisionName;
+  final String participantName;
+  SelectCompetitionScoresResult({
+    required this.participantId,
+    required this.divisionId,
+    required this.specialtyId,
+    required this.scoreDate,
+    required this.score,
+    required this.specialtyName,
+    required this.divisionName,
+    required this.participantName,
+  });
+}
+
+class SearchParticipantsByNameResult {
+  final int participantId;
+  final String participantName;
+  final DateTime birthDate;
+  final int divisionId;
+  final int specialtyId;
+  final String specialtyName;
+  final String divisionName;
+  SearchParticipantsByNameResult({
+    required this.participantId,
+    required this.participantName,
+    required this.birthDate,
+    required this.divisionId,
+    required this.specialtyId,
+    required this.specialtyName,
+    required this.divisionName,
+  });
+}
+
+class SelectParticiapntsResult {
+  final int participantId;
+  final String participantName;
+  final DateTime birthDate;
+  final int divisionId;
+  final int specialtyId;
+  final String specialtyName;
+  final String divisionName;
+  SelectParticiapntsResult({
+    required this.participantId,
+    required this.participantName,
+    required this.birthDate,
+    required this.divisionId,
+    required this.specialtyId,
+    required this.specialtyName,
+    required this.divisionName,
+  });
+}
+
+class SelectParticiapnsBySpecialtyResult {
+  final int participantId;
+  final String participantName;
+  final DateTime birthDate;
+  final int divisionId;
+  final int specialtyId;
+  final String specialtyName;
+  final String divisionName;
+  SelectParticiapnsBySpecialtyResult({
+    required this.participantId,
+    required this.participantName,
+    required this.birthDate,
+    required this.divisionId,
+    required this.specialtyId,
+    required this.specialtyName,
+    required this.divisionName,
+  });
+}
+
+class SelectParticiapntsByDivisionResult {
+  final int participantId;
+  final String participantName;
+  final DateTime birthDate;
+  final int divisionId;
+  final int specialtyId;
+  final String specialtyName;
+  final String divisionName;
+  SelectParticiapntsByDivisionResult({
+    required this.participantId,
+    required this.participantName,
+    required this.birthDate,
+    required this.divisionId,
+    required this.specialtyId,
+    required this.specialtyName,
+    required this.divisionName,
+  });
+}
+
+class SelectParticiapntsByDivisionAndSpecialtyResult {
+  final int participantId;
+  final String participantName;
+  final DateTime birthDate;
+  final int divisionId;
+  final int specialtyId;
+  final String specialtyName;
+  final String divisionName;
+  SelectParticiapntsByDivisionAndSpecialtyResult({
+    required this.participantId,
+    required this.participantName,
+    required this.birthDate,
+    required this.divisionId,
+    required this.specialtyId,
+    required this.specialtyName,
+    required this.divisionName,
+  });
 }

@@ -1,25 +1,25 @@
 CREATE TABLE DivingSpecialties(
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    name TEXT NOT NULL
+    specialty_id INTEGER PRIMARY KEY AUTOINCREMENT,
+    specialty_name TEXT NOT NULL
 );
 
 CREATE TABLE DivingDivisions(
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    name TEXT NOT NULL
+    division_id INTEGER PRIMARY KEY AUTOINCREMENT,
+    division_name TEXT NOT NULL
 );
 
 CREATE TABLE Participants(
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    participant_id INTEGER PRIMARY KEY AUTOINCREMENT,
     participant_name TEXT NOT NULL,
     birth_date Date NOT NULL,
-    division_id INTEGER NOT NULL REFERENCES DivingDivisions(id),
-    specialty_id INTEGER NOT NULL REFERENCES DivingSpecialties(id)
+    division_id INTEGER NOT NULL REFERENCES DivingDivisions(division_id),
+    specialty_id INTEGER NOT NULL REFERENCES DivingSpecialties(specialty_id)
 );
 
 CREATE TABLE Scores(
-    participant_id INTEGER NOT NULL REFERENCES Participants(id),
-    division_id INTEGER NOT NULL REFERENCES DivingDivisions(id),
-    specialty_id INTEGER NOT NULL REFERENCES DivingSpecialties(id),
+    participant_id INTEGER NOT NULL REFERENCES Participants(participant_id),
+    division_id INTEGER NOT NULL REFERENCES DivingDivisions(division_id),
+    specialty_id INTEGER NOT NULL REFERENCES DivingSpecialties(specialty_id),
     score_date Date NOT NULL DEFAULT (CURRENT_DATE),
     score REAL NOT NULL,
     PRIMARY KEY (participant_id, division_id, specialty_id)
@@ -63,7 +63,7 @@ SET
     division_id = :divisionId,
     specialty_id = :specialtyId
 WHERE
-    id = :id;
+    participant_id = :id;
 
 createScore(
     REQUIRED :participantId AS INTEGER,
@@ -107,7 +107,7 @@ WHERE
 
 createDivingSpecialties(REQUIRED :name AS TEXT):
 INSERT INTO
-    DivingSpecialties(name)
+    DivingSpecialties(specialty_name)
 values
     (:name);
 
@@ -115,13 +115,13 @@ updateDivingSpecialties(REQUIRED :id AS INTEGER, REQUIRED :name AS TEXT):
 UPDATE
     DivingSpecialties
 SET
-    name = :name
+    specialty_name = :name
 WHERE
-    id = :id;
+    specialty_id = :id;
 
 createDivingDivisions(REQUIRED :name AS TEXT):
 INSERT INTO
-    DivingDivisions(name)
+    DivingDivisions(division_name)
 values
     (:name);
 
@@ -129,15 +129,21 @@ updateDivingDivisions(REQUIRED :id AS INTEGER, REQUIRED :name AS TEXT):
 UPDATE
     DivingDivisions
 SET
-    name = :name
+    division_name = :name
 WHERE
-    id = :id;
+    division_id = :id;
 
 selectCompetitionScores:
 SELECT
-    *
+    Scores.*,
+    DivingSpecialties.specialty_name,
+    DivingDivisions.division_name,
+    Participants.participant_name
 FROM
     Scores
+    INNER JOIN DivingSpecialties USING (specialty_id)
+    INNER JOIN DivingDivisions USING (division_id)
+    INNER JOIN Participants USING (participant_id)
 ORDER BY
     score DESC;
 
@@ -155,42 +161,64 @@ FROM
 
 searchParticipantsByName(REQUIRED :name AS TEXT):
 SELECT
-    *
+    Participants.*,
+    DivingSpecialties.specialty_name,
+    DivingDivisions.division_name
 FROM
     Participants
+  
+    INNER JOIN DivingSpecialties on DivingSpecialties.specialty_id = Participants.specialty_id
+    INNER JOIN DivingDivisions on DivingDivisions.division_id = Participants.division_id
 WHERE
     participant_name LIKE :name;
 
 selectParticiapnts:
 SELECT
-    *
+    Participants.*,
+    DivingSpecialties.specialty_name,
+    DivingDivisions.division_name
 FROM
-    Participants;
+    Participants
+    
+    INNER JOIN DivingSpecialties on DivingSpecialties.specialty_id = Participants.specialty_id
+    INNER JOIN DivingDivisions on DivingDivisions.division_id = Participants.division_id;
 
 selectParticiapnsBySpecialty(REQUIRED :id AS INTEGER):
 SELECT
-    *
+    Participants.*,
+    DivingSpecialties.specialty_name,
+    DivingDivisions.division_name
 FROM
     Participants
+    INNER JOIN DivingSpecialties on DivingSpecialties.specialty_id = Participants.specialty_id
+    INNER JOIN DivingDivisions on DivingDivisions.division_id = Participants.division_id
 where
-    specialty_id = :id;
+    Participants.specialty_id = :id;
 
 selectParticiapntsByDivision(REQUIRED :id AS INTEGER):
 SELECT
-    *
+    Participants.*,
+    DivingSpecialties.specialty_name,
+    DivingDivisions.division_name
 FROM
     Participants
+    INNER JOIN DivingSpecialties on DivingSpecialties.specialty_id = Participants.specialty_id
+    INNER JOIN DivingDivisions on DivingDivisions.division_id = Participants.division_id
 where
-    division_id = :id;
+    Participants.division_id = :id;
 
 selectParticiapntsByDivisionAndSpecialty (
     REQUIRED :division_id AS INTEGER,
     REQUIRED :specialty_id AS INTEGER
 ):
 SELECT
-    *
+    Participants.*,
+    DivingSpecialties.specialty_name,
+    DivingDivisions.division_name
 FROM
     Participants
+    INNER JOIN DivingSpecialties on DivingSpecialties.specialty_id = Participants.specialty_id
+    INNER JOIN DivingDivisions on DivingDivisions.division_id = Participants.division_id
 where
-    division_id = :division_id
-    AND specialty_id = :specialty_id;
+    Participants.division_id = :division_id
+    AND Participants.specialty_id = :specialty_id;

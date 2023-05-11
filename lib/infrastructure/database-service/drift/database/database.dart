@@ -11,10 +11,9 @@ part 'database.g.dart';
 class AppDb extends _$AppDb {
   static AppDb? _instance;
 
-
   AppDb._() : super(_openConnection());
 
-  factory AppDb.instance(){
+  factory AppDb.instance() {
     _instance ??= AppDb._();
 
     return _instance!;

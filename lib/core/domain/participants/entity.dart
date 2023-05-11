@@ -7,6 +7,8 @@ class ParticipantEntity {
   final ParticipantName participantName;
   final ParticipantBirthDate participantBirthDate;
   final DivisionId divisionId;
+  final DivisionName divisionName;
+  final SpecialtyName specialtyName;
   final SpecialtyId specialtyId;
 
   ParticipantEntity(
@@ -14,5 +16,8 @@ class ParticipantEntity {
       required this.participantName,
       required this.participantBirthDate,
       required this.divisionId,
-      required this.specialtyId});
+      required this.specialtyId,
+      
+      required this.divisionName, required this.specialtyName, 
+      });
 }

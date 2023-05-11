@@ -60,8 +60,8 @@ class _ParticipantsTableState extends State<ParticipantsTable> {
         DataCell(Text(participant.participantName.value)),
         DataCell(Text(
             formatDateTimeToDisplay(participant.participantBirthDate.value))),
-        DataCell(Text(participant.divisionId.value.toString())),
-        DataCell(Text(participant.specialtyId.value.toString())),
+        DataCell(Text(participant.divisionName.value)),
+        DataCell(Text(participant.specialtyName.value)),
       ],
     );
   }

@@ -7,22 +7,26 @@ import 'login_form.dart';
 class LoginPage extends StatelessWidget {
   const LoginPage({super.key});
 
-  final logoFlex = 2;
+  final logoFlex = 1;
+  final formFlex = 3;
+
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Padding(
-        padding: const EdgeInsets.all(AppMeasures.paddings),
+        padding: const EdgeInsets.all(AppMeasures.paddingsLarge),
         child: Center(
           child: Column(
+            mainAxisSize: MainAxisSize.min,
             children: [
-              Expanded(
+              Flexible(
                 flex: logoFlex,
                 child: const AppLogo(),
               ),
-              const Flexible(
-                child: LoginForm(),
+               Flexible(
+                flex : formFlex,
+                child: const LoginForm(),
               ),
             ],
           ),

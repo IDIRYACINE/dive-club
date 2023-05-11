@@ -1,6 +1,8 @@
 import 'package:dive_club/application/commons/utility/formaters.dart';
 import 'package:dive_club/application/features/competition/ui/forms.dart';
+import 'package:dive_club/application/features/divisions/feature.dart';
 import 'package:dive_club/application/features/participants/ui/forms.dart';
+import 'package:dive_club/application/features/specialties/feature.dart';
 import 'package:dive_club/application/navigation/feature.dart';
 import 'package:dive_club/core/domain/diving/entity.dart';
 import 'package:dive_club/core/domain/diving/export.dart';
@@ -61,13 +63,20 @@ class ParticipantController {
     final isFormValid = key.currentState!.validate();
     if (isFormValid) {
       final bloc = BlocProvider.of<ParticipantBloc>(context);
+      final divisionBloc = BlocProvider.of<DivisionBloc>(context);
+      final specialtyBloc = BlocProvider.of<SpecialtyBloc>(context);
+
+      final divisionId = _data.division!.divisionId;
+      final specialtyId = _data.specialty!.specialtyId;
 
       final entity = ParticipantEntity(
           participantId: ParticipantId(bloc.state.participants.length + 1),
           participantName: ParticipantName(_data.name),
-          divisionId: _data.division!.divisionId,
+          divisionId: divisionId,
           participantBirthDate: ParticipantBirthDate(_data.birthDate),
-          specialtyId: _data.specialty!.specialtyId);
+          specialtyId: specialtyId,
+          divisionName: divisionBloc.state.divisionById(divisionId).divisionName,
+          specialtyName: specialtyBloc.state.specialtyById(specialtyId).specialtyName);
 
       _registerParticipant(entity);
 
@@ -88,13 +97,12 @@ class ParticipantController {
     NavigationService.displayDialog(dialog);
   }
 
-  Future<void> printParticipants(ParticipantBloc bloc,BuildContext context) async {
-    
-
+  Future<void> printParticipants(
+      ParticipantBloc bloc, BuildContext context) async {
     final printer = ParticipantsPrinter();
     printer.prepareNewDocument();
-    printer.createDocument(bloc.state.participants);
-    printer.displayPreview(context);
+    await printer.createDocument(bloc.state.participants);
+    printer.displayPreview();
   }
 
   void updateDivision(DivingDivisionEntity? item) {
@@ -146,11 +154,10 @@ class RowController {
 
 Future<void> _registerParticipant(ParticipantEntity entity) async {
   final options = CreateParticipantOptions(
-      participant: Participant(
-          id: entity.participantId.value,
-          name: entity.participantName.value,
-          birthDate: entity.participantBirthDate.value,
-          divisionId: entity.divisionId.value,
-          specialityId: entity.specialtyId.value));
+      id: entity.participantId.value,
+      name: entity.participantName.value,
+      birthDate: entity.participantBirthDate.value,
+      divisionId: entity.divisionId.value,
+      specialityId: entity.specialtyId.value);
   ServicesProvider.instance().databasePort.insertParticipant(options);
 }

@@ -6,16 +6,17 @@ import 'package:pdf/widgets.dart' as pw;
 class RankingsPage extends pw.StatelessWidget {
   final List<CompetitionScoreEntity> participants;
 
-  RankingsPage(this.participants);
+  RankingsPage(
+    this.participants,
+  );
 
   pw.TableRow _buildHeaderRow() {
     return pw.TableRow(
       children: [
-        pw.Text('Name'),
-        pw.Text('Birth Date'),
-        pw.Text('Division'),
-        pw.Text('Specialty'),
-        pw.Text('Score'),
+        pw.Text('Name', textDirection: pw.TextDirection.rtl),
+        pw.Text('Division', textDirection: pw.TextDirection.rtl),
+        pw.Text('Specialty', textDirection: pw.TextDirection.rtl),
+        pw.Text('Score', textDirection: pw.TextDirection.rtl),
       ],
     );
   }
@@ -29,11 +30,15 @@ class RankingsPage extends pw.StatelessWidget {
       rows.add(
         pw.TableRow(
           children: [
-            pw.Text("participant.participantName.value"),
-            pw.Text("formatDateTimeToDisplay(participant.birthDate.value)"),
-            pw.Text("participant.division.value.toString()"),
-            pw.Text("participant.specialty.value.toString()"),
-            pw.Text("participant.score.value.toString()"),
+            pw.Text(participant.participantName.value,
+                textDirection: pw.TextDirection.rtl),
+            pw.Text(participant.divisionName.value,
+                textDirection: pw.TextDirection.rtl),
+            pw.Text(participant.specialtyName.value,
+                textDirection: pw.TextDirection.rtl),
+            pw.Text(
+              participant.score.value.toString(),
+            textDirection: pw.TextDirection.rtl ),
           ],
         ),
       );
@@ -70,7 +75,9 @@ class CertificatePage extends pw.StatelessWidget {
         pw.Positioned(
           top: 100,
           left: 100,
-          child: pw.Text("name"),
+          child: pw.Text(
+            participant.participantName.value,
+          ),
         ),
       ],
     );

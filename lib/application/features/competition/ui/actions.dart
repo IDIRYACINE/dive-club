@@ -29,12 +29,12 @@ class CompetitionActions extends StatelessWidget {
         Row(
           children: [
             ButtonPrimary(
-              onPressed: () => controller.printRakings(bloc, context),
+              onPressed: () => controller.printRakings(bloc, ),
               text: localizations.printRankingsLabel,
             ),
             const SizedBox(width: 10),
             ButtonPrimary(
-              onPressed: () => controller.printPrizes(bloc, context),
+              onPressed: () => controller.printPrizes(bloc, ),
               text: localizations.printPrizesLabel,
             ),
           ],

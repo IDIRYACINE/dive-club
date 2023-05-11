@@ -1,7 +1,7 @@
 
 
 abstract class AppMeasures{
-
+  static const paddingsLarge = 32.0;
   static const paddings = 16.0;
 
   static const double paddingSmall = 8.0;

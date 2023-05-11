@@ -1,7 +1,9 @@
 import 'package:dive_club/core/infrastrucutre/database/export.dart';
-import 'package:dive_club/infrastructure/database-service/drift/helpers.dart';
+import 'package:dive_club/infrastructure/database-service/drift/mappers/division_mapper.dart';
 
 import 'database/database.dart';
+import 'mappers/participant_mapper.dart';
+import 'mappers/score_mapper.dart';
 
 class DriftDatabaseService implements DatabasePort {
   final AppDb _database = AppDb.instance();
@@ -32,10 +34,10 @@ class DriftDatabaseService implements DatabasePort {
       CreateParticipantOptions options) async {
     return _database
         .createParticipant(
-            name: options.participant.name,
-            birthDate: options.participant.birthDate,
-            divisionId: options.participant.divisionId,
-            specialtyId: options.participant.specialityId)
+            name: options.name,
+            birthDate: options.birthDate,
+            divisionId: options.divisionId,
+            specialtyId: options.specialityId)
         .then((value) {
       return DatabaseOperationResult();
     });
@@ -44,14 +46,13 @@ class DriftDatabaseService implements DatabasePort {
   @override
   Future<DatabaseOperationResult> insertScore(
       CreateScoreOptions options) async {
-    final score = options.score;
     return _database
         .createScore(
-            participantId: score.participantId,
-            date: score.date,
-            divisionId: score.divisionId,
-            specialtyId: score.specialityId,
-            score: score.score)
+            participantId: options.participantId,
+            date: options.date,
+            divisionId: options.divisionId,
+            specialtyId: options.specialityId,
+            score: options.score)
         .then((value) => DatabaseOperationResult());
   }
 
@@ -60,7 +61,7 @@ class DriftDatabaseService implements DatabasePort {
       LoadCompetitionScoresOptions options) async {
     return _database.selectCompetitionScores().get().then((value) =>
         LoadCompetitionScoresResult(
-            scores: mapToDomainScores(value, _mapperService.scoreMapper)));
+            scores: ScoreMapper.fromSelect(value, _mapperService.scoreMapper)));
   }
 
   @override
@@ -85,7 +86,7 @@ class DriftDatabaseService implements DatabasePort {
     if (options.divisionId == null && options.specialityId == null) {
       return _database.selectParticiapnts().get().then((value) =>
           LoadParticipantsResult(
-              participants: mapToDomainParticipants(
+              participants: ParticipantMapper.fromSelectParticipant(
                   value, _mapperService.participantMapper)));
     }
     if (options.divisionId != null && options.specialityId == null) {
@@ -93,7 +94,7 @@ class DriftDatabaseService implements DatabasePort {
           .selectParticiapntsByDivision(id: options.divisionId!)
           .get()
           .then((value) => LoadParticipantsResult(
-              participants: mapToDomainParticipants(
+              participants: ParticipantMapper.fromSelectByDivision(
                   value, _mapperService.participantMapper)));
     }
     if (options.divisionId == null && options.specialityId != null) {
@@ -101,7 +102,7 @@ class DriftDatabaseService implements DatabasePort {
           .selectParticiapnsBySpecialty(id: options.specialityId!)
           .get()
           .then((value) => LoadParticipantsResult(
-              participants: mapToDomainParticipants(
+              participants: ParticipantMapper.fromSelectBySpecialty(
                   value, _mapperService.participantMapper)));
     }
 
@@ -110,7 +111,7 @@ class DriftDatabaseService implements DatabasePort {
             divisionId: options.divisionId!, specialtyId: options.specialityId!)
         .get()
         .then((value) => LoadParticipantsResult(
-            participants: mapToDomainParticipants(
+            participants: ParticipantMapper.fromSelectBySpecialtyAndDivision(
                 value, _mapperService.participantMapper)));
   }
 

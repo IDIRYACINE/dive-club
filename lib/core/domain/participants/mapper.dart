@@ -11,7 +11,9 @@ class ParticipantMapper
         participantName: ParticipantName(persistance.name),
         participantBirthDate: ParticipantBirthDate(persistance.birthDate),
         divisionId: DivisionId(persistance.divisionId),
-        specialtyId: SpecialtyId(persistance.specialityId));
+        specialtyId: SpecialtyId(persistance.specialityId),
+        divisionName: DivisionName(persistance.divisionName),
+        specialtyName: SpecialtyName(persistance.specialityName));
   }
 
   @override

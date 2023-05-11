@@ -19,5 +19,9 @@ class DivisionState{
   factory DivisionState.initial(){
     return DivisionState([]);
   }
+
+  DivingDivisionEntity divisionById(DivisionId divisionId) {
+    return divisions.firstWhere((element) => element.divisionId.value == divisionId.value);
+  }
   
 }

@@ -1,4 +1,6 @@
 import 'package:dive_club/application/features/competition/logic/printer.dart';
+import 'package:dive_club/application/features/divisions/feature.dart';
+import 'package:dive_club/application/features/specialties/feature.dart';
 import 'package:dive_club/application/navigation/feature.dart';
 import 'package:dive_club/core/domain/competition/export.dart';
 import 'package:dive_club/core/domain/participants/export.dart';
@@ -34,12 +36,20 @@ class ScoreController {
     final isFormValid = key.currentState!.validate();
     if (isFormValid) {
       final bloc = BlocProvider.of<CompetitionBloc>(context);
+      final divisionBloc = BlocProvider.of<DivisionBloc>(context);
+      final specialtyBloc = BlocProvider.of<SpecialtyBloc>(context);
+
+      final divisionId = _data.participant!.divisionId;
+      final specialtyId = _data.participant!.specialtyId;
 
       final entity = CompetitionScoreEntity(
-        specialtyId: _data.participant!.specialtyId,
-        divisionId: _data.participant!.divisionId,
+        specialtyId: specialtyId,
+        divisionId: divisionId,
         participantId: _data.participant!.participantId,
         score: _data.score!,
+        divisionName: divisionBloc.state.divisionById(divisionId).divisionName,
+        participantName: _data.participant!.participantName,
+        specialtyName: specialtyBloc.state.specialtyById(specialtyId).specialtyName,
       );
 
       _registerCompetitionScore(entity);
@@ -53,27 +63,27 @@ class ScoreController {
 
   Future<void> _registerCompetitionScore(CompetitionScoreEntity entity) async {
     final options = CreateScoreOptions(
-        score: CompetitionScore(
-            participantId: entity.participantId.value,
-            divisionId: entity.divisionId.value,
-            specialityId: entity.specialtyId.value,
-            score: entity.score.value,
-            date: DateTime.now()));
+      participantId: entity.participantId.value,
+      divisionId: entity.divisionId.value,
+      specialityId: entity.specialtyId.value,
+      score: entity.score.value,
+      date: DateTime.now(),
+    );
     ServicesProvider.instance().databasePort.insertScore(options);
   }
 
-  void printRakings(CompetitionBloc bloc, BuildContext context) async {
+  void printRakings(CompetitionBloc bloc, ) async {
     final printer = CompetitionPrinter();
     printer.prepareNewDocument();
-    printer.createRankingsDocument(bloc.state.scores);
-    printer.displayPreview(context);
+    await printer.createRankingsDocument(bloc.state.scores);
+    printer.displayPreview();
   }
 
-  void printPrizes(CompetitionBloc bloc, BuildContext context) async {
+  void printPrizes(CompetitionBloc bloc) async {
     final printer = CompetitionPrinter();
     printer.prepareNewDocument();
-    printer.createCertifiactesDocument(bloc.state.scores);
-    printer.displayPreview(context);
+    await printer.createCertifiactesDocument(bloc.state.scores);
+    printer.displayPreview();
   }
 
   void updateScore(String? value) {
@@ -81,4 +91,6 @@ class ScoreController {
 
     _data.score = Score.fromString(value);
   }
+
+
 }

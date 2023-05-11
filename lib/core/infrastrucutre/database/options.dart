@@ -1,4 +1,3 @@
-import 'value_objects.dart';
 
 class SearchParticipantOptions {
   final String name;
@@ -23,17 +22,33 @@ class UpdateScoreOptions {
 }
 
 class CreateScoreOptions {
-  final CompetitionScore score;
-
+  final int participantId;
+  final int divisionId;
+  final int specialityId;
+  final double score;
+  final DateTime date;
   CreateScoreOptions({
+    required this.participantId,
+    required this.divisionId,
+    required this.specialityId,
     required this.score,
+    required this.date,
   });
 }
 
 class CreateParticipantOptions {
-  final Participant participant;
+  final int id;
+  final String name;
+  final DateTime birthDate;
+  final int divisionId;
+  final int specialityId;
+
   CreateParticipantOptions({
-    required this.participant,
+    required this.divisionId,
+    required this.id,
+    required this.name,
+    required this.birthDate,
+    required this.specialityId,
   });
 }
 
@@ -71,23 +86,16 @@ class UpdateDivingSpecialityOptions {
   });
 }
 
-class LoadParticipantsOptions{
+class LoadParticipantsOptions {
   final int? specialityId;
   final int? divisionId;
 
-  LoadParticipantsOptions({
-    this.divisionId,
-    this.specialityId
-  });
+  LoadParticipantsOptions({this.divisionId, this.specialityId});
 }
 
-
-class LoadCompetitionScoresOptions{
+class LoadCompetitionScoresOptions {
   final int? specialityId;
   final int? divisionId;
 
-  LoadCompetitionScoresOptions({
-    this.divisionId,
-    this.specialityId
-  });
+  LoadCompetitionScoresOptions({this.divisionId, this.specialityId});
 }

@@ -24,8 +24,8 @@ class CompetitionTable extends StatelessWidget {
           return null;
         }),
         cells: [
-          DataCell(Text(index.toString())),
-          DataCell(Text(score.participantId.value.toString())),
+          DataCell(Text((index+1).toString())),
+          DataCell(Text(score.participantName.value)),
           DataCell(Text(score.score.value.toString())),
         ],
         onSelectChanged: (isSelected) {});

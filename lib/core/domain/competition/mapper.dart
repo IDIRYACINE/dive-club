@@ -13,7 +13,10 @@ class ScoreMapper
         participantId: ParticipantId(persistance.participantId),
         divisionId: DivisionId(persistance.divisionId),
         specialtyId: SpecialtyId(persistance.specialityId),
-        score: Score(persistance.score));
+        score: Score(persistance.score),
+         divisionName: DivisionName(persistance.divisionName), 
+         participantName: ParticipantName(persistance.participantName), 
+         specialtyName: SpecialtyName(persistance.specialtyName));
   }
 
   @override
