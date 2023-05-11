@@ -8,21 +8,22 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../state/bloc.dart';
 import '../state/events.dart';
-import '../ui/forms.dart';
 
 class ScoreDataHolder {
   Score? score;
   ParticipantEntity? participant;
 
-  ScoreDataHolder();
+  ScoreDataHolder([this.participant]);
 }
 
 class ScoreController {
   static final key = GlobalKey<FormState>();
 
-  ScoreController();
+  ScoreController([ParticipantEntity? entity]) {
+    _data = ScoreDataHolder(entity);
+  }
 
-  final ScoreDataHolder _data = ScoreDataHolder();
+  late ScoreDataHolder _data;
 
   void onCancel() {
     NavigationService.pop();
@@ -49,10 +50,6 @@ class ScoreController {
     }
   }
 
-  void addScore() {
-    const dialog = ScoreDialog();
-    NavigationService.displayDialog(dialog);
-  }
 
   Future<void> _registerCompetitionScore(CompetitionScoreEntity entity) async {
     final options = CreateScoreOptions(
@@ -75,3 +72,4 @@ class ScoreController {
     _data.score = Score.fromString(value);
   }
 }
+

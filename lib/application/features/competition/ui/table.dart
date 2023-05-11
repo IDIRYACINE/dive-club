@@ -13,22 +13,22 @@ class CompetitionTable extends StatelessWidget {
     CompetitionScoreEntity score = scores[index];
 
     return DataRow(
-      color: MaterialStateProperty.resolveWith<Color?>(
-          (Set<MaterialState> states) {
-        if (states.contains(MaterialState.selected)) {
-          return theme.colorScheme.primary.withOpacity(0.08);
-        }
-        if (index.isEven) {
-          return Colors.grey.withOpacity(0.3);
-        }
-        return null;
-      }),
-      cells: [
-        DataCell(Text(index.toString())),
-        DataCell(Text(score.participantId.value.toString())),
-        DataCell(Text(score.score.value.toString())),
-      ],
-    );
+        color: MaterialStateProperty.resolveWith<Color?>(
+            (Set<MaterialState> states) {
+          if (states.contains(MaterialState.selected)) {
+            return theme.colorScheme.primary.withOpacity(0.08);
+          }
+          if (index.isEven) {
+            return Colors.grey.withOpacity(0.3);
+          }
+          return null;
+        }),
+        cells: [
+          DataCell(Text(index.toString())),
+          DataCell(Text(score.participantId.value.toString())),
+          DataCell(Text(score.score.value.toString())),
+        ],
+        onSelectChanged: (isSelected) {});
   }
 
   @override
@@ -40,6 +40,7 @@ class CompetitionTable extends StatelessWidget {
       widthPercentage: AppMeasures.tableWidthPercentage,
       child: SingleChildScrollView(
         child: DataTable(
+          showCheckboxColumn: false,
           decoration: BoxDecoration(
             border: Border.all(color: theme.primaryColor, width: 1),
             borderRadius: const BorderRadius.all(Radius.circular(5)),

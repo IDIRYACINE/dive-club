@@ -1,16 +1,16 @@
 import 'package:dive_club/application/commons/utility/validators.dart';
 import 'package:dive_club/application/commons/widgets/buttons.dart';
+import 'package:dive_club/core/domain/diving/entity.dart';
 import 'package:dive_club/resources/l10n/l10n.dart';
 import 'package:flutter/material.dart';
 
 import '../logic/form_controller.dart';
 
 class SpecialtyForm extends StatelessWidget {
-  const SpecialtyForm({Key? key}) : super(key: key);
-
+  const SpecialtyForm({Key? key, required this.controller}) : super(key: key);
+  final SpecialtyController controller;
   @override
   Widget build(BuildContext context) {
-    final controller = SpecialtyController();
     final localizations = AppLocalizations.of(context)!;
 
     return Form(
@@ -22,7 +22,7 @@ class SpecialtyForm extends StatelessWidget {
             decoration: InputDecoration(
               labelText: localizations.nameLabel,
             ),
-            onChanged: controller.updateName,
+            controller: controller.nameController,
             validator: validatorEmptyText,
           ),
           const SizedBox(
@@ -39,15 +39,27 @@ class SpecialtyForm extends StatelessWidget {
 }
 
 class SpecialtyDialog extends StatelessWidget {
-  const SpecialtyDialog({Key? key}) : super(key: key);
+  const SpecialtyDialog({Key? key, this.entity}) : super(key: key);
+
+  final DivingSpecialtyEntity? entity;
 
   @override
   Widget build(BuildContext context) {
     final localizations = AppLocalizations.of(context)!;
+    final controller = SpecialtyController(entity);
+    final isCreate = entity == null;
+
+    if(!isCreate){
+      controller.updateName(entity!.specialtyName.value);
+    }
 
     return AlertDialog(
-      title: Text(localizations.addSpecialityLabel),
-      content: const SpecialtyForm(),
+      title: Text(isCreate
+          ? localizations.addSpecialityLabel
+          : localizations.updateSpecialtyLabel),
+      content: SpecialtyForm(
+        controller: controller,
+      ),
     );
   }
 }

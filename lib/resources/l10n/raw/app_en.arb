@@ -24,5 +24,9 @@
     "printPrizesLabel" : "Print Prizes",
     "participantRankingLabel" : "Participant Ranking",
     "participantNameLabel" : "Participant Name",
-    "participantScoreLabel" : "Participant Score"
+    "participantScoreLabel" : "Participant Score",
+    "updateDivisionLabel" : "Update Division",
+    "updateSpecialtyLabel" : "Update Specialty",
+    "addScoreLabel" : "Add Participant Score",
+    "updateScoreLabel" : "Update Participant Score"
 }

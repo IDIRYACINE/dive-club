@@ -1,4 +1,5 @@
 import 'package:dive_club/application/commons/utility/formaters.dart';
+import 'package:dive_club/application/features/competition/ui/forms.dart';
 import 'package:dive_club/application/features/participants/ui/forms.dart';
 import 'package:dive_club/application/navigation/feature.dart';
 import 'package:dive_club/core/domain/diving/entity.dart';
@@ -11,6 +12,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../state/bloc.dart';
 import '../state/events.dart';
+import 'options.dart';
 
 class RegistrationDataHolder {
   String name;
@@ -46,8 +48,7 @@ class ParticipantController {
 
     if (date != null) {
       _data.birthDate = date;
-      _data.birthDateTextController.text =
-         formatDateTimeToDisplay(date);
+      _data.birthDateTextController.text = formatDateTimeToDisplay(date);
     }
   }
 
@@ -93,15 +94,58 @@ class ParticipantController {
   void updateSpecialty(DivingSpecialtyEntity? item) {
     _data.specialty = item;
   }
+}
 
-  Future<void> _registerParticipant(ParticipantEntity entity) async {
-    final options = CreateParticipantOptions(
-        participant: Participant(
-            id: entity.participantId.value,
-            name: entity.participantName.value,
-            birthDate: entity.participantBirthDate.value,
-            divisionId: entity.divisionId.value,
-            specialityId: entity.specialtyId.value));
-    ServicesProvider.instance().databasePort.insertParticipant(options);
+class RowController {
+  void addParticipantScore(ParticipantEntity entity) {
+    final dialog = ScoreDialog(entity: entity);
+    NavigationService.displayDialog(dialog);
   }
+
+  Future<void> displayActions(DisplayActionsOptions options) async {
+    final RenderBox overlay =
+        Overlay.of(options.context).context.findRenderObject() as RenderBox;
+    final RenderBox button = options.context.findRenderObject() as RenderBox;
+    final position = button.localToGlobal(Offset.zero);
+
+    final action = await showMenu(
+      context: options.context,
+      position: RelativeRect.fromLTRB(
+        position.dx,
+        position.dy + 50,
+        overlay.size.width - position.dx - button.size.width,
+        overlay.size.height - position.dy,
+      ),
+      items: const [
+        PopupMenuItem(
+          value: 'addScore',
+          child: Text('Add Score'),
+        ),
+      ],
+    );
+
+    if (action != null) {
+      switch (action) {
+        case 'addScore':
+          addParticipantScore(options.entity);
+          break;
+      }
+    }
+  }
+}
+
+Future<void> _registerParticipant(ParticipantEntity entity) async {
+  final options = CreateParticipantOptions(
+      participant: Participant(
+          id: entity.participantId.value,
+          name: entity.participantName.value,
+          birthDate: entity.participantBirthDate.value,
+          divisionId: entity.divisionId.value,
+          specialityId: entity.specialtyId.value));
+  ServicesProvider.instance().databasePort.insertParticipant(options);
+}
+
+Future<void> _addParticipantScore(
+    ParticipantEntity entity, ParticipantBloc bloc) async {
+  // TODO: implement add participant score
 }

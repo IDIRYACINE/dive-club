@@ -13,7 +13,18 @@ class SpecialtyBloc extends Bloc<SpecialityEvent, SpecialtyState> {
   }
 
   FutureOr<void> _handleUpdateSpecialityEvent(
-      UpdateSpecialtyEvent event, Emitter<SpecialtyState> emit) {}
+      UpdateSpecialtyEvent event, Emitter<SpecialtyState> emit) {
+        final newState = state.copyWith(
+          specialties: state.specialties.map((specialty) {
+            if(specialty.specialtyId.value == event.specialty.specialtyId.value) {
+              return event.specialty;
+            }
+            return specialty;
+          }).toList()
+        );
+
+        emit(newState);
+      }
 
   FutureOr<void> _handleAddSpecialityEvent(
       AddSpecialtyEvent event, Emitter<SpecialtyState> emit) {
