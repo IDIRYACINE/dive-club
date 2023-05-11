@@ -1,3 +1,4 @@
+import 'package:dive_club/application/features/competition/logic/printer.dart';
 import 'package:dive_club/application/navigation/feature.dart';
 import 'package:dive_club/core/domain/competition/export.dart';
 import 'package:dive_club/core/domain/participants/export.dart';
@@ -50,7 +51,6 @@ class ScoreController {
     }
   }
 
-
   Future<void> _registerCompetitionScore(CompetitionScoreEntity entity) async {
     final options = CreateScoreOptions(
         score: CompetitionScore(
@@ -62,9 +62,19 @@ class ScoreController {
     ServicesProvider.instance().databasePort.insertScore(options);
   }
 
-  void printRakings() {}
+  void printRakings(CompetitionBloc bloc, BuildContext context) async {
+    final printer = CompetitionPrinter();
+    printer.prepareNewDocument();
+    printer.createRankingsDocument(bloc.state.scores);
+    printer.displayPreview(context);
+  }
 
-  void printPrizes() {}
+  void printPrizes(CompetitionBloc bloc, BuildContext context) async {
+    final printer = CompetitionPrinter();
+    printer.prepareNewDocument();
+    printer.createCertifiactesDocument(bloc.state.scores);
+    printer.displayPreview(context);
+  }
 
   void updateScore(String? value) {
     if (value == null) return;
@@ -72,4 +82,3 @@ class ScoreController {
     _data.score = Score.fromString(value);
   }
 }
-

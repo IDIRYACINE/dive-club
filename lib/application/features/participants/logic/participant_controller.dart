@@ -13,6 +13,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../state/bloc.dart';
 import '../state/events.dart';
 import 'options.dart';
+import 'printer.dart';
 
 class RegistrationDataHolder {
   String name;
@@ -87,6 +88,15 @@ class ParticipantController {
     NavigationService.displayDialog(dialog);
   }
 
+  Future<void> printParticipants(ParticipantBloc bloc,BuildContext context) async {
+    
+
+    final printer = ParticipantsPrinter();
+    printer.prepareNewDocument();
+    printer.createDocument(bloc.state.participants);
+    printer.displayPreview(context);
+  }
+
   void updateDivision(DivingDivisionEntity? item) {
     _data.division = item;
   }
@@ -143,9 +153,4 @@ Future<void> _registerParticipant(ParticipantEntity entity) async {
           divisionId: entity.divisionId.value,
           specialityId: entity.specialtyId.value));
   ServicesProvider.instance().databasePort.insertParticipant(options);
-}
-
-Future<void> _addParticipantScore(
-    ParticipantEntity entity, ParticipantBloc bloc) async {
-  // TODO: implement add participant score
 }

@@ -39,6 +39,9 @@ dependencies:
   intl: any
   path_provider: ^2.0.15
   sqlite3_flutter_libs: ^0.5.13
+  pdf: ^3.10.1
+  file_picker: ^5.3.0
+  printing: ^5.10.4
 
 dev_dependencies:
   flutter_test:
@@ -55,6 +58,7 @@ flutter:
 
   assets:
     - assets/images/logo.png
+    - assets/images/certificate.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
