@@ -1,0 +1,29 @@
+name: Build Flutter on Windows
+
+on:
+  push:
+    branches:
+      - production
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: subosito/flutter-action@v2
+      - run: flutter pub get
+      - run: flutter config --enable-windows-desktop
+      - run: flutter build windows --release
+     
+      - name: Archive Release
+        uses: thedoctor0/zip-release@master
+        with:
+          type: 'zip'
+          filename: App-${{github.ref_name}}-windows.zip
+          directory: build/windows/runner/Release
+          
+      - uses: ncipollo/release-action@v1
+        with:
+          artifacts: "build/windows/runner/Release/App-${{github.ref_name}}-windows.zip"
+          tag: v1.0.${{ github.run_number }}
+          token: ${{ secrets.RELEASE_TOKEN }}
