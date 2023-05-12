@@ -10,4 +10,6 @@ abstract class Routes {
 
   static const divisionsRoute = '/divisions';
   static const specialties = '/specialties';
+
+  static const settingsRoute = '/settings';
 }

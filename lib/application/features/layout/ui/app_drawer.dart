@@ -17,7 +17,7 @@ class AppDrawer extends StatelessWidget {
     return ColoredBox(
       color: tehme.colorScheme.secondaryContainer,
       child: Padding(
-        padding: const EdgeInsets.all(AppMeasures.paddingSmall),
+        padding: const EdgeInsets.all(AppMeasures.paddingsSmall),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           mainAxisSize: MainAxisSize.max,

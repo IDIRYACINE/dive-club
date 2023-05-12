@@ -35,4 +35,9 @@ const navgiationDestinations = [
       route: Routes.competitionRoute,
       uniqueId: 3,
       icon: Icons.event),
+  NavigationEntity(
+      title: 'Settings',
+      route: Routes.settingsRoute,
+      uniqueId: 4,
+      icon: Icons.settings),
 ];

@@ -30,5 +30,12 @@
     "addScoreLabel" : "Add Participant Score",
     "updateScoreLabel" : "Update Participant Score",
     "printParticipantsLabel" : "Print Participants",
-    "filterLabel" : "Filter"
+    "filterLabel" : "Filter",
+    "selectLanguage" : "Select Language",
+    "developerContact" : "Developer Contact",
+    "about" : "About",
+    "displayLanguage" : "Display Language",
+    "general" : "General",
+    "settings" : "Settings",
+    "appVersion" : "App Version"
 }
