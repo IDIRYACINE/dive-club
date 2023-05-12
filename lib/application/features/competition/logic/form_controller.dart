@@ -1,3 +1,4 @@
+import 'package:dive_club/application/commons/widgets/filter.dart';
 import 'package:dive_club/application/features/competition/logic/printer.dart';
 import 'package:dive_club/application/features/divisions/feature.dart';
 import 'package:dive_club/application/features/specialties/feature.dart';
@@ -49,7 +50,8 @@ class ScoreController {
         score: _data.score!,
         divisionName: divisionBloc.state.divisionById(divisionId).divisionName,
         participantName: _data.participant!.participantName,
-        specialtyName: specialtyBloc.state.specialtyById(specialtyId).specialtyName,
+        specialtyName:
+            specialtyBloc.state.specialtyById(specialtyId).specialtyName,
       );
 
       _registerCompetitionScore(entity);
@@ -72,7 +74,9 @@ class ScoreController {
     ServicesProvider.instance().databasePort.insertScore(options);
   }
 
-  void printRakings(CompetitionBloc bloc, ) async {
+  void printRakings(
+    CompetitionBloc bloc,
+  ) async {
     final printer = CompetitionPrinter();
     printer.prepareNewDocument();
     await printer.createRankingsDocument(bloc.state.scores);
@@ -92,5 +96,28 @@ class ScoreController {
     _data.score = Score.fromString(value);
   }
 
+  void filterScores() {
+    final dialog = FilterDialog(
+      onConfirmPressed: _onFilter,
+    );
+    NavigationService.displayDialog(dialog);
+  }
 
+  void _onFilter(
+    FilterOptions filterOptions,
+  ) {
+    final databasePort = ServicesProvider.instance().databasePort;
+
+   
+
+    final options = LoadCompetitionScoresOptions(
+        divisionId: filterOptions.divisionId?.value,
+        specialityId: filterOptions.specialtyId?.value,
+        );
+
+    databasePort.loadCompetitionScores(options).then((value) {
+      final event = LoadScoresEvent(value.scores);
+      filterOptions.competitionBloc!.add(event);
+    });
+  }
 }

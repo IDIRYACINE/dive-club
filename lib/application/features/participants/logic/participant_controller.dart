@@ -1,4 +1,5 @@
 import 'package:dive_club/application/commons/utility/formaters.dart';
+import 'package:dive_club/application/commons/widgets/filter.dart';
 import 'package:dive_club/application/features/competition/ui/forms.dart';
 import 'package:dive_club/application/features/divisions/feature.dart';
 import 'package:dive_club/application/features/participants/ui/forms.dart';
@@ -75,8 +76,10 @@ class ParticipantController {
           divisionId: divisionId,
           participantBirthDate: ParticipantBirthDate(_data.birthDate),
           specialtyId: specialtyId,
-          divisionName: divisionBloc.state.divisionById(divisionId).divisionName,
-          specialtyName: specialtyBloc.state.specialtyById(specialtyId).specialtyName);
+          divisionName:
+              divisionBloc.state.divisionById(divisionId).divisionName,
+          specialtyName:
+              specialtyBloc.state.specialtyById(specialtyId).specialtyName);
 
       _registerParticipant(entity);
 
@@ -111,6 +114,31 @@ class ParticipantController {
 
   void updateSpecialty(DivingSpecialtyEntity? item) {
     _data.specialty = item;
+  }
+
+  void filterParticipants() {
+    final dialog = FilterDialog(
+      onConfirmPressed: _onFilter,
+    );
+    NavigationService.displayDialog(dialog);
+  }
+
+  void _onFilter(
+    FilterOptions filterOptions,
+  ) {
+    final databasePort = ServicesProvider.instance().databasePort;
+
+   
+
+    final options = LoadParticipantsOptions(
+        divisionId: filterOptions.divisionId?.value,
+        specialityId: filterOptions.specialtyId?.value,
+        participantName: filterOptions.name);
+
+    databasePort.loadParticipants(options).then((value) {
+      final event = LoadParticipantsEvent(value.participants);
+      filterOptions.participantBloc!.add(event);
+    });
   }
 }
 

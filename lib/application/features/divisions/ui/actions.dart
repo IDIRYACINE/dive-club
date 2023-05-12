@@ -60,7 +60,7 @@ class DivisionDropdown extends StatelessWidget {
   Widget build(BuildContext context) {
     return DropdownButtonFormField<DivingDivisionEntity>(
         items: _buildItems(), onChanged: onSelected,
-        
+        value:  items.first,
         validator: validatorDivingDivision,
         );
   }

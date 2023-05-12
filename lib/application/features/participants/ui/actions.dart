@@ -34,6 +34,11 @@ class ParticipantsActions extends StatelessWidget {
               onPressed: controler.addParticipant,
               text: localizations.addParticipantLabel,
             ),
+             const SizedBox(width: 10),
+                ButtonPrimary(
+              onPressed: controler.filterParticipants,
+              text: localizations.filterLabel,
+            ),
           ],
         ),
       ],

@@ -29,5 +29,6 @@
     "updateSpecialtyLabel" : "Update Specialty",
     "addScoreLabel" : "Add Participant Score",
     "updateScoreLabel" : "Update Participant Score",
-    "printParticipantsLabel" : "Print Participants"
+    "printParticipantsLabel" : "Print Participants",
+    "filterLabel" : "Filter"
 }

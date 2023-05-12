@@ -147,6 +147,58 @@ FROM
 ORDER BY
     score DESC;
 
+selectCompetitionScoresBySpecialty(REQUIRED :id AS INTEGER):
+SELECT
+    Scores.*,
+    DivingSpecialties.specialty_name,
+    DivingDivisions.division_name,
+    Participants.participant_name
+FROM
+    Scores
+    INNER JOIN DivingSpecialties USING (specialty_id)
+    INNER JOIN DivingDivisions USING (division_id)
+    INNER JOIN Participants USING (participant_id)
+WHERE
+    Scores.specialty_id = :id
+ORDER BY
+    score DESC;
+
+selectCompetitionScoresByDivision(REQUIRED :id AS INTEGER):
+SELECT
+    Scores.*,
+    DivingSpecialties.specialty_name,
+    DivingDivisions.division_name,
+    Participants.participant_name
+FROM
+    Scores
+    INNER JOIN DivingSpecialties USING (specialty_id)
+    INNER JOIN DivingDivisions USING (division_id)
+    INNER JOIN Participants USING (participant_id)
+WHERE
+    Scores.division_id = :id
+ORDER BY
+    score DESC;
+
+selectCompetitionScoresBySpecialtyAndDivision(
+    REQUIRED :specialtyId AS INTEGER,
+    REQUIRED :divisionId AS INTEGER
+):
+SELECT
+    Scores.*,
+    DivingSpecialties.specialty_name,
+    DivingDivisions.division_name,
+    Participants.participant_name
+FROM
+    Scores
+    INNER JOIN DivingSpecialties USING (specialty_id)
+    INNER JOIN DivingDivisions USING (division_id)
+    INNER JOIN Participants USING (participant_id)
+WHERE
+    Scores.specialty_id = :specialtyId
+    AND Scores.division_id = :divisionId
+ORDER BY
+    score DESC;
+
 selectDivingSpecialties:
 SELECT
     *
@@ -166,7 +218,6 @@ SELECT
     DivingDivisions.division_name
 FROM
     Participants
-  
     INNER JOIN DivingSpecialties on DivingSpecialties.specialty_id = Participants.specialty_id
     INNER JOIN DivingDivisions on DivingDivisions.division_id = Participants.division_id
 WHERE
@@ -179,7 +230,6 @@ SELECT
     DivingDivisions.division_name
 FROM
     Participants
-    
     INNER JOIN DivingSpecialties on DivingSpecialties.specialty_id = Participants.specialty_id
     INNER JOIN DivingDivisions on DivingDivisions.division_id = Participants.division_id;
 

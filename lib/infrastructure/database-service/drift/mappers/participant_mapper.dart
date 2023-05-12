@@ -32,7 +32,8 @@ class ParticipantMapper {
       ParticipantMapperPort mapper) {
     List<ParticipantEntity> results = [];
 
-    for (raw.SelectParticiapntsByDivisionAndSpecialtyResult participant in participants) {
+    for (raw.SelectParticiapntsByDivisionAndSpecialtyResult participant
+        in participants) {
       final temp = Participant(
           id: participant.participantId,
           name: participant.participantName,
@@ -79,6 +80,29 @@ class ParticipantMapper {
     List<ParticipantEntity> results = [];
 
     for (raw.SelectParticiapntsResult participant in participants) {
+      final temp = Participant(
+          id: participant.participantId,
+          name: participant.participantName,
+          birthDate: participant.birthDate,
+          divisionId: participant.divisionId,
+          specialityId: participant.specialtyId,
+          divisionName: participant.divisionName,
+          specialityName: participant.specialtyName);
+
+      final res = mapper.toDomainEntity(temp);
+
+      results.add(res);
+    }
+
+    return results;
+  }
+
+  static List<ParticipantEntity> fromSearchByName(
+      List<raw.SearchParticipantsByNameResult> participants,
+      ParticipantMapperPort mapper) {
+    List<ParticipantEntity> results = [];
+
+    for (raw.SearchParticipantsByNameResult participant in participants) {
       final temp = Participant(
           id: participant.participantId,
           name: participant.participantName,

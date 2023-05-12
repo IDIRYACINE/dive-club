@@ -59,60 +59,126 @@ class DriftDatabaseService implements DatabasePort {
   @override
   Future<LoadCompetitionScoresResult> loadCompetitionScores(
       LoadCompetitionScoresOptions options) async {
-    return _database.selectCompetitionScores().get().then((value) =>
-        LoadCompetitionScoresResult(
-            scores: ScoreMapper.fromSelect(value, _mapperService.scoreMapper)));
+    if (options.divisionId != null && options.specialityId != null) {
+      return _database
+          .selectCompetitionScoresBySpecialtyAndDivision(
+              divisionId: options.divisionId!,
+              specialtyId: options.specialityId!)
+          .get()
+          .then(
+            (value) => LoadCompetitionScoresResult(
+              scores: ScoreMapper.byDivisionAndSpecialty(
+                  value, _mapperService.scoreMapper),
+            ),
+          );
+    }
+
+    if (options.divisionId != null && options.specialityId == null) {
+      return _database
+          .selectCompetitionScoresByDivision(id: options.divisionId!)
+          .get()
+          .then(
+            (value) => LoadCompetitionScoresResult(
+              scores: ScoreMapper.byDivision(value, _mapperService.scoreMapper),
+            ),
+          );
+    }
+
+    if (options.divisionId == null && options.specialityId != null) {
+      return _database
+          .selectCompetitionScoresBySpecialty(id: options.specialityId!)
+          .get()
+          .then(
+            (value) => LoadCompetitionScoresResult(
+              scores:
+                  ScoreMapper.bySpecialty(value, _mapperService.scoreMapper),
+            ),
+          );
+    }
+
+    return _database.selectCompetitionScores().get().then(
+          (value) => LoadCompetitionScoresResult(
+            scores: ScoreMapper.fromSelect(value, _mapperService.scoreMapper),
+          ),
+        );
   }
 
   @override
   Future<LoadDivingDivisionsResult> loadDivingDivisions() async {
-    return _database.selectDivingDivisions().get().then((value) =>
-        LoadDivingDivisionsResult(
+    return _database.selectDivingDivisions().get().then(
+          (value) => LoadDivingDivisionsResult(
             divisions: mapToDomainDivingDivisions(
-                value, _mapperService.competitionMapper)));
+                value, _mapperService.competitionMapper),
+          ),
+        );
   }
 
   @override
   Future<LoadDivingSpecialitiesResult> loadDivingSpecialities() async {
-    return _database.selectDivingSpecialties().get().then((value) =>
-        LoadDivingSpecialitiesResult(
+    return _database.selectDivingSpecialties().get().then(
+          (value) => LoadDivingSpecialitiesResult(
             specialties: mapToDomainDivingSpecialitys(
-                value, _mapperService.specialtyMapper)));
+                value, _mapperService.specialtyMapper),
+          ),
+        );
   }
 
   @override
   Future<LoadParticipantsResult> loadParticipants(
       LoadParticipantsOptions options) async {
+    if (options.participantName != null) {
+      return _database
+          .searchParticipantsByName(name: options.participantName!)
+          .get()
+          .then(
+            (value) => LoadParticipantsResult(
+              participants: ParticipantMapper.fromSearchByName(
+                  value, _mapperService.participantMapper),
+            ),
+          );
+    }
+
     if (options.divisionId == null && options.specialityId == null) {
-      return _database.selectParticiapnts().get().then((value) =>
-          LoadParticipantsResult(
+      return _database.selectParticiapnts().get().then(
+            (value) => LoadParticipantsResult(
               participants: ParticipantMapper.fromSelectParticipant(
-                  value, _mapperService.participantMapper)));
+                  value, _mapperService.participantMapper),
+            ),
+          );
     }
     if (options.divisionId != null && options.specialityId == null) {
       return _database
           .selectParticiapntsByDivision(id: options.divisionId!)
           .get()
-          .then((value) => LoadParticipantsResult(
+          .then(
+            (value) => LoadParticipantsResult(
               participants: ParticipantMapper.fromSelectByDivision(
-                  value, _mapperService.participantMapper)));
+                  value, _mapperService.participantMapper),
+            ),
+          );
     }
     if (options.divisionId == null && options.specialityId != null) {
       return _database
           .selectParticiapnsBySpecialty(id: options.specialityId!)
           .get()
-          .then((value) => LoadParticipantsResult(
+          .then(
+            (value) => LoadParticipantsResult(
               participants: ParticipantMapper.fromSelectBySpecialty(
-                  value, _mapperService.participantMapper)));
+                  value, _mapperService.participantMapper),
+            ),
+          );
     }
 
     return _database
         .selectParticiapntsByDivisionAndSpecialty(
             divisionId: options.divisionId!, specialtyId: options.specialityId!)
         .get()
-        .then((value) => LoadParticipantsResult(
+        .then(
+          (value) => LoadParticipantsResult(
             participants: ParticipantMapper.fromSelectBySpecialtyAndDivision(
-                value, _mapperService.participantMapper)));
+                value, _mapperService.participantMapper),
+          ),
+        );
   }
 
   @override

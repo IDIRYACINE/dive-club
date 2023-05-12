@@ -37,6 +37,11 @@ class CompetitionActions extends StatelessWidget {
               onPressed: () => controller.printPrizes(bloc, ),
               text: localizations.printPrizesLabel,
             ),
+            const SizedBox(width: 10),
+             ButtonPrimary(
+              onPressed: controller.filterScores,
+              text: localizations.filterLabel,
+            ),
           ],
         ),
       ],

@@ -89,8 +89,9 @@ class UpdateDivingSpecialityOptions {
 class LoadParticipantsOptions {
   final int? specialityId;
   final int? divisionId;
+  final String? participantName;
 
-  LoadParticipantsOptions({this.divisionId, this.specialityId});
+  LoadParticipantsOptions( {this.divisionId, this.specialityId ,this.participantName,});
 }
 
 class LoadCompetitionScoresOptions {

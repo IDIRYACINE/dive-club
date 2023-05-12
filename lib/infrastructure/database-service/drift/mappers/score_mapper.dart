@@ -25,4 +25,10 @@ class ScoreMapper {
 
     return results;
   }
+
+  static byDivisionAndSpecialty(value, ScoreMapperPort scoreMapper) {}
+
+  static byDivision(value, ScoreMapperPort scoreMapper) {}
+
+  static bySpecialty(value, ScoreMapperPort scoreMapper) {}
 }

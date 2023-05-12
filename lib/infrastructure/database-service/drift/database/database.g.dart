@@ -1128,6 +1128,86 @@ abstract class _$AppDb extends GeneratedDatabase {
     });
   }
 
+  Selectable<SelectCompetitionScoresBySpecialtyResult>
+      selectCompetitionScoresBySpecialty({required int id}) {
+    return customSelect(
+        'SELECT Scores.*, DivingSpecialties.specialty_name, DivingDivisions.division_name, Participants.participant_name FROM Scores INNER JOIN DivingSpecialties USING(specialty_id)INNER JOIN DivingDivisions USING(division_id)INNER JOIN Participants USING(participant_id)WHERE Scores.specialty_id = ?1 ORDER BY score DESC',
+        variables: [
+          Variable<int>(id)
+        ],
+        readsFrom: {
+          divingSpecialties,
+          divingDivisions,
+          participants,
+          scores,
+        }).map((QueryRow row) {
+      return SelectCompetitionScoresBySpecialtyResult(
+        participantId: row.read<int>('participant_id'),
+        divisionId: row.read<int>('division_id'),
+        specialtyId: row.read<int>('specialty_id'),
+        scoreDate: row.read<DateTime>('score_date'),
+        score: row.read<double>('score'),
+        specialtyName: row.read<String>('specialty_name'),
+        divisionName: row.read<String>('division_name'),
+        participantName: row.read<String>('participant_name'),
+      );
+    });
+  }
+
+  Selectable<SelectCompetitionScoresByDivisionResult>
+      selectCompetitionScoresByDivision({required int id}) {
+    return customSelect(
+        'SELECT Scores.*, DivingSpecialties.specialty_name, DivingDivisions.division_name, Participants.participant_name FROM Scores INNER JOIN DivingSpecialties USING(specialty_id)INNER JOIN DivingDivisions USING(division_id)INNER JOIN Participants USING(participant_id)WHERE Scores.division_id = ?1 ORDER BY score DESC',
+        variables: [
+          Variable<int>(id)
+        ],
+        readsFrom: {
+          divingSpecialties,
+          divingDivisions,
+          participants,
+          scores,
+        }).map((QueryRow row) {
+      return SelectCompetitionScoresByDivisionResult(
+        participantId: row.read<int>('participant_id'),
+        divisionId: row.read<int>('division_id'),
+        specialtyId: row.read<int>('specialty_id'),
+        scoreDate: row.read<DateTime>('score_date'),
+        score: row.read<double>('score'),
+        specialtyName: row.read<String>('specialty_name'),
+        divisionName: row.read<String>('division_name'),
+        participantName: row.read<String>('participant_name'),
+      );
+    });
+  }
+
+  Selectable<SelectCompetitionScoresBySpecialtyAndDivisionResult>
+      selectCompetitionScoresBySpecialtyAndDivision(
+          {required int specialtyId, required int divisionId}) {
+    return customSelect(
+        'SELECT Scores.*, DivingSpecialties.specialty_name, DivingDivisions.division_name, Participants.participant_name FROM Scores INNER JOIN DivingSpecialties USING(specialty_id)INNER JOIN DivingDivisions USING(division_id)INNER JOIN Participants USING(participant_id)WHERE Scores.specialty_id = ?1 AND Scores.division_id = ?2 ORDER BY score DESC',
+        variables: [
+          Variable<int>(specialtyId),
+          Variable<int>(divisionId)
+        ],
+        readsFrom: {
+          divingSpecialties,
+          divingDivisions,
+          participants,
+          scores,
+        }).map((QueryRow row) {
+      return SelectCompetitionScoresBySpecialtyAndDivisionResult(
+        participantId: row.read<int>('participant_id'),
+        divisionId: row.read<int>('division_id'),
+        specialtyId: row.read<int>('specialty_id'),
+        scoreDate: row.read<DateTime>('score_date'),
+        score: row.read<double>('score'),
+        specialtyName: row.read<String>('specialty_name'),
+        divisionName: row.read<String>('division_name'),
+        participantName: row.read<String>('participant_name'),
+      );
+    });
+  }
+
   Selectable<DivingSpecialtie> selectDivingSpecialties() {
     return customSelect('SELECT * FROM DivingSpecialties',
         variables: [],
@@ -1281,6 +1361,69 @@ class SelectCompetitionScoresResult {
   final String divisionName;
   final String participantName;
   SelectCompetitionScoresResult({
+    required this.participantId,
+    required this.divisionId,
+    required this.specialtyId,
+    required this.scoreDate,
+    required this.score,
+    required this.specialtyName,
+    required this.divisionName,
+    required this.participantName,
+  });
+}
+
+class SelectCompetitionScoresBySpecialtyResult {
+  final int participantId;
+  final int divisionId;
+  final int specialtyId;
+  final DateTime scoreDate;
+  final double score;
+  final String specialtyName;
+  final String divisionName;
+  final String participantName;
+  SelectCompetitionScoresBySpecialtyResult({
+    required this.participantId,
+    required this.divisionId,
+    required this.specialtyId,
+    required this.scoreDate,
+    required this.score,
+    required this.specialtyName,
+    required this.divisionName,
+    required this.participantName,
+  });
+}
+
+class SelectCompetitionScoresByDivisionResult {
+  final int participantId;
+  final int divisionId;
+  final int specialtyId;
+  final DateTime scoreDate;
+  final double score;
+  final String specialtyName;
+  final String divisionName;
+  final String participantName;
+  SelectCompetitionScoresByDivisionResult({
+    required this.participantId,
+    required this.divisionId,
+    required this.specialtyId,
+    required this.scoreDate,
+    required this.score,
+    required this.specialtyName,
+    required this.divisionName,
+    required this.participantName,
+  });
+}
+
+class SelectCompetitionScoresBySpecialtyAndDivisionResult {
+  final int participantId;
+  final int divisionId;
+  final int specialtyId;
+  final DateTime scoreDate;
+  final double score;
+  final String specialtyName;
+  final String divisionName;
+  final String participantName;
+  SelectCompetitionScoresBySpecialtyAndDivisionResult({
     required this.participantId,
     required this.divisionId,
     required this.specialtyId,
