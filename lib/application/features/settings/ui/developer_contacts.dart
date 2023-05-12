@@ -32,9 +32,9 @@ class DeveloperContacts extends StatelessWidget {
             const SizedBox(
               height: AppMeasures.paddingsSmall,
             ),
-            Row(
+            const Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: const [
+              children: [
                 _LogoLink(
                     label: AppMetadata.iconsLabel,
                     iconPath: AppResources.githubIcon),
