@@ -13,7 +13,7 @@ import 'package:dive_club/application/navigation/navigation_service.dart';
 class FilterOptions {
   final SpecialtyId? specialtyId;
   final DivisionId? divisionId;
-  final String? name;
+  final int? id;
   final ParticipantBloc? participantBloc;
   final CompetitionBloc? competitionBloc;
 
@@ -22,7 +22,7 @@ class FilterOptions {
       this.participantBloc,
       this.competitionBloc,
       this.divisionId,
-      this.name})
+      this.id})
       : assert(participantBloc != null || competitionBloc != null,
             'Either participantBloc or competitionBloc must be provided');
 }
@@ -56,7 +56,7 @@ class FilterController {
 
       onFilter(
         FilterOptions(
-          name: nameController.text.isNotEmpty ? nameController.text : null,
+          id: nameController.text.isNotEmpty ? int.parse(nameController.text) : null,
           specialtyId: specialityId,
           divisionId: divisionId,
           participantBloc: BlocProvider.of<ParticipantBloc>(form.context),

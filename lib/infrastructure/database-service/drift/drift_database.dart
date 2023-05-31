@@ -2,6 +2,7 @@ import 'package:dive_club/core/infrastrucutre/database/export.dart';
 import 'package:dive_club/infrastructure/database-service/drift/mappers/division_mapper.dart';
 
 import 'database/database.dart';
+import 'mappers/club_mapper.dart';
 import 'mappers/participant_mapper.dart';
 import 'mappers/score_mapper.dart';
 
@@ -34,10 +35,15 @@ class DriftDatabaseService implements DatabasePort {
       CreateParticipantOptions options) async {
     return _database
         .createParticipant(
-            name: options.name,
+            firstName: options.firstName,
             birthDate: options.birthDate,
             divisionId: options.divisionId,
-            specialtyId: options.specialityId)
+            specialtyId: options.specialityId, 
+            ageDivisionYear: options.ageDivisionId,
+             clubId: options.clubId, 
+             entryTime: options.entryTime,
+              genderId: options.genderId,
+               lastName:options.lastName)
         .then((value) {
       return DatabaseOperationResult();
     });
@@ -52,7 +58,7 @@ class DriftDatabaseService implements DatabasePort {
             date: options.date,
             divisionId: options.divisionId,
             specialtyId: options.specialityId,
-            score: options.score)
+            score: options.score, ageDivisionYear: options.ageDivisionId, genderId: options.genderId)
         .then((value) => DatabaseOperationResult());
   }
 
@@ -126,9 +132,9 @@ class DriftDatabaseService implements DatabasePort {
   @override
   Future<LoadParticipantsResult> loadParticipants(
       LoadParticipantsOptions options) async {
-    if (options.participantName != null) {
+    if (options.participantId != null) {
       return _database
-          .searchParticipantsByName(name: options.participantName!)
+          .searchParticipantsById(id: options.participantId!)
           .get()
           .then(
             (value) => LoadParticipantsResult(
@@ -209,4 +215,51 @@ class DriftDatabaseService implements DatabasePort {
             score: options.score)
         .then((value) => DatabaseOperationResult());
   }
+  
+  @override
+  Future<DatabaseOperationResult> insertAgeDivision(CreateAgeDivisionOptions options) {
+    return _database
+        .createAgeDivisions(name: options.divisionName,year:options.year)
+        .then((value) => DatabaseOperationResult());
+  }
+  
+  @override
+  Future<DatabaseOperationResult> insertClub(CreateClubOptions options) {
+        return _database
+        .createDivingDivisions(name: options.clubName)
+        .then((value) => DatabaseOperationResult());
+  }
+  
+  @override
+  Future<LoadAgeDivisionsResult> loadAgeDivisions() {
+      return _database.selectAgeDivisions().get().then(
+          (value) => LoadAgeDivisionsResult(
+            ageDivisions: mapToDomainAgeDivisions(
+                value, _mapperService.ageDivisonMapper),
+          ),
+        );
+  }
+  
+  @override
+  Future<LoadClubsResult> loadClubs() {
+    return _database.selectClubs().get().then(
+          (value) => LoadClubsResult(
+            clubs: mapToDomainClub(
+                value, _mapperService.clubMapper),
+          ),
+        );
+  }
+  
+  @override
+  Future<DatabaseOperationResult> updateAgeDivision(UpdateAgeDivisionOptions options) {
+    // TODO: implement updateAgeDivision
+    throw UnimplementedError();
+  }
+  
+  @override
+  Future<DatabaseOperationResult> updateClub(UpdateClubOptions options) {
+    // TODO: implement updateClub
+    throw UnimplementedError();
+  }
+  
 }

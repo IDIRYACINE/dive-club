@@ -5,8 +5,10 @@ import 'package:dive_club/application/features/divisions/feature.dart';
 import 'package:dive_club/application/features/participants/ui/forms.dart';
 import 'package:dive_club/application/features/specialties/feature.dart';
 import 'package:dive_club/application/navigation/feature.dart';
-import 'package:dive_club/core/domain/diving/entity.dart';
+import 'package:dive_club/core/domain/clubs/export.dart';
+import 'package:dive_club/core/domain/competition/export.dart';
 import 'package:dive_club/core/domain/diving/export.dart';
+import 'package:dive_club/core/domain/genders/export.dart';
 import 'package:dive_club/core/domain/participants/export.dart';
 import 'package:dive_club/core/infrastrucutre/database/export.dart';
 import 'package:dive_club/infrastructure/service_provider.dart';
@@ -19,13 +21,14 @@ import 'options.dart';
 import 'printer.dart';
 
 class RegistrationDataHolder {
-  String name;
+  String firstName;
+  String lastName = "todo";
   DateTime birthDate = DateTime.now();
   final TextEditingController birthDateTextController = TextEditingController();
   DivingDivisionEntity? division;
   DivingSpecialtyEntity? specialty;
 
-  RegistrationDataHolder({this.name = '', DateTime? birthDate}) {
+  RegistrationDataHolder({this.firstName = '', DateTime? birthDate}) {
     if (birthDate != null) {
       this.birthDate = birthDate;
     }
@@ -69,17 +72,22 @@ class ParticipantController {
 
       final divisionId = _data.division!.divisionId;
       final specialtyId = _data.specialty!.specialtyId;
+      final birthDate = ParticipantBirthDate(_data.birthDate);
 
       final entity = ParticipantEntity(
           participantId: ParticipantId(bloc.state.participants.length + 1),
-          participantName: ParticipantName(_data.name),
+          participantName: ParticipantName(_data.firstName, _data.lastName),
           divisionId: divisionId,
-          participantBirthDate: ParticipantBirthDate(_data.birthDate),
+          participantBirthDate: birthDate,
           specialtyId: specialtyId,
           divisionName:
               divisionBloc.state.divisionById(divisionId).divisionName,
           specialtyName:
-              specialtyBloc.state.specialtyById(specialtyId).specialtyName);
+              specialtyBloc.state.specialtyById(specialtyId).specialtyName,
+          ageDivisionId: AgeDivisionId(birthDate.year),
+          clubId: ClubId(0),
+          entryTime: Score.fromString("121212"),
+          genderId: GenderId(0));
 
       _registerParticipant(entity);
 
@@ -92,7 +100,7 @@ class ParticipantController {
   }
 
   void updateName(String value) {
-    _data.name = value;
+    _data.firstName = value;
   }
 
   void addParticipant() {
@@ -128,12 +136,10 @@ class ParticipantController {
   ) {
     final databasePort = ServicesProvider.instance().databasePort;
 
-   
-
     final options = LoadParticipantsOptions(
         divisionId: filterOptions.divisionId?.value,
         specialityId: filterOptions.specialtyId?.value,
-        participantName: filterOptions.name);
+        participantId: filterOptions.id);
 
     databasePort.loadParticipants(options).then((value) {
       final event = LoadParticipantsEvent(value.participants);
@@ -183,9 +189,14 @@ class RowController {
 Future<void> _registerParticipant(ParticipantEntity entity) async {
   final options = CreateParticipantOptions(
       id: entity.participantId.value,
-      name: entity.participantName.value,
+      firstName: entity.participantName.firstName,
       birthDate: entity.participantBirthDate.value,
       divisionId: entity.divisionId.value,
-      specialityId: entity.specialtyId.value);
+      specialityId: entity.specialtyId.value,
+      ageDivisionId: entity.ageDivisionId.value,
+      clubId: entity.clubId.value,
+      entryTime: entity.entryTime.toIntCode(),
+      genderId: entity.genderId.value,
+      lastName: entity.participantName.lastName);
   ServicesProvider.instance().databasePort.insertParticipant(options);
 }

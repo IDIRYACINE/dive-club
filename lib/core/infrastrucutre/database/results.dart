@@ -1,3 +1,4 @@
+import 'package:dive_club/core/domain/clubs/entity.dart';
 import 'package:dive_club/core/domain/competition/export.dart';
 import 'package:dive_club/core/domain/diving/export.dart';
 import 'package:dive_club/core/domain/participants/export.dart';
@@ -61,6 +62,28 @@ class SearchParticipantResult extends DatabaseOperationResult {
 
   SearchParticipantResult({
     required this.participants,
+    bool? isSuccess,
+    String? message,
+  }) : super(isSuccess: isSuccess, message: message);
+}
+
+
+class LoadClubsResult extends DatabaseOperationResult {
+  final List<ClubEntity> clubs;
+
+  LoadClubsResult({
+    required this.clubs,
+    bool? isSuccess,
+    String? message,
+  }) : super(isSuccess: isSuccess, message: message);
+}
+
+
+class LoadAgeDivisionsResult extends DatabaseOperationResult {
+  final List<AgeDivisionEntity> ageDivisions;
+
+  LoadAgeDivisionsResult({
+    required this.ageDivisions,
     bool? isSuccess,
     String? message,
   }) : super(isSuccess: isSuccess, message: message);

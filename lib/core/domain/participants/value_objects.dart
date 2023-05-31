@@ -8,9 +8,15 @@ class ParticipantId{
 }
 
 class ParticipantName{
-  final String value;
+  final String firstName;
+  final String lastName;
 
-  ParticipantName(this.value);
+  ParticipantName(this.firstName,this.lastName);
+
+  @override
+  String toString() {
+    return '$firstName $lastName';
+  }
 
 }
 
@@ -18,5 +24,8 @@ class ParticipantBirthDate{
   final DateTime value;
 
   ParticipantBirthDate(this.value);
+
+  int get year => value.year;
+  
 
 }

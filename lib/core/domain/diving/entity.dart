@@ -28,3 +28,18 @@ class DivingSpecialtyEntity {
         specialtyName: specialtyName ?? this.specialtyName);
   }
 }
+
+
+class AgeDivisionEntity{
+  final AgeDivisionId divisionId;
+  final AgeDivisionName divisionName;
+
+  AgeDivisionEntity({required this.divisionId,required this.divisionName});
+
+  AgeDivisionEntity copyWith ({AgeDivisionId? divisionId, AgeDivisionName? divisionName}) {
+    return AgeDivisionEntity(
+        divisionId: divisionId ?? this.divisionId,
+        divisionName: divisionName ?? this.divisionName);
+  }
+
+}

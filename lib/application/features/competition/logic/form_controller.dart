@@ -4,6 +4,8 @@ import 'package:dive_club/application/features/divisions/feature.dart';
 import 'package:dive_club/application/features/specialties/feature.dart';
 import 'package:dive_club/application/navigation/feature.dart';
 import 'package:dive_club/core/domain/competition/export.dart';
+import 'package:dive_club/core/domain/diving/export.dart';
+import 'package:dive_club/core/domain/genders/export.dart';
 import 'package:dive_club/core/domain/participants/export.dart';
 import 'package:dive_club/core/infrastrucutre/database/export.dart';
 import 'package:dive_club/infrastructure/service_provider.dart';
@@ -43,6 +45,8 @@ class ScoreController {
       final divisionId = _data.participant!.divisionId;
       final specialtyId = _data.participant!.specialtyId;
 
+      final ageDivisionYear = AgeDivisionId(_data.participant!.participantBirthDate.year);
+
       final entity = CompetitionScoreEntity(
         specialtyId: specialtyId,
         divisionId: divisionId,
@@ -51,7 +55,8 @@ class ScoreController {
         divisionName: divisionBloc.state.divisionById(divisionId).divisionName,
         participantName: _data.participant!.participantName,
         specialtyName:
-            specialtyBloc.state.specialtyById(specialtyId).specialtyName,
+            specialtyBloc.state.specialtyById(specialtyId).specialtyName, 
+            ageDivisionId: ageDivisionYear, genderId: GenderId(0),
       );
 
       _registerCompetitionScore(entity);
@@ -64,12 +69,15 @@ class ScoreController {
   }
 
   Future<void> _registerCompetitionScore(CompetitionScoreEntity entity) async {
+    
     final options = CreateScoreOptions(
       participantId: entity.participantId.value,
       divisionId: entity.divisionId.value,
       specialityId: entity.specialtyId.value,
-      score: entity.score.value,
+      score: entity.score.toIntCode(),
       date: DateTime.now(),
+      ageDivisionId: entity.ageDivisionId.value,
+       genderId: entity.genderId.value,
     );
     ServicesProvider.instance().databasePort.insertScore(options);
   }

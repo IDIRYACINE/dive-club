@@ -12,12 +12,17 @@ class ParticipantMapper {
     for (raw.SelectParticiapnsBySpecialtyResult participant in participants) {
       final temp = Participant(
           id: participant.participantId,
-          name: participant.participantName,
+          firstName: participant.participantFirstName,
           birthDate: participant.birthDate,
           divisionId: participant.divisionId,
           specialityId: participant.specialtyId,
           divisionName: participant.divisionName,
-          specialityName: participant.specialtyName);
+          specialityName: participant.specialtyName,
+          ageDivisionId: participant.ageDivisionYear,
+          clubId: participant.clubId,
+          entryTime: participant.entryTime,
+          genderId: participant.genderId,
+          lastName: participant.participantLastName);
 
       final res = mapper.toDomainEntity(temp);
 
@@ -36,12 +41,17 @@ class ParticipantMapper {
         in participants) {
       final temp = Participant(
           id: participant.participantId,
-          name: participant.participantName,
+          firstName: participant.participantFirstName,
           birthDate: participant.birthDate,
           divisionId: participant.divisionId,
           specialityId: participant.specialtyId,
           divisionName: participant.divisionName,
-          specialityName: participant.specialtyName);
+          specialityName: participant.specialtyName,
+          ageDivisionId: participant.ageDivisionYear,
+          clubId: participant.clubId,
+          entryTime: participant.entryTime,
+          genderId: participant.genderId,
+          lastName: participant.participantLastName);
 
       final res = mapper.toDomainEntity(temp);
 
@@ -57,14 +67,19 @@ class ParticipantMapper {
     List<ParticipantEntity> results = [];
 
     for (raw.SelectParticiapntsByDivisionResult participant in participants) {
-      final temp = Participant(
+     final temp = Participant(
           id: participant.participantId,
-          name: participant.participantName,
+          firstName: participant.participantFirstName,
           birthDate: participant.birthDate,
           divisionId: participant.divisionId,
           specialityId: participant.specialtyId,
           divisionName: participant.divisionName,
-          specialityName: participant.specialtyName);
+          specialityName: participant.specialtyName,
+          ageDivisionId: participant.ageDivisionYear,
+          clubId: participant.clubId,
+          entryTime: participant.entryTime,
+          genderId: participant.genderId,
+          lastName: participant.participantLastName);
 
       final res = mapper.toDomainEntity(temp);
 
@@ -82,12 +97,17 @@ class ParticipantMapper {
     for (raw.SelectParticiapntsResult participant in participants) {
       final temp = Participant(
           id: participant.participantId,
-          name: participant.participantName,
+          firstName: participant.participantFirstName,
           birthDate: participant.birthDate,
           divisionId: participant.divisionId,
           specialityId: participant.specialtyId,
           divisionName: participant.divisionName,
-          specialityName: participant.specialtyName);
+          specialityName: participant.specialtyName,
+          ageDivisionId: participant.ageDivisionYear,
+          clubId: participant.clubId,
+          entryTime: participant.entryTime,
+          genderId: participant.genderId,
+          lastName: participant.participantLastName);
 
       final res = mapper.toDomainEntity(temp);
 
@@ -98,19 +118,24 @@ class ParticipantMapper {
   }
 
   static List<ParticipantEntity> fromSearchByName(
-      List<raw.SearchParticipantsByNameResult> participants,
+      List<raw.SearchParticipantsByIdResult> participants,
       ParticipantMapperPort mapper) {
     List<ParticipantEntity> results = [];
 
-    for (raw.SearchParticipantsByNameResult participant in participants) {
+    for (raw.SearchParticipantsByIdResult participant in participants) {
       final temp = Participant(
           id: participant.participantId,
-          name: participant.participantName,
+          firstName: participant.participantFirstName,
           birthDate: participant.birthDate,
           divisionId: participant.divisionId,
           specialityId: participant.specialtyId,
           divisionName: participant.divisionName,
-          specialityName: participant.specialtyName);
+          specialityName: participant.specialtyName,
+          ageDivisionId: participant.ageDivisionYear,
+          clubId: participant.clubId,
+          entryTime: participant.entryTime,
+          genderId: participant.genderId,
+          lastName: participant.participantLastName);
 
       final res = mapper.toDomainEntity(temp);
 

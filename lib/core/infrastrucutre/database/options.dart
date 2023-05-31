@@ -1,4 +1,3 @@
-
 class SearchParticipantOptions {
   final String name;
 
@@ -11,7 +10,7 @@ class UpdateScoreOptions {
   final int participantId;
   final int divisionId;
   final int specialityId;
-  final double score;
+  final int score;
 
   UpdateScoreOptions({
     required this.participantId,
@@ -25,30 +24,50 @@ class CreateScoreOptions {
   final int participantId;
   final int divisionId;
   final int specialityId;
-  final double score;
+  final int score;
   final DateTime date;
-  CreateScoreOptions({
+
+  final int genderId;
+  final int ageDivisionId;
+
+  CreateScoreOptions( {
     required this.participantId,
     required this.divisionId,
     required this.specialityId,
     required this.score,
     required this.date,
+    required  this.genderId, required  this.ageDivisionId,
   });
 }
 
 class CreateParticipantOptions {
   final int id;
-  final String name;
+  final String firstName;
   final DateTime birthDate;
   final int divisionId;
   final int specialityId;
 
+  final int clubId;
+
+  final int entryTime;
+
+  final int genderId;
+
+  final String lastName;
+
+  final int ageDivisionId;
+
   CreateParticipantOptions({
     required this.divisionId,
     required this.id,
-    required this.name,
+    required this.firstName,
     required this.birthDate,
     required this.specialityId,
+    required this.clubId,
+    required this.entryTime,
+    required this.genderId,
+    required this.lastName,
+    required this.ageDivisionId,
   });
 }
 
@@ -69,10 +88,38 @@ class UpdateDivingDivisionOptions {
   });
 }
 
+class CreateClubOptions {
+  final String clubName;
+
+  CreateClubOptions({
+    required this.clubName,
+  });
+}
+
+class UpdateClubOptions {
+  final String clubName;
+  final int clubId;
+
+  UpdateClubOptions({
+    required this.clubName,
+    required this.clubId,
+  });
+}
+
 class CreateDivingSpecialityOptions {
   final String specialityName;
   CreateDivingSpecialityOptions({
     required this.specialityName,
+  });
+}
+
+class CreateAgeDivisionOptions {
+  final String divisionName;
+  final int year;
+  
+  CreateAgeDivisionOptions({
+    required this.divisionName,
+    required this.year
   });
 }
 
@@ -86,12 +133,26 @@ class UpdateDivingSpecialityOptions {
   });
 }
 
+class UpdateAgeDivisionOptions {
+  final String divisionName;
+  final int divisionId;
+
+  UpdateAgeDivisionOptions({
+    required this.divisionName,
+    required this.divisionId,
+  });
+}
+
 class LoadParticipantsOptions {
   final int? specialityId;
   final int? divisionId;
-  final String? participantName;
+  final int? participantId;
 
-  LoadParticipantsOptions( {this.divisionId, this.specialityId ,this.participantName,});
+  LoadParticipantsOptions({
+    this.divisionId,
+    this.specialityId,
+    this.participantId,
+  });
 }
 
 class LoadCompetitionScoresOptions {
