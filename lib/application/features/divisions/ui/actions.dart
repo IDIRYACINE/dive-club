@@ -60,7 +60,9 @@ class DivisionDropdown extends StatelessWidget {
   Widget build(BuildContext context) {
     return DropdownButtonFormField<DivingDivisionEntity>(
         items: _buildItems(), onChanged: onSelected,
-        value:  items.first,
+        value:  items.isNotEmpty ? items.first : null,
+              hint: const Text("Division"),
+
         validator: validatorDivingDivision,
         );
   }

@@ -145,6 +145,7 @@ class DriftDatabaseService implements DatabasePort {
     }
 
     if (options.divisionId == null && options.specialityId == null) {
+
       return _database.selectParticiapnts().get().then(
             (value) => LoadParticipantsResult(
               participants: ParticipantMapper.fromSelectParticipant(

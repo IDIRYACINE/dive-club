@@ -2,10 +2,10 @@ import 'package:dive_club/core/domain/diving/export.dart';
 
 abstract class AgeDivisionEvent {}
 
-class LoadSpecialtiesEvent extends AgeDivisionEvent {
-  final List<AgeDivisionEntity> specialties;
+class LoadAgeDivisionsEvent extends AgeDivisionEvent {
+  final List<AgeDivisionEntity> ageDivisions;
 
-  LoadSpecialtiesEvent(this.specialties);
+  LoadAgeDivisionsEvent(this.ageDivisions);
 }
 
 class AddAgeDivisionEvent extends AgeDivisionEvent {

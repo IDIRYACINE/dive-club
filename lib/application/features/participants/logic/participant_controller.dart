@@ -27,6 +27,14 @@ class RegistrationDataHolder {
   final TextEditingController birthDateTextController = TextEditingController();
   DivingDivisionEntity? division;
   DivingSpecialtyEntity? specialty;
+  
+  GenderEntity? gender;
+  
+  AgeDivisionEntity? ageDivision;
+  
+  ClubEntity? club;
+  
+  String? score;
 
   RegistrationDataHolder({this.firstName = '', DateTime? birthDate}) {
     if (birthDate != null) {
@@ -85,9 +93,9 @@ class ParticipantController {
           specialtyName:
               specialtyBloc.state.specialtyById(specialtyId).specialtyName,
           ageDivisionId: AgeDivisionId(birthDate.year),
-          clubId: ClubId(0),
-          entryTime: Score.fromString("121212"),
-          genderId: GenderId(0));
+          clubId: _data.club!.clubId,
+          entryTime: Score.fromString(_data.score!),
+          genderId: _data.gender!.genderId);
 
       _registerParticipant(entity);
 
@@ -99,9 +107,6 @@ class ParticipantController {
     }
   }
 
-  void updateName(String value) {
-    _data.firstName = value;
-  }
 
   void addParticipant() {
     const dialog = ParticipantDialog();
@@ -116,12 +121,35 @@ class ParticipantController {
     printer.displayPreview();
   }
 
+  void updateFirstName(String value) {
+    _data.firstName = value;
+  }
+  void updateEntryTime(String value) {
+    _data.score = value;
+  }
+
+  void updateLastName(String value) {
+    _data.lastName = value;
+  }
+
   void updateDivision(DivingDivisionEntity? item) {
     _data.division = item;
   }
 
   void updateSpecialty(DivingSpecialtyEntity? item) {
     _data.specialty = item;
+  }
+
+  void updateGender(GenderEntity? item) {
+    _data.gender = item;
+  }
+
+  void updateClub(ClubEntity? item) {
+    _data.club = item;
+  }
+
+  void updateAgeDivision(AgeDivisionEntity? item) {
+    _data.ageDivision = item;
   }
 
   void filterParticipants() {
@@ -146,6 +174,7 @@ class ParticipantController {
       filterOptions.participantBloc!.add(event);
     });
   }
+
 }
 
 class RowController {

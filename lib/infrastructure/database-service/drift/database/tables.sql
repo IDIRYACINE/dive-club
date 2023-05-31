@@ -54,6 +54,12 @@ CREATE TABLE Scores(
 
 CREATE INDEX score_idx ON Scores(score);
 
+INSERT INTO
+    Genders
+values
+    (0, "H"),
+    (1, "F");
+
 createParticipant(
     REQUIRED :firstName AS TEXT,
     REQUIRED :lastName AS TEXT,
@@ -347,13 +353,20 @@ FROM
 
 searchParticipantsById(REQUIRED :id AS INTEGER):
 SELECT
+SELECT
     Participants.*,
     DivingSpecialties.specialty_name,
-    DivingDivisions.division_name
+    DivingDivisions.division_name,
+    AgeDivisions.age_division_name,
+    Genders.gender_name,
+    Clubs.club_name
 FROM
     Participants
-    INNER JOIN DivingSpecialties on DivingSpecialties.specialty_id = Participants.specialty_id
-    INNER JOIN DivingDivisions on DivingDivisions.division_id = Participants.division_id
+    INNER JOIN DivingSpecialties USING(specialty_id)
+    INNER JOIN AgeDivisions USING(age_division_year)
+    INNER JOIN Genders USING(gender_id)
+    INNER JOIN DivingDivisions USING(division_id)
+    INNER JOIN Clubs USING(club_id)
 WHERE
     participant_id = :id;
 
@@ -362,28 +375,32 @@ SELECT
     Participants.*,
     DivingSpecialties.specialty_name,
     DivingDivisions.division_name,
-    AgeDivisions.age_division_year,
-    Genders.gender_name
+    AgeDivisions.age_division_name,
+    Genders.gender_name,
+    Clubs.club_name
 FROM
     Participants
-    INNER JOIN DivingSpecialties on DivingSpecialties.specialty_id = Participants.specialty_id
-    INNER JOIN AgeDivisions on AgeDivisions.age_division_year = Participants.age_division_year
-    INNER JOIN Genders on Genders.gender_id = Participants.gender_id
-    INNER JOIN DivingDivisions on DivingDivisions.division_id = Participants.division_id;
+    INNER JOIN DivingSpecialties USING(specialty_id)
+    INNER JOIN AgeDivisions USING(age_division_year)
+    INNER JOIN Genders USING(gender_id)
+    INNER JOIN DivingDivisions USING(division_id)
+    INNER JOIN Clubs USING(club_id);
 
 selectParticiapnsBySpecialty(REQUIRED :id AS INTEGER):
 SELECT
     Participants.*,
     DivingSpecialties.specialty_name,
     DivingDivisions.division_name,
-    AgeDivisions.age_division_year,
-    Genders.gender_name
+    AgeDivisions.age_division_name,
+    Genders.gender_name,
+    Clubs.club_name
 FROM
     Participants
-    INNER JOIN DivingSpecialties on DivingSpecialties.specialty_id = Participants.specialty_id
-    INNER JOIN DivingDivisions on DivingDivisions.division_id = Participants.division_id
-    INNER JOIN AgeDivisions on AgeDivisions.age_division_year = Participants.age_division_year
-    INNER JOIN Genders on Genders.gender_id = Participants.gender_id
+    INNER JOIN DivingSpecialties USING(specialty_id)
+    INNER JOIN AgeDivisions USING(age_division_year)
+    INNER JOIN Genders USING(gender_id)
+    INNER JOIN DivingDivisions USING(division_id)
+    INNER JOIN Clubs USING(club_id)
 where
     Participants.specialty_id = :id
 ORDER BY
@@ -394,14 +411,16 @@ SELECT
     Participants.*,
     DivingSpecialties.specialty_name,
     DivingDivisions.division_name,
-    AgeDivisions.age_division_year,
-    Genders.gender_name
+    AgeDivisions.age_division_name,
+    Genders.gender_name,
+    Clubs.club_name
 FROM
     Participants
-    INNER JOIN DivingSpecialties on DivingSpecialties.specialty_id = Participants.specialty_id
-    INNER JOIN DivingDivisions on DivingDivisions.division_id = Participants.division_id
-    INNER JOIN AgeDivisions on AgeDivisions.age_division_year = Participants.age_division_year
-    INNER JOIN Genders on Genders.gender_id = Participants.gender_id
+    INNER JOIN DivingSpecialties USING(specialty_id)
+    INNER JOIN AgeDivisions USING(age_division_year)
+    INNER JOIN Genders USING(gender_id)
+    INNER JOIN DivingDivisions USING(division_id)
+    INNER JOIN Clubs USING(club_id)
 where
     Participants.division_id = :id
 ORDER BY
@@ -415,14 +434,16 @@ SELECT
     Participants.*,
     DivingSpecialties.specialty_name,
     DivingDivisions.division_name,
-    AgeDivisions.age_division_year,
-    Genders.gender_name
+    AgeDivisions.age_division_name,
+    Genders.gender_name,
+    Clubs.club_name
 FROM
     Participants
-    INNER JOIN DivingSpecialties on DivingSpecialties.specialty_id = Participants.specialty_id
-    INNER JOIN DivingDivisions on DivingDivisions.division_id = Participants.division_id
-    INNER JOIN AgeDivisions on AgeDivisions.age_division_year = Participants.age_division_year
-    INNER JOIN Genders on Genders.gender_id = Participants.gender_id
+    INNER JOIN DivingSpecialties USING(specialty_id)
+    INNER JOIN AgeDivisions USING(age_division_year)
+    INNER JOIN Genders USING(gender_id)
+    INNER JOIN DivingDivisions USING(division_id)
+    INNER JOIN Clubs USING(club_id)
 where
     Participants.division_id = :division_id
     AND Participants.specialty_id = :specialty_id
@@ -434,15 +455,15 @@ SELECT
     Participants.*,
     DivingSpecialties.specialty_name,
     DivingDivisions.division_name,
-    AgeDivisions.age_division_year,
+    AgeDivisions.age_division_name,
     Genders.gender_name,
     Clubs.club_name
 FROM
     Participants
     INNER JOIN DivingSpecialties USING(specialty_id)
-    INNER JOIN DivingDivisions USING(division_id)
     INNER JOIN AgeDivisions USING(age_division_year)
     INNER JOIN Genders USING(gender_id)
+    INNER JOIN DivingDivisions USING(division_id)
     INNER JOIN Clubs USING(club_id)
 where
     Participants.club_id = :clubId

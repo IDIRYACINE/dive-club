@@ -55,8 +55,8 @@ class ClubDialog extends StatelessWidget {
 
     return AlertDialog(
       title: Text(isCreate
-          ? localizations.addSpecialityLabel
-          : localizations.updateSpecialtyLabel),
+          ? localizations.addClubLabel
+          : localizations.updateClubLabel),
       content: ClubForm(
         controller: controller,
       ),

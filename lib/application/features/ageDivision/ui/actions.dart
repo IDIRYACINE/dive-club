@@ -22,12 +22,12 @@ class AgeDivisionActions extends StatelessWidget {
       mainAxisSize: MainAxisSize.max,
       children: [
         Text(
-          localizations.specialityListLabel,
+          localizations.ageDivisionList,
           style: theme.textTheme.headlineSmall,
         ),
         ButtonPrimary(
           onPressed: controller.addAgeDivision,
-          text: localizations.addSpecialityLabel,
+          text: localizations.addAgeDivisionLabel,
         ),
       ],
     );
@@ -63,7 +63,8 @@ class AgeDivisionDropdown extends StatelessWidget {
   Widget build(BuildContext context) {
     return DropdownButtonFormField<AgeDivisionEntity>(
       items: _buildItems(),
-      value: items.first,
+       value: items.isNotEmpty ? items.first : null,
+      hint: const Text("Age Division"),
       onChanged: onSelected,
       validator: validatorAgeDivision,
     );

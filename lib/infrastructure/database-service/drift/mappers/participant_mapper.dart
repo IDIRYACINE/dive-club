@@ -94,6 +94,7 @@ class ParticipantMapper {
       ParticipantMapperPort mapper) {
     List<ParticipantEntity> results = [];
 
+
     for (raw.SelectParticiapntsResult participant in participants) {
       final temp = Participant(
           id: participant.participantId,

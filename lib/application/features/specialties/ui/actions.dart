@@ -63,8 +63,9 @@ class SpecialtyDropdown extends StatelessWidget {
   Widget build(BuildContext context) {
     return DropdownButtonFormField<DivingSpecialtyEntity>(
       items: _buildItems(),
-      value: items.first,
+      value: items.isNotEmpty ? items.first : null,
       onChanged: onSelected,
+      hint: const Text("Specialty"),
       validator: validatorDivingSpecialty,
     );
   }

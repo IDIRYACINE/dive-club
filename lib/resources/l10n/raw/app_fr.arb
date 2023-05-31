@@ -37,5 +37,12 @@
     "displayLanguage": "Langue d'affichage",
     "general": "Général",
     "settings": "Paramètres",
-    "appVersion": "Version de l'application"
+    "appVersion": "Version de l'application",
+    "addClubLabel" : "Add club",
+    "updateClubLabel" : "Update club",
+    "addAgeDivisionLabel" : "Add ageDivision",
+    "updateAgeDivisionLabel" : "Update ageDivision",
+    "ageDivisionList" : "AgeDivision list",
+    "clubList" : "Club list"
+
     }

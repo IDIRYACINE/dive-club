@@ -12,4 +12,7 @@ abstract class Routes {
   static const specialties = '/specialties';
 
   static const settingsRoute = '/settings';
+
+  static const clubs = '/clubs';
+  static const ageDivisions = '/ageDivisions';
 }

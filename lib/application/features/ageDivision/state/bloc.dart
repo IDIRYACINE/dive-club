@@ -7,7 +7,7 @@ import 'state.dart';
 
 class AgeDivisionBloc extends Bloc<AgeDivisionEvent, AgeDivisionState> {
   AgeDivisionBloc() : super(AgeDivisionState.initial()) {
-    on<LoadSpecialtiesEvent>(_handleLoadSpecialitysEvent);
+    on<LoadAgeDivisionsEvent>(_handleLoadSpecialitysEvent);
     on<AddAgeDivisionEvent>(_handleAddAgeDivisionEvent);
     on<UpdateAgeDivisionEvent>(_handleUpdateAgeDivisionEvent);
   }
@@ -36,7 +36,7 @@ class AgeDivisionBloc extends Bloc<AgeDivisionEvent, AgeDivisionState> {
       }
 
   FutureOr<void> _handleLoadSpecialitysEvent(
-      LoadSpecialtiesEvent event, Emitter<AgeDivisionState> emit) {
-        emit(state.copyWith(ageDivisions: event.specialties));
+      LoadAgeDivisionsEvent event, Emitter<AgeDivisionState> emit) {
+        emit(state.copyWith(ageDivisions: event.ageDivisions));
       }
 }

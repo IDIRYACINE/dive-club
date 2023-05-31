@@ -1,3 +1,5 @@
+import 'package:dive_club/application/features/ageDivision/feature.dart';
+import 'package:dive_club/application/features/clubs/feature.dart';
 import 'package:dive_club/application/features/competition/feature.dart';
 import 'package:dive_club/application/features/divisions/feature.dart';
 import 'package:dive_club/application/features/participants/feature.dart';
@@ -22,6 +24,8 @@ class AppContent extends StatelessWidget {
             ParticipantsView(),
             DivisionsView(),
             SpecialtiesView(),
+            AgeDivisionsView(),
+            ClubsView(),
             CompetitionScoresView(),
             SettingsView(),
           ],

@@ -18,6 +18,14 @@ class AgeDivisionDataHolder {
     nameController.text = value;
   }
 
+  final TextEditingController yearController = TextEditingController();
+
+  String get year => yearController.text;
+
+  set year(String value) {
+    yearController.text = value;
+  }
+
   AgeDivisionDataHolder();
 }
 
@@ -25,6 +33,7 @@ class AgeDivisionController {
   static final key = GlobalKey<FormState>();
 
   TextEditingController get nameController => _data.nameController;
+  TextEditingController get yearController => _data.yearController;
 
   AgeDivisionController([this._entity]);
 
@@ -53,7 +62,7 @@ class AgeDivisionController {
         _updateAgeDivision(updatedEntity);
       } else {
         final entity = AgeDivisionEntity(
-          divisionId: AgeDivisionId(bloc.state.ageDivisions.length + 1),
+          divisionId: AgeDivisionId(int.parse(_data.year)),
           divisionName: AgeDivisionName(_data.name),
         );
 
@@ -118,8 +127,8 @@ class RowController {
 }
 
 Future<void> _registerAgeDivision(AgeDivisionEntity entity) async {
-  final options =
-      CreateAgeDivisionOptions(divisionName: entity.divisionName.value, year: entity.divisionId.value);
+  final options = CreateAgeDivisionOptions(
+      divisionName: entity.divisionName.value, year: entity.divisionId.value);
   ServicesProvider.instance().databasePort.insertAgeDivision(options);
 }
 

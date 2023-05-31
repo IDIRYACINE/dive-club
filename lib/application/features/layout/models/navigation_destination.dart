@@ -30,14 +30,24 @@ const navgiationDestinations = [
       route: Routes.specialties,
       uniqueId: 2,
       icon: Icons.event),
+      NavigationEntity(
+      title: 'AgeDivisions',
+      route: Routes.ageDivisions,
+      uniqueId: 3,
+      icon: Icons.event),
+      NavigationEntity(
+      title: 'Clubs',
+      route: Routes.clubs,
+      uniqueId: 4,
+      icon: Icons.event),
   NavigationEntity(
       title: 'Competition',
       route: Routes.competitionRoute,
-      uniqueId: 3,
+      uniqueId: 5,
       icon: Icons.event),
   NavigationEntity(
       title: 'Settings',
       route: Routes.settingsRoute,
-      uniqueId: 4,
+      uniqueId: 6,
       icon: Icons.settings),
 ];

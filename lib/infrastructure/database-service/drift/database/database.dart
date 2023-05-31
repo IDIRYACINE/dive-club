@@ -6,7 +6,7 @@ import 'helpers.dart';
 part 'database.g.dart';
 
 @DriftDatabase(
-  include: {'tables.drift'},
+  include: {'tables.sql'},
 )
 class AppDb extends _$AppDb {
   static AppDb? _instance;

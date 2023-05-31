@@ -1,4 +1,6 @@
 import 'package:dive_club/application/commons/widgets/app_logo.dart';
+import 'package:dive_club/application/features/ageDivision/state/bloc.dart';
+import 'package:dive_club/application/features/clubs/state/bloc.dart';
 import 'package:dive_club/application/features/competition/state/bloc.dart';
 import 'package:dive_club/application/features/divisions/feature.dart';
 import 'package:dive_club/application/features/participants/feature.dart';
@@ -17,7 +19,9 @@ class SplashView extends StatelessWidget {
         competitionBloc: BlocProvider.of<CompetitionBloc>(context),
         participantsBloc: BlocProvider.of<ParticipantBloc>(context),
         divisionsBloc: BlocProvider.of<DivisionBloc>(context),
-        specialtiesBloc: BlocProvider.of<SpecialtyBloc>(context));
+        specialtiesBloc: BlocProvider.of<SpecialtyBloc>(context),
+        ageDivisionBloc: BlocProvider.of<AgeDivisionBloc>(context),
+        clubBloc: BlocProvider.of<ClubBloc>(context));
 
     initApp(options);
 
