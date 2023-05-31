@@ -1,8 +1,10 @@
 import 'package:dive_club/application/commons/utility/validators.dart';
 import 'package:dive_club/application/commons/widgets/buttons.dart';
+import 'package:dive_club/application/features/ageDivision/feature.dart';
 import 'package:dive_club/application/features/divisions/feature.dart';
 import 'package:dive_club/application/features/specialties/feature.dart';
 import 'package:dive_club/core/domain/diving/entity.dart';
+import 'package:dive_club/core/domain/genders/export.dart';
 import 'package:dive_club/resources/l10n/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -11,12 +13,18 @@ import '../logic/participant_controller.dart';
 
 class ParticipantForm extends StatelessWidget {
   ParticipantForm(
-      {super.key, required this.divisions, required this.specialties});
+      {super.key,
+      required this.divisions,
+      required this.specialties,
+      required this.ageDivisions,
+      required this.genders});
 
   final ParticipantController controller = ParticipantController();
 
   final List<DivingDivisionEntity> divisions;
   final List<DivingSpecialtyEntity> specialties;
+  final List<AgeDivisionEntity> ageDivisions;
+  final List<GenderEntity> genders;
 
   @override
   Widget build(BuildContext context) {
@@ -74,12 +82,16 @@ class ParticipantDialog extends StatelessWidget {
     final divisions = BlocProvider.of<DivisionBloc>(context).state.divisions;
     final specialties =
         BlocProvider.of<SpecialtyBloc>(context).state.specialties;
+    final ageDivisions =
+        BlocProvider.of<AgeDivisionBloc>(context).state.ageDivisions;
 
     return AlertDialog(
       title: Text(localizations.addParticipantLabel),
       content: ParticipantForm(
         divisions: divisions,
         specialties: specialties,
+        ageDivisions: ageDivisions,
+        genders: gendersList,
       ),
     );
   }

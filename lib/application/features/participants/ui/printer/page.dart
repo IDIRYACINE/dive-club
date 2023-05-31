@@ -27,7 +27,7 @@ class ParticipantsPage extends pw.StatelessWidget {
       rows.add(
         pw.TableRow(
           children: [
-            pw.Text(participant.participantName.value,textDirection: pw.TextDirection.rtl ),
+            pw.Text(participant.participantName.toString(),textDirection: pw.TextDirection.rtl ),
             pw.Text(
                 formatDateTimeToDisplay(participant.participantBirthDate.value),
                 textDirection: pw.TextDirection.rtl 

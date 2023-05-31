@@ -1,4 +1,5 @@
 import 'package:dive_club/core/domain/diving/export.dart';
+import 'package:dive_club/core/domain/genders/value_objects.dart';
 import 'package:dive_club/core/domain/participants/export.dart';
 import 'package:dive_club/core/infrastrucutre/database/export.dart';
 
@@ -13,10 +14,13 @@ class ScoreMapper
         participantId: ParticipantId(persistance.participantId),
         divisionId: DivisionId(persistance.divisionId),
         specialtyId: SpecialtyId(persistance.specialityId),
-        score: Score(persistance.score),
-         divisionName: DivisionName(persistance.divisionName), 
-         participantName: ParticipantName(persistance.participantName), 
-         specialtyName: SpecialtyName(persistance.specialtyName));
+        score: Score.fromInt(persistance.score),
+        divisionName: DivisionName(persistance.divisionName),
+        participantName: ParticipantName(
+            persistance.participantFirstName, persistance.participantLastName),
+        specialtyName: SpecialtyName(persistance.specialtyName),
+        ageDivisionId: AgeDivisionId(persistance.ageDivisionId),
+        genderId: GenderId(persistance.genderId));
   }
 
   @override

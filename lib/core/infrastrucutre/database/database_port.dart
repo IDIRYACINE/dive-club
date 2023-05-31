@@ -19,4 +19,13 @@ abstract class DatabasePort{
   Future<LoadDivingSpecialitiesResult> loadDivingSpecialities();
   Future<LoadParticipantsResult> loadParticipants(LoadParticipantsOptions options);
 
+  Future<DatabaseOperationResult> insertAgeDivision(CreateAgeDivisionOptions options);
+  Future<DatabaseOperationResult> updateAgeDivision(UpdateAgeDivisionOptions options);
+  Future<LoadAgeDivisionsResult> loadAgeDivisions();
+
+  Future<DatabaseOperationResult> insertClub(CreateClubOptions options);
+  Future<DatabaseOperationResult> updateClub(UpdateClubOptions options);
+  Future<LoadClubsResult> loadClubs();
+
+
 }

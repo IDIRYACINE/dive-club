@@ -2,18 +2,29 @@ abstract class DatabaseEntity {}
 
 class Participant extends DatabaseEntity {
   final int id;
-  final String name;
+  final String firstName;
+  final String lastName;
+
   final DateTime birthDate;
   final int divisionId;
   final String divisionName;
   final String specialityName;
   final int specialityId;
+  final int ageDivisionId;
+  final int genderId;
+  final int clubId;
+  final int entryTime;
 
   Participant({
+    required this.ageDivisionId,
+    required this.genderId,
+    required this.clubId,
+    required this.entryTime,
     required this.divisionName,
     required this.divisionId,
+    required this.lastName,
     required this.id,
-    required this.name,
+    required this.firstName,
     required this.birthDate,
     required this.specialityName,
     required this.specialityId,
@@ -44,21 +55,48 @@ class CompetitionScore extends DatabaseEntity {
   final int participantId;
   final int divisionId;
   final int specialityId;
-  final double score;
+  final int genderId;
+  final int ageDivisionId;
+
+  final int score;
   final DateTime date;
 
-  final String participantName;
+  final String participantFirstName;
+  final String participantLastName;
   final String specialtyName;
   final String divisionName;
 
-  CompetitionScore({
-    required this.participantId,
-    required this.divisionId,
-    required this.specialityId,
-    required this.score,
-    required this.date,
-    required this.participantName,
-    required this.specialtyName,
-    required this.divisionName,
-  });
+  CompetitionScore(
+      {required this.participantId,
+      required this.divisionId,
+      required this.specialityId,
+      required this.genderId,
+      required this.ageDivisionId,
+      required this.score,
+      required this.date,
+      required this.participantFirstName,
+      required this.specialtyName,
+      required this.divisionName,
+      required this.participantLastName});
+}
+
+class AgeDivision extends DatabaseEntity {
+  final int divisionId;
+  final String divisionName;
+
+  AgeDivision({required this.divisionId, required this.divisionName});
+}
+
+class Club extends DatabaseEntity {
+  final int clubId;
+  final String clubName;
+
+  Club({required this.clubId, required this.clubName});
+}
+
+class Gender extends DatabaseEntity {
+  final int genderId;
+  final String genderName;
+
+  Gender({required this.genderId, required this.genderName});
 }

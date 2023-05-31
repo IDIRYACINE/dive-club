@@ -30,14 +30,14 @@ class RankingsPage extends pw.StatelessWidget {
       rows.add(
         pw.TableRow(
           children: [
-            pw.Text(participant.participantName.value,
+            pw.Text(participant.participantName.toString(),
                 textDirection: pw.TextDirection.rtl),
             pw.Text(participant.divisionName.value,
                 textDirection: pw.TextDirection.rtl),
             pw.Text(participant.specialtyName.value,
                 textDirection: pw.TextDirection.rtl),
             pw.Text(
-              participant.score.value.toString(),
+              participant.score.toString(),
             textDirection: pw.TextDirection.rtl ),
           ],
         ),
@@ -76,7 +76,7 @@ class CertificatePage extends pw.StatelessWidget {
           top: 100,
           left: 100,
           child: pw.Text(
-            participant.participantName.value,
+            participant.participantName.toString(),
           ),
         ),
       ],

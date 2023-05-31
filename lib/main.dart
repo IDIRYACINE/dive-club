@@ -1,9 +1,11 @@
+import 'package:dive_club/application/features/clubs/state/bloc.dart';
 import 'package:dive_club/application/features/competition/feature.dart';
 import 'package:dive_club/application/features/settings/feature.dart';
 import 'package:dive_club/resources/l10n/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import 'application/features/ageDivision/feature.dart';
 import 'application/features/divisions/feature.dart';
 import 'application/features/layout/feature.dart';
 import 'application/features/participants/feature.dart';
@@ -20,6 +22,8 @@ void main() {
     BlocProvider(create: (context) => DivisionBloc()),
     BlocProvider(create: (context) => ParticipantBloc()),
     BlocProvider(create: (context) => CompetitionBloc()),
+    BlocProvider(create: (context) => ClubBloc()),
+    BlocProvider(create: (context) => AgeDivisionBloc()),
   ], child: const MyApp()));
 }
 
