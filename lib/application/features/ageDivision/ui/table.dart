@@ -1,5 +1,5 @@
 import 'package:dive_club/application/commons/widgets_custom/sized_query_box.dart';
-import 'package:dive_club/core/domain/diving/export.dart';
+import 'package:dive_club/core/entities/diving/export.dart';
 import 'package:dive_club/resources/l10n/l10n.dart';
 import 'package:dive_club/resources/measures.dart';
 import 'package:flutter/material.dart';

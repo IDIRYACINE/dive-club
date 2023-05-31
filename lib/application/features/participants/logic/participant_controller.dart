@@ -1,15 +1,14 @@
 import 'package:dive_club/application/commons/utility/formaters.dart';
 import 'package:dive_club/application/commons/widgets/filter.dart';
-import 'package:dive_club/application/features/competition/ui/forms.dart';
 import 'package:dive_club/application/features/divisions/feature.dart';
 import 'package:dive_club/application/features/participants/ui/forms.dart';
 import 'package:dive_club/application/features/specialties/feature.dart';
 import 'package:dive_club/application/navigation/feature.dart';
-import 'package:dive_club/core/domain/clubs/export.dart';
-import 'package:dive_club/core/domain/competition/export.dart';
-import 'package:dive_club/core/domain/diving/export.dart';
-import 'package:dive_club/core/domain/genders/export.dart';
-import 'package:dive_club/core/domain/participants/export.dart';
+import 'package:dive_club/core/entities/clubs/export.dart';
+import 'package:dive_club/core/entities/competition/export.dart';
+import 'package:dive_club/core/entities/diving/export.dart';
+import 'package:dive_club/core/entities/genders/export.dart';
+import 'package:dive_club/core/entities/participants/export.dart';
 import 'package:dive_club/core/infrastrucutre/database/export.dart';
 import 'package:dive_club/infrastructure/service_provider.dart';
 import 'package:flutter/material.dart';
@@ -178,9 +177,9 @@ class ParticipantController {
 }
 
 class RowController {
+
   void addParticipantScore(ParticipantEntity entity) {
-    final dialog = ScoreDialog(entity: entity);
-    NavigationService.displayDialog(dialog);
+    
   }
 
   Future<void> displayActions(DisplayActionsOptions options) async {

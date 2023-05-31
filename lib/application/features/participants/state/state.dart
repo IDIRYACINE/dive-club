@@ -1,7 +1,7 @@
 
 
 
-import 'package:dive_club/core/domain/participants/export.dart';
+import 'package:dive_club/core/entities/participants/export.dart';
 
 class ParticipantState{
 

@@ -1,6 +1,6 @@
 import 'package:dive_club/application/commons/utility/validators.dart';
 import 'package:dive_club/application/commons/widgets/buttons.dart';
-import 'package:dive_club/core/domain/clubs/entity.dart';
+import 'package:dive_club/core/entities/clubs/entity.dart';
 import 'package:dive_club/resources/l10n/l10n.dart';
 import 'package:flutter/material.dart';
 

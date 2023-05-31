@@ -1,6 +1,6 @@
 import 'package:dive_club/application/commons/widgets/dialogs.dart';
 import 'package:dive_club/application/navigation/feature.dart';
-import 'package:dive_club/core/domain/participants/export.dart';
+import 'package:dive_club/core/entities/participants/export.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
 import 'package:printing/printing.dart';

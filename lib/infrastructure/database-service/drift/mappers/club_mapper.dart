@@ -1,5 +1,5 @@
 
- import 'package:dive_club/core/domain/clubs/export.dart';
+ import 'package:dive_club/core/entities/clubs/export.dart';
 import 'package:dive_club/core/infrastrucutre/database/export.dart';
 import 'package:dive_club/infrastructure/database-service/drift/database/database.dart' as raw;
 

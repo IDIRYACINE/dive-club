@@ -14,7 +14,8 @@ CREATE TABLE Clubs (
 );
 
 CREATE TABLE AgeDivisions (
-    age_division_year INTEGER PRIMARY KEY,
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    age_division_year INTEGER NOT NULL,
     age_division_name TEXT NOT NULL
 );
 
@@ -53,12 +54,6 @@ CREATE TABLE Scores(
 );
 
 CREATE INDEX score_idx ON Scores(score);
-
-INSERT INTO
-    Genders
-values
-    (0, "H"),
-    (1, "F");
 
 createParticipant(
     REQUIRED :firstName AS TEXT,
@@ -352,7 +347,6 @@ FROM
     DivingDivisions;
 
 searchParticipantsById(REQUIRED :id AS INTEGER):
-SELECT
 SELECT
     Participants.*,
     DivingSpecialties.specialty_name,

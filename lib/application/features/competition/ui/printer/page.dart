@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:dive_club/core/domain/competition/export.dart';
+import 'package:dive_club/core/entities/competition/export.dart';
 import 'package:pdf/widgets.dart' as pw;
 
 class RankingsPage extends pw.StatelessWidget {

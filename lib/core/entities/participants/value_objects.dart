@@ -26,6 +26,11 @@ class ParticipantBirthDate{
   ParticipantBirthDate(this.value);
 
   int get year => value.year;
+
+  @override 
+  String toString(){
+    return value.toString();
+  }
   
 
 }

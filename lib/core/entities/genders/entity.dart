@@ -1,4 +1,4 @@
-import 'package:dive_club/core/domain/genders/value_objects.dart';
+import 'package:dive_club/core/entities/genders/value_objects.dart';
 
 class GenderEntity {
   final GenderId genderId;

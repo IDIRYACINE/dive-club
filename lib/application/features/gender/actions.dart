@@ -1,5 +1,5 @@
 import 'package:dive_club/application/commons/utility/validators.dart';
-import 'package:dive_club/core/domain/genders/export.dart';
+import 'package:dive_club/core/entities/genders/export.dart';
 import 'package:flutter/material.dart';
 
 typedef GenderDropdownItem = DropdownMenuItem<GenderEntity>;
