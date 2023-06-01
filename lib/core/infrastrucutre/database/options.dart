@@ -147,10 +147,12 @@ class LoadParticipantsOptions {
   final int? specialityId;
   final int? divisionId;
   final int? participantId;
+  final int? clubId;
 
   LoadParticipantsOptions({
     this.divisionId,
     this.specialityId,
+    this.clubId,
     this.participantId,
   });
 }

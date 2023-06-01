@@ -19,6 +19,9 @@ class ParticipantEntity {
   final Score entryTime;
   final GenderId genderId;
 
+  final ParticipantColumn column;
+  final ParticipantSeries series;
+
   ParticipantEntity({
     required this.participantId,
     required this.participantName,
@@ -29,6 +32,8 @@ class ParticipantEntity {
     required this.specialtyName,
     required this.ageDivisionId,
     required this.clubId,
+    required this.column,
+    required this.series,
     required this.entryTime,
     required this.genderId,
   });

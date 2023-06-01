@@ -14,6 +14,8 @@ class Participant extends DatabaseEntity {
   final int genderId;
   final int clubId;
   final int entryTime;
+  int column;
+  int series;
 
   Participant({
     required this.ageDivisionId,
@@ -28,6 +30,8 @@ class Participant extends DatabaseEntity {
     required this.birthDate,
     required this.specialityName,
     required this.specialityId,
+    this.column = -1,
+    this.series = -1,
   });
 }
 

@@ -25,6 +25,8 @@ CREATE TABLE Participants(
     participant_last_name TEXT NOT NULL,
     entry_time INTEGER NOT NULL,
     birth_date Date NOT NULL,
+    participant_series INTEGER,
+    participant_column INTEGER,
     club_id INTEGER NOT NULL REFERENCES Clubs(club_id),
     gender_id INTEGER NOT NULL REFERENCES Genders(gender_id),
     division_id INTEGER NOT NULL REFERENCES DivingDivisions(division_id),
@@ -475,3 +477,15 @@ SELECT
     *
 FROM
     Clubs;
+
+updateParticipantSeriesAndColumn(
+    REQUIRED :id AS INTEGER,
+    REQUIRED :series AS INTEGER,
+    REQUIRED :column AS INTEGER
+):
+UPDATE Participants
+SET
+    participant_series = :series,
+    participant_column = :column
+WHERE
+    participant_id = :id;

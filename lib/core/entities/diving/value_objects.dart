@@ -29,6 +29,11 @@ class AgeDivisionId{
 
   AgeDivisionId(this.value);
 
+  factory AgeDivisionId.fromString(value) {
+    return AgeDivisionId (int.tryParse(value) ?? 1);
+
+  }
+
 }
 
 class AgeDivisionName{

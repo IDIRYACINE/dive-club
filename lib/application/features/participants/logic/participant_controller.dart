@@ -4,6 +4,7 @@ import 'package:dive_club/application/features/divisions/feature.dart';
 import 'package:dive_club/application/features/participants/ui/forms.dart';
 import 'package:dive_club/application/features/specialties/feature.dart';
 import 'package:dive_club/application/navigation/feature.dart';
+import 'package:dive_club/core/domain/report.dart';
 import 'package:dive_club/core/entities/clubs/export.dart';
 import 'package:dive_club/core/entities/competition/export.dart';
 import 'package:dive_club/core/entities/diving/export.dart';
@@ -17,7 +18,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../state/bloc.dart';
 import '../state/events.dart';
 import 'options.dart';
-import 'printer.dart';
 
 class RegistrationDataHolder {
   String firstName;
@@ -26,13 +26,13 @@ class RegistrationDataHolder {
   final TextEditingController birthDateTextController = TextEditingController();
   DivingDivisionEntity? division;
   DivingSpecialtyEntity? specialty;
-  
+
   GenderEntity? gender;
-  
+
   AgeDivisionEntity? ageDivision;
-  
+
   ClubEntity? club;
-  
+
   String? score;
 
   RegistrationDataHolder({this.firstName = '', DateTime? birthDate}) {
@@ -94,7 +94,9 @@ class ParticipantController {
           ageDivisionId: AgeDivisionId(birthDate.year),
           clubId: _data.club!.clubId,
           entryTime: Score.fromString(_data.score!),
-          genderId: _data.gender!.genderId);
+          genderId: _data.gender!.genderId,
+          column: ParticipantColumn.from(-1),
+          series: ParticipantSeries(-1));
 
       _registerParticipant(entity);
 
@@ -106,7 +108,6 @@ class ParticipantController {
     }
   }
 
-
   void addParticipant() {
     const dialog = ParticipantDialog();
     NavigationService.displayDialog(dialog);
@@ -114,15 +115,24 @@ class ParticipantController {
 
   Future<void> printParticipants(
       ParticipantBloc bloc, BuildContext context) async {
-    final printer = ParticipantsPrinter();
-    printer.prepareNewDocument();
-    await printer.createDocument(bloc.state.participants);
-    printer.displayPreview();
+    // final printer = ParticipantsPrinter();
+    // printer.prepareNewDocument();
+    // await printer.createDocument(bloc.state.participants);
+    // printer.displayPreview();
+    final servicesProvider = ServicesProvider.instance();
+
+    final report = ReportStartList(
+        dbPort: servicesProvider.databasePort,
+        excelPort: servicesProvider.excelManagerPort);
+
+    await report.registerParticipants();
+    report.generateStartListReport(); 
   }
 
   void updateFirstName(String value) {
     _data.firstName = value;
   }
+
   void updateEntryTime(String value) {
     _data.score = value;
   }
@@ -173,14 +183,10 @@ class ParticipantController {
       filterOptions.participantBloc!.add(event);
     });
   }
-
 }
 
 class RowController {
-
-  void addParticipantScore(ParticipantEntity entity) {
-    
-  }
+  void addParticipantScore(ParticipantEntity entity) {}
 
   Future<void> displayActions(DisplayActionsOptions options) async {
     final RenderBox overlay =

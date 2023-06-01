@@ -34,7 +34,8 @@ INSERT INTO
     Clubs
 VALUES
     (0, "Club1"),
-    (1, "CLUB 2")
+    (1, "CLUB 2");
+    
 INSERT INTO
     Participants (
         participant_first_name,

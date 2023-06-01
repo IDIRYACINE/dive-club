@@ -21,7 +21,9 @@ class ParticipantMapper
         ageDivisionId: AgeDivisionId(persistance.ageDivisionId),
         clubId: ClubId(persistance.clubId),
         entryTime: Score.fromInt(persistance.entryTime),
-        genderId: GenderId(persistance.genderId));
+        genderId: GenderId(persistance.genderId),
+        column: ParticipantColumn.from(persistance.column),
+        series: ParticipantSeries(persistance.series));
   }
 
   @override
