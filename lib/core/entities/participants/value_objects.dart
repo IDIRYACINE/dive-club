@@ -16,7 +16,7 @@ class ParticipantColumn{
     if(value > 5){
       throw ArgumentError("column can't exceed 5");
     }
-    return ParticipantColumn._(5);
+    return ParticipantColumn._(value);
   }
 
 

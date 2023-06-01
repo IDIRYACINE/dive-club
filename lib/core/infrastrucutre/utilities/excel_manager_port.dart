@@ -53,19 +53,21 @@ class ParticipantEngagement {
   final SpecialtyName specialtyName;
   final ParticipantName participantName;
   final AgeDivisionId ageDivisionId;
-  final ClubId clubId;
+  final ClubName clubName;
   final GenderName gender;
+  final AgeDivisionName ageDivisionName;
   final ParticipantId participantId;
 
   final Score entryScore;
 
   ParticipantEngagement(
       {required this.column,
+      required this.ageDivisionName,
       required this.participantId,
       required this.series,
       required this.participantName,
       required this.ageDivisionId,
-      required this.clubId,
+      required this.clubName,
       required this.divisionName,
       required this.specialtyName,
       required this.gender,

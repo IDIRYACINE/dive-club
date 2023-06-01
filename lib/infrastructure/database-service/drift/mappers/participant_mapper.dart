@@ -64,6 +64,31 @@ class ParticipantMapper {
 
     return results;
   }
+
+  static fromyByClub(List<raw.SelectParticiapntsByClubResult> participants,
+      ParticipantMapperPort mapper) {
+    List<ParticipantEntity> results = [];
+
+    for (raw.SelectParticiapntsByClubResult participant in participants) {
+      results.add(_mapToDomain(participant, mapper));
+    }
+
+    return results;
+  }
+
+  static byAgeAndDivisionAndSpecialty(
+      List<raw.SelectParticiapntsByAgeAndDivisionAndSpecialtyResult>
+          participants,
+      ParticipantMapperPort mapper) {
+    List<ParticipantEntity> results = [];
+
+    for (raw.SelectParticiapntsByAgeAndDivisionAndSpecialtyResult participant
+        in participants) {
+      results.add(_mapToDomain(participant, mapper));
+    }
+
+    return results;
+  }
 }
 
 ParticipantEntity _mapToDomain(
@@ -82,7 +107,9 @@ ParticipantEntity _mapToDomain(
       genderId: participant.genderId,
       lastName: participant.participantLastName,
       column: participant.participantColumn ?? -1,
-      series: participant.participantSeries ?? -1);
+      series: participant.participantSeries ?? -1,
+      ageDivisionName: participant.ageDivisionName,
+      clubName: participant.clubName);
 
   return mapper.toDomainEntity(temp);
 }

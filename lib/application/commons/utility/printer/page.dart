@@ -32,8 +32,8 @@ class ParticipantsPage extends pw.StatelessWidget {
                 formatDateTimeToDisplay(participant.participantBirthDate.value),
                 textDirection: pw.TextDirection.rtl 
                 ),
-            pw.Text(participant.divisionName.value,textDirection: pw.TextDirection.rtl ),
-            pw.Text(participant.specialtyName.value,textDirection: pw.TextDirection.rtl ),
+            pw.Text(participant.division.divisionName.value,textDirection: pw.TextDirection.rtl ),
+            pw.Text(participant.specialty.specialtyName.value,textDirection: pw.TextDirection.rtl ),
           ],
         ),
       );

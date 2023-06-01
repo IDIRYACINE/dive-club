@@ -9,21 +9,25 @@ class ParticipantMapper
     implements DatabaseMapper<ParticipantEntity, Participant> {
   @override
   ParticipantEntity toDomainEntity(Participant persistance) {
+    final club = ClubEntity(clubId: ClubId(persistance.clubId), clubName: ClubName(persistance.clubName));
+
+    final division = DivingDivisionEntity(divisionId: DivisionId(persistance.divisionId), divisionName: DivisionName(persistance.divisionName));
+
+    final specialty = DivingSpecialtyEntity(specialtyId: SpecialtyId(persistance.specialityId), specialtyName: SpecialtyName(persistance.specialityName),);
+    final ageDivision = AgeDivisionEntity(divisionId: AgeDivisionId(persistance.ageDivisionId), divisionName: AgeDivisionName(persistance.ageDivisionName));
     return ParticipantEntity(
         participantId: ParticipantId(persistance.id),
         participantName:
             ParticipantName(persistance.firstName, persistance.lastName),
         participantBirthDate: ParticipantBirthDate(persistance.birthDate),
-        divisionId: DivisionId(persistance.divisionId),
-        specialtyId: SpecialtyId(persistance.specialityId),
-        divisionName: DivisionName(persistance.divisionName),
-        specialtyName: SpecialtyName(persistance.specialityName),
-        ageDivisionId: AgeDivisionId(persistance.ageDivisionId),
-        clubId: ClubId(persistance.clubId),
+        division: division,
+        specialty:specialty  ,
+        club: club,
         entryTime: Score.fromInt(persistance.entryTime),
         genderId: GenderId(persistance.genderId),
         column: ParticipantColumn.from(persistance.column),
-        series: ParticipantSeries(persistance.series));
+        series: ParticipantSeries(persistance.series),
+         ageDivision: ageDivision);
   }
 
   @override

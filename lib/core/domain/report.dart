@@ -1,4 +1,5 @@
 import 'package:dive_club/core/entities/clubs/export.dart';
+import 'package:dive_club/core/entities/diving/export.dart';
 import 'package:dive_club/core/entities/genders/export.dart';
 import 'package:dive_club/core/entities/participants/export.dart';
 import 'package:dive_club/core/infrastrucutre/database/export.dart';
@@ -72,10 +73,11 @@ class ReportStartList {
           participantId: participant.participantId,
           series: series,
           participantName: participant.participantName,
-          ageDivisionId: participant.ageDivisionId,
-          clubId: participant.clubId,
-          divisionName: participant.divisionName,
-          specialtyName: participant.specialtyName,
+          ageDivisionId: participant.ageDivision.divisionId,
+          ageDivisionName: participant.ageDivision.divisionName,
+          clubName: participant.club.clubName,
+          divisionName: participant.division.divisionName,
+          specialtyName: participant.specialty.specialtyName,
           gender: participant.genderId.value == 0
               ? GenderName.male()
               : GenderName.female(),
@@ -91,14 +93,31 @@ class ReportStartList {
   }
 
   Future<void> generateStartListReport() async {
-    if (!excelPort.isFileProcessed) {
-      await registerParticipants();
+    final divisions = (await dbPort.loadDivingDivisions()).divisions;
+    final ageDivisions = (await dbPort.loadAgeDivisions()).ageDivisions;
+    final specialties = (await dbPort.loadDivingSpecialities()).specialties;
+
+    final List<ParticipantEngagement> engagements = [];
+
+    for (AgeDivisionEntity ageDvision in ageDivisions) {
+      for (DivingSpecialtyEntity specialty in specialties) {
+        for (DivingDivisionEntity division in divisions) {
+          final options = LoadParticipantsOptions(
+            divisionId: division.divisionId.value,
+            specialityId: specialty.specialtyId.value,
+            ageDivisionId: ageDvision.divisionId.value,
+          );
+
+          final participants =
+              (await dbPort.loadParticipants(options)).participants;
+
+          
+
+          engagements.addAll(_generateEngagements(participants));
+        }
+      }
     }
 
-    final options = LoadParticipantsOptions();
-
-    final participants = (await dbPort.loadParticipants(options)).participants;
-    final engagements = _generateEngagements(participants);
     dbPort.updateParticipantsSeries(engagements);
 
     excelPort.exportStartListFile(engagementsOutputDirectory, engagements);
@@ -113,7 +132,26 @@ class ReportStartList {
       final participants =
           (await dbPort.loadParticipants(options)).participants;
 
-      final engagements = _generateEngagements(participants);
+      final List<ParticipantEngagement> engagements = [];
+
+      for (ParticipantEntity participant in participants) {
+        final engagement = ParticipantEngagement(
+            column: participant.column,
+            participantId: participant.participantId,
+            series: participant.series.value,
+            participantName: participant.participantName,
+            ageDivisionId: participant.ageDivision.divisionId,
+            clubName: club.clubName,
+            divisionName: participant.division.divisionName,
+            specialtyName: participant.specialty.specialtyName,
+            gender: participant.genderId.value == 0
+                ? GenderName.male()
+                : GenderName.female(),
+            entryScore: participant.entryTime,
+            ageDivisionName: participant.ageDivision.divisionName);
+
+        engagements.add(engagement);
+      }
 
       excelPort.exportEngagementsFiles(engagementsOutputDirectory, engagements);
     }

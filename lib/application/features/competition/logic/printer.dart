@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:dive_club/application/commons/widgets/dialogs.dart';
 import 'package:dive_club/application/navigation/feature.dart';
 import 'package:dive_club/core/entities/competition/export.dart';
+import 'package:dive_club/resources/resources.dart';
 import 'package:flutter/services.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
@@ -48,9 +49,15 @@ class CompetitionPrinter {
     const maxPages = 3;
     final length = scores.length >= maxPages ? maxPages : scores.length;
 
+    final List<File> images = [];
+    images.add(File(AppResources.certificateGold));
+    images.add(File(AppResources.certificateSilver));
+    images.add(File(AppResources.certificateBronze));
+
+
     for (int i = 0; i < length; i++) {
       final participant = scores[i];
-      _createCertificatePage(participant, fontTheme);
+      _createCertificatePage(participant, fontTheme,images[i]);
     }
 
     return _pdf.save();
@@ -70,8 +77,7 @@ class CompetitionPrinter {
   }
 
   void _createCertificatePage(
-      CompetitionScoreEntity score, pw.ThemeData fontTheme) {
-    File image = File('assets/images/certificate.png');
+      CompetitionScoreEntity score, pw.ThemeData fontTheme,File image) {
 
     _pdf.addPage(
       pw.Page(

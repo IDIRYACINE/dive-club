@@ -47,8 +47,8 @@ class ScoreController {
       final divisionBloc = BlocProvider.of<DivisionBloc>(context);
       final specialtyBloc = BlocProvider.of<SpecialtyBloc>(context);
 
-      final divisionId = _data.participant!.divisionId;
-      final specialtyId = _data.participant!.specialtyId;
+      final divisionId = _data.participant!.division.divisionId;
+      final specialtyId = _data.participant!.specialty.specialtyId;
 
       final ageDivisionYear =
           AgeDivisionId(_data.participant!.participantBirthDate.year);

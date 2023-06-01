@@ -12,12 +12,16 @@ class Participant extends DatabaseEntity {
   final int specialityId;
   final int ageDivisionId;
   final int genderId;
+  final String clubName;
+  final String ageDivisionName;
   final int clubId;
   final int entryTime;
   int column;
   int series;
 
   Participant({
+    required this.clubName,
+    required this.ageDivisionName,
     required this.ageDivisionId,
     required this.genderId,
     required this.clubId,

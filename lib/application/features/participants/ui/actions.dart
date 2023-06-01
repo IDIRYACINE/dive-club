@@ -1,9 +1,6 @@
 import 'package:dive_club/application/commons/widgets/buttons.dart';
-import 'package:dive_club/application/features/participants/feature.dart';
 import 'package:dive_club/resources/l10n/l10n.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-
 import '../logic/participant_controller.dart';
 
 class ParticipantsActions extends StatelessWidget {
@@ -15,7 +12,6 @@ class ParticipantsActions extends StatelessWidget {
   Widget build(BuildContext context) {
     final localizations = AppLocalizations.of(context)!;
     final theme = Theme.of(context);
-    final bloc = BlocProvider.of<ParticipantBloc>(context);
 
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -26,7 +22,7 @@ class ParticipantsActions extends StatelessWidget {
         Row(
           children: [
             ButtonPrimary(
-              onPressed: () => controler.printParticipants(bloc,context),
+              onPressed: () => controler.printParticipants(),
               text: localizations.printParticipantsLabel,
             ),
             const SizedBox(width: 10),

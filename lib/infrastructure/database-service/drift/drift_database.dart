@@ -145,6 +145,28 @@ class DriftDatabaseService implements DatabasePort {
           );
     }
 
+    if(options.clubId !=null){
+      return _database.selectParticiapntsByClub(clubId: options.clubId!).get().then(
+            (value) => LoadParticipantsResult(
+              participants: ParticipantMapper.fromyByClub(
+                  value, _mapperService.participantMapper),
+            ),
+          );
+    }
+
+    if(options.divisionId != null && options.ageDivisionId !=null && options.specialityId !=null){
+      return  _database.selectParticiapntsByAgeAndDivisionAndSpecialty(
+        ageDivisionId:options.ageDivisionId!,
+        divisionId : options.divisionId!,
+        specialtyId : options.specialityId!
+      ).get().then(
+            (value) => LoadParticipantsResult(
+              participants: ParticipantMapper.byAgeAndDivisionAndSpecialty(
+                  value, _mapperService.participantMapper),
+            ),
+          );
+    }
+
     if (options.divisionId == null && options.specialityId == null) {
         
       return _database.selectParticiapnts().get().then(
@@ -221,7 +243,7 @@ class DriftDatabaseService implements DatabasePort {
   @override
   Future<DatabaseOperationResult> insertAgeDivision(CreateAgeDivisionOptions options) {
     return _database
-        .createAgeDivisions(name: options.divisionName,year:options.year)
+        .createAgeDivisions(name: options.divisionName,id:options.year)
         .then((value) => DatabaseOperationResult());
   }
   
@@ -234,9 +256,9 @@ class DriftDatabaseService implements DatabasePort {
   
   @override
   Future<LoadAgeDivisionsResult> loadAgeDivisions() {
-      return _database.selectAgeDivisions().get().then(
+      return _database.selectAgeDivisionsOnly().get().then(
           (value) => LoadAgeDivisionsResult(
-            ageDivisions: mapToDomainAgeDivisions(
+            ageDivisions: mapToDomainAgeDivisionsOnly(
                 value, _mapperService.ageDivisonMapper),
           ),
         );
@@ -278,5 +300,6 @@ class DriftDatabaseService implements DatabasePort {
 
     return DatabaseOperationResult();
   }
+  
   
 }

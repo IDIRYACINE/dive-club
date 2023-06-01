@@ -16,13 +16,64 @@ import 'package:path_provider/path_provider.dart';
 class ExcelService implements ExcelManagerPort {
   bool _isFileProcessed = false;
   final _sheetName = "engagement 06-05-23";
+  final _header = [
+    "id",
+    "nom",
+    "prenom",
+    "naissance",
+    "category",
+    "club",
+    "sex",
+    "division",
+    "specialty",
+    "serie",
+    "couloir",
+    "date entry"
+  ];
   late Excel _excel;
 
   @override
   Future<void> exportEngagementsFiles(
-      String outputDirectory, List<ParticipantEngagement> engagements) {
-    // TODO: implement exportEngagementsFiles
-    throw UnimplementedError();
+      String outputDirectory, List<ParticipantEngagement> engagements) async {
+    final dir = await getApplicationDocumentsDirectory();
+
+    if(engagements.isEmpty){
+      return;
+    }
+    final fileName = engagements.first.clubName.value.toString();
+
+    String fPath = '${dir.path}/$outputDirectory/$fileName.xlsx';
+
+    File file = File(fPath);
+    _excel = Excel.createExcel();
+
+    final sheet = _excel[_sheetName];
+
+    sheet.appendRow(_header);
+
+    for (ParticipantEngagement engagement in engagements) {
+      sheet.appendRow([
+        engagement.participantId.value,
+        engagement.participantName.firstName,
+        engagement.participantName.lastName,
+        engagement.ageDivisionId.value,
+        engagement.ageDivisionName.value,
+        engagement.clubName.value,
+        engagement.gender.value,
+        engagement.divisionName.value,
+        engagement.specialtyName.value,
+        engagement.series,
+        engagement.column.value,
+        engagement.entryScore.toString()
+      ]);
+    }
+
+    List<int>? bytes = _excel.save();
+    if (bytes != null) {
+      file
+        ..createSync(recursive: true)
+        ..writeAsBytesSync(bytes);
+    }
   }
 
   @override
@@ -36,6 +87,7 @@ class ExcelService implements ExcelManagerPort {
     _excel = Excel.createExcel();
 
     final sheet = _excel[_sheetName];
+    sheet.appendRow(_header);
 
     for (ParticipantEngagement engagement in engagements) {
       sheet.appendRow([
@@ -43,11 +95,13 @@ class ExcelService implements ExcelManagerPort {
         engagement.participantName.firstName,
         engagement.participantName.lastName,
         engagement.ageDivisionId.value,
+        engagement.ageDivisionName.value,
+        engagement.clubName.value,
         engagement.gender.value,
         engagement.divisionName.value,
         engagement.specialtyName.value,
         engagement.series,
-        engagement.column,
+        engagement.column.value,
         engagement.entryScore.toString()
       ]);
     }

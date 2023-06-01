@@ -22,20 +22,26 @@ VALUES
 INSERT INTO
     AgeDivisions
 VALUES
-    (0, 2013, "Ecole"),
-    (1, 2014, "Ecole"),
-    (2, 2015, "Ecole"),
-    (3, 2016, "Ecole"),
-    (4, 2017, "Ecole"),
-    (5, 2018, "Ecole"),
-    (6, 2012, "Poussin");
+    (0, "Ecole"),
+    (1, "Poussin");
+
+INSERT INTO
+    AgeDivisionsEntry
+VALUES
+    (2013, 0),
+    (2014, 0),
+    (2012, 0),
+    (2015, 0),
+    (2016, 0),
+    (2017, 0),
+    (2018, 1);
 
 INSERT INTO
     Clubs
 VALUES
     (0, "Club1"),
     (1, "CLUB 2");
-    
+
 INSERT INTO
     Participants (
         participant_first_name,

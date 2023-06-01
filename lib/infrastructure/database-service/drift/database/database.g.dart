@@ -548,20 +548,13 @@ class AgeDivisions extends Table with TableInfo<AgeDivisions, AgeDivision> {
   final GeneratedDatabase attachedDatabase;
   final String? _alias;
   AgeDivisions(this.attachedDatabase, [this._alias]);
-  static const VerificationMeta _idMeta = const VerificationMeta('id');
-  late final GeneratedColumn<int> id = GeneratedColumn<int>(
-      'id', aliasedName, false,
-      hasAutoIncrement: true,
+  static const VerificationMeta _ageDivisionIdMeta =
+      const VerificationMeta('ageDivisionId');
+  late final GeneratedColumn<int> ageDivisionId = GeneratedColumn<int>(
+      'age_division_id', aliasedName, false,
       type: DriftSqlType.int,
       requiredDuringInsert: false,
-      $customConstraints: 'PRIMARY KEY AUTOINCREMENT');
-  static const VerificationMeta _ageDivisionYearMeta =
-      const VerificationMeta('ageDivisionYear');
-  late final GeneratedColumn<int> ageDivisionYear = GeneratedColumn<int>(
-      'age_division_year', aliasedName, false,
-      type: DriftSqlType.int,
-      requiredDuringInsert: true,
-      $customConstraints: 'NOT NULL');
+      $customConstraints: 'PRIMARY KEY');
   static const VerificationMeta _ageDivisionNameMeta =
       const VerificationMeta('ageDivisionName');
   late final GeneratedColumn<String> ageDivisionName = GeneratedColumn<String>(
@@ -570,7 +563,7 @@ class AgeDivisions extends Table with TableInfo<AgeDivisions, AgeDivision> {
       requiredDuringInsert: true,
       $customConstraints: 'NOT NULL');
   @override
-  List<GeneratedColumn> get $columns => [id, ageDivisionYear, ageDivisionName];
+  List<GeneratedColumn> get $columns => [ageDivisionId, ageDivisionName];
   @override
   String get aliasedName => _alias ?? 'AgeDivisions';
   @override
@@ -580,16 +573,11 @@ class AgeDivisions extends Table with TableInfo<AgeDivisions, AgeDivision> {
       {bool isInserting = false}) {
     final context = VerificationContext();
     final data = instance.toColumns(true);
-    if (data.containsKey('id')) {
-      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
-    }
-    if (data.containsKey('age_division_year')) {
+    if (data.containsKey('age_division_id')) {
       context.handle(
-          _ageDivisionYearMeta,
-          ageDivisionYear.isAcceptableOrUnknown(
-              data['age_division_year']!, _ageDivisionYearMeta));
-    } else if (isInserting) {
-      context.missing(_ageDivisionYearMeta);
+          _ageDivisionIdMeta,
+          ageDivisionId.isAcceptableOrUnknown(
+              data['age_division_id']!, _ageDivisionIdMeta));
     }
     if (data.containsKey('age_division_name')) {
       context.handle(
@@ -603,15 +591,13 @@ class AgeDivisions extends Table with TableInfo<AgeDivisions, AgeDivision> {
   }
 
   @override
-  Set<GeneratedColumn> get $primaryKey => {id};
+  Set<GeneratedColumn> get $primaryKey => {ageDivisionId};
   @override
   AgeDivision map(Map<String, dynamic> data, {String? tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
     return AgeDivision(
-      id: attachedDatabase.typeMapping
-          .read(DriftSqlType.int, data['${effectivePrefix}id'])!,
-      ageDivisionYear: attachedDatabase.typeMapping
-          .read(DriftSqlType.int, data['${effectivePrefix}age_division_year'])!,
+      ageDivisionId: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}age_division_id'])!,
       ageDivisionName: attachedDatabase.typeMapping.read(
           DriftSqlType.string, data['${effectivePrefix}age_division_name'])!,
     );
@@ -627,26 +613,21 @@ class AgeDivisions extends Table with TableInfo<AgeDivisions, AgeDivision> {
 }
 
 class AgeDivision extends DataClass implements Insertable<AgeDivision> {
-  final int id;
-  final int ageDivisionYear;
+  final int ageDivisionId;
   final String ageDivisionName;
   const AgeDivision(
-      {required this.id,
-      required this.ageDivisionYear,
-      required this.ageDivisionName});
+      {required this.ageDivisionId, required this.ageDivisionName});
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
-    map['id'] = Variable<int>(id);
-    map['age_division_year'] = Variable<int>(ageDivisionYear);
+    map['age_division_id'] = Variable<int>(ageDivisionId);
     map['age_division_name'] = Variable<String>(ageDivisionName);
     return map;
   }
 
   AgeDivisionsCompanion toCompanion(bool nullToAbsent) {
     return AgeDivisionsCompanion(
-      id: Value(id),
-      ageDivisionYear: Value(ageDivisionYear),
+      ageDivisionId: Value(ageDivisionId),
       ageDivisionName: Value(ageDivisionName),
     );
   }
@@ -655,8 +636,7 @@ class AgeDivision extends DataClass implements Insertable<AgeDivision> {
       {ValueSerializer? serializer}) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return AgeDivision(
-      id: serializer.fromJson<int>(json['id']),
-      ageDivisionYear: serializer.fromJson<int>(json['age_division_year']),
+      ageDivisionId: serializer.fromJson<int>(json['age_division_id']),
       ageDivisionName: serializer.fromJson<String>(json['age_division_name']),
     );
   }
@@ -664,74 +644,60 @@ class AgeDivision extends DataClass implements Insertable<AgeDivision> {
   Map<String, dynamic> toJson({ValueSerializer? serializer}) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return <String, dynamic>{
-      'id': serializer.toJson<int>(id),
-      'age_division_year': serializer.toJson<int>(ageDivisionYear),
+      'age_division_id': serializer.toJson<int>(ageDivisionId),
       'age_division_name': serializer.toJson<String>(ageDivisionName),
     };
   }
 
-  AgeDivision copyWith(
-          {int? id, int? ageDivisionYear, String? ageDivisionName}) =>
+  AgeDivision copyWith({int? ageDivisionId, String? ageDivisionName}) =>
       AgeDivision(
-        id: id ?? this.id,
-        ageDivisionYear: ageDivisionYear ?? this.ageDivisionYear,
+        ageDivisionId: ageDivisionId ?? this.ageDivisionId,
         ageDivisionName: ageDivisionName ?? this.ageDivisionName,
       );
   @override
   String toString() {
     return (StringBuffer('AgeDivision(')
-          ..write('id: $id, ')
-          ..write('ageDivisionYear: $ageDivisionYear, ')
+          ..write('ageDivisionId: $ageDivisionId, ')
           ..write('ageDivisionName: $ageDivisionName')
           ..write(')'))
         .toString();
   }
 
   @override
-  int get hashCode => Object.hash(id, ageDivisionYear, ageDivisionName);
+  int get hashCode => Object.hash(ageDivisionId, ageDivisionName);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
       (other is AgeDivision &&
-          other.id == this.id &&
-          other.ageDivisionYear == this.ageDivisionYear &&
+          other.ageDivisionId == this.ageDivisionId &&
           other.ageDivisionName == this.ageDivisionName);
 }
 
 class AgeDivisionsCompanion extends UpdateCompanion<AgeDivision> {
-  final Value<int> id;
-  final Value<int> ageDivisionYear;
+  final Value<int> ageDivisionId;
   final Value<String> ageDivisionName;
   const AgeDivisionsCompanion({
-    this.id = const Value.absent(),
-    this.ageDivisionYear = const Value.absent(),
+    this.ageDivisionId = const Value.absent(),
     this.ageDivisionName = const Value.absent(),
   });
   AgeDivisionsCompanion.insert({
-    this.id = const Value.absent(),
-    required int ageDivisionYear,
+    this.ageDivisionId = const Value.absent(),
     required String ageDivisionName,
-  })  : ageDivisionYear = Value(ageDivisionYear),
-        ageDivisionName = Value(ageDivisionName);
+  }) : ageDivisionName = Value(ageDivisionName);
   static Insertable<AgeDivision> custom({
-    Expression<int>? id,
-    Expression<int>? ageDivisionYear,
+    Expression<int>? ageDivisionId,
     Expression<String>? ageDivisionName,
   }) {
     return RawValuesInsertable({
-      if (id != null) 'id': id,
-      if (ageDivisionYear != null) 'age_division_year': ageDivisionYear,
+      if (ageDivisionId != null) 'age_division_id': ageDivisionId,
       if (ageDivisionName != null) 'age_division_name': ageDivisionName,
     });
   }
 
   AgeDivisionsCompanion copyWith(
-      {Value<int>? id,
-      Value<int>? ageDivisionYear,
-      Value<String>? ageDivisionName}) {
+      {Value<int>? ageDivisionId, Value<String>? ageDivisionName}) {
     return AgeDivisionsCompanion(
-      id: id ?? this.id,
-      ageDivisionYear: ageDivisionYear ?? this.ageDivisionYear,
+      ageDivisionId: ageDivisionId ?? this.ageDivisionId,
       ageDivisionName: ageDivisionName ?? this.ageDivisionName,
     );
   }
@@ -739,11 +705,8 @@ class AgeDivisionsCompanion extends UpdateCompanion<AgeDivision> {
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
-    if (id.present) {
-      map['id'] = Variable<int>(id.value);
-    }
-    if (ageDivisionYear.present) {
-      map['age_division_year'] = Variable<int>(ageDivisionYear.value);
+    if (ageDivisionId.present) {
+      map['age_division_id'] = Variable<int>(ageDivisionId.value);
     }
     if (ageDivisionName.present) {
       map['age_division_name'] = Variable<String>(ageDivisionName.value);
@@ -754,9 +717,193 @@ class AgeDivisionsCompanion extends UpdateCompanion<AgeDivision> {
   @override
   String toString() {
     return (StringBuffer('AgeDivisionsCompanion(')
-          ..write('id: $id, ')
-          ..write('ageDivisionYear: $ageDivisionYear, ')
+          ..write('ageDivisionId: $ageDivisionId, ')
           ..write('ageDivisionName: $ageDivisionName')
+          ..write(')'))
+        .toString();
+  }
+}
+
+class AgeDivisionsEntry extends Table
+    with TableInfo<AgeDivisionsEntry, AgeDivisionsEntryData> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  AgeDivisionsEntry(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _ageDivisionYearMeta =
+      const VerificationMeta('ageDivisionYear');
+  late final GeneratedColumn<int> ageDivisionYear = GeneratedColumn<int>(
+      'age_division_year', aliasedName, false,
+      type: DriftSqlType.int,
+      requiredDuringInsert: false,
+      $customConstraints: 'PRIMARY KEY');
+  static const VerificationMeta _ageDivisionIdMeta =
+      const VerificationMeta('ageDivisionId');
+  late final GeneratedColumn<int> ageDivisionId = GeneratedColumn<int>(
+      'age_division_id', aliasedName, false,
+      type: DriftSqlType.int,
+      requiredDuringInsert: true,
+      $customConstraints: 'NOT NULL REFERENCES AgeDivisions(age_division_id)');
+  @override
+  List<GeneratedColumn> get $columns => [ageDivisionYear, ageDivisionId];
+  @override
+  String get aliasedName => _alias ?? 'AgeDivisionsEntry';
+  @override
+  String get actualTableName => 'AgeDivisionsEntry';
+  @override
+  VerificationContext validateIntegrity(
+      Insertable<AgeDivisionsEntryData> instance,
+      {bool isInserting = false}) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('age_division_year')) {
+      context.handle(
+          _ageDivisionYearMeta,
+          ageDivisionYear.isAcceptableOrUnknown(
+              data['age_division_year']!, _ageDivisionYearMeta));
+    }
+    if (data.containsKey('age_division_id')) {
+      context.handle(
+          _ageDivisionIdMeta,
+          ageDivisionId.isAcceptableOrUnknown(
+              data['age_division_id']!, _ageDivisionIdMeta));
+    } else if (isInserting) {
+      context.missing(_ageDivisionIdMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {ageDivisionYear};
+  @override
+  AgeDivisionsEntryData map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return AgeDivisionsEntryData(
+      ageDivisionYear: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}age_division_year'])!,
+      ageDivisionId: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}age_division_id'])!,
+    );
+  }
+
+  @override
+  AgeDivisionsEntry createAlias(String alias) {
+    return AgeDivisionsEntry(attachedDatabase, alias);
+  }
+
+  @override
+  bool get dontWriteConstraints => true;
+}
+
+class AgeDivisionsEntryData extends DataClass
+    implements Insertable<AgeDivisionsEntryData> {
+  final int ageDivisionYear;
+  final int ageDivisionId;
+  const AgeDivisionsEntryData(
+      {required this.ageDivisionYear, required this.ageDivisionId});
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['age_division_year'] = Variable<int>(ageDivisionYear);
+    map['age_division_id'] = Variable<int>(ageDivisionId);
+    return map;
+  }
+
+  AgeDivisionsEntryCompanion toCompanion(bool nullToAbsent) {
+    return AgeDivisionsEntryCompanion(
+      ageDivisionYear: Value(ageDivisionYear),
+      ageDivisionId: Value(ageDivisionId),
+    );
+  }
+
+  factory AgeDivisionsEntryData.fromJson(Map<String, dynamic> json,
+      {ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return AgeDivisionsEntryData(
+      ageDivisionYear: serializer.fromJson<int>(json['age_division_year']),
+      ageDivisionId: serializer.fromJson<int>(json['age_division_id']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'age_division_year': serializer.toJson<int>(ageDivisionYear),
+      'age_division_id': serializer.toJson<int>(ageDivisionId),
+    };
+  }
+
+  AgeDivisionsEntryData copyWith({int? ageDivisionYear, int? ageDivisionId}) =>
+      AgeDivisionsEntryData(
+        ageDivisionYear: ageDivisionYear ?? this.ageDivisionYear,
+        ageDivisionId: ageDivisionId ?? this.ageDivisionId,
+      );
+  @override
+  String toString() {
+    return (StringBuffer('AgeDivisionsEntryData(')
+          ..write('ageDivisionYear: $ageDivisionYear, ')
+          ..write('ageDivisionId: $ageDivisionId')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(ageDivisionYear, ageDivisionId);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is AgeDivisionsEntryData &&
+          other.ageDivisionYear == this.ageDivisionYear &&
+          other.ageDivisionId == this.ageDivisionId);
+}
+
+class AgeDivisionsEntryCompanion
+    extends UpdateCompanion<AgeDivisionsEntryData> {
+  final Value<int> ageDivisionYear;
+  final Value<int> ageDivisionId;
+  const AgeDivisionsEntryCompanion({
+    this.ageDivisionYear = const Value.absent(),
+    this.ageDivisionId = const Value.absent(),
+  });
+  AgeDivisionsEntryCompanion.insert({
+    this.ageDivisionYear = const Value.absent(),
+    required int ageDivisionId,
+  }) : ageDivisionId = Value(ageDivisionId);
+  static Insertable<AgeDivisionsEntryData> custom({
+    Expression<int>? ageDivisionYear,
+    Expression<int>? ageDivisionId,
+  }) {
+    return RawValuesInsertable({
+      if (ageDivisionYear != null) 'age_division_year': ageDivisionYear,
+      if (ageDivisionId != null) 'age_division_id': ageDivisionId,
+    });
+  }
+
+  AgeDivisionsEntryCompanion copyWith(
+      {Value<int>? ageDivisionYear, Value<int>? ageDivisionId}) {
+    return AgeDivisionsEntryCompanion(
+      ageDivisionYear: ageDivisionYear ?? this.ageDivisionYear,
+      ageDivisionId: ageDivisionId ?? this.ageDivisionId,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (ageDivisionYear.present) {
+      map['age_division_year'] = Variable<int>(ageDivisionYear.value);
+    }
+    if (ageDivisionId.present) {
+      map['age_division_id'] = Variable<int>(ageDivisionId.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('AgeDivisionsEntryCompanion(')
+          ..write('ageDivisionYear: $ageDivisionYear, ')
+          ..write('ageDivisionId: $ageDivisionId')
           ..write(')'))
         .toString();
   }
@@ -1029,7 +1176,7 @@ class Participants extends Table with TableInfo<Participants, Participant> {
       type: DriftSqlType.int,
       requiredDuringInsert: true,
       $customConstraints:
-          'NOT NULL REFERENCES AgeDivisions(age_division_year)');
+          'NOT NULL REFERENCES AgeDivisionsEntry(age_division_year)');
   @override
   List<GeneratedColumn> get $columns => [
         participantId,
@@ -1581,7 +1728,7 @@ class Scores extends Table with TableInfo<Scores, Score> {
       type: DriftSqlType.int,
       requiredDuringInsert: true,
       $customConstraints:
-          'NOT NULL REFERENCES AgeDivisions(age_division_year)');
+          'NOT NULL REFERENCES AgeDivisionsEntry(age_division_year)');
   static const VerificationMeta _genderIdMeta =
       const VerificationMeta('genderId');
   late final GeneratedColumn<int> genderId = GeneratedColumn<int>(
@@ -1954,6 +2101,7 @@ abstract class _$AppDb extends GeneratedDatabase {
   late final DivingDivisions divingDivisions = DivingDivisions(this);
   late final Clubs clubs = Clubs(this);
   late final AgeDivisions ageDivisions = AgeDivisions(this);
+  late final AgeDivisionsEntry ageDivisionsEntry = AgeDivisionsEntry(this);
   late final Genders genders = Genders(this);
   late final Participants participants = Participants(this);
   late final Scores scores = Scores(this);
@@ -2098,11 +2246,19 @@ abstract class _$AppDb extends GeneratedDatabase {
     );
   }
 
-  Future<int> createAgeDivisions({required int year, required String name}) {
+  Future<int> createAgeDivisions({required int id, required String name}) {
     return customInsert(
-      'INSERT INTO AgeDivisions (age_division_year, age_division_name) VALUES (?1, ?2)',
-      variables: [Variable<int>(year), Variable<String>(name)],
+      'INSERT INTO AgeDivisions (age_division_id, age_division_name) VALUES (?1, ?2)',
+      variables: [Variable<int>(id), Variable<String>(name)],
       updates: {ageDivisions},
+    );
+  }
+
+  Future<int> createAgeDivisionEntry({required int year, required String id}) {
+    return customInsert(
+      'INSERT INTO AgeDivisionsEntry (age_division_year, age_division_id) VALUES (?1, ?2)',
+      variables: [Variable<int>(year), Variable<String>(id)],
+      updates: {ageDivisionsEntry},
     );
   }
 
@@ -2202,7 +2358,7 @@ abstract class _$AppDb extends GeneratedDatabase {
   Selectable<SelectCompetitionScoresByAgeResult> selectCompetitionScoresByAge(
       {required int year}) {
     return customSelect(
-        'SELECT Scores.*, DivingSpecialties.specialty_name, DivingDivisions.division_name, Participants.participant_first_name, Participants.participant_last_name, AgeDivisions.age_division_name, Genders.gender_name FROM Scores INNER JOIN DivingSpecialties USING(specialty_id)INNER JOIN DivingDivisions USING(division_id)INNER JOIN Genders USING(gender_id)INNER JOIN AgeDivisions USING(age_division_year)INNER JOIN Participants USING(participant_id)WHERE Scores.age_division_year = ?1 ORDER BY score ASC',
+        'SELECT Scores.*, DivingSpecialties.specialty_name, DivingDivisions.division_name, Participants.participant_first_name, Participants.participant_last_name, AgeDivisions.age_division_name, Genders.gender_name FROM Scores INNER JOIN DivingSpecialties USING(specialty_id)INNER JOIN DivingDivisions USING(division_id)INNER JOIN Genders USING(gender_id)INNER JOIN AgeDivisionsEntry USING(age_division_year)INNER JOIN Participants USING(participant_id)WHERE Scores.age_division_year = ?1 ORDER BY score ASC',
         variables: [
           Variable<int>(year)
         ],
@@ -2210,9 +2366,9 @@ abstract class _$AppDb extends GeneratedDatabase {
           divingSpecialties,
           divingDivisions,
           participants,
-          ageDivisions,
           genders,
           scores,
+          ageDivisionsEntry,
         }).map((QueryRow row) {
       return SelectCompetitionScoresByAgeResult(
         participantId: row.read<int>('participant_id'),
@@ -2226,7 +2382,7 @@ abstract class _$AppDb extends GeneratedDatabase {
         divisionName: row.read<String>('division_name'),
         participantFirstName: row.read<String>('participant_first_name'),
         participantLastName: row.read<String>('participant_last_name'),
-        ageDivisionName: row.read<String>('age_division_name'),
+        ageDivisionName: row.readNullable<String>('age_division_name'),
         genderName: row.read<String>('gender_name'),
       );
     });
@@ -2238,7 +2394,7 @@ abstract class _$AppDb extends GeneratedDatabase {
           required int divisionId,
           required int year}) {
     return customSelect(
-        'SELECT Scores.*, DivingSpecialties.specialty_name, DivingDivisions.division_name, Participants.participant_first_name, Participants.participant_last_name, Genders.gender_name, AgeDivisions.age_division_name FROM Scores INNER JOIN DivingSpecialties USING(specialty_id)INNER JOIN DivingDivisions USING(division_id)INNER JOIN Participants USING(participant_id)INNER JOIN Genders USING(gender_id)INNER JOIN AgeDivisions USING(age_division_year)WHERE Scores.specialty_id = ?1 AND Scores.division_id = ?2 AND Scores.age_division_year = ?3 ORDER BY score ASC',
+        'SELECT Scores.*, DivingSpecialties.specialty_name, DivingDivisions.division_name, Participants.participant_first_name, Participants.participant_last_name, Genders.gender_name, AgeDivisions.age_division_name FROM Scores INNER JOIN DivingSpecialties USING(specialty_id)INNER JOIN DivingDivisions USING(division_id)INNER JOIN Participants USING(participant_id)INNER JOIN Genders USING(gender_id)INNER JOIN AgeDivisionsEntry USING(age_division_year)INNER JOIN AgeDivisions ON AgeDivisions.age_division_id = AgeDivisionsEntry.age_division_id WHERE Scores.specialty_id = ?1 AND Scores.division_id = ?2 AND Scores.age_division_year = ?3 ORDER BY score ASC',
         variables: [
           Variable<int>(specialtyId),
           Variable<int>(divisionId),
@@ -2251,6 +2407,7 @@ abstract class _$AppDb extends GeneratedDatabase {
           genders,
           ageDivisions,
           scores,
+          ageDivisionsEntry,
         }).map((QueryRow row) {
       return SelectCompetitionScoresBySpecialtyAndDivisionAndAgeResult(
         participantId: row.read<int>('participant_id'),
@@ -2320,7 +2477,7 @@ abstract class _$AppDb extends GeneratedDatabase {
   Selectable<SearchParticipantsByIdResult> searchParticipantsById(
       {required int id}) {
     return customSelect(
-        'SELECT Participants.*, DivingSpecialties.specialty_name, DivingDivisions.division_name, AgeDivisions.age_division_name, Genders.gender_name, Clubs.club_name FROM Participants INNER JOIN DivingSpecialties USING(specialty_id)INNER JOIN AgeDivisions USING(age_division_year)INNER JOIN Genders USING(gender_id)INNER JOIN DivingDivisions USING(division_id)INNER JOIN Clubs USING(club_id)WHERE participant_id = ?1',
+        'SELECT Participants.*, DivingSpecialties.specialty_name, DivingDivisions.division_name, AgeDivisions.age_division_name, Genders.gender_name, Clubs.club_name FROM Participants INNER JOIN DivingSpecialties USING(specialty_id)INNER JOIN AgeDivisionsEntry USING(age_division_year)INNER JOIN Genders USING(gender_id)INNER JOIN DivingDivisions USING(division_id)INNER JOIN Clubs USING(club_id)INNER JOIN AgeDivisions ON AgeDivisions.age_division_id = AgeDivisionsEntry.age_division_id WHERE participant_id = ?1',
         variables: [
           Variable<int>(id)
         ],
@@ -2331,6 +2488,7 @@ abstract class _$AppDb extends GeneratedDatabase {
           genders,
           clubs,
           participants,
+          ageDivisionsEntry,
         }).map((QueryRow row) {
       return SearchParticipantsByIdResult(
         participantId: row.read<int>('participant_id'),
@@ -2356,7 +2514,7 @@ abstract class _$AppDb extends GeneratedDatabase {
 
   Selectable<SelectParticiapntsResult> selectParticiapnts() {
     return customSelect(
-        'SELECT Participants.*, DivingSpecialties.specialty_name, DivingDivisions.division_name, AgeDivisions.age_division_name, Genders.gender_name, Clubs.club_name FROM Participants INNER JOIN DivingSpecialties USING(specialty_id)INNER JOIN AgeDivisions USING(age_division_year)INNER JOIN Genders USING(gender_id)INNER JOIN DivingDivisions USING(division_id)INNER JOIN Clubs USING(club_id)',
+        'SELECT Participants.*, DivingSpecialties.specialty_name, DivingDivisions.division_name, AgeDivisions.age_division_name, Genders.gender_name, Clubs.club_name FROM Participants INNER JOIN DivingSpecialties USING(specialty_id)INNER JOIN AgeDivisionsEntry USING(age_division_year)INNER JOIN AgeDivisions ON AgeDivisions.age_division_id = AgeDivisionsEntry.age_division_id INNER JOIN Genders USING(gender_id)INNER JOIN DivingDivisions USING(division_id)INNER JOIN Clubs USING(club_id)',
         variables: [],
         readsFrom: {
           divingSpecialties,
@@ -2365,6 +2523,7 @@ abstract class _$AppDb extends GeneratedDatabase {
           genders,
           clubs,
           participants,
+          ageDivisionsEntry,
         }).map((QueryRow row) {
       return SelectParticiapntsResult(
         participantId: row.read<int>('participant_id'),
@@ -2391,7 +2550,7 @@ abstract class _$AppDb extends GeneratedDatabase {
   Selectable<SelectParticiapnsBySpecialtyResult> selectParticiapnsBySpecialty(
       {required int id}) {
     return customSelect(
-        'SELECT Participants.*, DivingSpecialties.specialty_name, DivingDivisions.division_name, AgeDivisions.age_division_name, Genders.gender_name, Clubs.club_name FROM Participants INNER JOIN DivingSpecialties USING(specialty_id)INNER JOIN AgeDivisions USING(age_division_year)INNER JOIN Genders USING(gender_id)INNER JOIN DivingDivisions USING(division_id)INNER JOIN Clubs USING(club_id)WHERE Participants.specialty_id = ?1 ORDER BY Participants.entry_time',
+        'SELECT Participants.*, DivingSpecialties.specialty_name, DivingDivisions.division_name, AgeDivisions.age_division_name, Genders.gender_name, Clubs.club_name FROM Participants INNER JOIN DivingSpecialties USING(specialty_id)INNER JOIN AgeDivisionsEntry USING(age_division_year)INNER JOIN AgeDivisions ON AgeDivisions.age_division_id = AgeDivisionsEntry.age_division_id INNER JOIN Genders USING(gender_id)INNER JOIN DivingDivisions USING(division_id)INNER JOIN Clubs USING(club_id)WHERE Participants.specialty_id = ?1 ORDER BY Participants.entry_time',
         variables: [
           Variable<int>(id)
         ],
@@ -2402,6 +2561,7 @@ abstract class _$AppDb extends GeneratedDatabase {
           genders,
           clubs,
           participants,
+          ageDivisionsEntry,
         }).map((QueryRow row) {
       return SelectParticiapnsBySpecialtyResult(
         participantId: row.read<int>('participant_id'),
@@ -2428,7 +2588,7 @@ abstract class _$AppDb extends GeneratedDatabase {
   Selectable<SelectParticiapntsByDivisionResult> selectParticiapntsByDivision(
       {required int id}) {
     return customSelect(
-        'SELECT Participants.*, DivingSpecialties.specialty_name, DivingDivisions.division_name, AgeDivisions.age_division_name, Genders.gender_name, Clubs.club_name FROM Participants INNER JOIN DivingSpecialties USING(specialty_id)INNER JOIN AgeDivisions USING(age_division_year)INNER JOIN Genders USING(gender_id)INNER JOIN DivingDivisions USING(division_id)INNER JOIN Clubs USING(club_id)WHERE Participants.division_id = ?1 ORDER BY Participants.entry_time',
+        'SELECT Participants.*, DivingSpecialties.specialty_name, DivingDivisions.division_name, AgeDivisions.age_division_name, Genders.gender_name, Clubs.club_name FROM Participants INNER JOIN DivingSpecialties USING(specialty_id)INNER JOIN AgeDivisionsEntry USING(age_division_year)INNER JOIN AgeDivisions ON AgeDivisions.age_division_id = AgeDivisionsEntry.age_division_id INNER JOIN Genders USING(gender_id)INNER JOIN DivingDivisions USING(division_id)INNER JOIN Clubs USING(club_id)WHERE Participants.division_id = ?1 ORDER BY Participants.entry_time',
         variables: [
           Variable<int>(id)
         ],
@@ -2439,6 +2599,7 @@ abstract class _$AppDb extends GeneratedDatabase {
           genders,
           clubs,
           participants,
+          ageDivisionsEntry,
         }).map((QueryRow row) {
       return SelectParticiapntsByDivisionResult(
         participantId: row.read<int>('participant_id'),
@@ -2466,7 +2627,7 @@ abstract class _$AppDb extends GeneratedDatabase {
       selectParticiapntsByDivisionAndSpecialty(
           {required int divisionId, required int specialtyId}) {
     return customSelect(
-        'SELECT Participants.*, DivingSpecialties.specialty_name, DivingDivisions.division_name, AgeDivisions.age_division_name, Genders.gender_name, Clubs.club_name FROM Participants INNER JOIN DivingSpecialties USING(specialty_id)INNER JOIN AgeDivisions USING(age_division_year)INNER JOIN Genders USING(gender_id)INNER JOIN DivingDivisions USING(division_id)INNER JOIN Clubs USING(club_id)WHERE Participants.division_id = ?1 AND Participants.specialty_id = ?2 ORDER BY Participants.entry_time',
+        'SELECT Participants.*, DivingSpecialties.specialty_name, DivingDivisions.division_name, AgeDivisions.age_division_name, Genders.gender_name, Clubs.club_name FROM Participants INNER JOIN DivingSpecialties USING(specialty_id)INNER JOIN AgeDivisionsEntry USING(age_division_year)INNER JOIN AgeDivisions ON AgeDivisions.age_division_id = AgeDivisionsEntry.age_division_id INNER JOIN Genders USING(gender_id)INNER JOIN DivingDivisions USING(division_id)INNER JOIN Clubs USING(club_id)WHERE Participants.division_id = ?1 AND Participants.specialty_id = ?2 ORDER BY Participants.entry_time',
         variables: [
           Variable<int>(divisionId),
           Variable<int>(specialtyId)
@@ -2478,6 +2639,7 @@ abstract class _$AppDb extends GeneratedDatabase {
           genders,
           clubs,
           participants,
+          ageDivisionsEntry,
         }).map((QueryRow row) {
       return SelectParticiapntsByDivisionAndSpecialtyResult(
         participantId: row.read<int>('participant_id'),
@@ -2504,7 +2666,7 @@ abstract class _$AppDb extends GeneratedDatabase {
   Selectable<SelectParticiapntsByClubResult> selectParticiapntsByClub(
       {required int clubId}) {
     return customSelect(
-        'SELECT Participants.*, DivingSpecialties.specialty_name, DivingDivisions.division_name, AgeDivisions.age_division_name, Genders.gender_name, Clubs.club_name FROM Participants INNER JOIN DivingSpecialties USING(specialty_id)INNER JOIN AgeDivisions USING(age_division_year)INNER JOIN Genders USING(gender_id)INNER JOIN DivingDivisions USING(division_id)INNER JOIN Clubs USING(club_id)WHERE Participants.club_id = ?1 ORDER BY Participants.entry_time',
+        'SELECT Participants.*, DivingSpecialties.specialty_name, DivingDivisions.division_name, AgeDivisions.age_division_name, Genders.gender_name, Clubs.club_name FROM Participants INNER JOIN DivingSpecialties USING(specialty_id)INNER JOIN AgeDivisionsEntry USING(age_division_year)INNER JOIN AgeDivisions ON AgeDivisions.age_division_id = AgeDivisionsEntry.age_division_id INNER JOIN Genders USING(gender_id)INNER JOIN DivingDivisions USING(division_id)INNER JOIN Clubs USING(club_id)WHERE Participants.club_id = ?1 ORDER BY Participants.entry_time',
         variables: [
           Variable<int>(clubId)
         ],
@@ -2515,6 +2677,7 @@ abstract class _$AppDb extends GeneratedDatabase {
           genders,
           clubs,
           participants,
+          ageDivisionsEntry,
         }).map((QueryRow row) {
       return SelectParticiapntsByClubResult(
         participantId: row.read<int>('participant_id'),
@@ -2538,7 +2701,24 @@ abstract class _$AppDb extends GeneratedDatabase {
     });
   }
 
-  Selectable<AgeDivision> selectAgeDivisions() {
+  Selectable<SelectAgeDivisionsResult> selectAgeDivisions() {
+    return customSelect(
+        'SELECT * FROM AgeDivisionsEntry JOIN AgeDivisions USING(age_division_id)',
+        variables: [],
+        readsFrom: {
+          ageDivisionsEntry,
+          ageDivisions,
+        }).map((QueryRow row) {
+      return SelectAgeDivisionsResult(
+        ageDivisionYear: row.read<int>('age_division_year'),
+        ageDivisionId: row.read<int>('age_division_id'),
+        ageDivisionId1: row.read<int>('age_division_id'),
+        ageDivisionName: row.read<String>('age_division_name'),
+      );
+    });
+  }
+
+  Selectable<AgeDivision> selectAgeDivisionsOnly() {
     return customSelect('SELECT * FROM AgeDivisions',
         variables: [],
         readsFrom: {
@@ -2566,6 +2746,49 @@ abstract class _$AppDb extends GeneratedDatabase {
     );
   }
 
+  Selectable<SelectParticiapntsByAgeAndDivisionAndSpecialtyResult>
+      selectParticiapntsByAgeAndDivisionAndSpecialty(
+          {required int divisionId,
+          required int specialtyId,
+          required int ageDivisionId}) {
+    return customSelect(
+        'SELECT Participants.*, DivingSpecialties.specialty_name, DivingDivisions.division_name, AgeDivisions.age_division_name, Genders.gender_name, Clubs.club_name FROM Participants INNER JOIN DivingSpecialties USING(specialty_id)INNER JOIN AgeDivisionsEntry USING(age_division_year)INNER JOIN AgeDivisions ON AgeDivisions.age_division_id = AgeDivisionsEntry.age_division_id INNER JOIN Genders USING(gender_id)INNER JOIN DivingDivisions USING(division_id)INNER JOIN Clubs USING(club_id)WHERE Participants.division_id = ?1 AND Participants.specialty_id = ?2 AND AgeDivisions.age_division_id = ?3 ORDER BY Participants.entry_time',
+        variables: [
+          Variable<int>(divisionId),
+          Variable<int>(specialtyId),
+          Variable<int>(ageDivisionId)
+        ],
+        readsFrom: {
+          divingSpecialties,
+          divingDivisions,
+          ageDivisions,
+          genders,
+          clubs,
+          participants,
+          ageDivisionsEntry,
+        }).map((QueryRow row) {
+      return SelectParticiapntsByAgeAndDivisionAndSpecialtyResult(
+        participantId: row.read<int>('participant_id'),
+        participantFirstName: row.read<String>('participant_first_name'),
+        participantLastName: row.read<String>('participant_last_name'),
+        entryTime: row.read<int>('entry_time'),
+        birthDate: row.read<DateTime>('birth_date'),
+        participantSeries: row.readNullable<int>('participant_series'),
+        participantColumn: row.readNullable<int>('participant_column'),
+        clubId: row.read<int>('club_id'),
+        genderId: row.read<int>('gender_id'),
+        divisionId: row.read<int>('division_id'),
+        specialtyId: row.read<int>('specialty_id'),
+        ageDivisionYear: row.read<int>('age_division_year'),
+        specialtyName: row.read<String>('specialty_name'),
+        divisionName: row.read<String>('division_name'),
+        ageDivisionName: row.read<String>('age_division_name'),
+        genderName: row.read<String>('gender_name'),
+        clubName: row.read<String>('club_name'),
+      );
+    });
+  }
+
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
@@ -2575,6 +2798,7 @@ abstract class _$AppDb extends GeneratedDatabase {
         divingDivisions,
         clubs,
         ageDivisions,
+        ageDivisionsEntry,
         genders,
         participants,
         scores,
@@ -2675,7 +2899,7 @@ class SelectCompetitionScoresByAgeResult {
   final String divisionName;
   final String participantFirstName;
   final String participantLastName;
-  final String ageDivisionName;
+  final String? ageDivisionName;
   final String genderName;
   SelectCompetitionScoresByAgeResult({
     required this.participantId,
@@ -2689,7 +2913,7 @@ class SelectCompetitionScoresByAgeResult {
     required this.divisionName,
     required this.participantFirstName,
     required this.participantLastName,
-    required this.ageDivisionName,
+    this.ageDivisionName,
     required this.genderName,
   });
 }
@@ -2966,6 +3190,58 @@ class SelectParticiapntsByClubResult {
   final String genderName;
   final String clubName;
   SelectParticiapntsByClubResult({
+    required this.participantId,
+    required this.participantFirstName,
+    required this.participantLastName,
+    required this.entryTime,
+    required this.birthDate,
+    this.participantSeries,
+    this.participantColumn,
+    required this.clubId,
+    required this.genderId,
+    required this.divisionId,
+    required this.specialtyId,
+    required this.ageDivisionYear,
+    required this.specialtyName,
+    required this.divisionName,
+    required this.ageDivisionName,
+    required this.genderName,
+    required this.clubName,
+  });
+}
+
+class SelectAgeDivisionsResult {
+  final int ageDivisionYear;
+  final int ageDivisionId;
+  final int ageDivisionId1;
+  final String ageDivisionName;
+  SelectAgeDivisionsResult({
+    required this.ageDivisionYear,
+    required this.ageDivisionId,
+    required this.ageDivisionId1,
+    required this.ageDivisionName,
+  });
+}
+
+class SelectParticiapntsByAgeAndDivisionAndSpecialtyResult {
+  final int participantId;
+  final String participantFirstName;
+  final String participantLastName;
+  final int entryTime;
+  final DateTime birthDate;
+  final int? participantSeries;
+  final int? participantColumn;
+  final int clubId;
+  final int genderId;
+  final int divisionId;
+  final int specialtyId;
+  final int ageDivisionYear;
+  final String specialtyName;
+  final String divisionName;
+  final String ageDivisionName;
+  final String genderName;
+  final String clubName;
+  SelectParticiapntsByAgeAndDivisionAndSpecialtyResult({
     required this.participantId,
     required this.participantFirstName,
     required this.participantLastName,

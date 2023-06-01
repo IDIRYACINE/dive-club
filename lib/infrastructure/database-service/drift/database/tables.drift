@@ -14,9 +14,13 @@ CREATE TABLE Clubs (
 );
 
 CREATE TABLE AgeDivisions (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    age_division_year INTEGER NOT NULL,
+    age_division_id INTEGER PRIMARY KEY,
     age_division_name TEXT NOT NULL
+);
+
+CREATE TABLE AgeDivisionsEntry (
+    age_division_year INTEGER PRIMARY KEY,
+    age_division_id INTEGER NOT NULL REFERENCES AgeDivisions(age_division_id)
 );
 
 CREATE TABLE Participants(
@@ -31,7 +35,7 @@ CREATE TABLE Participants(
     gender_id INTEGER NOT NULL REFERENCES Genders(gender_id),
     division_id INTEGER NOT NULL REFERENCES DivingDivisions(division_id),
     specialty_id INTEGER NOT NULL REFERENCES DivingSpecialties(specialty_id),
-    age_division_year INTEGER NOT NULL REFERENCES AgeDivisions(age_division_year)
+    age_division_year INTEGER NOT NULL REFERENCES AgeDivisionsEntry(age_division_year)
 );
 
 CREATE TABLE Genders (
@@ -43,7 +47,7 @@ CREATE TABLE Scores(
     participant_id INTEGER NOT NULL REFERENCES Participants(participant_id),
     division_id INTEGER NOT NULL REFERENCES DivingDivisions(division_id),
     specialty_id INTEGER NOT NULL REFERENCES DivingSpecialties(specialty_id),
-    age_division_year INTEGER NOT NULL REFERENCES AgeDivisions(age_division_year),
+    age_division_year INTEGER NOT NULL REFERENCES AgeDivisionsEntry(age_division_year),
     gender_id INTEGER NOT NULL REFERENCES Genders(gender_id),
     score_date Date NOT NULL DEFAULT (CURRENT_DATE),
     score INTEGER NOT NULL,
@@ -202,13 +206,22 @@ WHERE
     gender_id = :id;
 
 createAgeDivisions(
-    REQUIRED :year AS INTEGER,
+    REQUIRED :id AS INTEGER,
     REQUIRED :name AS TEXT
 ):
 INSERT INTO
-    AgeDivisions(age_division_year, age_division_name)
+    AgeDivisions(age_division_id, age_division_name)
 values
-    (:year, :name);
+    (:id, :name);
+
+createAgeDivisionEntry(
+    REQUIRED :year AS INTEGER,
+    REQUIRED :id AS TEXT
+):
+INSERT INTO
+    AgeDivisionsEntry(age_division_year, age_division_id)
+values
+    (:year, :id);
 
 updateAgeDivisions(REQUIRED :id AS INTEGER, REQUIRED :name AS TEXT):
 UPDATE
@@ -281,7 +294,7 @@ FROM
     INNER JOIN DivingSpecialties USING (specialty_id)
     INNER JOIN DivingDivisions USING (division_id)
     INNER JOIN Genders USING(gender_id)
-    INNER JOIN AgeDivisions USING(age_division_year)
+    INNER JOIN AgeDivisionsEntry USING(age_division_year)
     INNER JOIN Participants USING (participant_id)
 WHERE
     Scores.age_division_year = :year
@@ -307,7 +320,8 @@ FROM
     INNER JOIN DivingDivisions USING (division_id)
     INNER JOIN Participants USING (participant_id)
     INNER JOIN Genders USING(gender_id)
-    INNER JOIN AgeDivisions USING(age_division_year)
+    INNER JOIN AgeDivisionsEntry USING(age_division_year)
+    INNER JOIN AgeDivisions ON AgeDivisions.age_division_id = AgeDivisionsEntry.age_division_id
 WHERE
     Scores.specialty_id = :specialtyId
     AND Scores.division_id = :divisionId
@@ -359,10 +373,11 @@ SELECT
 FROM
     Participants
     INNER JOIN DivingSpecialties USING(specialty_id)
-    INNER JOIN AgeDivisions USING(age_division_year)
+    INNER JOIN AgeDivisionsEntry USING(age_division_year)
     INNER JOIN Genders USING(gender_id)
     INNER JOIN DivingDivisions USING(division_id)
     INNER JOIN Clubs USING(club_id)
+    INNER JOIN AgeDivisions ON AgeDivisions.age_division_id = AgeDivisionsEntry.age_division_id
 WHERE
     participant_id = :id;
 
@@ -377,7 +392,8 @@ SELECT
 FROM
     Participants
     INNER JOIN DivingSpecialties USING(specialty_id)
-    INNER JOIN AgeDivisions USING(age_division_year)
+    INNER JOIN AgeDivisionsEntry USING(age_division_year)
+    INNER JOIN AgeDivisions ON AgeDivisions.age_division_id = AgeDivisionsEntry.age_division_id
     INNER JOIN Genders USING(gender_id)
     INNER JOIN DivingDivisions USING(division_id)
     INNER JOIN Clubs USING(club_id);
@@ -393,7 +409,8 @@ SELECT
 FROM
     Participants
     INNER JOIN DivingSpecialties USING(specialty_id)
-    INNER JOIN AgeDivisions USING(age_division_year)
+    INNER JOIN AgeDivisionsEntry USING(age_division_year)
+    INNER JOIN AgeDivisions ON AgeDivisions.age_division_id = AgeDivisionsEntry.age_division_id
     INNER JOIN Genders USING(gender_id)
     INNER JOIN DivingDivisions USING(division_id)
     INNER JOIN Clubs USING(club_id)
@@ -413,7 +430,8 @@ SELECT
 FROM
     Participants
     INNER JOIN DivingSpecialties USING(specialty_id)
-    INNER JOIN AgeDivisions USING(age_division_year)
+    INNER JOIN AgeDivisionsEntry USING(age_division_year)
+    INNER JOIN AgeDivisions ON AgeDivisions.age_division_id = AgeDivisionsEntry.age_division_id
     INNER JOIN Genders USING(gender_id)
     INNER JOIN DivingDivisions USING(division_id)
     INNER JOIN Clubs USING(club_id)
@@ -436,7 +454,8 @@ SELECT
 FROM
     Participants
     INNER JOIN DivingSpecialties USING(specialty_id)
-    INNER JOIN AgeDivisions USING(age_division_year)
+    INNER JOIN AgeDivisionsEntry USING(age_division_year)
+    INNER JOIN AgeDivisions ON AgeDivisions.age_division_id = AgeDivisionsEntry.age_division_id
     INNER JOIN Genders USING(gender_id)
     INNER JOIN DivingDivisions USING(division_id)
     INNER JOIN Clubs USING(club_id)
@@ -457,7 +476,8 @@ SELECT
 FROM
     Participants
     INNER JOIN DivingSpecialties USING(specialty_id)
-    INNER JOIN AgeDivisions USING(age_division_year)
+    INNER JOIN AgeDivisionsEntry USING(age_division_year)
+    INNER JOIN AgeDivisions ON AgeDivisions.age_division_id = AgeDivisionsEntry.age_division_id
     INNER JOIN Genders USING(gender_id)
     INNER JOIN DivingDivisions USING(division_id)
     INNER JOIN Clubs USING(club_id)
@@ -470,7 +490,16 @@ selectAgeDivisions:
 SELECT
     *
 FROM
-    AgeDivisions;
+    AgeDivisionsEntry
+    JOIN AgeDivisions USING(age_division_id);
+    
+
+
+selectAgeDivisionsOnly:
+SELECT
+    *
+FROM
+    AgeDivisions;    
 
 selectClubs:
 SELECT
@@ -483,9 +512,38 @@ updateParticipantSeriesAndColumn(
     REQUIRED :series AS INTEGER,
     REQUIRED :column AS INTEGER
 ):
-UPDATE Participants
+UPDATE
+    Participants
 SET
     participant_series = :series,
     participant_column = :column
 WHERE
     participant_id = :id;
+
+selectParticiapntsByAgeAndDivisionAndSpecialty(
+    REQUIRED :division_id AS INTEGER,
+    REQUIRED :specialty_id AS INTEGER,
+    REQUIRED :age_division_id AS INTEGER
+
+):
+SELECT
+    Participants.*,
+    DivingSpecialties.specialty_name,
+    DivingDivisions.division_name,
+    AgeDivisions.age_division_name,
+    Genders.gender_name,
+    Clubs.club_name
+FROM
+    Participants
+    INNER JOIN DivingSpecialties USING(specialty_id)
+    INNER JOIN AgeDivisionsEntry USING(age_division_year)
+    INNER JOIN AgeDivisions ON AgeDivisions.age_division_id = AgeDivisionsEntry.age_division_id
+    INNER JOIN Genders USING(gender_id)
+    INNER JOIN DivingDivisions USING(division_id)
+    INNER JOIN Clubs USING(club_id)
+where
+    Participants.division_id = :division_id
+    AND Participants.specialty_id = :specialty_id
+    AND AgeDivisions.age_division_id = :age_division_id
+ORDER BY
+    Participants.entry_time;

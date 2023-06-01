@@ -1,10 +1,8 @@
+import 'package:dive_club/application/commons/dialogs/report_printer_dialog.dart';
 import 'package:dive_club/application/commons/utility/formaters.dart';
 import 'package:dive_club/application/commons/widgets/filter.dart';
-import 'package:dive_club/application/features/divisions/feature.dart';
 import 'package:dive_club/application/features/participants/ui/forms.dart';
-import 'package:dive_club/application/features/specialties/feature.dart';
 import 'package:dive_club/application/navigation/feature.dart';
-import 'package:dive_club/core/domain/report.dart';
 import 'package:dive_club/core/entities/clubs/export.dart';
 import 'package:dive_club/core/entities/competition/export.dart';
 import 'package:dive_club/core/entities/diving/export.dart';
@@ -28,8 +26,8 @@ class RegistrationDataHolder {
   DivingSpecialtyEntity? specialty;
 
   GenderEntity? gender;
-
-  AgeDivisionEntity? ageDivision;
+  AgeDivisionEntity? ageDivision = AgeDivisionEntity(
+      divisionId: AgeDivisionId(2012), divisionName: AgeDivisionName("value"));
 
   ClubEntity? club;
 
@@ -74,25 +72,17 @@ class ParticipantController {
     final isFormValid = key.currentState!.validate();
     if (isFormValid) {
       final bloc = BlocProvider.of<ParticipantBloc>(context);
-      final divisionBloc = BlocProvider.of<DivisionBloc>(context);
-      final specialtyBloc = BlocProvider.of<SpecialtyBloc>(context);
 
-      final divisionId = _data.division!.divisionId;
-      final specialtyId = _data.specialty!.specialtyId;
       final birthDate = ParticipantBirthDate(_data.birthDate);
 
       final entity = ParticipantEntity(
           participantId: ParticipantId(bloc.state.participants.length + 1),
           participantName: ParticipantName(_data.firstName, _data.lastName),
-          divisionId: divisionId,
+          division: _data.division!,
           participantBirthDate: birthDate,
-          specialtyId: specialtyId,
-          divisionName:
-              divisionBloc.state.divisionById(divisionId).divisionName,
-          specialtyName:
-              specialtyBloc.state.specialtyById(specialtyId).specialtyName,
-          ageDivisionId: AgeDivisionId(birthDate.year),
-          clubId: _data.club!.clubId,
+          specialty: _data.specialty!,
+          ageDivision: _data.ageDivision!,
+          club: _data.club!,
           entryTime: Score.fromString(_data.score!),
           genderId: _data.gender!.genderId,
           column: ParticipantColumn.from(-1),
@@ -113,20 +103,9 @@ class ParticipantController {
     NavigationService.displayDialog(dialog);
   }
 
-  Future<void> printParticipants(
-      ParticipantBloc bloc, BuildContext context) async {
-    // final printer = ParticipantsPrinter();
-    // printer.prepareNewDocument();
-    // await printer.createDocument(bloc.state.participants);
-    // printer.displayPreview();
-    final servicesProvider = ServicesProvider.instance();
-
-    final report = ReportStartList(
-        dbPort: servicesProvider.databasePort,
-        excelPort: servicesProvider.excelManagerPort);
-
-    await report.registerParticipants();
-    report.generateStartListReport(); 
+  Future<void> printParticipants() async {
+    const dialog = ReportsDialog();
+    NavigationService.displayDialog(dialog);
   }
 
   void updateFirstName(String value) {
@@ -225,10 +204,10 @@ Future<void> _registerParticipant(ParticipantEntity entity) async {
       id: entity.participantId.value,
       firstName: entity.participantName.firstName,
       birthDate: entity.participantBirthDate.value,
-      divisionId: entity.divisionId.value,
-      specialityId: entity.specialtyId.value,
-      ageDivisionId: entity.ageDivisionId.value,
-      clubId: entity.clubId.value,
+      divisionId: entity.division.divisionId.value,
+      specialityId: entity.specialty.specialtyId.value,
+      ageDivisionId: entity.ageDivision.divisionId.value,
+      clubId: entity.club.clubId.value,
       entryTime: entity.entryTime.toIntCode(),
       genderId: entity.genderId.value,
       lastName: entity.participantName.lastName);

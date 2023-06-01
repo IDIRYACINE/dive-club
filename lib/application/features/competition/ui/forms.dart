@@ -90,9 +90,9 @@ class _ParticipantProfile extends StatelessWidget {
 
     final birthDate = participant?.participantBirthDate.toString() ?? unkown;
 
-    final specialty = participant?.specialtyName.value ?? unkown;
+    final specialty = participant?.specialty.specialtyName.value ?? unkown;
 
-    final division = participant?.divisionName.value ?? unkown;
+    final division = participant?.division.divisionName.value ?? unkown;
 
     return Column(
       mainAxisSize: MainAxisSize.min,
