@@ -1,5 +1,5 @@
 import 'package:dive_club/application/commons/utility/formaters.dart';
-import 'package:dive_club/core/domain/participants/export.dart';
+import 'package:dive_club/core/entities/participants/export.dart';
 import 'package:pdf/widgets.dart' as pw;
 
 class ParticipantsPage extends pw.StatelessWidget {
@@ -32,8 +32,8 @@ class ParticipantsPage extends pw.StatelessWidget {
                 formatDateTimeToDisplay(participant.participantBirthDate.value),
                 textDirection: pw.TextDirection.rtl 
                 ),
-            pw.Text(participant.divisionName.value,textDirection: pw.TextDirection.rtl ),
-            pw.Text(participant.specialtyName.value,textDirection: pw.TextDirection.rtl ),
+            pw.Text(participant.division.divisionName.value,textDirection: pw.TextDirection.rtl ),
+            pw.Text(participant.specialty.specialtyName.value,textDirection: pw.TextDirection.rtl ),
           ],
         ),
       );

@@ -1,6 +1,6 @@
-import 'package:dive_club/core/domain/diving/export.dart';
-import 'package:dive_club/core/domain/genders/export.dart';
-import 'package:dive_club/core/domain/participants/export.dart';
+import 'package:dive_club/core/entities/diving/export.dart';
+import 'package:dive_club/core/entities/genders/export.dart';
+import 'package:dive_club/core/entities/participants/export.dart';
 import 'value_objects.dart';
 
 class CompetitionScoreEntity {

@@ -1,4 +1,5 @@
 import 'package:dive_club/core/infrastrucutre/database/export.dart';
+import 'package:dive_club/core/infrastrucutre/utilities/excel_manager_port.dart';
 import 'package:dive_club/infrastructure/database-service/drift/mappers/division_mapper.dart';
 
 import 'database/database.dart';
@@ -144,7 +145,30 @@ class DriftDatabaseService implements DatabasePort {
           );
     }
 
+    if(options.clubId !=null){
+      return _database.selectParticiapntsByClub(clubId: options.clubId!).get().then(
+            (value) => LoadParticipantsResult(
+              participants: ParticipantMapper.fromyByClub(
+                  value, _mapperService.participantMapper),
+            ),
+          );
+    }
+
+    if(options.divisionId != null && options.ageDivisionId !=null && options.specialityId !=null){
+      return  _database.selectParticiapntsByAgeAndDivisionAndSpecialty(
+        ageDivisionId:options.ageDivisionId!,
+        divisionId : options.divisionId!,
+        specialtyId : options.specialityId!
+      ).get().then(
+            (value) => LoadParticipantsResult(
+              participants: ParticipantMapper.byAgeAndDivisionAndSpecialty(
+                  value, _mapperService.participantMapper),
+            ),
+          );
+    }
+
     if (options.divisionId == null && options.specialityId == null) {
+        
       return _database.selectParticiapnts().get().then(
             (value) => LoadParticipantsResult(
               participants: ParticipantMapper.fromSelectParticipant(
@@ -219,7 +243,7 @@ class DriftDatabaseService implements DatabasePort {
   @override
   Future<DatabaseOperationResult> insertAgeDivision(CreateAgeDivisionOptions options) {
     return _database
-        .createAgeDivisions(name: options.divisionName,year:options.year)
+        .createAgeDivisions(name: options.divisionName,id:options.year)
         .then((value) => DatabaseOperationResult());
   }
   
@@ -232,9 +256,9 @@ class DriftDatabaseService implements DatabasePort {
   
   @override
   Future<LoadAgeDivisionsResult> loadAgeDivisions() {
-      return _database.selectAgeDivisions().get().then(
+      return _database.selectAgeDivisionsOnly().get().then(
           (value) => LoadAgeDivisionsResult(
-            ageDivisions: mapToDomainAgeDivisions(
+            ageDivisions: mapToDomainAgeDivisionsOnly(
                 value, _mapperService.ageDivisonMapper),
           ),
         );
@@ -261,5 +285,21 @@ class DriftDatabaseService implements DatabasePort {
     // TODO: implement updateClub
     throw UnimplementedError();
   }
+
+  @override
+  Future<DatabaseOperationResult> updateParticipantsSeries(List<ParticipantEngagement> engagements) async {
+   
+    
+    for(ParticipantEngagement engagement in engagements){
+      _database.updateParticipantSeriesAndColumn(
+        column : engagement.column.value,
+        series: engagement.series,
+        id: engagement.participantId.value
+      );
+    }
+
+    return DatabaseOperationResult();
+  }
+  
   
 }

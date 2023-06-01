@@ -1,7 +1,7 @@
 import 'package:dive_club/application/commons/utility/formaters.dart';
 import 'package:dive_club/application/commons/widgets_custom/sized_query_box.dart';
 import 'package:dive_club/application/features/participants/state/bloc.dart';
-import 'package:dive_club/core/domain/participants/export.dart';
+import 'package:dive_club/core/entities/participants/export.dart';
 import 'package:dive_club/resources/l10n/l10n.dart';
 import 'package:dive_club/resources/measures.dart';
 import 'package:flutter/material.dart';
@@ -60,8 +60,8 @@ class _ParticipantsTableState extends State<ParticipantsTable> {
         DataCell(Text(participant.participantName.toString())),
         DataCell(Text(
             formatDateTimeToDisplay(participant.participantBirthDate.value))),
-        DataCell(Text(participant.divisionName.value)),
-        DataCell(Text(participant.specialtyName.value)),
+        DataCell(Text(participant.division.divisionName.value)),
+        DataCell(Text(participant.specialty.specialtyName.value)),
       ],
     );
   }

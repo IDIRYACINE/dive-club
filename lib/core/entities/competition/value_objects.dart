@@ -9,6 +9,15 @@ class Score {
   );
 
   factory Score.fromString(String source) {
+    final date = DateTime.tryParse(source);
+
+    if(date != null){
+      return Score(date.minute, date.second, date.millisecond);
+    }
+
+
+    source = source.replaceAll(RegExp(r'[.:]'), '');
+
     final m = int.parse(source.substring(0, 2));
     final s = int.parse(source.substring(2, 4));
     final ms = int.parse(source.substring(4, 6));

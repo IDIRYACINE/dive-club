@@ -1,10 +1,13 @@
 import 'package:dive_club/application/commons/utility/validators.dart';
 import 'package:dive_club/application/commons/widgets/buttons.dart';
 import 'package:dive_club/application/features/ageDivision/feature.dart';
+import 'package:dive_club/application/features/clubs/feature.dart';
 import 'package:dive_club/application/features/divisions/feature.dart';
+import 'package:dive_club/application/features/gender/actions.dart';
 import 'package:dive_club/application/features/specialties/feature.dart';
-import 'package:dive_club/core/domain/diving/entity.dart';
-import 'package:dive_club/core/domain/genders/export.dart';
+import 'package:dive_club/core/entities/clubs/export.dart';
+import 'package:dive_club/core/entities/diving/entity.dart';
+import 'package:dive_club/core/entities/genders/export.dart';
 import 'package:dive_club/resources/l10n/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -17,6 +20,7 @@ class ParticipantForm extends StatelessWidget {
       required this.divisions,
       required this.specialties,
       required this.ageDivisions,
+      required this.clubs,
       required this.genders});
 
   final ParticipantController controller = ParticipantController();
@@ -25,6 +29,7 @@ class ParticipantForm extends StatelessWidget {
   final List<DivingSpecialtyEntity> specialties;
   final List<AgeDivisionEntity> ageDivisions;
   final List<GenderEntity> genders;
+  final List<ClubEntity> clubs;
 
   @override
   Widget build(BuildContext context) {
@@ -37,11 +42,25 @@ class ParticipantForm extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           TextFormField(
-            decoration: InputDecoration(
-              labelText: localizations.nameLabel,
+            decoration: const InputDecoration(
+              labelText: "firstName",
             ),
             validator: validatorEmptyText,
-            onChanged: controller.updateName,
+            onChanged: controller.updateFirstName,
+          ),
+          TextFormField(
+            decoration: const InputDecoration(
+              labelText: "lastName",
+            ),
+            validator: validatorEmptyText,
+            onChanged: controller.updateLastName,
+          ),
+           TextFormField(
+            decoration: const InputDecoration(
+              labelText: "entry time",
+            ),
+            onChanged: controller.updateEntryTime,
+            validator: validatorScore,
           ),
           TextFormField(
             decoration: InputDecoration(
@@ -59,6 +78,18 @@ class ParticipantForm extends StatelessWidget {
           SpecialtyDropdown(
             items: specialties,
             onSelected: controller.updateSpecialty,
+          ),
+          GenderDropdown(
+            items: genders,
+            onSelected: controller.updateGender,
+          ),
+          ClubDropdown(
+            items: clubs,
+            onSelected: controller.updateClub,
+          ),
+          AgeDivisionDropdown(
+            items: ageDivisions,
+            onSelected: controller.updateAgeDivision,
           ),
           const SizedBox(
             height: 20,
@@ -84,6 +115,7 @@ class ParticipantDialog extends StatelessWidget {
         BlocProvider.of<SpecialtyBloc>(context).state.specialties;
     final ageDivisions =
         BlocProvider.of<AgeDivisionBloc>(context).state.ageDivisions;
+    final clubs = BlocProvider.of<ClubBloc>(context).state.clubs;
 
     return AlertDialog(
       title: Text(localizations.addParticipantLabel),
@@ -92,6 +124,7 @@ class ParticipantDialog extends StatelessWidget {
         specialties: specialties,
         ageDivisions: ageDivisions,
         genders: gendersList,
+        clubs: clubs,
       ),
     );
   }

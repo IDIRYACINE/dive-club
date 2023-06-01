@@ -1,6 +1,6 @@
-import 'package:dive_club/core/domain/diving/export.dart';
-import 'package:dive_club/core/domain/genders/value_objects.dart';
-import 'package:dive_club/core/domain/participants/export.dart';
+import 'package:dive_club/core/entities/diving/export.dart';
+import 'package:dive_club/core/entities/genders/value_objects.dart';
+import 'package:dive_club/core/entities/participants/export.dart';
 import 'package:dive_club/core/infrastrucutre/database/export.dart';
 
 import 'entity.dart';

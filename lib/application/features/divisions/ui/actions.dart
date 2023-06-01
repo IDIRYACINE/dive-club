@@ -1,6 +1,6 @@
 import 'package:dive_club/application/commons/utility/validators.dart';
 import 'package:dive_club/application/commons/widgets/buttons.dart';
-import 'package:dive_club/core/domain/diving/entity.dart';
+import 'package:dive_club/core/entities/diving/entity.dart';
 import 'package:dive_club/resources/l10n/l10n.dart';
 import 'package:flutter/material.dart';
 
@@ -60,7 +60,9 @@ class DivisionDropdown extends StatelessWidget {
   Widget build(BuildContext context) {
     return DropdownButtonFormField<DivingDivisionEntity>(
         items: _buildItems(), onChanged: onSelected,
-        value:  items.first,
+        value:  items.isNotEmpty ? items.first : null,
+              hint: const Text("Division"),
+
         validator: validatorDivingDivision,
         );
   }

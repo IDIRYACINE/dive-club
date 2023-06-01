@@ -1,6 +1,6 @@
 import 'package:dive_club/application/commons/utility/validators.dart';
 import 'package:dive_club/application/commons/widgets/buttons.dart';
-import 'package:dive_club/core/domain/diving/entity.dart';
+import 'package:dive_club/core/entities/diving/entity.dart';
 import 'package:dive_club/resources/l10n/l10n.dart';
 import 'package:flutter/material.dart';
 
@@ -63,8 +63,9 @@ class SpecialtyDropdown extends StatelessWidget {
   Widget build(BuildContext context) {
     return DropdownButtonFormField<DivingSpecialtyEntity>(
       items: _buildItems(),
-      value: items.first,
+      value: items.isNotEmpty ? items.first : null,
       onChanged: onSelected,
+      hint: const Text("Specialty"),
       validator: validatorDivingSpecialty,
     );
   }

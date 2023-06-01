@@ -1,6 +1,6 @@
 import 'package:dive_club/application/commons/utility/validators.dart';
 import 'package:dive_club/application/commons/widgets/buttons.dart';
-import 'package:dive_club/core/domain/diving/entity.dart';
+import 'package:dive_club/core/entities/diving/entity.dart';
 import 'package:dive_club/resources/l10n/l10n.dart';
 import 'package:flutter/material.dart';
 
@@ -22,12 +22,12 @@ class AgeDivisionActions extends StatelessWidget {
       mainAxisSize: MainAxisSize.max,
       children: [
         Text(
-          localizations.specialityListLabel,
+          localizations.ageDivisionList,
           style: theme.textTheme.headlineSmall,
         ),
         ButtonPrimary(
           onPressed: controller.addAgeDivision,
-          text: localizations.addSpecialityLabel,
+          text: localizations.addAgeDivisionLabel,
         ),
       ],
     );
@@ -63,7 +63,8 @@ class AgeDivisionDropdown extends StatelessWidget {
   Widget build(BuildContext context) {
     return DropdownButtonFormField<AgeDivisionEntity>(
       items: _buildItems(),
-      value: items.first,
+       value: items.isNotEmpty ? items.first : null,
+      hint: const Text("Age Division"),
       onChanged: onSelected,
       validator: validatorAgeDivision,
     );

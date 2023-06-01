@@ -1,14 +1,13 @@
 import 'package:dive_club/application/commons/utility/validators.dart';
 import 'package:dive_club/application/commons/widgets/buttons.dart';
-import 'package:dive_club/core/domain/clubs/entity.dart';
+import 'package:dive_club/core/entities/clubs/entity.dart';
 import 'package:dive_club/resources/l10n/l10n.dart';
 import 'package:flutter/material.dart';
 
 import '../logic/form_controller.dart';
 
 class ClubActions extends StatelessWidget {
-  const ClubActions({Key? key, required this.controller})
-      : super(key: key);
+  const ClubActions({Key? key, required this.controller}) : super(key: key);
 
   final ClubController controller;
 
@@ -22,12 +21,12 @@ class ClubActions extends StatelessWidget {
       mainAxisSize: MainAxisSize.max,
       children: [
         Text(
-          localizations.specialityListLabel,
+          localizations.clubList,
           style: theme.textTheme.headlineSmall,
         ),
         ButtonPrimary(
           onPressed: controller.addClub,
-          text: localizations.addSpecialityLabel,
+          text: localizations.addClubLabel,
         ),
       ],
     );
@@ -63,7 +62,8 @@ class ClubDropdown extends StatelessWidget {
   Widget build(BuildContext context) {
     return DropdownButtonFormField<ClubEntity>(
       items: _buildItems(),
-      value: items.first,
+      value: items.isNotEmpty ? items.first : null,
+      hint: const Text("Club"),
       onChanged: onSelected,
       validator: validatorClub,
     );

@@ -1,5 +1,5 @@
 import 'package:dive_club/application/navigation/feature.dart';
-import 'package:dive_club/core/domain/clubs/export.dart';
+import 'package:dive_club/core/entities/clubs/export.dart';
 import 'package:dive_club/core/infrastrucutre/database/options.dart';
 import 'package:dive_club/infrastructure/service_provider.dart';
 import 'package:flutter/material.dart';

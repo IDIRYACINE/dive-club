@@ -1,6 +1,6 @@
 import 'package:dive_club/application/commons/utility/validators.dart';
 import 'package:dive_club/application/commons/widgets/buttons.dart';
-import 'package:dive_club/core/domain/clubs/export.dart';
+import 'package:dive_club/core/entities/clubs/export.dart';
 import 'package:dive_club/resources/l10n/l10n.dart';
 import 'package:flutter/material.dart';
 
@@ -55,8 +55,8 @@ class ClubDialog extends StatelessWidget {
 
     return AlertDialog(
       title: Text(isCreate
-          ? localizations.addSpecialityLabel
-          : localizations.updateSpecialtyLabel),
+          ? localizations.addClubLabel
+          : localizations.updateClubLabel),
       content: ClubForm(
         controller: controller,
       ),

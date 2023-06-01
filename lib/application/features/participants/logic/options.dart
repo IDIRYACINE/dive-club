@@ -1,5 +1,5 @@
 import 'package:dive_club/application/features/participants/feature.dart';
-import 'package:dive_club/core/domain/participants/entity.dart';
+import 'package:dive_club/core/entities/participants/entity.dart';
 import 'package:flutter/material.dart';
 
 class DisplayActionsOptions {

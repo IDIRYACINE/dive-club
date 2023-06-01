@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:dive_club/core/domain/competition/export.dart';
+import 'package:dive_club/core/entities/competition/export.dart';
 import 'package:pdf/widgets.dart' as pw;
 
 class RankingsPage extends pw.StatelessWidget {
@@ -73,10 +73,17 @@ class CertificatePage extends pw.StatelessWidget {
       children: [
         pw.Image(pw.MemoryImage(image.readAsBytesSync())),
         pw.Positioned(
-          top: 100,
+          top: 210,
           left: 100,
           child: pw.Text(
             participant.participantName.toString(),
+          ),
+        ),
+        pw.Positioned(
+          top: 320,
+          left: 480,
+          child: pw.Text(
+            '${participant.divisionName.value} ${participant.specialtyName.value}',
           ),
         ),
       ],

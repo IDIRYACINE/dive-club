@@ -1,4 +1,4 @@
-import 'package:dive_club/core/domain/clubs/export.dart';
+import 'package:dive_club/core/entities/clubs/export.dart';
 
 abstract class ClubEvent {}
 

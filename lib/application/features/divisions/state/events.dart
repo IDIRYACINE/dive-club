@@ -1,5 +1,5 @@
 
-import 'package:dive_club/core/domain/diving/export.dart';
+import 'package:dive_club/core/entities/diving/export.dart';
 
 abstract class DivisionEvent{
 

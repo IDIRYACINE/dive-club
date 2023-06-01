@@ -1,3 +1,5 @@
+import 'package:dive_club/application/features/ageDivision/feature.dart';
+import 'package:dive_club/application/features/clubs/feature.dart';
 import 'package:dive_club/application/features/competition/feature.dart';
 import 'package:dive_club/application/features/divisions/feature.dart';
 import 'package:dive_club/application/features/participants/feature.dart';
@@ -11,12 +13,16 @@ class InitAppOptions {
   final ParticipantBloc participantsBloc;
   final DivisionBloc divisionsBloc;
   final SpecialtyBloc specialtiesBloc;
+  final AgeDivisionBloc ageDivisionBloc;
+  final ClubBloc clubBloc;
 
   InitAppOptions({
     required this.competitionBloc,
     required this.participantsBloc,
     required this.divisionsBloc,
     required this.specialtiesBloc,
+    required this.ageDivisionBloc,
+    required this.clubBloc,
   });
 }
 
@@ -29,8 +35,29 @@ Future<void> initApp(InitAppOptions options) async {
   await _loadParticipants(databaseService, options.participantsBloc);
   await _loadDivisions(databaseService, options.divisionsBloc);
   await _loadSpecialties(databaseService, options.specialtiesBloc);
+  await _loadAgeDivisions(databaseService, options.ageDivisionBloc);
+  await _loadClubs(databaseService, options.clubBloc);
 
   NavigationService.pushNamedReplacement(Routes.loginRoute);
+}
+
+Future<void> _loadClubs(DatabasePort databaseService, ClubBloc bloc) async {
+
+  final clubs = await databaseService.loadClubs();
+
+  final event = LoadClubsEvent(clubs.clubs);
+
+  bloc.add(event);
+}
+
+Future<void> _loadAgeDivisions(
+    DatabasePort databaseService, AgeDivisionBloc bloc) async {
+
+  final diviisons = await databaseService.loadAgeDivisions();
+
+  final event = LoadAgeDivisionsEvent(diviisons.ageDivisions);
+
+  bloc.add(event);
 }
 
 Future<void> _loadScores(

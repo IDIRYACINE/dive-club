@@ -1,6 +1,6 @@
 import 'package:dive_club/application/commons/utility/validators.dart';
 import 'package:dive_club/application/commons/widgets/buttons.dart';
-import 'package:dive_club/core/domain/diving/entity.dart';
+import 'package:dive_club/core/entities/diving/entity.dart';
 import 'package:dive_club/resources/l10n/l10n.dart';
 import 'package:flutter/material.dart';
 
@@ -28,6 +28,16 @@ class AgeDivisionForm extends StatelessWidget {
           const SizedBox(
             height: 20,
           ),
+          TextFormField(
+            decoration: InputDecoration(
+              labelText: localizations.idLabel,
+            ),
+            controller: controller.yearController,
+            validator: validatorEmptyText,
+          ),
+          const SizedBox(
+            height: 20,
+          ),
           GenericFormActions(
             onConfirmPressed: () => controller.onRegister(context),
             onCancelPressed: controller.onCancel,
@@ -49,14 +59,14 @@ class AgeDivisionDialog extends StatelessWidget {
     final controller = AgeDivisionController(entity);
     final isCreate = entity == null;
 
-    if(!isCreate){
+    if (!isCreate) {
       controller.updateName(entity!.divisionName.value);
     }
 
     return AlertDialog(
       title: Text(isCreate
-          ? localizations.addSpecialityLabel
-          : localizations.updateSpecialtyLabel),
+          ? localizations.addAgeDivisionLabel
+          : localizations.updateAgeDivisionLabel),
       content: AgeDivisionForm(
         controller: controller,
       ),

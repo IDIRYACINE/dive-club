@@ -1,5 +1,5 @@
 
-import 'package:dive_club/core/domain/clubs/entity.dart';
+import 'package:dive_club/core/entities/clubs/entity.dart';
 import 'package:dive_club/core/infrastrucutre/database/export.dart';
 
 import 'value_objects.dart';

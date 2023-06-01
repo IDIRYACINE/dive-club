@@ -1,5 +1,5 @@
 
-import 'package:dive_club/core/domain/competition/export.dart';
+import 'package:dive_club/core/entities/competition/export.dart';
 
 abstract class CompetitionEvent{
 

@@ -2,7 +2,7 @@ import 'package:dive_club/application/features/competition/feature.dart';
 import 'package:dive_club/application/features/divisions/feature.dart';
 import 'package:dive_club/application/features/participants/feature.dart';
 import 'package:dive_club/application/features/specialties/feature.dart';
-import 'package:dive_club/core/domain/diving/export.dart';
+import 'package:dive_club/core/entities/diving/export.dart';
 import 'package:dive_club/resources/l10n/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -105,6 +105,8 @@ class FilterForm extends StatelessWidget {
           specialtyId: SpecialtyId(-1), specialtyName: SpecialtyName('All')),
       ...BlocProvider.of<SpecialtyBloc>(context).state.specialties,
     ];
+
+    
 
     return Form(
       key: FilterController.formKey,
