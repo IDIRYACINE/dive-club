@@ -89,10 +89,25 @@ class ParticipantMapper {
 
     return results;
   }
+
+  static fromOrderBySeries(List<raw.SelectParticipantsAndOrderBySeriesResult> participants, ParticipantMapperPort mapper) {
+    List<ParticipantEntity> results = [];
+
+
+    for (raw.SelectParticipantsAndOrderBySeriesResult participant
+        in participants) {
+         
+
+      results.add(_mapToDomain(participant, mapper));
+    }
+
+    return results;
+  }
 }
 
 ParticipantEntity _mapToDomain(
     dynamic participant, ParticipantMapperPort mapper) {
+
   final temp = Participant(
       id: participant.participantId,
       firstName: participant.participantFirstName,

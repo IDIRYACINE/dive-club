@@ -69,7 +69,7 @@ class CertificatePage extends pw.StatelessWidget {
 
   @override
   pw.Widget build(pw.Context context) {
-    final center = (context.page.pageFormat.width - 200) / 2;
+    final center = (context.page.pageFormat.width ) / 2;
     final color = PdfColor.fromHex("#FF0000");
     return pw.Stack(
       children: [

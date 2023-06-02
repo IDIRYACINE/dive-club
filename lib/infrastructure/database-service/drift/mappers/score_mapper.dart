@@ -1,14 +1,14 @@
 import 'package:dive_club/core/entities/competition/export.dart';
 import 'package:dive_club/core/infrastrucutre/database/export.dart';
-import 'package:dive_club/infrastructure/database-service/drift/database/database.dart'
-    as raw;
+// import 'package:dive_club/infrastructure/database-service/drift/database/database.dart'
+//     as raw;
 
 class ScoreMapper {
   static List<CompetitionScoreEntity> fromSelect(
-      List<raw.SelectCompetitionScoresResult> scores, ScoreMapperPort mapper) {
+      List<dynamic> scores, ScoreMapperPort mapper) {
     List<CompetitionScoreEntity> results = [];
 
-    for (raw.SelectCompetitionScoresResult score in scores) {
+    for (dynamic score in scores) {
       final temp = CompetitionScore(
           participantId: score.participantId,
           divisionId: score.divisionId,

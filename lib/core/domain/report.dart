@@ -89,7 +89,7 @@ class ReportStartList {
   }
 
   Future<void> generateStartListReport() async {
-    final engagements = await generateParticipantsSeries(updateDb: false);
+    final engagements = await generateParticipantsSeries(updateDb: true);
 
     excelPort.exportStartListFile(engagementsOutputDirectory, engagements);
   }

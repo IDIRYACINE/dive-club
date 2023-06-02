@@ -12,7 +12,6 @@ import 'package:printing/printing.dart';
 import 'page.dart';
 import 'papillons_page.dart';
 
-
 class PapillonPrinter {
   late pw.Document pdf;
   final double _maxParticipantPerPage = 15;
@@ -52,48 +51,57 @@ class PapillonPrinter {
     );
   }
 
-
   Future<Uint8List> createPapillonsDocument(
       List<ParticipantEntity> entities) async {
-        final font = await fontFromAssetBundle('assets/fonts/Tahoma.ttf');
+    final font = await fontFromAssetBundle('assets/fonts/Tahoma.ttf');
     final fontTheme = pw.ThemeData.withFont(
         base: font, bold: font, italic: font, boldItalic: font);
 
-    const step = 2;
+    int itemsPerPage = 6;
+    final length = (entities.length);
+    final pageNumbers = length / itemsPerPage;
 
-    final length = (entities.length) ;
+    for (int i = 0; i < pageNumbers; i ++) {
+      final List<ParticipantEntity> participants = [];
 
-    for (int i = 0; i < length; i += step) {
+      int targetLength = i + itemsPerPage;
+      targetLength = targetLength < length ? targetLength : length;
 
-      final participants = [entities[i],];
-
-      if(i+1 <= length){
-        participants.add(entities[i+1]);
+      for (int j = i; j < targetLength; j++) {
+        participants.add(entities[j]);
       }
-
       _createPapillonsPage(participants, fontTheme);
-
     }
 
     return pdf.save();
   }
 
   void _createPapillonsPage(
-      List<ParticipantEntity> entity , pw.ThemeData fontTheme) {
+      List<ParticipantEntity> entity, pw.ThemeData fontTheme) {
     File image = File(AppResources.papillons);
+
+    const double margin = 0;
+
+    final width = ( PdfPageFormat.a4.width - margin) / 2;
+    final height =( PdfPageFormat.a4.height - margin) / 2;
 
     pdf.addPage(
       pw.Page(
         theme: fontTheme,
+        margin: const pw.EdgeInsets.all(margin),
         pageFormat: PdfPageFormat.a4,
-        orientation: pw.PageOrientation.landscape,
+        orientation: pw.PageOrientation.portrait,
         build: (pw.Context context) {
-          return PapillonPage( participants: entity, image: image);
+          return PapillonPage(
+            participants: entity,
+            image: image,
+            width: width,
+            height: height,
+          );
         },
       ),
     );
   }
-
 
   Future<void> displayPreview() async {
     final dialog = PrinterDialog(preparedDoc: await pdf.save());

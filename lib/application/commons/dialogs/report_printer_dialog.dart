@@ -1,12 +1,10 @@
 import 'package:dive_club/application/commons/utility/printer/printer.dart';
 import 'package:dive_club/application/commons/widgets/buttons.dart';
-import 'package:dive_club/application/features/participants/feature.dart';
 import 'package:dive_club/application/navigation/feature.dart';
 import 'package:dive_club/core/domain/report.dart';
-import 'package:dive_club/core/entities/participants/export.dart';
+import 'package:dive_club/core/infrastrucutre/database/export.dart';
 import 'package:dive_club/infrastructure/service_provider.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ReportsDialog extends StatelessWidget {
   const ReportsDialog({Key? key}) : super(key: key);
@@ -43,10 +41,7 @@ class ReportsDialog extends StatelessWidget {
             SizedBox(
               width: double.infinity,
               child: ButtonPrimary(
-                onPressed: () => controller.printPapillons(
-                    BlocProvider.of<ParticipantBloc>(context)
-                        .state
-                        .participants),
+                onPressed: controller.printPapillons,
                 text: 'Print papillons',
               ),
             ),
@@ -76,7 +71,13 @@ class _Controller {
         excelPort: servicesProvider.excelManagerPort);
   }
 
-  Future<void> printPapillons(List<ParticipantEntity> participants) async {
+  Future<void> printPapillons() async {
+        final servicesProvider = ServicesProvider.instance();
+        
+    final options = LoadParticipantsOptions(
+        orderBySeries: true);
+
+    final participants = (await servicesProvider.databasePort.loadParticipants(options)).participants;
     final printer = PapillonPrinter();
     printer.prepareNewDocument();
     await printer.createPapillonsDocument(participants);

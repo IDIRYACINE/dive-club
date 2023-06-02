@@ -78,7 +78,7 @@ class DriftDatabaseService implements DatabasePort {
           .get()
           .then(
             (value) => LoadCompetitionScoresResult(
-              scores: ScoreMapper.byDivisionAndSpecialty(
+              scores: ScoreMapper.fromSelect(
                   value, _mapperService.scoreMapper),
             ),
           );
@@ -90,7 +90,7 @@ class DriftDatabaseService implements DatabasePort {
           .get()
           .then(
             (value) => LoadCompetitionScoresResult(
-              scores: ScoreMapper.byDivision(value, _mapperService.scoreMapper),
+              scores: ScoreMapper.fromSelect(value, _mapperService.scoreMapper),
             ),
           );
     }
@@ -102,7 +102,7 @@ class DriftDatabaseService implements DatabasePort {
           .then(
             (value) => LoadCompetitionScoresResult(
               scores:
-                  ScoreMapper.bySpecialty(value, _mapperService.scoreMapper),
+                  ScoreMapper.fromSelect(value, _mapperService.scoreMapper),
             ),
           );
     }
@@ -137,6 +137,18 @@ class DriftDatabaseService implements DatabasePort {
   @override
   Future<LoadParticipantsResult> loadParticipants(
       LoadParticipantsOptions options) async {
+
+    if(options.orderBySeries != null){
+      return  _database
+          .selectParticipantsAndOrderBySeries()
+          .get()
+          .then(
+            (value) => LoadParticipantsResult(
+              participants: ParticipantMapper.fromOrderBySeries(
+                  value, _mapperService.participantMapper),
+            ),
+          );
+    }    
     if (options.participantId != null) {
       return _database
           .searchParticipantsById(id: options.participantId!)

@@ -148,12 +148,15 @@ class LoadParticipantsOptions {
   final int? clubId;
   final int? ageDivisionId;
 
+  final bool?  orderBySeries;
+
   LoadParticipantsOptions( {
     this.divisionId,
     this.specialityId,
     this.clubId,
     this.participantId,
     this.ageDivisionId,
+    this.orderBySeries
   });
 }
 
