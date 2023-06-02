@@ -26,13 +26,10 @@ class ReportStartList {
           continue;
         }
 
-        final birthDate = DateTime(participant.ageDivisionId.value);
-
         final options = CreateParticipantOptions(
             divisionId: entryScore.divisionId.value,
             id: index,
             firstName: participant.participantName.firstName,
-            birthDate: birthDate,
             specialityId: entryScore.specialtyId.value,
             clubId: participant.clubId.value,
             entryTime: entryScore.score!.toIntCode(),
@@ -41,7 +38,6 @@ class ReportStartList {
             ageDivisionId: participant.ageDivisionId.value);
 
         index++;
-
         dbPort.insertParticipant(options);
       }
     }
@@ -93,32 +89,7 @@ class ReportStartList {
   }
 
   Future<void> generateStartListReport() async {
-    final divisions = (await dbPort.loadDivingDivisions()).divisions;
-    final ageDivisions = (await dbPort.loadAgeDivisions()).ageDivisions;
-    final specialties = (await dbPort.loadDivingSpecialities()).specialties;
-
-    final List<ParticipantEngagement> engagements = [];
-
-    for (AgeDivisionEntity ageDvision in ageDivisions) {
-      for (DivingSpecialtyEntity specialty in specialties) {
-        for (DivingDivisionEntity division in divisions) {
-          final options = LoadParticipantsOptions(
-            divisionId: division.divisionId.value,
-            specialityId: specialty.specialtyId.value,
-            ageDivisionId: ageDvision.divisionId.value,
-          );
-
-          final participants =
-              (await dbPort.loadParticipants(options)).participants;
-
-          
-
-          engagements.addAll(_generateEngagements(participants));
-        }
-      }
-    }
-
-    dbPort.updateParticipantsSeries(engagements);
+    final engagements = await generateParticipantsSeries(updateDb: false);
 
     excelPort.exportStartListFile(engagementsOutputDirectory, engagements);
   }
@@ -155,5 +126,41 @@ class ReportStartList {
 
       excelPort.exportEngagementsFiles(engagementsOutputDirectory, engagements);
     }
+  }
+
+  Future<EngagementsRecords> generateParticipantsSeries(
+      {bool updateDb = true}) async {
+    final EngagementsRecords engagementsRecords = [];
+
+    final divisions = (await dbPort.loadDivingDivisions()).divisions;
+    final ageDivisions = (await dbPort.loadAgeDivisions()).ageDivisions;
+    final specialties = (await dbPort.loadDivingSpecialities()).specialties;
+
+    for (AgeDivisionEntity ageDvision in ageDivisions) {
+      for (DivingSpecialtyEntity specialty in specialties) {
+        for (DivingDivisionEntity division in divisions) {
+          final options = LoadParticipantsOptions(
+            divisionId: division.divisionId.value,
+            specialityId: specialty.specialtyId.value,
+            ageDivisionId: ageDvision.divisionId.value,
+          );
+
+          final participants =
+              (await dbPort.loadParticipants(options)).participants;
+
+          if (participants.isNotEmpty) {
+            engagementsRecords.add(_generateEngagements(participants));
+          }
+        }
+      }
+    }
+
+    if (updateDb) {
+      for (List<ParticipantEngagement> engagements in engagementsRecords) {
+        dbPort.updateParticipantsSeries(engagements);
+      }
+    }
+
+    return engagementsRecords;
   }
 }

@@ -64,6 +64,7 @@ flutter:
     - assets/images/certificate_silver.png
     - assets/images/certificate_bronze.png
     - assets/images/papillons.png
+    - assets/defaults.sql
 
 
   # An image asset can refer to one or more resolution-specific "variants", see

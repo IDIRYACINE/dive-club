@@ -8,13 +8,17 @@ class Score {
     this.milliseconds,
   );
 
-  factory Score.fromString(String source) {
+  factory Score.fromStringDatetime(String source) {
     final date = DateTime.tryParse(source);
 
     if(date != null){
       return Score(date.minute, date.second, date.millisecond);
     }
 
+    return Score.fromString(source);
+  }
+
+  factory Score.fromString(String source) {
 
     source = source.replaceAll(RegExp(r'[.:]'), '');
 

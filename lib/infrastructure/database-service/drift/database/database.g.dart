@@ -1120,13 +1120,6 @@ class Participants extends Table with TableInfo<Participants, Participant> {
       type: DriftSqlType.int,
       requiredDuringInsert: true,
       $customConstraints: 'NOT NULL');
-  static const VerificationMeta _birthDateMeta =
-      const VerificationMeta('birthDate');
-  late final GeneratedColumn<DateTime> birthDate = GeneratedColumn<DateTime>(
-      'birth_date', aliasedName, false,
-      type: DriftSqlType.dateTime,
-      requiredDuringInsert: true,
-      $customConstraints: 'NOT NULL');
   static const VerificationMeta _participantSeriesMeta =
       const VerificationMeta('participantSeries');
   late final GeneratedColumn<int> participantSeries = GeneratedColumn<int>(
@@ -1183,7 +1176,6 @@ class Participants extends Table with TableInfo<Participants, Participant> {
         participantFirstName,
         participantLastName,
         entryTime,
-        birthDate,
         participantSeries,
         participantColumn,
         clubId,
@@ -1228,12 +1220,6 @@ class Participants extends Table with TableInfo<Participants, Participant> {
           entryTime.isAcceptableOrUnknown(data['entry_time']!, _entryTimeMeta));
     } else if (isInserting) {
       context.missing(_entryTimeMeta);
-    }
-    if (data.containsKey('birth_date')) {
-      context.handle(_birthDateMeta,
-          birthDate.isAcceptableOrUnknown(data['birth_date']!, _birthDateMeta));
-    } else if (isInserting) {
-      context.missing(_birthDateMeta);
     }
     if (data.containsKey('participant_series')) {
       context.handle(
@@ -1302,8 +1288,6 @@ class Participants extends Table with TableInfo<Participants, Participant> {
           data['${effectivePrefix}participant_last_name'])!,
       entryTime: attachedDatabase.typeMapping
           .read(DriftSqlType.int, data['${effectivePrefix}entry_time'])!,
-      birthDate: attachedDatabase.typeMapping
-          .read(DriftSqlType.dateTime, data['${effectivePrefix}birth_date'])!,
       participantSeries: attachedDatabase.typeMapping
           .read(DriftSqlType.int, data['${effectivePrefix}participant_series']),
       participantColumn: attachedDatabase.typeMapping
@@ -1335,7 +1319,6 @@ class Participant extends DataClass implements Insertable<Participant> {
   final String participantFirstName;
   final String participantLastName;
   final int entryTime;
-  final DateTime birthDate;
   final int? participantSeries;
   final int? participantColumn;
   final int clubId;
@@ -1348,7 +1331,6 @@ class Participant extends DataClass implements Insertable<Participant> {
       required this.participantFirstName,
       required this.participantLastName,
       required this.entryTime,
-      required this.birthDate,
       this.participantSeries,
       this.participantColumn,
       required this.clubId,
@@ -1363,7 +1345,6 @@ class Participant extends DataClass implements Insertable<Participant> {
     map['participant_first_name'] = Variable<String>(participantFirstName);
     map['participant_last_name'] = Variable<String>(participantLastName);
     map['entry_time'] = Variable<int>(entryTime);
-    map['birth_date'] = Variable<DateTime>(birthDate);
     if (!nullToAbsent || participantSeries != null) {
       map['participant_series'] = Variable<int>(participantSeries);
     }
@@ -1384,7 +1365,6 @@ class Participant extends DataClass implements Insertable<Participant> {
       participantFirstName: Value(participantFirstName),
       participantLastName: Value(participantLastName),
       entryTime: Value(entryTime),
-      birthDate: Value(birthDate),
       participantSeries: participantSeries == null && nullToAbsent
           ? const Value.absent()
           : Value(participantSeries),
@@ -1409,7 +1389,6 @@ class Participant extends DataClass implements Insertable<Participant> {
       participantLastName:
           serializer.fromJson<String>(json['participant_last_name']),
       entryTime: serializer.fromJson<int>(json['entry_time']),
-      birthDate: serializer.fromJson<DateTime>(json['birth_date']),
       participantSeries: serializer.fromJson<int?>(json['participant_series']),
       participantColumn: serializer.fromJson<int?>(json['participant_column']),
       clubId: serializer.fromJson<int>(json['club_id']),
@@ -1427,7 +1406,6 @@ class Participant extends DataClass implements Insertable<Participant> {
       'participant_first_name': serializer.toJson<String>(participantFirstName),
       'participant_last_name': serializer.toJson<String>(participantLastName),
       'entry_time': serializer.toJson<int>(entryTime),
-      'birth_date': serializer.toJson<DateTime>(birthDate),
       'participant_series': serializer.toJson<int?>(participantSeries),
       'participant_column': serializer.toJson<int?>(participantColumn),
       'club_id': serializer.toJson<int>(clubId),
@@ -1443,7 +1421,6 @@ class Participant extends DataClass implements Insertable<Participant> {
           String? participantFirstName,
           String? participantLastName,
           int? entryTime,
-          DateTime? birthDate,
           Value<int?> participantSeries = const Value.absent(),
           Value<int?> participantColumn = const Value.absent(),
           int? clubId,
@@ -1456,7 +1433,6 @@ class Participant extends DataClass implements Insertable<Participant> {
         participantFirstName: participantFirstName ?? this.participantFirstName,
         participantLastName: participantLastName ?? this.participantLastName,
         entryTime: entryTime ?? this.entryTime,
-        birthDate: birthDate ?? this.birthDate,
         participantSeries: participantSeries.present
             ? participantSeries.value
             : this.participantSeries,
@@ -1476,7 +1452,6 @@ class Participant extends DataClass implements Insertable<Participant> {
           ..write('participantFirstName: $participantFirstName, ')
           ..write('participantLastName: $participantLastName, ')
           ..write('entryTime: $entryTime, ')
-          ..write('birthDate: $birthDate, ')
           ..write('participantSeries: $participantSeries, ')
           ..write('participantColumn: $participantColumn, ')
           ..write('clubId: $clubId, ')
@@ -1494,7 +1469,6 @@ class Participant extends DataClass implements Insertable<Participant> {
       participantFirstName,
       participantLastName,
       entryTime,
-      birthDate,
       participantSeries,
       participantColumn,
       clubId,
@@ -1510,7 +1484,6 @@ class Participant extends DataClass implements Insertable<Participant> {
           other.participantFirstName == this.participantFirstName &&
           other.participantLastName == this.participantLastName &&
           other.entryTime == this.entryTime &&
-          other.birthDate == this.birthDate &&
           other.participantSeries == this.participantSeries &&
           other.participantColumn == this.participantColumn &&
           other.clubId == this.clubId &&
@@ -1525,7 +1498,6 @@ class ParticipantsCompanion extends UpdateCompanion<Participant> {
   final Value<String> participantFirstName;
   final Value<String> participantLastName;
   final Value<int> entryTime;
-  final Value<DateTime> birthDate;
   final Value<int?> participantSeries;
   final Value<int?> participantColumn;
   final Value<int> clubId;
@@ -1538,7 +1510,6 @@ class ParticipantsCompanion extends UpdateCompanion<Participant> {
     this.participantFirstName = const Value.absent(),
     this.participantLastName = const Value.absent(),
     this.entryTime = const Value.absent(),
-    this.birthDate = const Value.absent(),
     this.participantSeries = const Value.absent(),
     this.participantColumn = const Value.absent(),
     this.clubId = const Value.absent(),
@@ -1552,7 +1523,6 @@ class ParticipantsCompanion extends UpdateCompanion<Participant> {
     required String participantFirstName,
     required String participantLastName,
     required int entryTime,
-    required DateTime birthDate,
     this.participantSeries = const Value.absent(),
     this.participantColumn = const Value.absent(),
     required int clubId,
@@ -1563,7 +1533,6 @@ class ParticipantsCompanion extends UpdateCompanion<Participant> {
   })  : participantFirstName = Value(participantFirstName),
         participantLastName = Value(participantLastName),
         entryTime = Value(entryTime),
-        birthDate = Value(birthDate),
         clubId = Value(clubId),
         genderId = Value(genderId),
         divisionId = Value(divisionId),
@@ -1574,7 +1543,6 @@ class ParticipantsCompanion extends UpdateCompanion<Participant> {
     Expression<String>? participantFirstName,
     Expression<String>? participantLastName,
     Expression<int>? entryTime,
-    Expression<DateTime>? birthDate,
     Expression<int>? participantSeries,
     Expression<int>? participantColumn,
     Expression<int>? clubId,
@@ -1590,7 +1558,6 @@ class ParticipantsCompanion extends UpdateCompanion<Participant> {
       if (participantLastName != null)
         'participant_last_name': participantLastName,
       if (entryTime != null) 'entry_time': entryTime,
-      if (birthDate != null) 'birth_date': birthDate,
       if (participantSeries != null) 'participant_series': participantSeries,
       if (participantColumn != null) 'participant_column': participantColumn,
       if (clubId != null) 'club_id': clubId,
@@ -1606,7 +1573,6 @@ class ParticipantsCompanion extends UpdateCompanion<Participant> {
       Value<String>? participantFirstName,
       Value<String>? participantLastName,
       Value<int>? entryTime,
-      Value<DateTime>? birthDate,
       Value<int?>? participantSeries,
       Value<int?>? participantColumn,
       Value<int>? clubId,
@@ -1619,7 +1585,6 @@ class ParticipantsCompanion extends UpdateCompanion<Participant> {
       participantFirstName: participantFirstName ?? this.participantFirstName,
       participantLastName: participantLastName ?? this.participantLastName,
       entryTime: entryTime ?? this.entryTime,
-      birthDate: birthDate ?? this.birthDate,
       participantSeries: participantSeries ?? this.participantSeries,
       participantColumn: participantColumn ?? this.participantColumn,
       clubId: clubId ?? this.clubId,
@@ -1646,9 +1611,6 @@ class ParticipantsCompanion extends UpdateCompanion<Participant> {
     }
     if (entryTime.present) {
       map['entry_time'] = Variable<int>(entryTime.value);
-    }
-    if (birthDate.present) {
-      map['birth_date'] = Variable<DateTime>(birthDate.value);
     }
     if (participantSeries.present) {
       map['participant_series'] = Variable<int>(participantSeries.value);
@@ -1681,7 +1643,6 @@ class ParticipantsCompanion extends UpdateCompanion<Participant> {
           ..write('participantFirstName: $participantFirstName, ')
           ..write('participantLastName: $participantLastName, ')
           ..write('entryTime: $entryTime, ')
-          ..write('birthDate: $birthDate, ')
           ..write('participantSeries: $participantSeries, ')
           ..write('participantColumn: $participantColumn, ')
           ..write('clubId: $clubId, ')
@@ -2110,7 +2071,6 @@ abstract class _$AppDb extends GeneratedDatabase {
   Future<int> createParticipant(
       {required String firstName,
       required String lastName,
-      required DateTime birthDate,
       required int divisionId,
       required int specialtyId,
       required int ageDivisionYear,
@@ -2118,11 +2078,10 @@ abstract class _$AppDb extends GeneratedDatabase {
       required int entryTime,
       required int clubId}) {
     return customInsert(
-      'INSERT INTO Participants (participant_first_name, participant_last_name, birth_date, division_id, specialty_id, age_division_year, gender_id, entry_time, club_id) VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9)',
+      'INSERT INTO Participants (participant_first_name, participant_last_name, division_id, specialty_id, age_division_year, gender_id, entry_time, club_id) VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8)',
       variables: [
         Variable<String>(firstName),
         Variable<String>(lastName),
-        Variable<DateTime>(birthDate),
         Variable<int>(divisionId),
         Variable<int>(specialtyId),
         Variable<int>(ageDivisionYear),
@@ -2136,15 +2095,13 @@ abstract class _$AppDb extends GeneratedDatabase {
 
   Future<int> updateParticipant(
       {required String name,
-      required DateTime birthDate,
       required int divisionId,
       required int specialtyId,
       required int id}) {
     return customUpdate(
-      'UPDATE Participants SET participant_first_name = ?1, birth_date = ?2, division_id = ?3, specialty_id = ?4 WHERE participant_id = ?5',
+      'UPDATE Participants SET participant_first_name = ?1, division_id = ?2, specialty_id = ?3 WHERE participant_id = ?4',
       variables: [
         Variable<String>(name),
-        Variable<DateTime>(birthDate),
         Variable<int>(divisionId),
         Variable<int>(specialtyId),
         Variable<int>(id)
@@ -2495,7 +2452,6 @@ abstract class _$AppDb extends GeneratedDatabase {
         participantFirstName: row.read<String>('participant_first_name'),
         participantLastName: row.read<String>('participant_last_name'),
         entryTime: row.read<int>('entry_time'),
-        birthDate: row.read<DateTime>('birth_date'),
         participantSeries: row.readNullable<int>('participant_series'),
         participantColumn: row.readNullable<int>('participant_column'),
         clubId: row.read<int>('club_id'),
@@ -2530,7 +2486,6 @@ abstract class _$AppDb extends GeneratedDatabase {
         participantFirstName: row.read<String>('participant_first_name'),
         participantLastName: row.read<String>('participant_last_name'),
         entryTime: row.read<int>('entry_time'),
-        birthDate: row.read<DateTime>('birth_date'),
         participantSeries: row.readNullable<int>('participant_series'),
         participantColumn: row.readNullable<int>('participant_column'),
         clubId: row.read<int>('club_id'),
@@ -2568,7 +2523,6 @@ abstract class _$AppDb extends GeneratedDatabase {
         participantFirstName: row.read<String>('participant_first_name'),
         participantLastName: row.read<String>('participant_last_name'),
         entryTime: row.read<int>('entry_time'),
-        birthDate: row.read<DateTime>('birth_date'),
         participantSeries: row.readNullable<int>('participant_series'),
         participantColumn: row.readNullable<int>('participant_column'),
         clubId: row.read<int>('club_id'),
@@ -2606,7 +2560,6 @@ abstract class _$AppDb extends GeneratedDatabase {
         participantFirstName: row.read<String>('participant_first_name'),
         participantLastName: row.read<String>('participant_last_name'),
         entryTime: row.read<int>('entry_time'),
-        birthDate: row.read<DateTime>('birth_date'),
         participantSeries: row.readNullable<int>('participant_series'),
         participantColumn: row.readNullable<int>('participant_column'),
         clubId: row.read<int>('club_id'),
@@ -2646,7 +2599,6 @@ abstract class _$AppDb extends GeneratedDatabase {
         participantFirstName: row.read<String>('participant_first_name'),
         participantLastName: row.read<String>('participant_last_name'),
         entryTime: row.read<int>('entry_time'),
-        birthDate: row.read<DateTime>('birth_date'),
         participantSeries: row.readNullable<int>('participant_series'),
         participantColumn: row.readNullable<int>('participant_column'),
         clubId: row.read<int>('club_id'),
@@ -2684,7 +2636,6 @@ abstract class _$AppDb extends GeneratedDatabase {
         participantFirstName: row.read<String>('participant_first_name'),
         participantLastName: row.read<String>('participant_last_name'),
         entryTime: row.read<int>('entry_time'),
-        birthDate: row.read<DateTime>('birth_date'),
         participantSeries: row.readNullable<int>('participant_series'),
         participantColumn: row.readNullable<int>('participant_column'),
         clubId: row.read<int>('club_id'),
@@ -2772,7 +2723,6 @@ abstract class _$AppDb extends GeneratedDatabase {
         participantFirstName: row.read<String>('participant_first_name'),
         participantLastName: row.read<String>('participant_last_name'),
         entryTime: row.read<int>('entry_time'),
-        birthDate: row.read<DateTime>('birth_date'),
         participantSeries: row.readNullable<int>('participant_series'),
         participantColumn: row.readNullable<int>('participant_column'),
         clubId: row.read<int>('club_id'),
@@ -2981,7 +2931,6 @@ class SearchParticipantsByIdResult {
   final String participantFirstName;
   final String participantLastName;
   final int entryTime;
-  final DateTime birthDate;
   final int? participantSeries;
   final int? participantColumn;
   final int clubId;
@@ -2999,7 +2948,6 @@ class SearchParticipantsByIdResult {
     required this.participantFirstName,
     required this.participantLastName,
     required this.entryTime,
-    required this.birthDate,
     this.participantSeries,
     this.participantColumn,
     required this.clubId,
@@ -3020,7 +2968,6 @@ class SelectParticiapntsResult {
   final String participantFirstName;
   final String participantLastName;
   final int entryTime;
-  final DateTime birthDate;
   final int? participantSeries;
   final int? participantColumn;
   final int clubId;
@@ -3038,7 +2985,6 @@ class SelectParticiapntsResult {
     required this.participantFirstName,
     required this.participantLastName,
     required this.entryTime,
-    required this.birthDate,
     this.participantSeries,
     this.participantColumn,
     required this.clubId,
@@ -3059,7 +3005,6 @@ class SelectParticiapnsBySpecialtyResult {
   final String participantFirstName;
   final String participantLastName;
   final int entryTime;
-  final DateTime birthDate;
   final int? participantSeries;
   final int? participantColumn;
   final int clubId;
@@ -3077,7 +3022,6 @@ class SelectParticiapnsBySpecialtyResult {
     required this.participantFirstName,
     required this.participantLastName,
     required this.entryTime,
-    required this.birthDate,
     this.participantSeries,
     this.participantColumn,
     required this.clubId,
@@ -3098,7 +3042,6 @@ class SelectParticiapntsByDivisionResult {
   final String participantFirstName;
   final String participantLastName;
   final int entryTime;
-  final DateTime birthDate;
   final int? participantSeries;
   final int? participantColumn;
   final int clubId;
@@ -3116,7 +3059,6 @@ class SelectParticiapntsByDivisionResult {
     required this.participantFirstName,
     required this.participantLastName,
     required this.entryTime,
-    required this.birthDate,
     this.participantSeries,
     this.participantColumn,
     required this.clubId,
@@ -3137,7 +3079,6 @@ class SelectParticiapntsByDivisionAndSpecialtyResult {
   final String participantFirstName;
   final String participantLastName;
   final int entryTime;
-  final DateTime birthDate;
   final int? participantSeries;
   final int? participantColumn;
   final int clubId;
@@ -3155,7 +3096,6 @@ class SelectParticiapntsByDivisionAndSpecialtyResult {
     required this.participantFirstName,
     required this.participantLastName,
     required this.entryTime,
-    required this.birthDate,
     this.participantSeries,
     this.participantColumn,
     required this.clubId,
@@ -3176,7 +3116,6 @@ class SelectParticiapntsByClubResult {
   final String participantFirstName;
   final String participantLastName;
   final int entryTime;
-  final DateTime birthDate;
   final int? participantSeries;
   final int? participantColumn;
   final int clubId;
@@ -3194,7 +3133,6 @@ class SelectParticiapntsByClubResult {
     required this.participantFirstName,
     required this.participantLastName,
     required this.entryTime,
-    required this.birthDate,
     this.participantSeries,
     this.participantColumn,
     required this.clubId,
@@ -3228,7 +3166,6 @@ class SelectParticiapntsByAgeAndDivisionAndSpecialtyResult {
   final String participantFirstName;
   final String participantLastName;
   final int entryTime;
-  final DateTime birthDate;
   final int? participantSeries;
   final int? participantColumn;
   final int clubId;
@@ -3246,7 +3183,6 @@ class SelectParticiapntsByAgeAndDivisionAndSpecialtyResult {
     required this.participantFirstName,
     required this.participantLastName,
     required this.entryTime,
-    required this.birthDate,
     this.participantSeries,
     this.participantColumn,
     required this.clubId,

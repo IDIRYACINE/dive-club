@@ -12,3 +12,4 @@ Future<File> copyDatabase() async {
   dbFile.createSync();
   return dbFile;
 }
+

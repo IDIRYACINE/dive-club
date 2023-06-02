@@ -28,7 +28,6 @@ CREATE TABLE Participants(
     participant_first_name TEXT NOT NULL,
     participant_last_name TEXT NOT NULL,
     entry_time INTEGER NOT NULL,
-    birth_date Date NOT NULL,
     participant_series INTEGER,
     participant_column INTEGER,
     club_id INTEGER NOT NULL REFERENCES Clubs(club_id),
@@ -64,7 +63,6 @@ CREATE INDEX score_idx ON Scores(score);
 createParticipant(
     REQUIRED :firstName AS TEXT,
     REQUIRED :lastName AS TEXT,
-    REQUIRED :birthDate AS DATE,
     REQUIRED :divisionId AS INTEGER,
     REQUIRED :specialtyId AS INTEGER,
     REQUIRED :ageDivisionYear AS INTEGER,
@@ -76,7 +74,6 @@ INSERT INTO
     Participants(
         participant_first_name,
         participant_last_name,
-        birth_date,
         division_id,
         specialty_id,
         age_division_year,
@@ -88,7 +85,6 @@ values
     (
         :firstName,
         :lastName,
-        :birthDate,
         :divisionId,
         :specialtyId,
         :ageDivisionYear,
@@ -100,7 +96,6 @@ values
 updateParticipant(
     REQUIRED :firstName AS TEXT,
     REQUIRED :lastName AS TEXT,
-    REQUIRED :birthDate AS DATE,
     REQUIRED :divisionId AS INTEGER,
     REQUIRED :specialtyId AS INTEGER,
     REQUIRED :ageDivisionYear AS INTEGER,
@@ -111,7 +106,6 @@ UPDATE
     Participants
 SET
     participant_first_name = :name,
-    birth_date = :birthDate,
     division_id = :divisionId,
     specialty_id = :specialtyId
 WHERE

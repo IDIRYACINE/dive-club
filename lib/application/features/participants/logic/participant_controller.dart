@@ -73,13 +73,11 @@ class ParticipantController {
     if (isFormValid) {
       final bloc = BlocProvider.of<ParticipantBloc>(context);
 
-      final birthDate = ParticipantBirthDate(_data.birthDate);
 
       final entity = ParticipantEntity(
           participantId: ParticipantId(bloc.state.participants.length + 1),
           participantName: ParticipantName(_data.firstName, _data.lastName),
           division: _data.division!,
-          participantBirthDate: birthDate,
           specialty: _data.specialty!,
           ageDivision: _data.ageDivision!,
           club: _data.club!,
@@ -203,7 +201,6 @@ Future<void> _registerParticipant(ParticipantEntity entity) async {
   final options = CreateParticipantOptions(
       id: entity.participantId.value,
       firstName: entity.participantName.firstName,
-      birthDate: entity.participantBirthDate.value,
       divisionId: entity.division.divisionId.value,
       specialityId: entity.specialty.specialtyId.value,
       ageDivisionId: entity.ageDivision.divisionId.value,

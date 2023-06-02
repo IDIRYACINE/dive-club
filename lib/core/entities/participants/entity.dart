@@ -8,7 +8,6 @@ import 'value_objects.dart';
 class ParticipantEntity {
   final ParticipantId participantId;
   final ParticipantName participantName;
-  final ParticipantBirthDate participantBirthDate;
 
   final DivingDivisionEntity division;
   final DivingSpecialtyEntity specialty;
@@ -25,7 +24,6 @@ class ParticipantEntity {
     required this.ageDivision,
     required this.participantId,
     required this.participantName,
-    required this.participantBirthDate,
     required this.division,
     required this.specialty,
     required this.club,

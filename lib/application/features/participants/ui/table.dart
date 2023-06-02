@@ -1,4 +1,3 @@
-import 'package:dive_club/application/commons/utility/formaters.dart';
 import 'package:dive_club/application/commons/widgets_custom/sized_query_box.dart';
 import 'package:dive_club/application/features/participants/state/bloc.dart';
 import 'package:dive_club/core/entities/participants/export.dart';
@@ -59,7 +58,7 @@ class _ParticipantsTableState extends State<ParticipantsTable> {
       cells: [
         DataCell(Text(participant.participantName.toString())),
         DataCell(Text(
-            formatDateTimeToDisplay(participant.participantBirthDate.value))),
+            participant.ageDivision.divisionId.value.toString())),
         DataCell(Text(participant.division.divisionName.value)),
         DataCell(Text(participant.specialty.specialtyName.value)),
       ],

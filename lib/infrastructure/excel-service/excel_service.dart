@@ -16,20 +16,7 @@ import 'package:path_provider/path_provider.dart';
 class ExcelService implements ExcelManagerPort {
   bool _isFileProcessed = false;
   final _sheetName = "engagement 06-05-23";
-  final _header = [
-    "id",
-    "nom",
-    "prenom",
-    "naissance",
-    "category",
-    "club",
-    "sex",
-    "division",
-    "specialty",
-    "serie",
-    "couloir",
-    "date entry"
-  ];
+
   late Excel _excel;
 
   @override
@@ -37,7 +24,7 @@ class ExcelService implements ExcelManagerPort {
       String outputDirectory, List<ParticipantEngagement> engagements) async {
     final dir = await getApplicationDocumentsDirectory();
 
-    if(engagements.isEmpty){
+    if (engagements.isEmpty) {
       return;
     }
     final fileName = engagements.first.clubName.value.toString();
@@ -48,8 +35,20 @@ class ExcelService implements ExcelManagerPort {
     _excel = Excel.createExcel();
 
     final sheet = _excel[_sheetName];
-
-    sheet.appendRow(_header);
+    final header = [
+      "id",
+      "nom",
+      "prenom",
+      "naissance",
+      "category",
+      "sex",
+      "division",
+      "specialty",
+      "serie",
+      "couloir",
+      "temps entry"
+    ];
+    sheet.appendRow(header);
 
     for (ParticipantEngagement engagement in engagements) {
       sheet.appendRow([
@@ -78,7 +77,7 @@ class ExcelService implements ExcelManagerPort {
 
   @override
   Future<void> exportStartListFile(
-      String outputDirectory, List<ParticipantEngagement> engagements) async {
+      String outputDirectory, EngagementsRecords engagements) async {
     final dir = await getApplicationDocumentsDirectory();
 
     String fPath = '${dir.path}/$outputDirectory/startList.xlsx';
@@ -86,24 +85,8 @@ class ExcelService implements ExcelManagerPort {
     File file = File(fPath);
     _excel = Excel.createExcel();
 
-    final sheet = _excel[_sheetName];
-    sheet.appendRow(_header);
-
-    for (ParticipantEngagement engagement in engagements) {
-      sheet.appendRow([
-        engagement.participantId.value,
-        engagement.participantName.firstName,
-        engagement.participantName.lastName,
-        engagement.ageDivisionId.value,
-        engagement.ageDivisionName.value,
-        engagement.clubName.value,
-        engagement.gender.value,
-        engagement.divisionName.value,
-        engagement.specialtyName.value,
-        engagement.series,
-        engagement.column.value,
-        engagement.entryScore.toString()
-      ]);
+    for (List<ParticipantEngagement> engagement in engagements) {
+      _writeStartListSheet(engagement);
     }
 
     List<int>? bytes = _excel.save();
@@ -207,12 +190,20 @@ class ExcelService implements ExcelManagerPort {
           papillonStyle50m,
         ];
 
+        AgeDivisionId ageDivisionId;
+
+        if (ageDivision.value is DateTime) {
+          ageDivisionId = AgeDivisionId.fromDate(ageDivision.value);
+        } else {
+          ageDivisionId = AgeDivisionId.fromString(ageDivision.toString());
+        }
+
         final registration = ParticipantRegistration(
             participantName: ParticipantName(
                 firstName.value.toString(), lastName.value.toString()),
             ageDivisionId:
                 AgeDivisionId.fromString(ageDivision.value.toString()),
-            clubId: ClubId(0),
+            clubId: ClubId(_getClubId(club.value.toString())),
             genderId: GenderId.fromString(sex.value.toString()),
             entryScores: _processEntryScores(entryScoresRaw));
 
@@ -229,6 +220,7 @@ class ExcelService implements ExcelManagerPort {
     final List<ScoreEngagement> engagements = [];
 
     for (Data entry in entryScoresRaw) {
+      
       Score? score =
           entry.value == null ? null : Score.fromString(entry.value.toString());
 
@@ -244,5 +236,49 @@ class ExcelService implements ExcelManagerPort {
     }
 
     return engagements;
+  }
+
+  void _writeStartListSheet(List<ParticipantEngagement> engagementRows) {
+    final sheetName = _generateStartListSheetName(engagementRows.first);
+    final header = [
+      "id",
+      "nom",
+      "prenom",
+      "naissance",
+      "club",
+      "sex",
+      "serie",
+      "couloir",
+      "temps entry"
+    ];
+
+    final sheet = _excel[sheetName];
+
+    sheet.appendRow(header);
+
+    for (ParticipantEngagement engagement in engagementRows) {
+      sheet.appendRow([
+        engagement.participantId.value,
+        engagement.participantName.firstName,
+        engagement.participantName.lastName,
+        engagement.ageDivisionId.value,
+        engagement.clubName.value,
+        engagement.gender.value,
+        engagement.series,
+        engagement.column.value,
+        engagement.entryScore.toString()
+      ]);
+    }
+  }
+
+  String _generateStartListSheetName(ParticipantEngagement engagement) {
+    return "${engagement.ageDivisionName.value} ${engagement.divisionName.value} ${engagement.specialtyName.value} ";
+  }
+
+  int _getClubId(String value) {
+    switch (value) {
+      default:
+        return 0;
+    }
   }
 }

@@ -4,6 +4,9 @@ import 'package:dive_club/core/entities/diving/export.dart';
 import 'package:dive_club/core/entities/genders/export.dart';
 import 'package:dive_club/core/entities/participants/export.dart';
 
+
+typedef  EngagementsRecords = List<List<ParticipantEngagement>> ;
+
 class ScoreEngagement {
   final DivisionId divisionId;
   final SpecialtyId specialtyId;
@@ -76,7 +79,7 @@ class ParticipantEngagement {
 
 abstract class ExcelManagerPort {
   Future<void> exportStartListFile(
-      String outputDirectory, List<ParticipantEngagement> engagements);
+      String outputDirectory, EngagementsRecords engagements);
 
   Future<void> exportEngagementsFiles(
       String outputDirectory, List<ParticipantEngagement> engagements);

@@ -88,7 +88,7 @@ class _ParticipantProfile extends StatelessWidget {
 
     final name = participant?.participantName.toString() ?? unkown;
 
-    final birthDate = participant?.participantBirthDate.toString() ?? unkown;
+    final birthDate = participant?.ageDivision.divisionId.value.toString() ?? unkown;
 
     final specialty = participant?.specialty.specialtyName.value ?? unkown;
 

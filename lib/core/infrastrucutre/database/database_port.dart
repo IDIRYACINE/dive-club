@@ -37,4 +37,6 @@ abstract class DatabasePort {
 
   Future<DatabaseOperationResult> updateParticipantsSeries(
       List<ParticipantEngagement> engagements);
+
+  Future<DatabaseOperationResult> insertDefaultValues();
 }

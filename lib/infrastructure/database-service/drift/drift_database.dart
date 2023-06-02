@@ -1,6 +1,9 @@
+import 'dart:io';
+
 import 'package:dive_club/core/infrastrucutre/database/export.dart';
 import 'package:dive_club/core/infrastrucutre/utilities/excel_manager_port.dart';
 import 'package:dive_club/infrastructure/database-service/drift/mappers/division_mapper.dart';
+import 'package:dive_club/resources/resources.dart';
 
 import 'database/database.dart';
 import 'mappers/club_mapper.dart';
@@ -37,14 +40,13 @@ class DriftDatabaseService implements DatabasePort {
     return _database
         .createParticipant(
             firstName: options.firstName,
-            birthDate: options.birthDate,
             divisionId: options.divisionId,
-            specialtyId: options.specialityId, 
+            specialtyId: options.specialityId,
             ageDivisionYear: options.ageDivisionId,
-             clubId: options.clubId, 
-             entryTime: options.entryTime,
-              genderId: options.genderId,
-               lastName:options.lastName)
+            clubId: options.clubId,
+            entryTime: options.entryTime,
+            genderId: options.genderId,
+            lastName: options.lastName)
         .then((value) {
       return DatabaseOperationResult();
     });
@@ -59,7 +61,9 @@ class DriftDatabaseService implements DatabasePort {
             date: options.date,
             divisionId: options.divisionId,
             specialtyId: options.specialityId,
-            score: options.score, ageDivisionYear: options.ageDivisionId, genderId: options.genderId)
+            score: options.score,
+            ageDivisionYear: options.ageDivisionId,
+            genderId: options.genderId)
         .then((value) => DatabaseOperationResult());
   }
 
@@ -145,8 +149,11 @@ class DriftDatabaseService implements DatabasePort {
           );
     }
 
-    if(options.clubId !=null){
-      return _database.selectParticiapntsByClub(clubId: options.clubId!).get().then(
+    if (options.clubId != null) {
+      return _database
+          .selectParticiapntsByClub(clubId: options.clubId!)
+          .get()
+          .then(
             (value) => LoadParticipantsResult(
               participants: ParticipantMapper.fromyByClub(
                   value, _mapperService.participantMapper),
@@ -154,12 +161,16 @@ class DriftDatabaseService implements DatabasePort {
           );
     }
 
-    if(options.divisionId != null && options.ageDivisionId !=null && options.specialityId !=null){
-      return  _database.selectParticiapntsByAgeAndDivisionAndSpecialty(
-        ageDivisionId:options.ageDivisionId!,
-        divisionId : options.divisionId!,
-        specialtyId : options.specialityId!
-      ).get().then(
+    if (options.divisionId != null &&
+        options.ageDivisionId != null &&
+        options.specialityId != null) {
+      return _database
+          .selectParticiapntsByAgeAndDivisionAndSpecialty(
+              ageDivisionId: options.ageDivisionId!,
+              divisionId: options.divisionId!,
+              specialtyId: options.specialityId!)
+          .get()
+          .then(
             (value) => LoadParticipantsResult(
               participants: ParticipantMapper.byAgeAndDivisionAndSpecialty(
                   value, _mapperService.participantMapper),
@@ -168,7 +179,6 @@ class DriftDatabaseService implements DatabasePort {
     }
 
     if (options.divisionId == null && options.specialityId == null) {
-        
       return _database.selectParticiapnts().get().then(
             (value) => LoadParticipantsResult(
               participants: ParticipantMapper.fromSelectParticipant(
@@ -239,47 +249,48 @@ class DriftDatabaseService implements DatabasePort {
             score: options.score)
         .then((value) => DatabaseOperationResult());
   }
-  
+
   @override
-  Future<DatabaseOperationResult> insertAgeDivision(CreateAgeDivisionOptions options) {
+  Future<DatabaseOperationResult> insertAgeDivision(
+      CreateAgeDivisionOptions options) {
     return _database
-        .createAgeDivisions(name: options.divisionName,id:options.year)
+        .createAgeDivisions(name: options.divisionName, id: options.year)
         .then((value) => DatabaseOperationResult());
   }
-  
+
   @override
   Future<DatabaseOperationResult> insertClub(CreateClubOptions options) {
-        return _database
+    return _database
         .createDivingDivisions(name: options.clubName)
         .then((value) => DatabaseOperationResult());
   }
-  
+
   @override
   Future<LoadAgeDivisionsResult> loadAgeDivisions() {
-      return _database.selectAgeDivisionsOnly().get().then(
+    return _database.selectAgeDivisionsOnly().get().then(
           (value) => LoadAgeDivisionsResult(
             ageDivisions: mapToDomainAgeDivisionsOnly(
                 value, _mapperService.ageDivisonMapper),
           ),
         );
   }
-  
+
   @override
   Future<LoadClubsResult> loadClubs() {
     return _database.selectClubs().get().then(
           (value) => LoadClubsResult(
-            clubs: mapToDomainClub(
-                value, _mapperService.clubMapper),
+            clubs: mapToDomainClub(value, _mapperService.clubMapper),
           ),
         );
   }
-  
+
   @override
-  Future<DatabaseOperationResult> updateAgeDivision(UpdateAgeDivisionOptions options) {
+  Future<DatabaseOperationResult> updateAgeDivision(
+      UpdateAgeDivisionOptions options) {
     // TODO: implement updateAgeDivision
     throw UnimplementedError();
   }
-  
+
   @override
   Future<DatabaseOperationResult> updateClub(UpdateClubOptions options) {
     // TODO: implement updateClub
@@ -287,19 +298,29 @@ class DriftDatabaseService implements DatabasePort {
   }
 
   @override
-  Future<DatabaseOperationResult> updateParticipantsSeries(List<ParticipantEngagement> engagements) async {
-   
-    
-    for(ParticipantEngagement engagement in engagements){
+  Future<DatabaseOperationResult> updateParticipantsSeries(
+      List<ParticipantEngagement> engagements) async {
+    for (ParticipantEngagement engagement in engagements) {
       _database.updateParticipantSeriesAndColumn(
-        column : engagement.column.value,
-        series: engagement.series,
-        id: engagement.participantId.value
-      );
+          column: engagement.column.value,
+          series: engagement.series,
+          id: engagement.participantId.value);
     }
 
     return DatabaseOperationResult();
   }
-  
-  
+
+  @override
+  Future<DatabaseOperationResult> insertDefaultValues() async {
+    _database.doWhenOpened((e) async {
+      final results = (await loadAgeDivisions()).ageDivisions;
+      if (results.isEmpty) {
+        final file = File(AppResources.defaultsSql);
+        final rawSql = file.readAsStringSync();
+        _database.executor.runCustom(rawSql);
+      }
+    });
+
+    return DatabaseOperationResult();
+  }
 }

@@ -43,7 +43,6 @@ class CreateScoreOptions {
 class CreateParticipantOptions {
   final int id;
   final String firstName;
-  final DateTime birthDate;
   final int divisionId;
   final int specialityId;
 
@@ -61,7 +60,6 @@ class CreateParticipantOptions {
     required this.divisionId,
     required this.id,
     required this.firstName,
-    required this.birthDate,
     required this.specialityId,
     required this.clubId,
     required this.entryTime,

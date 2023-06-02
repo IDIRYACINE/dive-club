@@ -82,6 +82,7 @@ class CompetitionPrinter {
     _pdf.addPage(
       pw.Page(
         theme: fontTheme,
+        margin: const pw.EdgeInsets.all(0),
         pageFormat: PdfPageFormat.a4,
         orientation: pw.PageOrientation.landscape,
         build: (pw.Context context) {

@@ -19,7 +19,6 @@ class ParticipantMapper
         participantId: ParticipantId(persistance.id),
         participantName:
             ParticipantName(persistance.firstName, persistance.lastName),
-        participantBirthDate: ParticipantBirthDate(persistance.birthDate),
         division: division,
         specialty:specialty  ,
         club: club,

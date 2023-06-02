@@ -5,7 +5,6 @@ class Participant extends DatabaseEntity {
   final String firstName;
   final String lastName;
 
-  final DateTime birthDate;
   final int divisionId;
   final String divisionName;
   final String specialityName;
@@ -31,7 +30,6 @@ class Participant extends DatabaseEntity {
     required this.lastName,
     required this.id,
     required this.firstName,
-    required this.birthDate,
     required this.specialityName,
     required this.specialityId,
     this.column = -1,

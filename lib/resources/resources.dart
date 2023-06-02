@@ -15,4 +15,7 @@ abstract class AppResources {
   static const certificateBronze = 'assets/images/certificate_bronze.png';
 
   static const papillons = 'assets/images/papillons.png';
+
+  static const defaultsSql = 'assets/defaults.sql';
+
 }

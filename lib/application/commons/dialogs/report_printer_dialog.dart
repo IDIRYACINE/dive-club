@@ -1,6 +1,7 @@
 import 'package:dive_club/application/commons/utility/printer/printer.dart';
 import 'package:dive_club/application/commons/widgets/buttons.dart';
 import 'package:dive_club/application/features/participants/feature.dart';
+import 'package:dive_club/application/navigation/feature.dart';
 import 'package:dive_club/core/domain/report.dart';
 import 'package:dive_club/core/entities/participants/export.dart';
 import 'package:dive_club/infrastructure/service_provider.dart';
@@ -80,17 +81,22 @@ class _Controller {
     printer.prepareNewDocument();
     await printer.createPapillonsDocument(participants);
     printer.displayPreview();
+
+    NavigationService.pop();
   }
 
   Future<void> loadEngagements() async {
     await report.registerParticipants();
+    NavigationService.pop();
   }
 
   void printEngagements() {
     report.generateEngagementsReport();
+    NavigationService.pop();
   }
 
   void printStartLists() {
     report.generateStartListReport();
+    NavigationService.pop();
   }
 }

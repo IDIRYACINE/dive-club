@@ -96,7 +96,6 @@ ParticipantEntity _mapToDomain(
   final temp = Participant(
       id: participant.participantId,
       firstName: participant.participantFirstName,
-      birthDate: participant.birthDate,
       divisionId: participant.divisionId,
       specialityId: participant.specialtyId,
       divisionName: participant.divisionName,

@@ -5,7 +5,6 @@ import 'package:dive_club/application/features/divisions/feature.dart';
 import 'package:dive_club/application/features/specialties/feature.dart';
 import 'package:dive_club/application/navigation/feature.dart';
 import 'package:dive_club/core/entities/competition/export.dart';
-import 'package:dive_club/core/entities/diving/export.dart';
 import 'package:dive_club/core/entities/genders/export.dart';
 import 'package:dive_club/core/entities/participants/export.dart';
 import 'package:dive_club/core/infrastrucutre/database/export.dart';
@@ -51,7 +50,7 @@ class ScoreController {
       final specialtyId = _data.participant!.specialty.specialtyId;
 
       final ageDivisionYear =
-          AgeDivisionId(_data.participant!.participantBirthDate.year);
+          _data.participant!.ageDivision.divisionId;
 
       final entity = CompetitionScoreEntity(
         specialtyId: specialtyId,
