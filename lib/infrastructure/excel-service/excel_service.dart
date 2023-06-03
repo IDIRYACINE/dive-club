@@ -15,7 +15,8 @@ import 'package:path_provider/path_provider.dart';
 
 class ExcelService implements ExcelManagerPort {
   bool _isFileProcessed = false;
-  final _sheetName = "engagement 06-05-23";
+  // final _sheetName = "engagement 06-05-23";
+  final _sheetName = "Sheet1";
 
   late Excel _excel;
 
@@ -57,7 +58,6 @@ class ExcelService implements ExcelManagerPort {
         engagement.participantName.lastName,
         engagement.ageDivisionId.value,
         engagement.ageDivisionName.value,
-        engagement.clubName.value,
         engagement.gender.value,
         engagement.divisionName.value,
         engagement.specialtyName.value,
@@ -131,6 +131,7 @@ class ExcelService implements ExcelManagerPort {
     List<File> files = await _getEngagementFiles(inputDirectory);
 
     List<ParticipantRegistration> results = [];
+
     for (File file in files) {
       Uint8List bytes = file.readAsBytesSync();
       Excel excel = Excel.decodeBytes(bytes);
@@ -175,9 +176,13 @@ class ExcelService implements ExcelManagerPort {
             rowIndex: rowIndex,
             columnIndex: EngagementsSheetRows.papillonStyle50m));
 
+        final nageStyle = sheet.cell(CellIndex.indexByColumnRow(
+            rowIndex: rowIndex, columnIndex: EngagementsSheetRows.nageStyle));
+
         if (firstName.value == null) {
           continue;
         }
+
 
         final entryScoresRaw = [
           freeStyle50m,
@@ -188,6 +193,7 @@ class ExcelService implements ExcelManagerPort {
           brassStyle50m,
           brassStyle100m,
           papillonStyle50m,
+          nageStyle
         ];
 
         AgeDivisionId ageDivisionId;
@@ -195,7 +201,7 @@ class ExcelService implements ExcelManagerPort {
         if (ageDivision.value is DateTime) {
           ageDivisionId = AgeDivisionId.fromDate(ageDivision.value);
         } else {
-          ageDivisionId = AgeDivisionId.fromString(ageDivision.toString());
+          ageDivisionId = AgeDivisionId.fromString(ageDivision.value.toString());
         }
 
         final registration = ParticipantRegistration(
@@ -207,11 +213,15 @@ class ExcelService implements ExcelManagerPort {
             genderId: GenderId.fromString(sex.value.toString()),
             entryScores: _processEntryScores(entryScoresRaw));
 
-        results.add(registration);
-      }
-    }
 
-    _isFileProcessed = true;
+        results.add(registration);
+
+        
+
+      }
+
+      print(file.path);
+    }
 
     return results;
   }
@@ -220,9 +230,12 @@ class ExcelService implements ExcelManagerPort {
     final List<ScoreEngagement> engagements = [];
 
     for (Data entry in entryScoresRaw) {
-      
-      Score? score =
-          entry.value == null ? null : Score.fromString(entry.value.toString());
+      Score? score;
+
+      if ((entry.cellType.name == "String") &&
+          (entry.value.toString() != "null")) {
+        score = Score.fromString(entry.value.toString());
+      }
 
       final divisionProfile = EngagementsSheetRows.divisionProfileFromIndex(
           entry.cellIndex.columnIndex);
@@ -254,20 +267,13 @@ class ExcelService implements ExcelManagerPort {
 
     final sheet = _excel[sheetName];
 
-    sheet.appendRow(header);
+    _appendHeader(sheet, header);
+
+    int rowIndex = 2;
 
     for (ParticipantEngagement engagement in engagementRows) {
-      sheet.appendRow([
-        engagement.participantId.value,
-        engagement.participantName.firstName,
-        engagement.participantName.lastName,
-        engagement.ageDivisionId.value,
-        engagement.clubName.value,
-        engagement.gender.value,
-        engagement.series,
-        engagement.column.value,
-        engagement.entryScore.toString()
-      ]);
+      _appendStartListRows(sheet, rowIndex, engagement);
+      rowIndex++;
     }
   }
 
@@ -277,8 +283,49 @@ class ExcelService implements ExcelManagerPort {
 
   int _getClubId(String value) {
     switch (value) {
+      case 'CNDBBA':
+        return 0;
+      case 'omr':
+        return 1;
+      case 'UN BBA ':
+        return 3;
+      case 'CSA BAS':
+        return 2;
+      case 'csa/afak':
+        return 4;
+      case 'المنصورة':
+        return 5;
+      case 'EN':
+        return 6;
+      case 'U S K':
+        return 7;
       default:
         return 0;
     }
+  }
+
+  void _appendHeader(Sheet sheet, List<String> header) {
+
+    for(int i = 0 ; i < 10;i++){
+      sheet.appendRow(header);
+    }
+
+  }
+
+  void _appendStartListRows(
+      Sheet sheet, int rowIndex, ParticipantEngagement engagement) {
+    final data = [
+      engagement.participantId.value,
+      engagement.participantName.firstName,
+      engagement.participantName.lastName,
+      engagement.ageDivisionId.value,
+      engagement.clubName.value,
+      engagement.gender.value,
+      engagement.series,
+      engagement.column.value,
+      engagement.entryScore.toString()
+    ];
+
+    sheet.appendRow(data);
   }
 }

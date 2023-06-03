@@ -76,6 +76,22 @@ class ParticipantMapper {
     return results;
   }
 
+
+  static bySelect(
+      List<dynamic>
+          participants,
+      ParticipantMapperPort mapper) {
+    List<ParticipantEntity> results = [];
+
+    for (dynamic participant
+        in participants) {
+      results.add(_mapToDomain(participant, mapper));
+    }
+
+    return results;
+  }
+
+
   static byAgeAndDivisionAndSpecialty(
       List<raw.SelectParticiapntsByAgeAndDivisionAndSpecialtyResult>
           participants,

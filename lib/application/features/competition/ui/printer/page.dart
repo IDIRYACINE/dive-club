@@ -76,11 +76,11 @@ class CertificatePage extends pw.StatelessWidget {
         pw.Image(pw.MemoryImage(image.readAsBytesSync())),
         pw.Positioned(
           top: 300,
-          left: center,
+          left: center + 50,
           child: pw.Text(
-            participant.participantName.toString(),
+            participant.participantName.toString().toUpperCase(),
             style: pw.TextStyle(
-                fontSize: 18,
+                fontSize: 24,
                 fontWeight: pw.FontWeight.bold,
                 color: color),
           ),

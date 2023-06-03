@@ -19,7 +19,6 @@ class ReportStartList {
         await excelPort.processEngagementFiles(engagementFilesDirectory);
 
     int index = 100;
-
     for (ParticipantRegistration participant in registrations) {
       for (ScoreEngagement entryScore in participant.entryScores) {
         if (entryScore.score == null) {
@@ -132,35 +131,43 @@ class ReportStartList {
       {bool updateDb = true}) async {
     final EngagementsRecords engagementsRecords = [];
 
+    const genderIds = [0, 1];
     final divisions = (await dbPort.loadDivingDivisions()).divisions;
     final ageDivisions = (await dbPort.loadAgeDivisions()).ageDivisions;
     final specialties = (await dbPort.loadDivingSpecialities()).specialties;
 
-    for (AgeDivisionEntity ageDvision in ageDivisions) {
-      for (DivingSpecialtyEntity specialty in specialties) {
-        for (DivingDivisionEntity division in divisions) {
-          final options = LoadParticipantsOptions(
-            divisionId: division.divisionId.value,
-            specialityId: specialty.specialtyId.value,
-            ageDivisionId: ageDvision.divisionId.value,
-          );
+    for (int genderId in genderIds) {
+      for (AgeDivisionEntity ageDvision in ageDivisions) {
+        for (DivingSpecialtyEntity specialty in specialties) {
+          for (DivingDivisionEntity division in divisions) {
+            final options = LoadParticipantsOptions(
+                divisionId: division.divisionId.value,
+                specialityId: specialty.specialtyId.value,
+                ageDivisionId: ageDvision.divisionId.value,
+                genderId: genderId);
 
-          final participants =
-              (await dbPort.loadParticipants(options)).participants;
+            final participants =
+                (await dbPort.loadParticipants(options)).participants;
 
-          if (participants.isNotEmpty) {
-            engagementsRecords.add(_generateEngagements(participants));
+            if (participants.isNotEmpty) {
+              engagementsRecords.add(_generateEngagements(participants));
+            }
           }
         }
       }
-    }
 
-    if (updateDb) {
-      for (List<ParticipantEngagement> engagements in engagementsRecords) {
-        dbPort.updateParticipantsSeries(engagements);
+
+      if (updateDb) {
+        for (List<ParticipantEngagement> engagements in engagementsRecords) {
+          dbPort.updateParticipantsSeries(engagements);
+        }
       }
-    }
+      }
 
-    return engagementsRecords;
+      return engagementsRecords;
+    }
   }
-}
+
+
+
+

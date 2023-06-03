@@ -70,6 +70,24 @@ class DriftDatabaseService implements DatabasePort {
   @override
   Future<LoadCompetitionScoresResult> loadCompetitionScores(
       LoadCompetitionScoresOptions options) async {
+
+        
+    if (options.divisionId != null && options.specialityId != null && options.genderId != null) {
+      return _database
+          .selectCompetitionScoresBySpecialtyAndDivisionAndGenre(
+              divisionId: options.divisionId!,
+              genderId : options.genderId!,
+              specialtyId: options.specialityId!)
+          .get()
+          .then(
+            (value) => LoadCompetitionScoresResult(
+              scores: ScoreMapper.fromSelect(value, _mapperService.scoreMapper),
+            ),
+          );
+    }
+
+    
+    
     if (options.divisionId != null && options.specialityId != null) {
       return _database
           .selectCompetitionScoresBySpecialtyAndDivision(
@@ -78,8 +96,7 @@ class DriftDatabaseService implements DatabasePort {
           .get()
           .then(
             (value) => LoadCompetitionScoresResult(
-              scores: ScoreMapper.fromSelect(
-                  value, _mapperService.scoreMapper),
+              scores: ScoreMapper.fromSelect(value, _mapperService.scoreMapper),
             ),
           );
     }
@@ -101,8 +118,7 @@ class DriftDatabaseService implements DatabasePort {
           .get()
           .then(
             (value) => LoadCompetitionScoresResult(
-              scores:
-                  ScoreMapper.fromSelect(value, _mapperService.scoreMapper),
+              scores: ScoreMapper.fromSelect(value, _mapperService.scoreMapper),
             ),
           );
     }
@@ -137,18 +153,34 @@ class DriftDatabaseService implements DatabasePort {
   @override
   Future<LoadParticipantsResult> loadParticipants(
       LoadParticipantsOptions options) async {
+    if (options.divisionId != null &&
+        options.ageDivisionId != null &&
+        options.specialityId != null &&
+        options.genderId != null) {
 
-    if(options.orderBySeries != null){
-      return  _database
-          .selectParticipantsAndOrderBySeries()
+      return _database
+          .selectParticiapntsByAgeAndDivisionAndSpecialtyAndGender(
+              ageDivisionId: options.ageDivisionId!,
+              divisionId: options.divisionId!,
+              specialtyId: options.specialityId!,
+              genderId: options.genderId!)
           .get()
           .then(
+            (value) => LoadParticipantsResult(
+              participants: ParticipantMapper.bySelect(
+                  value, _mapperService.participantMapper),
+            ),
+          );
+    }
+
+    if (options.orderBySeries != null) {
+      return _database.selectParticipantsAndOrderBySeries().get().then(
             (value) => LoadParticipantsResult(
               participants: ParticipantMapper.fromOrderBySeries(
                   value, _mapperService.participantMapper),
             ),
           );
-    }    
+    }
     if (options.participantId != null) {
       return _database
           .searchParticipantsById(id: options.participantId!)

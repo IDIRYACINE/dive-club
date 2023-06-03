@@ -12,19 +12,25 @@ class Score {
     final date = DateTime.tryParse(source);
 
     if(date != null){
-      return Score(date.minute, date.second, date.millisecond);
+      return Score(date.hour, date.minute, date.second);
     }
 
     return Score.fromString(source);
   }
 
   factory Score.fromString(String source) {
-
     source = source.replaceAll(RegExp(r'[.:]'), '');
 
-    final m = int.parse(source.substring(0, 2));
-    final s = int.parse(source.substring(2, 4));
-    final ms = int.parse(source.substring(4, 6));
+
+    final mm =source.substring(0, 2);
+    final ss = source.substring(2, 4);
+    final mss = source.substring(4, 6);
+
+
+
+    final m = int.parse(mm);
+    final s = int.parse(ss);
+    final ms = int.parse(mss);
 
     return Score(m, s, ms);
   }
@@ -42,6 +48,15 @@ class Score {
 
   @override
   String toString(){
-    return '$minutes:$seconds:$milliseconds';
+    final m = minutes < 10 ? "0$minutes" : minutes;
+    final s = seconds < 10 ? "0$seconds" : seconds;
+    final ms = milliseconds < 10 ? "0$milliseconds" : milliseconds;
+    return '$m:$s:$ms';
+  }
+
+  static Score fromDate(DateTime date) {
+    return Score(
+      date.minute, date.second, date.millisecond
+    );
   }
 }

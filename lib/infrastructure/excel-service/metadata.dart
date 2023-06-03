@@ -15,6 +15,7 @@ class EngagementsSheetRows {
   static const brassStyle50m = 12;
   static const brassStyle100m = 13;
   static const papillonStyle50m = 14;
+  static const nageStyle = 16;
 
   static DivisionProfile divisionProfileFromIndex(int columnIndex) {
     switch (columnIndex) {
@@ -32,12 +33,18 @@ class EngagementsSheetRows {
 
       case dosStyle100m:
         return DivisionProfile(divisionId: 1, specialtyId: 1);
-        
+
       case brassStyle50m:
         return DivisionProfile(divisionId: 2, specialtyId: 0);
 
       case brassStyle100m:
         return DivisionProfile(divisionId: 2, specialtyId: 1);
+
+      case nageStyle:
+        return DivisionProfile(divisionId: 4, specialtyId: 1);
+
+      case papillonStyle50m:
+        return DivisionProfile(divisionId: 3, specialtyId: 0);
 
       default:
         return DivisionProfile(divisionId: 3, specialtyId: 0);

@@ -22,20 +22,22 @@ class PapillonPage extends pw.StatelessWidget {
     const double spaceBetweenElements = 20;
     const double entryTimeTopPosition = 85;
     const double entryTimeLeftPosition = 210;
-    
 
     List<pw.Widget> widgets = [];
 
     for (ParticipantEntity participant in participants) {
       widgets.add(pw.Stack(
         children: [
-          pw.Image(pw.MemoryImage(image.readAsBytesSync()),
-              width: width, height: height,),
+          pw.Image(
+            pw.MemoryImage(image.readAsBytesSync()),
+            width: width,
+            height: height,
+          ),
           pw.Positioned(
             top: nameTopPosition,
             left: nameLeftPosition,
             child: pw.Text(
-              participant.participantName.firstName,
+              participant.participantName.firstName.toUpperCase(),
             ),
           ),
           pw.Positioned(
@@ -49,7 +51,7 @@ class PapillonPage extends pw.StatelessWidget {
             top: nameTopPosition + spaceBetweenElements,
             left: nameLeftPosition + spaceBetweenElements,
             child: pw.Text(
-              participant.participantName.lastName,
+              participant.participantName.lastName.toUpperCase(),
             ),
           ),
           pw.Positioned(
@@ -62,9 +64,8 @@ class PapillonPage extends pw.StatelessWidget {
           pw.Positioned(
             top: nameTopPosition + (spaceBetweenElements * 3.3),
             left: nameLeftPosition + 2,
-            child: pw.Text(
-              participant.club.clubName.value,
-            ),
+            child: pw.Text(participant.club.clubName.value,
+                textDirection: pw.TextDirection.rtl),
           ),
           pw.Positioned(
             top: nameTopPosition + (spaceBetweenElements * 4.2),
@@ -75,7 +76,7 @@ class PapillonPage extends pw.StatelessWidget {
           ),
           pw.Positioned(
             top: nameTopPosition + (spaceBetweenElements * 5.4),
-            left: nameLeftPosition + (spaceBetweenElements ),
+            left: nameLeftPosition + (spaceBetweenElements),
             child: pw.Text(
                 '${participant.division.divisionName.value} ${participant.specialty.specialtyName.value}',
                 textScaleFactor: 0.8,

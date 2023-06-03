@@ -119,11 +119,14 @@ class ScoreController {
   void _onFilter(
     FilterOptions filterOptions,
   ) {
+
+    //TODO : FILTER COMETITION
     final databasePort = ServicesProvider.instance().databasePort;
 
     final options = LoadCompetitionScoresOptions(
       divisionId: filterOptions.divisionId?.value,
       specialityId: filterOptions.specialtyId?.value,
+      genderId: filterOptions.genderId,
     );
 
     databasePort.loadCompetitionScores(options).then((value) {

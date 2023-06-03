@@ -44,6 +44,7 @@ class PapillonPrinter {
       pw.Page(
         theme: fontTheme,
         pageFormat: PdfPageFormat.a4,
+        
         build: (pw.Context context) {
           return ParticipantsPage(participants);
         },
@@ -58,18 +59,25 @@ class PapillonPrinter {
         base: font, bold: font, italic: font, boldItalic: font);
 
     int itemsPerPage = 6;
-    final length = (entities.length);
-    final pageNumbers = length / itemsPerPage;
+    final length = (entities.length );
+    final pageNumbers = (length) / itemsPerPage;
 
     for (int i = 0; i < pageNumbers; i ++) {
-      final List<ParticipantEntity> participants = [];
+      final List<ParticipantEntity> participants = [];      
 
-      int targetLength = i + itemsPerPage;
-      targetLength = targetLength < length ? targetLength : length;
+      int itemsInPage = 0;
+      int index = itemsInPage + (i * itemsPerPage);
 
-      for (int j = i; j < targetLength; j++) {
-        participants.add(entities[j]);
+
+      while((index <= (length-1)) && (itemsInPage < itemsPerPage)  ){
+
+        index = itemsInPage + (i * itemsPerPage);
+        participants.add(entities[index]);
+        itemsInPage++;
+        index = itemsInPage + (i * itemsPerPage);
+
       }
+
       _createPapillonsPage(participants, fontTheme);
     }
 

@@ -30,13 +30,14 @@ class CreateScoreOptions {
   final int genderId;
   final int ageDivisionId;
 
-  CreateScoreOptions( {
+  CreateScoreOptions({
     required this.participantId,
     required this.divisionId,
     required this.specialityId,
     required this.score,
     required this.date,
-    required  this.genderId, required  this.ageDivisionId,
+    required this.genderId,
+    required this.ageDivisionId,
   });
 }
 
@@ -114,11 +115,8 @@ class CreateDivingSpecialityOptions {
 class CreateAgeDivisionOptions {
   final String divisionName;
   final int year;
-  
-  CreateAgeDivisionOptions({
-    required this.divisionName,
-    required this.year
-  });
+
+  CreateAgeDivisionOptions({required this.divisionName, required this.year});
 }
 
 class UpdateDivingSpecialityOptions {
@@ -147,22 +145,24 @@ class LoadParticipantsOptions {
   final int? participantId;
   final int? clubId;
   final int? ageDivisionId;
+  final int? genderId;
 
-  final bool?  orderBySeries;
+  final bool? orderBySeries;
 
-  LoadParticipantsOptions( {
-    this.divisionId,
-    this.specialityId,
-    this.clubId,
-    this.participantId,
-    this.ageDivisionId,
-    this.orderBySeries
-  });
+  LoadParticipantsOptions(
+      {this.genderId,
+      this.divisionId,
+      this.specialityId,
+      this.clubId,
+      this.participantId,
+      this.ageDivisionId,
+      this.orderBySeries});
 }
 
 class LoadCompetitionScoresOptions {
   final int? specialityId;
   final int? divisionId;
+  final int? genderId;
 
-  LoadCompetitionScoresOptions({this.divisionId, this.specialityId});
+  LoadCompetitionScoresOptions({this.genderId, this.divisionId, this.specialityId});
 }
