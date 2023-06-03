@@ -20,7 +20,7 @@ class ScoreMapper {
           specialtyName: score.specialtyName,
           ageDivisionId: score.ageDivisionYear,
           genderId: score.genderId,
-          participantLastName: score.participantFirstName);
+          participantLastName: score.participantLastName);
       final res = mapper.toDomainEntity(temp);
 
       results.add(res);

@@ -17,6 +17,7 @@ class FilterOptions {
   final ParticipantBloc? participantBloc;
   final CompetitionBloc? competitionBloc;
   final int? genderId;
+  final int? ageId;
 
   FilterOptions(
       {this.specialtyId,
@@ -24,6 +25,7 @@ class FilterOptions {
       this.competitionBloc,
       this.divisionId,
        this.genderId,
+       this.ageId,
       this.id})
       : assert(participantBloc != null || competitionBloc != null,
             'Either participantBloc or competitionBloc must be provided');
@@ -36,6 +38,7 @@ class FilterController {
 
   final nameController = TextEditingController();
   final genderController = TextEditingController();
+  final ageController =  TextEditingController();
 
   final OnFilter onFilter;
   DivingSpecialtyEntity? specialty;
@@ -58,7 +61,7 @@ class FilterController {
       }
 
       int? genderIdParsed = int.tryParse(genderController.text);
-
+      int? ageIdParsed = int.tryParse(ageController.text);
 
 
       onFilter(
@@ -69,6 +72,7 @@ class FilterController {
           participantBloc: BlocProvider.of<ParticipantBloc>(form.context),
           competitionBloc: BlocProvider.of<CompetitionBloc>(form.context),
            genderId: genderIdParsed,
+           ageId:ageIdParsed
         ),
       );
 
@@ -136,6 +140,15 @@ class FilterForm extends StatelessWidget {
               labelText: "Gender id",
             ),
             controller: controller.genderController,
+          ),
+          const SizedBox(
+            height: 20,
+          ),
+           TextFormField(
+            decoration: const InputDecoration(
+              labelText: "Age id",
+            ),
+            controller: controller.ageController,
           ),
           const SizedBox(
             height: 20,

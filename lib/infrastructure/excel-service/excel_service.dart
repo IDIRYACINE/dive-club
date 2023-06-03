@@ -14,8 +14,6 @@ import 'package:excel/excel.dart';
 import 'package:path_provider/path_provider.dart';
 
 class ExcelService implements ExcelManagerPort {
-  bool _isFileProcessed = false;
-  // final _sheetName = "engagement 06-05-23";
   final _sheetName = "Sheet1";
 
   late Excel _excel;
@@ -98,7 +96,7 @@ class ExcelService implements ExcelManagerPort {
   }
 
   @override
-  bool get isFileProcessed => _isFileProcessed;
+  bool get isFileProcessed => false;
 
   @override
   // TODO: implement processedParticipants

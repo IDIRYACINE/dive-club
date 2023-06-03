@@ -120,13 +120,13 @@ class ScoreController {
     FilterOptions filterOptions,
   ) {
 
-    //TODO : FILTER COMETITION
     final databasePort = ServicesProvider.instance().databasePort;
 
     final options = LoadCompetitionScoresOptions(
       divisionId: filterOptions.divisionId?.value,
       specialityId: filterOptions.specialtyId?.value,
       genderId: filterOptions.genderId,
+      ageId: filterOptions.ageId
     );
 
     databasePort.loadCompetitionScores(options).then((value) {

@@ -72,6 +72,7 @@ class CompetitionScore extends DatabaseEntity {
   final String specialtyName;
   final String divisionName;
 
+
   CompetitionScore(
       {required this.participantId,
       required this.divisionId,

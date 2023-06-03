@@ -70,13 +70,14 @@ class DriftDatabaseService implements DatabasePort {
   @override
   Future<LoadCompetitionScoresResult> loadCompetitionScores(
       LoadCompetitionScoresOptions options) async {
-
-        
-    if (options.divisionId != null && options.specialityId != null && options.genderId != null) {
+    if (options.divisionId != null &&
+        options.specialityId != null &&
+        options.genderId != null && options.ageId != null) {
       return _database
-          .selectCompetitionScoresBySpecialtyAndDivisionAndGenre(
+          .selectCompetitionScoresBySpecialtyAndDivisionAndGenreAndAgeId(
               divisionId: options.divisionId!,
-              genderId : options.genderId!,
+              genderId: options.genderId!,
+              ageId:  options.ageId!,
               specialtyId: options.specialityId!)
           .get()
           .then(
@@ -86,8 +87,22 @@ class DriftDatabaseService implements DatabasePort {
           );
     }
 
-    
-    
+    if (options.divisionId != null &&
+        options.specialityId != null &&
+        options.genderId != null) {
+      return _database
+          .selectCompetitionScoresBySpecialtyAndDivisionAndGenre(
+              divisionId: options.divisionId!,
+              genderId: options.genderId!,
+              specialtyId: options.specialityId!)
+          .get()
+          .then(
+            (value) => LoadCompetitionScoresResult(
+              scores: ScoreMapper.fromSelect(value, _mapperService.scoreMapper),
+            ),
+          );
+    }
+
     if (options.divisionId != null && options.specialityId != null) {
       return _database
           .selectCompetitionScoresBySpecialtyAndDivision(
@@ -157,7 +172,6 @@ class DriftDatabaseService implements DatabasePort {
         options.ageDivisionId != null &&
         options.specialityId != null &&
         options.genderId != null) {
-
       return _database
           .selectParticiapntsByAgeAndDivisionAndSpecialtyAndGender(
               ageDivisionId: options.ageDivisionId!,

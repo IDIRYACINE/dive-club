@@ -2449,6 +2449,45 @@ abstract class _$AppDb extends GeneratedDatabase {
     });
   }
 
+  Selectable<
+          SelectCompetitionScoresBySpecialtyAndDivisionAndGenreAndAgeIdResult>
+      selectCompetitionScoresBySpecialtyAndDivisionAndGenreAndAgeId(
+          {required int specialtyId,
+          required int divisionId,
+          required int ageId,
+          required int genderId}) {
+    return customSelect(
+        'SELECT Scores.*, DivingSpecialties.specialty_name, DivingDivisions.division_name, Participants.participant_first_name, Participants.participant_last_name FROM Scores INNER JOIN DivingSpecialties USING(specialty_id)INNER JOIN DivingDivisions USING(division_id)INNER JOIN Participants USING(participant_id)INNER JOIN AgeDivisionsEntry USING(age_division_year)INNER JOIN AgeDivisions ON AgeDivisions.age_division_id = AgeDivisionsEntry.age_division_id WHERE Scores.specialty_id = ?1 AND Scores.division_id = ?2 AND AgeDivisions.age_division_id = ?3 AND Participants.gender_id = ?4 ORDER BY score ASC',
+        variables: [
+          Variable<int>(specialtyId),
+          Variable<int>(divisionId),
+          Variable<int>(ageId),
+          Variable<int>(genderId)
+        ],
+        readsFrom: {
+          divingSpecialties,
+          divingDivisions,
+          participants,
+          scores,
+          ageDivisionsEntry,
+          ageDivisions,
+        }).map((QueryRow row) {
+      return SelectCompetitionScoresBySpecialtyAndDivisionAndGenreAndAgeIdResult(
+        participantId: row.read<int>('participant_id'),
+        divisionId: row.read<int>('division_id'),
+        specialtyId: row.read<int>('specialty_id'),
+        ageDivisionYear: row.read<int>('age_division_year'),
+        genderId: row.read<int>('gender_id'),
+        scoreDate: row.read<DateTime>('score_date'),
+        score: row.read<int>('score'),
+        specialtyName: row.read<String>('specialty_name'),
+        divisionName: row.read<String>('division_name'),
+        participantFirstName: row.read<String>('participant_first_name'),
+        participantLastName: row.read<String>('participant_last_name'),
+      );
+    });
+  }
+
   Selectable<DivingSpecialtie> selectDivingSpecialties() {
     return customSelect('SELECT * FROM DivingSpecialties',
         variables: [],
@@ -3052,6 +3091,33 @@ class SelectCompetitionScoresBySpecialtyAndDivisionAndGenreResult {
   final String participantFirstName;
   final String participantLastName;
   SelectCompetitionScoresBySpecialtyAndDivisionAndGenreResult({
+    required this.participantId,
+    required this.divisionId,
+    required this.specialtyId,
+    required this.ageDivisionYear,
+    required this.genderId,
+    required this.scoreDate,
+    required this.score,
+    required this.specialtyName,
+    required this.divisionName,
+    required this.participantFirstName,
+    required this.participantLastName,
+  });
+}
+
+class SelectCompetitionScoresBySpecialtyAndDivisionAndGenreAndAgeIdResult {
+  final int participantId;
+  final int divisionId;
+  final int specialtyId;
+  final int ageDivisionYear;
+  final int genderId;
+  final DateTime scoreDate;
+  final int score;
+  final String specialtyName;
+  final String divisionName;
+  final String participantFirstName;
+  final String participantLastName;
+  SelectCompetitionScoresBySpecialtyAndDivisionAndGenreAndAgeIdResult({
     required this.participantId,
     required this.divisionId,
     required this.specialtyId,

@@ -345,6 +345,8 @@ ORDER BY
     score ASC;
 
 
+
+
 selectCompetitionScoresBySpecialtyAndDivisionAndGenre(
     REQUIRED :specialtyId AS INTEGER,
     REQUIRED :divisionId AS INTEGER,
@@ -364,6 +366,36 @@ FROM
 WHERE
     Scores.specialty_id = :specialtyId
     AND Scores.division_id = :divisionId
+    AND Participants.gender_id = :gender_id
+ORDER BY
+    score ASC;
+
+
+selectCompetitionScoresBySpecialtyAndDivisionAndGenreAndAgeId(
+    REQUIRED :specialtyId AS INTEGER,
+    REQUIRED :divisionId AS INTEGER,
+    REQUIRED :genderId AS INTEGER,
+    REQUIRED :ageId AS INTEGER
+):
+SELECT
+    Scores.*,
+    DivingSpecialties.specialty_name,
+    DivingDivisions.division_name,
+    Participants.participant_first_name,
+    Participants.participant_last_name
+FROM
+    Scores
+    INNER JOIN DivingSpecialties USING (specialty_id)
+    INNER JOIN DivingDivisions USING (division_id)
+    INNER JOIN Participants USING (participant_id)
+    INNER JOIN AgeDivisionsEntry USING(age_division_year)
+    INNER JOIN AgeDivisions ON AgeDivisions.age_division_id = AgeDivisionsEntry.age_division_id
+
+
+WHERE
+    Scores.specialty_id = :specialtyId
+    AND Scores.division_id = :divisionId
+    AND AgeDivisions.age_division_id = :ageId
     AND Participants.gender_id = :gender_id
 ORDER BY
     score ASC;
