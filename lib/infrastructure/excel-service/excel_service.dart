@@ -181,7 +181,6 @@ class ExcelService implements ExcelManagerPort {
           continue;
         }
 
-
         final entryScoresRaw = [
           freeStyle50m,
           freeStyle100m,
@@ -199,7 +198,8 @@ class ExcelService implements ExcelManagerPort {
         if (ageDivision.value is DateTime) {
           ageDivisionId = AgeDivisionId.fromDate(ageDivision.value);
         } else {
-          ageDivisionId = AgeDivisionId.fromString(ageDivision.value.toString());
+          ageDivisionId =
+              AgeDivisionId.fromString(ageDivision.value.toString());
         }
 
         final registration = ParticipantRegistration(
@@ -211,14 +211,8 @@ class ExcelService implements ExcelManagerPort {
             genderId: GenderId.fromString(sex.value.toString()),
             entryScores: _processEntryScores(entryScoresRaw));
 
-
         results.add(registration);
-
-        
-
       }
-
-      print(file.path);
     }
 
     return results;
@@ -303,11 +297,9 @@ class ExcelService implements ExcelManagerPort {
   }
 
   void _appendHeader(Sheet sheet, List<String> header) {
-
-    for(int i = 0 ; i < 10;i++){
+    for (int i = 0; i < 10; i++) {
       sheet.appendRow(header);
     }
-
   }
 
   void _appendStartListRows(

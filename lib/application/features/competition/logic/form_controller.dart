@@ -5,7 +5,6 @@ import 'package:dive_club/application/features/divisions/feature.dart';
 import 'package:dive_club/application/features/specialties/feature.dart';
 import 'package:dive_club/application/navigation/feature.dart';
 import 'package:dive_club/core/entities/competition/export.dart';
-import 'package:dive_club/core/entities/genders/export.dart';
 import 'package:dive_club/core/entities/participants/export.dart';
 import 'package:dive_club/core/infrastrucutre/database/export.dart';
 import 'package:dive_club/infrastructure/service_provider.dart';
@@ -62,7 +61,7 @@ class ScoreController {
         specialtyName:
             specialtyBloc.state.specialtyById(specialtyId).specialtyName,
         ageDivisionId: ageDivisionYear,
-        genderId: GenderId(0),
+        genderId: _data.participant!.genderId,
       );
 
       _registerCompetitionScore(entity);
@@ -125,8 +124,8 @@ class ScoreController {
     final options = LoadCompetitionScoresOptions(
       divisionId: filterOptions.divisionId?.value,
       specialityId: filterOptions.specialtyId?.value,
-      genderId: filterOptions.genderId,
-      ageId: filterOptions.ageId
+      genderId: filterOptions.genderId?.value,
+      ageId: filterOptions.ageDivisionId?.value
     );
 
     databasePort.loadCompetitionScores(options).then((value) {

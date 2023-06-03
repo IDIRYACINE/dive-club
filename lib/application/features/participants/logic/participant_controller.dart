@@ -53,9 +53,11 @@ class ParticipantController {
   Future<void> selectBirthDate(BuildContext context) async {
     final date = await showDatePicker(
       context: context,
-      initialDate: DateTime.now(),
-      firstDate: DateTime(1980),
-      lastDate: DateTime.now(),
+      initialDate: DateTime(2012),
+      firstDate: DateTime(2012),
+      lastDate: DateTime(2018),
+      onDatePickerModeChange: (mode) {},
+      initialDatePickerMode: DatePickerMode.year,
     );
 
     if (date != null) {
@@ -153,6 +155,7 @@ class ParticipantController {
     final options = LoadParticipantsOptions(
         divisionId: filterOptions.divisionId?.value,
         specialityId: filterOptions.specialtyId?.value,
+        ageDivisionId: filterOptions.ageDivisionId?.value,
         participantId: filterOptions.id);
 
     databasePort.loadParticipants(options).then((value) {

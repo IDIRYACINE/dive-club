@@ -32,8 +32,8 @@ class ParticipantForm extends StatelessWidget {
   final List<ClubEntity> clubs;
 
   @override
-  Widget build(BuildContext context) {
-    final localizations = AppLocalizations.of(context)!;
+  Widget build(BuildContext context) {    final localizations = AppLocalizations.of(context)!;
+
 
     return Form(
       key: ParticipantController.key,
@@ -87,10 +87,7 @@ class ParticipantForm extends StatelessWidget {
             items: clubs,
             onSelected: controller.updateClub,
           ),
-          AgeDivisionDropdown(
-            items: ageDivisions,
-            onSelected: controller.updateAgeDivision,
-          ),
+         
           const SizedBox(
             height: 20,
           ),

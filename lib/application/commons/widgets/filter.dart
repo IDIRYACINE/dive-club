@@ -1,8 +1,11 @@
+import 'package:dive_club/application/features/ageDivision/feature.dart';
 import 'package:dive_club/application/features/competition/feature.dart';
 import 'package:dive_club/application/features/divisions/feature.dart';
+import 'package:dive_club/application/features/gender/actions.dart';
 import 'package:dive_club/application/features/participants/feature.dart';
 import 'package:dive_club/application/features/specialties/feature.dart';
 import 'package:dive_club/core/entities/diving/export.dart';
+import 'package:dive_club/core/entities/genders/export.dart';
 import 'package:dive_club/resources/l10n/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -16,16 +19,16 @@ class FilterOptions {
   final int? id;
   final ParticipantBloc? participantBloc;
   final CompetitionBloc? competitionBloc;
-  final int? genderId;
-  final int? ageId;
+  final GenderId? genderId;
+  final AgeDivisionId? ageDivisionId;
 
   FilterOptions(
       {this.specialtyId,
       this.participantBloc,
       this.competitionBloc,
       this.divisionId,
-       this.genderId,
-       this.ageId,
+      this.genderId,
+      this.ageDivisionId,
       this.id})
       : assert(participantBloc != null || competitionBloc != null,
             'Either participantBloc or competitionBloc must be provided');
@@ -38,18 +41,19 @@ class FilterController {
 
   final nameController = TextEditingController();
   final genderController = TextEditingController();
-  final ageController =  TextEditingController();
 
   final OnFilter onFilter;
   DivingSpecialtyEntity? specialty;
   DivingDivisionEntity? division;
+  GenderEntity? gender;
+  AgeDivisionEntity? ageDivision;
+
 
   FilterController(this.onFilter);
 
   void validateForm() {
     final form = formKey.currentState;
     if (form!.validate()) {
-
       DivisionId? divisionId = division?.divisionId;
       if ((divisionId != null) && (divisionId.value == -1)) {
         divisionId = null;
@@ -60,20 +64,18 @@ class FilterController {
         specialityId = null;
       }
 
-      int? genderIdParsed = int.tryParse(genderController.text);
-      int? ageIdParsed = int.tryParse(ageController.text);
-
 
       onFilter(
         FilterOptions(
-          id: nameController.text.isNotEmpty ? int.parse(nameController.text) : null,
-          specialtyId: specialityId,
-          divisionId: divisionId,
-          participantBloc: BlocProvider.of<ParticipantBloc>(form.context),
-          competitionBloc: BlocProvider.of<CompetitionBloc>(form.context),
-           genderId: genderIdParsed,
-           ageId:ageIdParsed
-        ),
+            id: nameController.text.isNotEmpty
+                ? int.parse(nameController.text)
+                : null,
+            specialtyId: specialityId,
+            divisionId: divisionId,
+            participantBloc: BlocProvider.of<ParticipantBloc>(form.context),
+            competitionBloc: BlocProvider.of<CompetitionBloc>(form.context),
+            genderId: gender?.genderId,
+            ageDivisionId: ageDivision?.divisionId),
       );
 
       NavigationService.pop();
@@ -91,13 +93,25 @@ class FilterController {
   void selectDivision(DivingDivisionEntity? item) {
     division = item;
   }
+
+  void updateGender(GenderEntity? item) {
+    gender = item;
+  }
+
+  void updateAgeDivision(AgeDivisionEntity? item) {
+    ageDivision = item;
+  }
 }
 
 class FilterForm extends StatelessWidget {
   const FilterForm({
     super.key,
-    required this.onConfirmPressed,
+    required this.genders,
+    required this.onConfirmPressed, required this.ageDivisions,
   });
+
+  final List<GenderEntity> genders;
+  final List<AgeDivisionEntity> ageDivisions;
 
   final OnFilter onConfirmPressed;
 
@@ -118,7 +132,7 @@ class FilterForm extends StatelessWidget {
       ...BlocProvider.of<SpecialtyBloc>(context).state.specialties,
     ];
 
-    
+
 
     return Form(
       key: FilterController.formKey,
@@ -131,27 +145,19 @@ class FilterForm extends StatelessWidget {
             ),
             controller: controller.nameController,
           ),
-
           const SizedBox(
             height: 20,
           ),
-          TextFormField(
-            decoration: const InputDecoration(
-              labelText: "Gender id",
-            ),
-            controller: controller.genderController,
+         AgeDivisionDropdown(
+            items: ageDivisions,
+            onSelected: controller.updateAgeDivision ,
           ),
           const SizedBox(
             height: 20,
           ),
-           TextFormField(
-            decoration: const InputDecoration(
-              labelText: "Age id",
-            ),
-            controller: controller.ageController,
-          ),
-          const SizedBox(
-            height: 20,
+          GenderDropdown(
+            items: genders,
+            onSelected: controller.updateGender,
           ),
           DivisionDropdown(
               onSelected: controller.selectDivision, items: divisions),
@@ -185,7 +191,10 @@ class FilterDialog extends StatelessWidget {
 
     return AlertDialog(
       title: Text(localizations.filterLabel),
-      content: FilterForm(onConfirmPressed: onConfirmPressed),
+      content: FilterForm(
+        onConfirmPressed: onConfirmPressed,
+        genders: gendersList, ageDivisions: ageDivisions,
+      ),
     );
   }
 }
