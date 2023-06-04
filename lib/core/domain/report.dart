@@ -1,4 +1,5 @@
 import 'package:dive_club/core/entities/clubs/export.dart';
+import 'package:dive_club/core/entities/competition/entity.dart';
 import 'package:dive_club/core/entities/diving/export.dart';
 import 'package:dive_club/core/entities/genders/export.dart';
 import 'package:dive_club/core/entities/participants/export.dart';
@@ -73,9 +74,7 @@ class ReportStartList {
           clubName: participant.club.clubName,
           divisionName: participant.division.divisionName,
           specialtyName: participant.specialty.specialtyName,
-          gender: participant.genderId.value == 0
-              ? GenderName.male()
-              : GenderName.female(),
+          gender: GenderEntity.fromId(participant.genderId),
           entryScore: participant.entryTime);
 
       columnIndex++;
@@ -114,9 +113,7 @@ class ReportStartList {
             clubName: club.clubName,
             divisionName: participant.division.divisionName,
             specialtyName: participant.specialty.specialtyName,
-            gender: participant.genderId.value == 0
-                ? GenderName.male()
-                : GenderName.female(),
+            gender: GenderEntity.fromId(participant.genderId),
             entryScore: participant.entryTime,
             ageDivisionName: participant.ageDivision.divisionName);
 
@@ -156,18 +153,67 @@ class ReportStartList {
         }
       }
 
-
       if (updateDb) {
         for (List<ParticipantEngagement> engagements in engagementsRecords) {
           dbPort.updateParticipantsSeries(engagements);
         }
       }
-      }
-
-      return engagementsRecords;
     }
+
+    return engagementsRecords;
   }
 
+  Future<void> generateParticipantResults() async {
+    final ResultsRecords resultsRecords = [];
 
+    const genderIds = [0, 1];
+    final divisions = (await dbPort.loadDivingDivisions()).divisions;
+    final ageDivisions = (await dbPort.loadAgeDivisions()).ageDivisions;
+    final specialties = (await dbPort.loadDivingSpecialities()).specialties;
 
+    for (int genderId in genderIds) {
+      for (AgeDivisionEntity ageDvision in ageDivisions) {
+        for (DivingSpecialtyEntity specialty in specialties) {
+          for (DivingDivisionEntity division in divisions) {
+            final options = LoadCompetitionScoresOptions(
+                divisionId: division.divisionId.value,
+                specialityId: specialty.specialtyId.value,
+                ageDivisionId: ageDvision.divisionId.value,
+                genderId: genderId);
 
+            final scores = (await dbPort.loadCompetitionScores(options)).scores;
+
+            if (scores.isNotEmpty) {
+              resultsRecords.add(_generateParticipantResults(scores));
+            }
+          }
+        }
+      }
+    }
+
+    excelPort.exportResultsFile(engagementsOutputDirectory, resultsRecords);
+  }
+
+  List<ParticipantResult> _generateParticipantResults(
+      List<CompetitionScoreEntity> scores) {
+    final List<ParticipantResult> results = [];
+
+    for (CompetitionScoreEntity score in scores) {
+      final result = ParticipantResult(
+          column: score.column,
+          ageDivisionName: score.ageDivision.divisionName,
+          participantId: score.participantId,
+          series: score.series,
+          participantName: score.participantName,
+          ageDivision: score.ageDivision,
+          clubName: score.club.clubName,
+          divisionName: score.divisionName,
+          specialtyName: score.specialtyName,
+          gender: score.gender.genderName,
+          score: score.score);
+      results.add(result);
+    }
+
+    return results;
+  }
+}

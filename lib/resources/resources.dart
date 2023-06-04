@@ -18,4 +18,8 @@ abstract class AppResources {
 
   static const defaultsSql = 'assets/defaults.sql';
 
+    static const startListsExcel = 'assets/docs/StartList.xlsx';
+  static const resultatListExcel = 'assets/docs/Resultat.xlsx';
+
+
 }

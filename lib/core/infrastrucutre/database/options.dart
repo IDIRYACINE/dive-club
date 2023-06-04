@@ -163,7 +163,7 @@ class LoadCompetitionScoresOptions {
   final int? specialityId;
   final int? divisionId;
   final int? genderId;
-  final int? ageId;
+  final int? ageDivisionId;
 
-  LoadCompetitionScoresOptions({this.ageId,this.genderId, this.divisionId, this.specialityId});
+  LoadCompetitionScoresOptions({this.ageDivisionId,this.genderId, this.divisionId, this.specialityId});
 }

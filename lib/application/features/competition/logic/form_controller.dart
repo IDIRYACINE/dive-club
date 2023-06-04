@@ -4,7 +4,9 @@ import 'package:dive_club/application/features/competition/ui/forms.dart';
 import 'package:dive_club/application/features/divisions/feature.dart';
 import 'package:dive_club/application/features/specialties/feature.dart';
 import 'package:dive_club/application/navigation/feature.dart';
+import 'package:dive_club/core/domain/report.dart';
 import 'package:dive_club/core/entities/competition/export.dart';
+import 'package:dive_club/core/entities/genders/export.dart';
 import 'package:dive_club/core/entities/participants/export.dart';
 import 'package:dive_club/core/infrastrucutre/database/export.dart';
 import 'package:dive_club/infrastructure/service_provider.dart';
@@ -15,7 +17,7 @@ import '../state/bloc.dart';
 import '../state/events.dart';
 
 class ScoreDataHolder {
-  Score? score;
+  String? score;
   ParticipantEntity? participant;
 
   String? searchId;
@@ -25,9 +27,15 @@ class ScoreDataHolder {
 
 class ScoreController {
   static final key = GlobalKey<FormState>();
+  late ReportStartList report;
 
   ScoreController([ParticipantEntity? entity]) {
     _data = ScoreDataHolder(entity);
+    final servicesProvider = ServicesProvider.instance();
+
+    report = ReportStartList(
+        dbPort: servicesProvider.databasePort,
+        excelPort: servicesProvider.excelManagerPort);
   }
 
   late ScoreDataHolder _data;
@@ -41,6 +49,7 @@ class ScoreController {
   void onRegister(BuildContext context) {
     final isFormValid = key.currentState!.validate();
     if (isFormValid) {
+
       final bloc = BlocProvider.of<CompetitionBloc>(context);
       final divisionBloc = BlocProvider.of<DivisionBloc>(context);
       final specialtyBloc = BlocProvider.of<SpecialtyBloc>(context);
@@ -48,20 +57,26 @@ class ScoreController {
       final divisionId = _data.participant!.division.divisionId;
       final specialtyId = _data.participant!.specialty.specialtyId;
 
-      final ageDivisionYear =
-          _data.participant!.ageDivision.divisionId;
+      final club = _data.participant!.club;
+
+      final ageDivision = _data.participant!.ageDivision;
+
+      final gender = GenderEntity.fromId(_data.participant!.genderId);
 
       final entity = CompetitionScoreEntity(
         specialtyId: specialtyId,
         divisionId: divisionId,
         participantId: _data.participant!.participantId,
-        score: _data.score!,
+        score: Score.fromString(_data.score!),
         divisionName: divisionBloc.state.divisionById(divisionId).divisionName,
         participantName: _data.participant!.participantName,
         specialtyName:
             specialtyBloc.state.specialtyById(specialtyId).specialtyName,
-        ageDivisionId: ageDivisionYear,
-        genderId: _data.participant!.genderId,
+        ageDivision: ageDivision,
+        gender: gender,
+        club: club,
+        column: _data.participant!.column,
+        series: _data.participant!.series,
       );
 
       _registerCompetitionScore(entity);
@@ -80,8 +95,8 @@ class ScoreController {
       specialityId: entity.specialtyId.value,
       score: entity.score.toIntCode(),
       date: DateTime.now(),
-      ageDivisionId: entity.ageDivisionId.value,
-      genderId: entity.genderId.value,
+      ageDivisionId: entity.ageDivision.divisionId.value,
+      genderId: entity.gender.genderId.value,
     );
     ServicesProvider.instance().databasePort.insertScore(options);
   }
@@ -89,10 +104,7 @@ class ScoreController {
   void printRakings(
     CompetitionBloc bloc,
   ) async {
-    final printer = CompetitionPrinter();
-    printer.prepareNewDocument();
-    await printer.createRankingsDocument(bloc.state.scores);
-    printer.displayPreview();
+    await report.generateParticipantResults();
   }
 
   void printPrizes(CompetitionBloc bloc) async {
@@ -105,7 +117,7 @@ class ScoreController {
   void updateScore(String? value) {
     if (value == null) return;
 
-    _data.score = Score.fromString(value);
+    _data.score = value;
   }
 
   void filterScores() {
@@ -118,15 +130,13 @@ class ScoreController {
   void _onFilter(
     FilterOptions filterOptions,
   ) {
-
     final databasePort = ServicesProvider.instance().databasePort;
 
     final options = LoadCompetitionScoresOptions(
-      divisionId: filterOptions.divisionId?.value,
-      specialityId: filterOptions.specialtyId?.value,
-      genderId: filterOptions.genderId?.value,
-      ageId: filterOptions.ageDivisionId?.value
-    );
+        divisionId: filterOptions.divisionId?.value,
+        specialityId: filterOptions.specialtyId?.value,
+        genderId: filterOptions.genderId?.value,
+        ageDivisionId: filterOptions.ageDivisionId?.value);
 
     databasePort.loadCompetitionScores(options).then((value) {
       final event = LoadScoresEvent(value.scores);
@@ -134,11 +144,11 @@ class ScoreController {
     });
   }
 
-  Future<ParticipantEntity?> searchParticipant() async {
+  Future<ParticipantEntity?> searchParticipant(int searchId) async {
     final databasePort = ServicesProvider.instance().databasePort;
 
     final options =
-        LoadParticipantsOptions(participantId: int.parse(_data.searchId!));
+        LoadParticipantsOptions(participantId: searchId);
 
     final result = await databasePort.loadParticipants(options);
 
@@ -155,7 +165,4 @@ class ScoreController {
     NavigationService.displayDialog(dialog);
   }
 
-  void updateSearchId(String? value) {
-    _data.searchId = value;
-  }
 }

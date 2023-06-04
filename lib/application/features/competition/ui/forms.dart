@@ -16,62 +16,53 @@ class CompetittionScoreForm extends StatefulWidget {
 }
 
 class _CompetittionScoreFormState extends State<CompetittionScoreForm> {
-  void search() {
-    widget.controller.searchParticipant().then((res) => {setState(() {})});
+  void _onUpdateId(String? value) {
+    int? id = int.tryParse(value ?? "");
+
+    if (id != null) {
+      widget.controller.searchParticipant(id).then((res) => {setState(() {})});
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     final localizations = AppLocalizations.of(context)!;
 
-    return Form(
-      key: ScoreController.key,
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Expanded(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Expanded(
-                  flex: 3,
-                  child: TextFormField(
-                    decoration: InputDecoration(
-                      labelText: localizations.idLabel,
-                    ),
-                    onChanged: widget.controller.updateSearchId,
-                    validator: validatorId,
-                  ),
+    return SizedBox(
+      width: 300,
+      child: Form(
+        key: ScoreController.key,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+             TextFormField(
+                decoration: InputDecoration(
+                  labelText: localizations.idLabel,
                 ),
-                Expanded(
-                  child: ButtonPrimary(
-                    onPressed: search,
-                    text: "search",
-                  ),
-                ),
-              ],
+                onChanged: _onUpdateId,
+                validator: validatorId,
+              
             ),
-          ),
-          const Divider(),
-          Flexible(
-              child: _ParticipantProfile(
-                  participant: widget.controller.participant)),
-          const Divider(),
-          TextFormField(
-            decoration: InputDecoration(
-              labelText: localizations.participantScoreLabel,
+            const SizedBox(
+              width: 10,
             ),
-            onChanged: widget.controller.updateScore,
-            validator: validatorScore,
-          ),
-          const SizedBox(
-            height: 20,
-          ),
-          GenericFormActions(
-            onConfirmPressed: () => widget.controller.onRegister(context),
-            onCancelPressed: widget.controller.onCancel,
-          )
-        ],
+             CompetitionScoreTextField(
+                onUpdateScore: widget.controller.updateScore,
+              
+            ),
+            const Divider(),
+            Flexible(
+                child: _ParticipantProfile(
+                    participant: widget.controller.participant)),
+            const SizedBox(
+              height: 30,
+            ),
+            GenericFormActions(
+              onConfirmPressed: () => widget.controller.onRegister(context),
+              onCancelPressed: widget.controller.onCancel,
+            )
+          ],
+        ),
       ),
     );
   }
@@ -88,7 +79,8 @@ class _ParticipantProfile extends StatelessWidget {
 
     final name = participant?.participantName.toString() ?? unkown;
 
-    final birthDate = participant?.ageDivision.divisionId.value.toString() ?? unkown;
+    final birthDate =
+        participant?.ageDivision.divisionId.value.toString() ?? unkown;
 
     final specialty = participant?.specialty.specialtyName.value ?? unkown;
 
@@ -118,6 +110,44 @@ class ScoreDialog extends StatelessWidget {
     return AlertDialog(
       title: Text(localizations.addScoreLabel),
       content: CompetittionScoreForm(controller: controller),
+    );
+  }
+}
+
+typedef OnUpdateScore = void Function(String? value);
+
+class CompetitionScoreTextField extends StatefulWidget {
+  final OnUpdateScore onUpdateScore;
+
+  const CompetitionScoreTextField({super.key, required this.onUpdateScore});
+
+  @override
+  State<CompetitionScoreTextField> createState() =>
+      _CompetitionScoreTextFieldState();
+}
+
+class _CompetitionScoreTextFieldState extends State<CompetitionScoreTextField> {
+  final _textController = TextEditingController();
+
+  void _onUpdate(String? display) {
+    if (display != null) {
+      display = display.replaceAll(r'\s', '');
+      widget.onUpdateScore(display);
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final localizations = AppLocalizations.of(context)!;
+
+    return TextFormField(
+      controller: _textController,
+      decoration: InputDecoration(
+        labelText: localizations.participantScoreLabel,
+      ),
+      onChanged: _onUpdate,
+      validator: validatorScore,
+      keyboardType: TextInputType.number,
     );
   }
 }

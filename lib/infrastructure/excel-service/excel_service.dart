@@ -9,6 +9,7 @@ import 'package:dive_club/core/entities/genders/export.dart';
 import 'package:dive_club/core/entities/participants/export.dart';
 import 'package:dive_club/core/infrastrucutre/utilities/excel_manager_port.dart';
 import 'package:dive_club/infrastructure/excel-service/metadata.dart';
+import 'package:dive_club/resources/resources.dart';
 import 'dart:io';
 import 'package:excel/excel.dart';
 import 'package:path_provider/path_provider.dart';
@@ -35,7 +36,6 @@ class ExcelService implements ExcelManagerPort {
 
     final sheet = _excel[_sheetName];
     final header = [
-      "id",
       "nom",
       "prenom",
       "naissance",
@@ -45,18 +45,17 @@ class ExcelService implements ExcelManagerPort {
       "specialty",
       "serie",
       "couloir",
-      "temps entry"
+      "temps"
     ];
     sheet.appendRow(header);
 
     for (ParticipantEngagement engagement in engagements) {
       sheet.appendRow([
-        engagement.participantId.value,
         engagement.participantName.firstName,
         engagement.participantName.lastName,
         engagement.ageDivisionId.value,
         engagement.ageDivisionName.value,
-        engagement.gender.value,
+        engagement.gender.genderName.value,
         engagement.divisionName.value,
         engagement.specialtyName.value,
         engagement.series,
@@ -78,10 +77,14 @@ class ExcelService implements ExcelManagerPort {
       String outputDirectory, EngagementsRecords engagements) async {
     final dir = await getApplicationDocumentsDirectory();
 
+    File excelFile = File(AppResources.startListsExcel);
     String fPath = '${dir.path}/$outputDirectory/startList.xlsx';
 
     File file = File(fPath);
-    _excel = Excel.createExcel();
+
+    final templateBytes = excelFile.readAsBytesSync();
+
+    _excel = Excel.decodeBytes(templateBytes);
 
     for (List<ParticipantEngagement> engagement in engagements) {
       _writeStartListSheet(engagement);
@@ -99,7 +102,6 @@ class ExcelService implements ExcelManagerPort {
   bool get isFileProcessed => false;
 
   @override
-  // TODO: implement processedParticipants
   List<ParticipantRegistration> get processedParticipants =>
       throw UnimplementedError();
 
@@ -245,32 +247,56 @@ class ExcelService implements ExcelManagerPort {
 
   void _writeStartListSheet(List<ParticipantEngagement> engagementRows) {
     final sheetName = _generateStartListSheetName(engagementRows.first);
-    final header = [
-      "id",
-      "nom",
-      "prenom",
-      "naissance",
-      "club",
-      "sex",
-      "serie",
-      "couloir",
-      "temps entry"
-    ];
+    const templateSheetName = "StartList";
+
+    final sheet = _excel[sheetName];
+    // _excel.copy(templateSheetName, sheetName);
+
+    final cell =
+        sheet.cell(CellIndex.indexByColumnRow(columnIndex: 3, rowIndex: 2));
+    cell.value = sheetName;
+
+    GenderId lastGender = engagementRows.first.gender.genderId;
+    bool genderSwapped = false;
+
+    for (ParticipantEngagement engagement in engagementRows) {
+      _appendStartListRows(sheet, engagement);
+      final currGender =engagement.gender.genderId;
+      genderSwapped = !lastGender.equals(currGender);
+
+      if (genderSwapped) {
+        sheet.appendRow(["Females"]);
+      }
+
+      lastGender = currGender;
+    }
+
+    _formatSheet(sheet);
+  }
+
+  void _writeResultListSheet(List<ParticipantResult> resultRows) {
+    final sheetName = _generateResultListSheetName(resultRows.first);
+    const templateSheetName = "StartList";
 
     final sheet = _excel[sheetName];
 
-    _appendHeader(sheet, header);
+    final cell =
+        sheet.cell(CellIndex.indexByColumnRow(columnIndex: 3, rowIndex: 2));
+    cell.value = sheetName;
 
-    int rowIndex = 2;
-
-    for (ParticipantEngagement engagement in engagementRows) {
-      _appendStartListRows(sheet, rowIndex, engagement);
-      rowIndex++;
+    for (ParticipantResult results in resultRows) {
+      _appendResultListRow(sheet, results);
     }
+
+    _formatSheet(sheet);
   }
 
   String _generateStartListSheetName(ParticipantEngagement engagement) {
     return "${engagement.ageDivisionName.value} ${engagement.divisionName.value} ${engagement.specialtyName.value} ";
+  }
+
+  String _generateResultListSheetName(ParticipantResult result) {
+    return "${result.ageDivisionName.value} ${result.divisionName.value} ${result.specialtyName.value} ";
   }
 
   int _getClubId(String value) {
@@ -296,26 +322,74 @@ class ExcelService implements ExcelManagerPort {
     }
   }
 
-  void _appendHeader(Sheet sheet, List<String> header) {
-    for (int i = 0; i < 10; i++) {
-      sheet.appendRow(header);
-    }
-  }
-
-  void _appendStartListRows(
-      Sheet sheet, int rowIndex, ParticipantEngagement engagement) {
+  void _appendStartListRows(Sheet sheet, ParticipantEngagement engagement) {
     final data = [
-      engagement.participantId.value,
       engagement.participantName.firstName,
       engagement.participantName.lastName,
       engagement.ageDivisionId.value,
       engagement.clubName.value,
-      engagement.gender.value,
+      engagement.gender.genderName.value,
       engagement.series,
       engagement.column.value,
       engagement.entryScore.toString()
     ];
 
     sheet.appendRow(data);
+  }
+
+  @override
+  Future<void> exportResultsFile(
+      String outputDirectory, ResultsRecords scores) async {
+    final dir = await getApplicationDocumentsDirectory();
+
+    File excelFile = File(AppResources.startListsExcel);
+    String fPath = '${dir.path}/$outputDirectory/resultList.xlsx';
+
+    File file = File(fPath);
+
+    final templateBytes = excelFile.readAsBytesSync();
+
+    _excel = Excel.decodeBytes(templateBytes);
+
+    for (List<ParticipantResult> score in scores) {
+      _writeResultListSheet(score);
+    }
+
+    List<int>? bytes = _excel.save();
+    if (bytes != null) {
+      file
+        ..createSync(recursive: true)
+        ..writeAsBytesSync(bytes);
+    }
+  }
+
+  void _appendResultListRow(Sheet sheet, ParticipantResult score) {
+    final data = [
+      score.participantName.firstName,
+      score.participantName.lastName,
+      score.clubName.value,
+      score.gender.value,
+      score.series,
+      score.column.value,
+      score.score.toString()
+    ];
+
+    sheet.appendRow(data);
+  }
+
+  void _formatSheet(Sheet sheet) {
+    int rowIndex = 0;
+    for (List<Data?> row in sheet.rows) {
+      if (rowIndex > 2) {
+        final isEven = (rowIndex % 2) == 0;
+        final rowColor = isEven ? "#3AD2FF" : "#F2F2F2";
+        for (Data? cell in row) {
+          cell?.cellStyle = CellStyle(
+              backgroundColorHex: rowColor,
+              horizontalAlign: HorizontalAlign.Left);
+        }
+      }
+      rowIndex++;
+    }
   }
 }

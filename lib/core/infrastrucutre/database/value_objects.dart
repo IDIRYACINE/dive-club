@@ -72,19 +72,37 @@ class CompetitionScore extends DatabaseEntity {
   final String specialtyName;
   final String divisionName;
 
+  final int clubId;
 
-  CompetitionScore(
-      {required this.participantId,
-      required this.divisionId,
-      required this.specialityId,
-      required this.genderId,
-      required this.ageDivisionId,
-      required this.score,
-      required this.date,
-      required this.participantFirstName,
-      required this.specialtyName,
-      required this.divisionName,
-      required this.participantLastName});
+  final String clubName;
+
+  int? column;
+
+  int? series;
+
+  final String ageDivisionName;
+
+  final String genderName;
+
+  CompetitionScore({
+    required this.participantId,
+    required this.divisionId,
+    required this.specialityId,
+    required this.genderId,
+    required this.ageDivisionId,
+    required this.score,
+    required this.date,
+    required this.participantFirstName,
+    required this.specialtyName,
+    required this.divisionName,
+    required this.participantLastName,
+    required this.clubId,
+    required this.clubName,
+    this.column,
+    required this.ageDivisionName,
+    required this.genderName,
+    this.series,
+  });
 }
 
 class AgeDivision extends DatabaseEntity {

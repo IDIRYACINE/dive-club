@@ -73,12 +73,12 @@ class DriftDatabaseService implements DatabasePort {
     if (options.divisionId != null &&
         options.specialityId != null &&
         options.genderId != null &&
-        options.ageId != null) {
+        options.ageDivisionId != null) {
       return _database
           .selectCompetitionScoresBySpecialtyAndDivisionAndGenreAndAgeId(
               divisionId: options.divisionId!,
               genderId: options.genderId!,
-              ageId: options.ageId!,
+              ageId: options.ageDivisionId!,
               specialtyId: options.specialityId!)
           .get()
           .then(
@@ -169,12 +169,10 @@ class DriftDatabaseService implements DatabasePort {
   @override
   Future<LoadParticipantsResult> loadParticipants(
       LoadParticipantsOptions options) async {
-
     if (options.divisionId != null &&
         options.ageDivisionId != null &&
         options.specialityId != null &&
         options.genderId != null) {
-
       return _database
           .selectParticiapntsByAgeAndDivisionAndSpecialtyAndGender(
               ageDivisionId: options.ageDivisionId!,

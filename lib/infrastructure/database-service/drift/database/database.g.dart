@@ -2230,13 +2230,17 @@ abstract class _$AppDb extends GeneratedDatabase {
 
   Selectable<SelectCompetitionScoresResult> selectCompetitionScores() {
     return customSelect(
-        'SELECT Scores.*, DivingSpecialties.specialty_name, DivingDivisions.division_name, Participants.participant_first_name, Participants.participant_last_name FROM Scores INNER JOIN DivingSpecialties USING(specialty_id)INNER JOIN DivingDivisions USING(division_id)INNER JOIN Participants USING(participant_id)ORDER BY score ASC',
+        'SELECT Scores.*, DivingSpecialties.specialty_name, DivingDivisions.division_name, Participants.participant_first_name, Participants.participant_last_name, Participants.participant_column, Participants.participant_series, Participants.club_id, AgeDivisions.age_division_name, Genders.gender_name, Clubs.club_name FROM Scores INNER JOIN DivingSpecialties USING(specialty_id)INNER JOIN DivingDivisions USING(division_id)INNER JOIN Participants USING(participant_id)INNER JOIN Clubs USING(club_id)INNER JOIN Genders USING(gender_id)INNER JOIN AgeDivisionsEntry USING(age_division_year)INNER JOIN AgeDivisions ON AgeDivisions.age_division_id = AgeDivisionsEntry.age_division_id ORDER BY score ASC',
         variables: [],
         readsFrom: {
           divingSpecialties,
           divingDivisions,
           participants,
+          ageDivisions,
+          genders,
+          clubs,
           scores,
+          ageDivisionsEntry,
         }).map((QueryRow row) {
       return SelectCompetitionScoresResult(
         participantId: row.read<int>('participant_id'),
@@ -2250,6 +2254,12 @@ abstract class _$AppDb extends GeneratedDatabase {
         divisionName: row.read<String>('division_name'),
         participantFirstName: row.read<String>('participant_first_name'),
         participantLastName: row.read<String>('participant_last_name'),
+        participantColumn: row.readNullable<int>('participant_column'),
+        participantSeries: row.readNullable<int>('participant_series'),
+        clubId: row.read<int>('club_id'),
+        ageDivisionName: row.read<String>('age_division_name'),
+        genderName: row.read<String>('gender_name'),
+        clubName: row.read<String>('club_name'),
       );
     });
   }
@@ -2257,7 +2267,7 @@ abstract class _$AppDb extends GeneratedDatabase {
   Selectable<SelectCompetitionScoresBySpecialtyResult>
       selectCompetitionScoresBySpecialty({required int id}) {
     return customSelect(
-        'SELECT Scores.*, DivingSpecialties.specialty_name, DivingDivisions.division_name, Participants.participant_first_name, Participants.participant_last_name FROM Scores INNER JOIN DivingSpecialties USING(specialty_id)INNER JOIN DivingDivisions USING(division_id)INNER JOIN Participants USING(participant_id)WHERE Scores.specialty_id = ?1 ORDER BY score ASC',
+        'SELECT Scores.*, DivingSpecialties.specialty_name, DivingDivisions.division_name, Participants.participant_first_name, Participants.participant_last_name, Participants.participant_column, Participants.participant_series, AgeDivisions.age_division_name, Genders.gender_name FROM Scores INNER JOIN DivingSpecialties USING(specialty_id)INNER JOIN DivingDivisions USING(division_id)INNER JOIN Participants USING(participant_id)INNER JOIN Clubs USING(club_id)INNER JOIN Genders USING(gender_id)INNER JOIN AgeDivisionsEntry USING(age_division_year)INNER JOIN AgeDivisions ON AgeDivisions.age_division_id = AgeDivisionsEntry.age_division_id WHERE Scores.specialty_id = ?1 ORDER BY score ASC',
         variables: [
           Variable<int>(id)
         ],
@@ -2265,7 +2275,11 @@ abstract class _$AppDb extends GeneratedDatabase {
           divingSpecialties,
           divingDivisions,
           participants,
+          ageDivisions,
+          genders,
           scores,
+          clubs,
+          ageDivisionsEntry,
         }).map((QueryRow row) {
       return SelectCompetitionScoresBySpecialtyResult(
         participantId: row.read<int>('participant_id'),
@@ -2279,6 +2293,10 @@ abstract class _$AppDb extends GeneratedDatabase {
         divisionName: row.read<String>('division_name'),
         participantFirstName: row.read<String>('participant_first_name'),
         participantLastName: row.read<String>('participant_last_name'),
+        participantColumn: row.readNullable<int>('participant_column'),
+        participantSeries: row.readNullable<int>('participant_series'),
+        ageDivisionName: row.read<String>('age_division_name'),
+        genderName: row.read<String>('gender_name'),
       );
     });
   }
@@ -2286,7 +2304,7 @@ abstract class _$AppDb extends GeneratedDatabase {
   Selectable<SelectCompetitionScoresByDivisionResult>
       selectCompetitionScoresByDivision({required int id}) {
     return customSelect(
-        'SELECT Scores.*, DivingSpecialties.specialty_name, DivingDivisions.division_name, Participants.participant_first_name, Participants.participant_last_name FROM Scores INNER JOIN DivingSpecialties USING(specialty_id)INNER JOIN DivingDivisions USING(division_id)INNER JOIN Participants USING(participant_id)WHERE Scores.division_id = ?1 ORDER BY score ASC',
+        'SELECT Scores.*, DivingSpecialties.specialty_name, DivingDivisions.division_name, Participants.participant_first_name, Participants.participant_last_name, Participants.participant_column, Participants.participant_series, AgeDivisions.age_division_name, Genders.gender_name FROM Scores INNER JOIN DivingSpecialties USING(specialty_id)INNER JOIN DivingDivisions USING(division_id)INNER JOIN Participants USING(participant_id)INNER JOIN Clubs USING(club_id)INNER JOIN Genders USING(gender_id)INNER JOIN AgeDivisionsEntry USING(age_division_year)INNER JOIN AgeDivisions ON AgeDivisions.age_division_id = AgeDivisionsEntry.age_division_id WHERE Scores.division_id = ?1 ORDER BY score ASC',
         variables: [
           Variable<int>(id)
         ],
@@ -2294,7 +2312,11 @@ abstract class _$AppDb extends GeneratedDatabase {
           divingSpecialties,
           divingDivisions,
           participants,
+          ageDivisions,
+          genders,
           scores,
+          clubs,
+          ageDivisionsEntry,
         }).map((QueryRow row) {
       return SelectCompetitionScoresByDivisionResult(
         participantId: row.read<int>('participant_id'),
@@ -2308,6 +2330,10 @@ abstract class _$AppDb extends GeneratedDatabase {
         divisionName: row.read<String>('division_name'),
         participantFirstName: row.read<String>('participant_first_name'),
         participantLastName: row.read<String>('participant_last_name'),
+        participantColumn: row.readNullable<int>('participant_column'),
+        participantSeries: row.readNullable<int>('participant_series'),
+        ageDivisionName: row.read<String>('age_division_name'),
+        genderName: row.read<String>('gender_name'),
       );
     });
   }
@@ -2315,7 +2341,7 @@ abstract class _$AppDb extends GeneratedDatabase {
   Selectable<SelectCompetitionScoresByAgeResult> selectCompetitionScoresByAge(
       {required int year}) {
     return customSelect(
-        'SELECT Scores.*, DivingSpecialties.specialty_name, DivingDivisions.division_name, Participants.participant_first_name, Participants.participant_last_name, AgeDivisions.age_division_name, Genders.gender_name FROM Scores INNER JOIN DivingSpecialties USING(specialty_id)INNER JOIN DivingDivisions USING(division_id)INNER JOIN Genders USING(gender_id)INNER JOIN AgeDivisionsEntry USING(age_division_year)INNER JOIN Participants USING(participant_id)WHERE Scores.age_division_year = ?1 ORDER BY score ASC',
+        'SELECT Scores.*, DivingSpecialties.specialty_name, DivingDivisions.division_name, Participants.participant_first_name, Participants.participant_last_name, Participants.participant_column, Participants.participant_series, AgeDivisions.age_division_name, Genders.gender_name FROM Scores INNER JOIN DivingSpecialties USING(specialty_id)INNER JOIN DivingDivisions USING(division_id)INNER JOIN Genders USING(gender_id)INNER JOIN AgeDivisionsEntry USING(age_division_year)INNER JOIN Participants USING(participant_id)WHERE Scores.age_division_year = ?1 ORDER BY score ASC',
         variables: [
           Variable<int>(year)
         ],
@@ -2339,6 +2365,8 @@ abstract class _$AppDb extends GeneratedDatabase {
         divisionName: row.read<String>('division_name'),
         participantFirstName: row.read<String>('participant_first_name'),
         participantLastName: row.read<String>('participant_last_name'),
+        participantColumn: row.readNullable<int>('participant_column'),
+        participantSeries: row.readNullable<int>('participant_series'),
         ageDivisionName: row.readNullable<String>('age_division_name'),
         genderName: row.read<String>('gender_name'),
       );
@@ -2351,7 +2379,7 @@ abstract class _$AppDb extends GeneratedDatabase {
           required int divisionId,
           required int year}) {
     return customSelect(
-        'SELECT Scores.*, DivingSpecialties.specialty_name, DivingDivisions.division_name, Participants.participant_first_name, Participants.participant_last_name, Genders.gender_name, AgeDivisions.age_division_name FROM Scores INNER JOIN DivingSpecialties USING(specialty_id)INNER JOIN DivingDivisions USING(division_id)INNER JOIN Participants USING(participant_id)INNER JOIN Genders USING(gender_id)INNER JOIN AgeDivisionsEntry USING(age_division_year)INNER JOIN AgeDivisions ON AgeDivisions.age_division_id = AgeDivisionsEntry.age_division_id WHERE Scores.specialty_id = ?1 AND Scores.division_id = ?2 AND Scores.age_division_year = ?3 ORDER BY score ASC',
+        'SELECT Scores.*, DivingSpecialties.specialty_name, DivingDivisions.division_name, Participants.participant_first_name, Participants.participant_last_name, Participants.participant_column, Participants.participant_series, AgeDivisions.age_division_name, Genders.gender_name, Clubs.club_name FROM Scores INNER JOIN DivingSpecialties USING(specialty_id)INNER JOIN DivingDivisions USING(division_id)INNER JOIN Participants USING(participant_id)INNER JOIN Clubs USING(club_id)INNER JOIN Genders USING(gender_id)INNER JOIN AgeDivisionsEntry USING(age_division_year)INNER JOIN AgeDivisions ON AgeDivisions.age_division_id = AgeDivisionsEntry.age_division_id INNER JOIN Genders USING(gender_id)INNER JOIN AgeDivisionsEntry USING(age_division_year)INNER JOIN AgeDivisions ON AgeDivisions.age_division_id = AgeDivisionsEntry.age_division_id WHERE Scores.specialty_id = ?1 AND Scores.division_id = ?2 AND Scores.age_division_year = ?3 ORDER BY score ASC',
         variables: [
           Variable<int>(specialtyId),
           Variable<int>(divisionId),
@@ -2361,8 +2389,9 @@ abstract class _$AppDb extends GeneratedDatabase {
           divingSpecialties,
           divingDivisions,
           participants,
-          genders,
           ageDivisions,
+          genders,
+          clubs,
           scores,
           ageDivisionsEntry,
         }).map((QueryRow row) {
@@ -2378,8 +2407,11 @@ abstract class _$AppDb extends GeneratedDatabase {
         divisionName: row.read<String>('division_name'),
         participantFirstName: row.read<String>('participant_first_name'),
         participantLastName: row.read<String>('participant_last_name'),
-        genderName: row.read<String>('gender_name'),
+        participantColumn: row.readNullable<int>('participant_column'),
+        participantSeries: row.readNullable<int>('participant_series'),
         ageDivisionName: row.read<String>('age_division_name'),
+        genderName: row.read<String>('gender_name'),
+        clubName: row.read<String>('club_name'),
       );
     });
   }
@@ -2388,7 +2420,7 @@ abstract class _$AppDb extends GeneratedDatabase {
       selectCompetitionScoresBySpecialtyAndDivision(
           {required int specialtyId, required int divisionId}) {
     return customSelect(
-        'SELECT Scores.*, DivingSpecialties.specialty_name, DivingDivisions.division_name, Participants.participant_first_name, Participants.participant_last_name FROM Scores INNER JOIN DivingSpecialties USING(specialty_id)INNER JOIN DivingDivisions USING(division_id)INNER JOIN Participants USING(participant_id)WHERE Scores.specialty_id = ?1 AND Scores.division_id = ?2 ORDER BY score ASC',
+        'SELECT Scores.*, DivingSpecialties.specialty_name, DivingDivisions.division_name, Participants.participant_first_name, Participants.participant_last_name, Participants.participant_column, Participants.participant_series, Participants.club_id, AgeDivisions.age_division_name, Genders.gender_name, Clubs.club_name FROM Scores INNER JOIN DivingSpecialties USING(specialty_id)INNER JOIN DivingDivisions USING(division_id)INNER JOIN Participants USING(participant_id)INNER JOIN Clubs USING(club_id)INNER JOIN Genders USING(gender_id)INNER JOIN AgeDivisionsEntry USING(age_division_year)INNER JOIN AgeDivisions ON AgeDivisions.age_division_id = AgeDivisionsEntry.age_division_id WHERE Scores.specialty_id = ?1 AND Scores.division_id = ?2 ORDER BY score ASC',
         variables: [
           Variable<int>(specialtyId),
           Variable<int>(divisionId)
@@ -2397,7 +2429,11 @@ abstract class _$AppDb extends GeneratedDatabase {
           divingSpecialties,
           divingDivisions,
           participants,
+          ageDivisions,
+          genders,
+          clubs,
           scores,
+          ageDivisionsEntry,
         }).map((QueryRow row) {
       return SelectCompetitionScoresBySpecialtyAndDivisionResult(
         participantId: row.read<int>('participant_id'),
@@ -2411,6 +2447,12 @@ abstract class _$AppDb extends GeneratedDatabase {
         divisionName: row.read<String>('division_name'),
         participantFirstName: row.read<String>('participant_first_name'),
         participantLastName: row.read<String>('participant_last_name'),
+        participantColumn: row.readNullable<int>('participant_column'),
+        participantSeries: row.readNullable<int>('participant_series'),
+        clubId: row.read<int>('club_id'),
+        ageDivisionName: row.read<String>('age_division_name'),
+        genderName: row.read<String>('gender_name'),
+        clubName: row.read<String>('club_name'),
       );
     });
   }
@@ -2421,7 +2463,7 @@ abstract class _$AppDb extends GeneratedDatabase {
           required int divisionId,
           required int genderId}) {
     return customSelect(
-        'SELECT Scores.*, DivingSpecialties.specialty_name, DivingDivisions.division_name, Participants.participant_first_name, Participants.participant_last_name FROM Scores INNER JOIN DivingSpecialties USING(specialty_id)INNER JOIN DivingDivisions USING(division_id)INNER JOIN Participants USING(participant_id)WHERE Scores.specialty_id = ?1 AND Scores.division_id = ?2 AND Participants.gender_id = ?3 ORDER BY score ASC',
+        'SELECT Scores.*, DivingSpecialties.specialty_name, DivingDivisions.division_name, Participants.participant_first_name, Participants.participant_last_name, Participants.participant_column, Participants.participant_series, AgeDivisions.age_division_name, Participants.club_id, Genders.gender_name, Clubs.club_name FROM Scores INNER JOIN DivingSpecialties USING(specialty_id)INNER JOIN DivingDivisions USING(division_id)INNER JOIN Participants USING(participant_id)INNER JOIN Clubs USING(club_id)INNER JOIN Genders USING(gender_id)INNER JOIN AgeDivisionsEntry USING(age_division_year)INNER JOIN AgeDivisions ON AgeDivisions.age_division_id = AgeDivisionsEntry.age_division_id INNER JOIN Genders USING(gender_id)WHERE Scores.specialty_id = ?1 AND Scores.division_id = ?2 AND Participants.gender_id = ?3 ORDER BY score ASC',
         variables: [
           Variable<int>(specialtyId),
           Variable<int>(divisionId),
@@ -2431,7 +2473,11 @@ abstract class _$AppDb extends GeneratedDatabase {
           divingSpecialties,
           divingDivisions,
           participants,
+          ageDivisions,
+          genders,
+          clubs,
           scores,
+          ageDivisionsEntry,
         }).map((QueryRow row) {
       return SelectCompetitionScoresBySpecialtyAndDivisionAndGenreResult(
         participantId: row.read<int>('participant_id'),
@@ -2445,6 +2491,12 @@ abstract class _$AppDb extends GeneratedDatabase {
         divisionName: row.read<String>('division_name'),
         participantFirstName: row.read<String>('participant_first_name'),
         participantLastName: row.read<String>('participant_last_name'),
+        participantColumn: row.readNullable<int>('participant_column'),
+        participantSeries: row.readNullable<int>('participant_series'),
+        ageDivisionName: row.read<String>('age_division_name'),
+        clubId: row.read<int>('club_id'),
+        genderName: row.read<String>('gender_name'),
+        clubName: row.read<String>('club_name'),
       );
     });
   }
@@ -2457,7 +2509,7 @@ abstract class _$AppDb extends GeneratedDatabase {
           required int ageId,
           required int genderId}) {
     return customSelect(
-        'SELECT Scores.*, DivingSpecialties.specialty_name, DivingDivisions.division_name, Participants.participant_first_name, Participants.participant_last_name FROM Scores INNER JOIN DivingSpecialties USING(specialty_id)INNER JOIN DivingDivisions USING(division_id)INNER JOIN Participants USING(participant_id)INNER JOIN AgeDivisionsEntry USING(age_division_year)INNER JOIN AgeDivisions ON AgeDivisions.age_division_id = AgeDivisionsEntry.age_division_id WHERE Scores.specialty_id = ?1 AND Scores.division_id = ?2 AND AgeDivisions.age_division_id = ?3 AND Participants.gender_id = ?4 ORDER BY score ASC',
+        'SELECT Scores.*, DivingSpecialties.specialty_name, DivingDivisions.division_name, Participants.participant_first_name, Participants.participant_last_name, Participants.participant_column, Participants.participant_series, Participants.club_id, AgeDivisions.age_division_name, Genders.gender_name, Clubs.club_name FROM Scores INNER JOIN DivingSpecialties USING(specialty_id)INNER JOIN DivingDivisions USING(division_id)INNER JOIN Participants USING(participant_id)INNER JOIN Clubs USING(club_id)INNER JOIN Genders USING(gender_id)INNER JOIN AgeDivisionsEntry USING(age_division_year)INNER JOIN AgeDivisions ON AgeDivisions.age_division_id = AgeDivisionsEntry.age_division_id WHERE Scores.specialty_id = ?1 AND Scores.division_id = ?2 AND AgeDivisions.age_division_id = ?3 AND Participants.gender_id = ?4 ORDER BY score ASC',
         variables: [
           Variable<int>(specialtyId),
           Variable<int>(divisionId),
@@ -2468,9 +2520,11 @@ abstract class _$AppDb extends GeneratedDatabase {
           divingSpecialties,
           divingDivisions,
           participants,
+          ageDivisions,
+          genders,
+          clubs,
           scores,
           ageDivisionsEntry,
-          ageDivisions,
         }).map((QueryRow row) {
       return SelectCompetitionScoresBySpecialtyAndDivisionAndGenreAndAgeIdResult(
         participantId: row.read<int>('participant_id'),
@@ -2484,6 +2538,12 @@ abstract class _$AppDb extends GeneratedDatabase {
         divisionName: row.read<String>('division_name'),
         participantFirstName: row.read<String>('participant_first_name'),
         participantLastName: row.read<String>('participant_last_name'),
+        participantColumn: row.readNullable<int>('participant_column'),
+        participantSeries: row.readNullable<int>('participant_series'),
+        clubId: row.read<int>('club_id'),
+        ageDivisionName: row.read<String>('age_division_name'),
+        genderName: row.read<String>('gender_name'),
+        clubName: row.read<String>('club_name'),
       );
     });
   }
@@ -2507,7 +2567,7 @@ abstract class _$AppDb extends GeneratedDatabase {
   Selectable<SearchParticipantsByIdResult> searchParticipantsById(
       {required int id}) {
     return customSelect(
-        'SELECT Participants.*, DivingSpecialties.specialty_name, DivingDivisions.division_name, AgeDivisions.age_division_name, Genders.gender_name, Clubs.club_name FROM Participants INNER JOIN DivingSpecialties USING(specialty_id)INNER JOIN AgeDivisionsEntry USING(age_division_year)INNER JOIN Genders USING(gender_id)INNER JOIN DivingDivisions USING(division_id)INNER JOIN Clubs USING(club_id)INNER JOIN AgeDivisions ON AgeDivisions.age_division_id = AgeDivisionsEntry.age_division_id WHERE participant_id = ?1',
+        'SELECT Participants.*, DivingSpecialties.specialty_name, DivingDivisions.division_name, AgeDivisions.age_division_name, Genders.gender_name, Clubs.club_name FROM Participants INNER JOIN DivingSpecialties USING(specialty_id)INNER JOIN Genders USING(gender_id)INNER JOIN DivingDivisions USING(division_id)INNER JOIN Clubs USING(club_id)INNER JOIN AgeDivisionsEntry USING(age_division_year)INNER JOIN AgeDivisions ON AgeDivisions.age_division_id = AgeDivisionsEntry.age_division_id WHERE participant_id = ?1',
         variables: [
           Variable<int>(id)
         ],
@@ -2920,6 +2980,12 @@ class SelectCompetitionScoresResult {
   final String divisionName;
   final String participantFirstName;
   final String participantLastName;
+  final int? participantColumn;
+  final int? participantSeries;
+  final int clubId;
+  final String ageDivisionName;
+  final String genderName;
+  final String clubName;
   SelectCompetitionScoresResult({
     required this.participantId,
     required this.divisionId,
@@ -2932,6 +2998,12 @@ class SelectCompetitionScoresResult {
     required this.divisionName,
     required this.participantFirstName,
     required this.participantLastName,
+    this.participantColumn,
+    this.participantSeries,
+    required this.clubId,
+    required this.ageDivisionName,
+    required this.genderName,
+    required this.clubName,
   });
 }
 
@@ -2947,6 +3019,10 @@ class SelectCompetitionScoresBySpecialtyResult {
   final String divisionName;
   final String participantFirstName;
   final String participantLastName;
+  final int? participantColumn;
+  final int? participantSeries;
+  final String ageDivisionName;
+  final String genderName;
   SelectCompetitionScoresBySpecialtyResult({
     required this.participantId,
     required this.divisionId,
@@ -2959,6 +3035,10 @@ class SelectCompetitionScoresBySpecialtyResult {
     required this.divisionName,
     required this.participantFirstName,
     required this.participantLastName,
+    this.participantColumn,
+    this.participantSeries,
+    required this.ageDivisionName,
+    required this.genderName,
   });
 }
 
@@ -2974,6 +3054,10 @@ class SelectCompetitionScoresByDivisionResult {
   final String divisionName;
   final String participantFirstName;
   final String participantLastName;
+  final int? participantColumn;
+  final int? participantSeries;
+  final String ageDivisionName;
+  final String genderName;
   SelectCompetitionScoresByDivisionResult({
     required this.participantId,
     required this.divisionId,
@@ -2986,6 +3070,10 @@ class SelectCompetitionScoresByDivisionResult {
     required this.divisionName,
     required this.participantFirstName,
     required this.participantLastName,
+    this.participantColumn,
+    this.participantSeries,
+    required this.ageDivisionName,
+    required this.genderName,
   });
 }
 
@@ -3001,6 +3089,8 @@ class SelectCompetitionScoresByAgeResult {
   final String divisionName;
   final String participantFirstName;
   final String participantLastName;
+  final int? participantColumn;
+  final int? participantSeries;
   final String? ageDivisionName;
   final String genderName;
   SelectCompetitionScoresByAgeResult({
@@ -3015,6 +3105,8 @@ class SelectCompetitionScoresByAgeResult {
     required this.divisionName,
     required this.participantFirstName,
     required this.participantLastName,
+    this.participantColumn,
+    this.participantSeries,
     this.ageDivisionName,
     required this.genderName,
   });
@@ -3032,8 +3124,11 @@ class SelectCompetitionScoresBySpecialtyAndDivisionAndAgeResult {
   final String divisionName;
   final String participantFirstName;
   final String participantLastName;
-  final String genderName;
+  final int? participantColumn;
+  final int? participantSeries;
   final String ageDivisionName;
+  final String genderName;
+  final String clubName;
   SelectCompetitionScoresBySpecialtyAndDivisionAndAgeResult({
     required this.participantId,
     required this.divisionId,
@@ -3046,8 +3141,11 @@ class SelectCompetitionScoresBySpecialtyAndDivisionAndAgeResult {
     required this.divisionName,
     required this.participantFirstName,
     required this.participantLastName,
-    required this.genderName,
+    this.participantColumn,
+    this.participantSeries,
     required this.ageDivisionName,
+    required this.genderName,
+    required this.clubName,
   });
 }
 
@@ -3063,6 +3161,12 @@ class SelectCompetitionScoresBySpecialtyAndDivisionResult {
   final String divisionName;
   final String participantFirstName;
   final String participantLastName;
+  final int? participantColumn;
+  final int? participantSeries;
+  final int clubId;
+  final String ageDivisionName;
+  final String genderName;
+  final String clubName;
   SelectCompetitionScoresBySpecialtyAndDivisionResult({
     required this.participantId,
     required this.divisionId,
@@ -3075,6 +3179,12 @@ class SelectCompetitionScoresBySpecialtyAndDivisionResult {
     required this.divisionName,
     required this.participantFirstName,
     required this.participantLastName,
+    this.participantColumn,
+    this.participantSeries,
+    required this.clubId,
+    required this.ageDivisionName,
+    required this.genderName,
+    required this.clubName,
   });
 }
 
@@ -3090,6 +3200,12 @@ class SelectCompetitionScoresBySpecialtyAndDivisionAndGenreResult {
   final String divisionName;
   final String participantFirstName;
   final String participantLastName;
+  final int? participantColumn;
+  final int? participantSeries;
+  final String ageDivisionName;
+  final int clubId;
+  final String genderName;
+  final String clubName;
   SelectCompetitionScoresBySpecialtyAndDivisionAndGenreResult({
     required this.participantId,
     required this.divisionId,
@@ -3102,6 +3218,12 @@ class SelectCompetitionScoresBySpecialtyAndDivisionAndGenreResult {
     required this.divisionName,
     required this.participantFirstName,
     required this.participantLastName,
+    this.participantColumn,
+    this.participantSeries,
+    required this.ageDivisionName,
+    required this.clubId,
+    required this.genderName,
+    required this.clubName,
   });
 }
 
@@ -3117,6 +3239,12 @@ class SelectCompetitionScoresBySpecialtyAndDivisionAndGenreAndAgeIdResult {
   final String divisionName;
   final String participantFirstName;
   final String participantLastName;
+  final int? participantColumn;
+  final int? participantSeries;
+  final int clubId;
+  final String ageDivisionName;
+  final String genderName;
+  final String clubName;
   SelectCompetitionScoresBySpecialtyAndDivisionAndGenreAndAgeIdResult({
     required this.participantId,
     required this.divisionId,
@@ -3129,6 +3257,12 @@ class SelectCompetitionScoresBySpecialtyAndDivisionAndGenreAndAgeIdResult {
     required this.divisionName,
     required this.participantFirstName,
     required this.participantLastName,
+    this.participantColumn,
+    this.participantSeries,
+    required this.clubId,
+    required this.ageDivisionName,
+    required this.genderName,
+    required this.clubName,
   });
 }
 

@@ -65,6 +65,8 @@ flutter:
     - assets/images/certificate_bronze.png
     - assets/images/papillons.png
     - assets/defaults.sql
+    - assets/docs/StartList.xlsx
+    - assets/docs/Resultat.xlsx
 
 
   # An image asset can refer to one or more resolution-specific "variants", see

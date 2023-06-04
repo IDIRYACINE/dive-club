@@ -11,6 +11,10 @@ class GenderId {
 
     return GenderId(1);
   }
+
+  bool equals(GenderId currGender) {
+    return currGender.value == value;
+  }
 }
 
 class GenderName {
