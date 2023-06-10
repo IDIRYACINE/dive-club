@@ -8,7 +8,7 @@ import 'package:dive_club/core/entities/diving/export.dart';
 import 'package:dive_club/core/entities/genders/export.dart';
 import 'package:dive_club/core/entities/participants/export.dart';
 import 'package:dive_club/core/infrastrucutre/utilities/excel_manager_port.dart';
-import 'package:dive_club/infrastructure/excel-service/metadata.dart';
+import 'package:dive_club/infrastructure/excelService/metadata.dart';
 import 'package:dive_club/resources/resources.dart';
 import 'dart:io';
 import 'package:excel/excel.dart';

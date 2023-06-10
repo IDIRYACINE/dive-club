@@ -523,6 +523,9 @@ FROM
     INNER JOIN DivingDivisions USING(division_id)
     INNER JOIN Clubs USING(club_id)
 ORDER BY
+    Participants.gender_id,
+    Participants.division_id,
+    AgeDivisions.age_division_id,
     Participants.participant_series;
 
 selectParticiapnsBySpecialty(REQUIRED :id AS INTEGER):

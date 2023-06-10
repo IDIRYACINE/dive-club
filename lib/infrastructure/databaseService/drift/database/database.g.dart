@@ -2638,7 +2638,7 @@ abstract class _$AppDb extends GeneratedDatabase {
   Selectable<SelectParticipantsAndOrderBySeriesResult>
       selectParticipantsAndOrderBySeries() {
     return customSelect(
-        'SELECT Participants.*, DivingSpecialties.specialty_name, DivingDivisions.division_name, AgeDivisions.age_division_name, Genders.gender_name, Clubs.club_name FROM Participants INNER JOIN DivingSpecialties USING(specialty_id)INNER JOIN AgeDivisionsEntry USING(age_division_year)INNER JOIN AgeDivisions ON AgeDivisions.age_division_id = AgeDivisionsEntry.age_division_id INNER JOIN Genders USING(gender_id)INNER JOIN DivingDivisions USING(division_id)INNER JOIN Clubs USING(club_id)ORDER BY Participants.participant_series',
+        'SELECT Participants.*, DivingSpecialties.specialty_name, DivingDivisions.division_name, AgeDivisions.age_division_name, Genders.gender_name, Clubs.club_name FROM Participants INNER JOIN DivingSpecialties USING(specialty_id)INNER JOIN AgeDivisionsEntry USING(age_division_year)INNER JOIN AgeDivisions ON AgeDivisions.age_division_id = AgeDivisionsEntry.age_division_id INNER JOIN Genders USING(gender_id)INNER JOIN DivingDivisions USING(division_id)INNER JOIN Clubs USING(club_id)ORDER BY Participants.gender_id, Participants.division_id, AgeDivisions.age_division_id, Participants.participant_series',
         variables: [],
         readsFrom: {
           divingSpecialties,

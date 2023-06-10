@@ -7,6 +7,7 @@ import 'package:dive_club/core/entities/participants/export.dart';
 import 'package:dive_club/resources/resources.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
+import 'package:pdf/widgets.dart';
 import 'package:printing/printing.dart';
 
 import 'page.dart';
@@ -53,8 +54,8 @@ class PapillonPrinter {
   }
 
   Future<Uint8List> createPapillonsDocument(
-      List<ParticipantEntity> entities) async {
-    final font = await fontFromAssetBundle('assets/fonts/Tahoma.ttf');
+      List<ParticipantEntity> entities,[TtfFont? loadedFont]) async {
+    final font = loadedFont ?? await fontFromAssetBundle('assets/fonts/Tahoma.ttf');
     final fontTheme = pw.ThemeData.withFont(
         base: font, bold: font, italic: font, boldItalic: font);
 
@@ -111,8 +112,8 @@ class PapillonPrinter {
     );
   }
 
-  Future<void> displayPreview() async {
-    final dialog = PrinterDialog(preparedDoc: await pdf.save());
+  Future<void> displayPreview([Uint8List? preparedDocBytes]) async {
+    final dialog = PrinterDialog(preparedDoc: preparedDocBytes ?? await pdf.save());
 
     NavigationService.displayDialog(dialog);
   }

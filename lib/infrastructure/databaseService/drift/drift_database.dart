@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:dive_club/core/infrastrucutre/database/export.dart';
 import 'package:dive_club/core/infrastrucutre/utilities/excel_manager_port.dart';
-import 'package:dive_club/infrastructure/database-service/drift/mappers/division_mapper.dart';
+import 'package:dive_club/infrastructure/databaseService/drift/mappers/division_mapper.dart';
 import 'package:dive_club/resources/resources.dart';
 
 import 'database/database.dart';

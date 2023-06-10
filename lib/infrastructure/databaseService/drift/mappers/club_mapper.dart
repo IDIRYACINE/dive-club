@@ -1,7 +1,7 @@
 
  import 'package:dive_club/core/entities/clubs/export.dart';
 import 'package:dive_club/core/infrastrucutre/database/export.dart';
-import 'package:dive_club/infrastructure/database-service/drift/database/database.dart' as raw;
+import 'package:dive_club/infrastructure/databaseService/drift/database/database.dart' as raw;
 
 List<ClubEntity> mapToDomainClub(List<raw.Club> clubs, ClubMapperPort mapper) {
 

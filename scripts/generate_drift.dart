@@ -2,7 +2,7 @@
 import 'dart:io';
 
 void main() async {
-    const folderPath = 'lib/infrastructure/database-service/drift/';
+    const folderPath = 'lib/infrastructure/databaseService/drift/';
 
   final result = await Process.run(
     'flutter',
