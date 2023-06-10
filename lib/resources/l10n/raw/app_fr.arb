@@ -43,6 +43,7 @@
     "addAgeDivisionLabel" : "Add ageDivision",
     "updateAgeDivisionLabel" : "Update ageDivision",
     "ageDivisionList" : "AgeDivision list",
-    "clubList" : "Club list"
+    "clubList" : "Club list",
+    "preparingPrint" : "Preparing print"
 
     }

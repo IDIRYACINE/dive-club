@@ -32,6 +32,11 @@ abstract class NavigationService {
     return key.currentState!.pushReplacementNamed(route, arguments: arguments);
   }
 
+  static void replaceDialog(Widget dialog) {
+    Navigator.of(currentContext).pop();
+    displayDialog(dialog);
+  }
+
   static Future pushNamedAndClear(String route, {arguments}) {
     return key.currentState!.pushNamedAndRemoveUntil(
       route,

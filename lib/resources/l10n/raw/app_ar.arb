@@ -38,10 +38,12 @@
     "general": "عام",
     "settings": "الإعدادات",
     "appVersion": "نسخة التطبيق",
-    "addClubLabel" : "Add club",
-    "updateClubLabel" : "Update club",
-    "addAgeDivisionLabel" : "Add ageDivision",
-    "updateAgeDivisionLabel" : "Update ageDivision",
-    "ageDivisionList" : "AgeDivision list",
-    "clubList" : "Club list"
+    "addClubLabel" : "اضافة نادي",
+    "updateClubLabel" : "تحديث نادي",
+    "addAgeDivisionLabel" : "اضافة فئة عمرية",
+    "updateAgeDivisionLabel" : "تحديث فئة عمرية",
+    "ageDivisionList" : "قائمة الفئات العمرية",
+    "clubList" : "قائمة الاندية",
+    "preparingPrint" : "جاري التحضير للطباعة"
+
 }

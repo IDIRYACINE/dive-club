@@ -1,5 +1,4 @@
 import 'package:dive_club/application/commons/widgets/filter.dart';
-import 'package:dive_club/application/features/competition/logic/printer.dart';
 import 'package:dive_club/application/features/competition/ui/forms.dart';
 import 'package:dive_club/application/features/divisions/feature.dart';
 import 'package:dive_club/application/features/specialties/feature.dart';
@@ -49,7 +48,6 @@ class ScoreController {
   void onRegister(BuildContext context) {
     final isFormValid = key.currentState!.validate();
     if (isFormValid) {
-
       final bloc = BlocProvider.of<CompetitionBloc>(context);
       final divisionBloc = BlocProvider.of<DivisionBloc>(context);
       final specialtyBloc = BlocProvider.of<SpecialtyBloc>(context);
@@ -108,10 +106,9 @@ class ScoreController {
   }
 
   void printPrizes(CompetitionBloc bloc) async {
-    final printer = CompetitionPrinter();
-    printer.prepareNewDocument();
-    await printer.createCertifiactesDocument(bloc.state.scores);
-    printer.displayPreview();
+    ServicesProvider.instance()
+        .printerPort
+        .printCertificates(bloc.state.scores);
   }
 
   void updateScore(String? value) {
@@ -147,8 +144,7 @@ class ScoreController {
   Future<ParticipantEntity?> searchParticipant(int searchId) async {
     final databasePort = ServicesProvider.instance().databasePort;
 
-    final options =
-        LoadParticipantsOptions(participantId: searchId);
+    final options = LoadParticipantsOptions(participantId: searchId);
 
     final result = await databasePort.loadParticipants(options);
 
@@ -164,5 +160,4 @@ class ScoreController {
     const dialog = ScoreDialog();
     NavigationService.displayDialog(dialog);
   }
-
 }
