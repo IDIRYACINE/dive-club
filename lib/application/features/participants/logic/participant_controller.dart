@@ -1,4 +1,3 @@
-import 'package:dive_club/application/commons/dialogs/report_printer_dialog.dart';
 import 'package:dive_club/application/commons/utility/formaters.dart';
 import 'package:dive_club/application/commons/widgets/filter.dart';
 import 'package:dive_club/application/features/participants/ui/forms.dart';
@@ -103,10 +102,6 @@ class ParticipantController {
     NavigationService.displayDialog(dialog);
   }
 
-  Future<void> printParticipants() async {
-    const dialog = ReportsDialog();
-    NavigationService.displayDialog(dialog);
-  }
 
   void updateFirstName(String value) {
     _data.firstName = value;

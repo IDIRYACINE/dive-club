@@ -5,15 +5,20 @@ import 'package:dive_club/core/entities/genders/export.dart';
 import 'package:dive_club/core/entities/participants/export.dart';
 import 'package:dive_club/core/infrastrucutre/database/export.dart';
 import 'package:dive_club/core/infrastrucutre/utilities/excel_manager_port.dart';
+import 'package:dive_club/core/infrastrucutre/utilities/printer_port.dart';
 
-class ReportStartList {
+class DiveReportGenerator {
   final ExcelManagerPort excelPort;
   final DatabasePort dbPort;
+  final PrinterPort printerPort;
 
   final String engagementFilesDirectory = "diveClub/data/engagements";
   final String engagementsOutputDirectory = "diveClub/outputs/engagements";
 
-  ReportStartList({required this.excelPort, required this.dbPort});
+  DiveReportGenerator(
+      {required this.printerPort,
+      required this.excelPort,
+      required this.dbPort});
 
   Future<void> registerParticipants() async {
     final registrations =
@@ -125,7 +130,7 @@ class ReportStartList {
   }
 
   Future<EngagementsRecords> generateParticipantsSeries(
-      {bool updateDb = true}) async {
+      {bool updateDb = true, bool print = true}) async {
     final EngagementsRecords engagementsRecords = [];
 
     const genderIds = [0, 1];
@@ -157,6 +162,10 @@ class ReportStartList {
         for (List<ParticipantEngagement> engagements in engagementsRecords) {
           dbPort.updateParticipantsSeries(engagements);
         }
+      }
+
+      if (print) {
+        printerPort.printStartLists(engagementsRecords);
       }
     }
 
@@ -215,5 +224,13 @@ class ReportStartList {
     }
 
     return results;
+  }
+
+  Future<void> printPapillons() async {
+    final options = LoadParticipantsOptions(orderBySeries: true);
+
+    final participants = (await dbPort.loadParticipants(options)).participants;
+
+    printerPort.printPapillons(participants);
   }
 }

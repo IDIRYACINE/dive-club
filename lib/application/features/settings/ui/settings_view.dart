@@ -1,4 +1,3 @@
-
 import 'package:dive_club/resources/l10n/l10n.dart';
 import 'package:dive_club/resources/measures.dart';
 import 'package:flutter/material.dart';
@@ -7,23 +6,21 @@ import '../logic/controller.dart';
 import '../state/livemodel.dart';
 import 'setting_card.dart';
 
-class SettingsView extends StatelessWidget{
+class SettingsView extends StatelessWidget {
   const SettingsView({Key? key}) : super(key: key);
 
   @override
-  
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final controller = SettingsController(SettingsLiveDataModel.instance());
     final localizations = AppLocalizations.of(context)!;
-    
+
     return Padding(
       padding: const EdgeInsets.all(AppMeasures.paddingsLarge),
       child: SizedBox(
         width: double.infinity,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          
           children: [
             Text(
               localizations.settings,
@@ -44,7 +41,6 @@ class SettingsView extends StatelessWidget{
                       rowData: [
                         SettingRowData(
                           title: localizations.displayLanguage,
-                          
                           onClick: () {
                             controller.changeDisplayLangauge(context);
                           },
@@ -52,14 +48,13 @@ class SettingsView extends StatelessWidget{
                       ],
                     ),
                     const SizedBox(
-              height: AppMeasures.space,
-            ),
+                      height: AppMeasures.space,
+                    ),
                     SettingCard(
                       sectionTitle: localizations.about,
                       rowData: [
                         SettingRowData(
                           title: localizations.developerContact,
-                          
                           onClick: () {
                             controller.displayAbout(context);
                           },
@@ -72,7 +67,34 @@ class SettingsView extends StatelessWidget{
                     ),
                   ],
                 ),
-               
+                const SizedBox(
+                  width: 20,
+                ),
+                SettingCard(
+                  sectionTitle: localizations.general,
+                  rowData: [
+                    SettingRowData(
+                        title: localizations.importEngagementsLabel,
+                        onClick: controller.importEngagements),
+                    SettingRowData(
+                      title: localizations.generateStartListsLabel,
+                      onClick: controller.generateStartLists,
+                    ),
+                    SettingRowData(
+                      title: localizations.printStartListsLabel,
+                      onClick: controller.printStartLists,
+                    ),
+                    SettingRowData(
+                      title: localizations.printRankingsLabel,
+                      onClick: controller.printRankings,
+                    ),
+                    SettingRowData(
+                      title: localizations.printPapillonsLabel,
+                      onClick: controller.printPapillons,
+                    ),
+                   
+                  ],
+                )
               ],
             ),
           ],

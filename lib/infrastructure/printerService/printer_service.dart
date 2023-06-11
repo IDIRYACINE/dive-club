@@ -4,6 +4,7 @@ import 'package:dive_club/core/entities/participants/entity.dart';
 import 'package:dive_club/core/infrastrucutre/database/export.dart';
 import 'package:dive_club/core/infrastrucutre/utilities/excel_manager_port.dart';
 import 'package:dive_club/core/infrastrucutre/utilities/printer_port.dart';
+import 'package:dive_club/infrastructure/printerService/results/results_printer.dart';
 import 'package:flutter/foundation.dart';
 import 'package:printing/printing.dart';
 
@@ -59,27 +60,32 @@ class PrinterService implements PrinterPort {
   }
 
   @override
-  Future<void> printPapillons() async {
+  Future<void> printPapillons(List<ParticipantEntity> pariticpants ) async {
     NavigationService.displayDialog(const PreparingPrinterDialog());
 
-    final options = LoadParticipantsOptions(orderBySeries: true);
-
-    final participants =
-        (await databasePort.loadParticipants(options)).participants;
+   
 
     compute((message) async {
       final participants = message["participants"] as List<ParticipantEntity>;
       final font = message["font"] as pw.TtfFont;
       return await createPapillonsDocument(participants, font);
-    }, {"participants": participants, "font": font}).then((binaryDocument) {
+    }, {"participants": pariticpants, "font": font}).then((binaryDocument) {
       _displayPreview(binaryDocument);
     });
   }
 
   @override
-  Future<void> printResultsFile(ResultsRecords scores) {
-    // TODO: implement printResultsFile
-    throw UnimplementedError();
+  Future<void> printRankings(RankingsList rankings) async {
+    NavigationService.displayDialog(const PreparingPrinterDialog());
+
+
+    compute((message) async {
+      final rankings = message["rankings"] as List<List<CompetitionScoreEntity>>;
+      final font = message["font"] as pw.TtfFont;
+      return await createRankingsDocument(rankings, font);
+    }, {"rankings": rankings, "font": font}).then((binaryDocument) {
+      _displayPreview(binaryDocument);
+    });
   }
 
   @override
@@ -99,7 +105,4 @@ class PrinterService implements PrinterPort {
     final dialog = PrinterDialog(preparedDoc: preparedDocBytes);
     NavigationService.replaceDialog(dialog);
   }
-
-
-
 }

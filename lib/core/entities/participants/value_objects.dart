@@ -19,6 +19,11 @@ class ParticipantColumn{
     return ParticipantColumn._(value);
   }
 
+  @override
+  String toString(){
+    return value.toString();
+  }
+
 
 }
 
@@ -26,6 +31,11 @@ class ParticipantSeries{
   final int value;
 
   ParticipantSeries(this.value);
+
+  @override
+  String toString(){
+    return value.toString();
+  }
   
 }
 

@@ -21,11 +21,7 @@ class ParticipantsActions extends StatelessWidget {
             style: theme.textTheme.headlineSmall),
         Row(
           children: [
-            ButtonPrimary(
-              onPressed: () => controler.printParticipants(),
-              text: localizations.printParticipantsLabel,
-            ),
-            const SizedBox(width: 10),
+          
             ButtonPrimary(
               onPressed: controler.addParticipant,
               text: localizations.addParticipantLabel,

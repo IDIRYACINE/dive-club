@@ -44,6 +44,11 @@
     "updateAgeDivisionLabel" : "تحديث فئة عمرية",
     "ageDivisionList" : "قائمة الفئات العمرية",
     "clubList" : "قائمة الاندية",
-    "preparingPrint" : "جاري التحضير للطباعة"
+    "preparingPrint" : "جاري التحضير للطباعة",
+    "importEngagementsLabel" : "استيراد المشاركين",
+    "generateStartListsLabel" : "تحضير قوائم الانطلاق",
+    "printStartListsLabel" : "طباعة قوائم الانطلاق",
+    "printPapillonsLabel" :"طباعة الفراشات",
+    "importParticipantsFromPlatform" : "استيراد المشاركين من المنصة"
 
 }

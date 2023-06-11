@@ -26,13 +26,14 @@ class ScoreDataHolder {
 
 class ScoreController {
   static final key = GlobalKey<FormState>();
-  late ReportStartList report;
+  late DiveReportGenerator report;
 
   ScoreController([ParticipantEntity? entity]) {
     _data = ScoreDataHolder(entity);
     final servicesProvider = ServicesProvider.instance();
 
-    report = ReportStartList(
+    report = DiveReportGenerator(
+        printerPort: servicesProvider.printerPort,
         dbPort: servicesProvider.databasePort,
         excelPort: servicesProvider.excelManagerPort);
   }

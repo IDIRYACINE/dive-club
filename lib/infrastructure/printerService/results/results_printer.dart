@@ -6,23 +6,28 @@ import 'package:pdf/widgets.dart';
 
 import 'results_page.dart';
 
+typedef RankingsList = List<List<CompetitionScoreEntity>>;
+
 Future<Uint8List> createRankingsDocument(
-    List<CompetitionScoreEntity> scores, TtfFont font) async {
+    RankingsList rankings, TtfFont font) async {
   final pdf = Document();
-  const double maxParticipantPerPage = 15;
+  const double maxParticipantPerPage = 40;
 
   final fontTheme = ThemeData.withFont(
       base: font, bold: font, italic: font, boldItalic: font);
 
-  List<CompetitionScoreEntity> scoresInPage = [];
-  for (CompetitionScoreEntity participant in scores) {
-    scoresInPage.add(participant);
-    bool reachedMaxParticipants =
-        (scoresInPage.length == maxParticipantPerPage) ||
-            (participant == scores.last);
-    if (reachedMaxParticipants) {
-      _createRankingPage(scoresInPage, fontTheme, pdf);
-      scoresInPage = [];
+  for (List<CompetitionScoreEntity> results in rankings) {
+    List<CompetitionScoreEntity> participantsInPage = [];
+
+    for (CompetitionScoreEntity participant in results) {
+      participantsInPage.add(participant);
+      bool reachedMaxParticipants =
+          (participantsInPage.length == maxParticipantPerPage) ||
+              (participant == results.last);
+      if (reachedMaxParticipants) {
+        _createRankingPage(participantsInPage, fontTheme, pdf);
+        participantsInPage = [];
+      }
     }
   }
 

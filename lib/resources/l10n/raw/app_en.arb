@@ -38,11 +38,16 @@
     "general" : "General",
     "settings" : "Settings",
     "appVersion" : "App Version",
-    "addClubLabel" : "Add club",
-    "updateClubLabel" : "Update club",
-    "addAgeDivisionLabel" : "Add ageDivision",
-    "updateAgeDivisionLabel" : "Update ageDivision",
-    "ageDivisionList" : "AgeDivision list",
-    "clubList" : "Club list",
-    "preparingPrint" : "Preparing print"
+    "addClubLabel" : "Add Club",
+    "updateClubLabel" : "Update Club",
+    "addAgeDivisionLabel" : "Add AgeDivision",
+    "updateAgeDivisionLabel" : "Update AgeDivision",
+    "ageDivisionList" : "AgeDivision List",
+    "clubList" : "Club List",
+    "preparingPrint" : "Preparing print",
+    "importEngagementsLabel" : "Import Engagements ",
+    "generateStartListsLabel" : "Generate StartLists",
+    "printStartListsLabel" : "Print StartLists",
+    "printPapillonsLabel" :"Print Papillons",
+    "importParticipantsFromPlatform" : "Import Platform Engagements"
 }
