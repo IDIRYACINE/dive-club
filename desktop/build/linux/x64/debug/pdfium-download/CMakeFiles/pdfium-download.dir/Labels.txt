@@ -1,0 +1,14 @@
+# Target labels
+ pdfium-download
+# Source files and their labels
+/home/idir/Desktop/Projects/dive-club/build/linux/x64/debug/pdfium-download/CMakeFiles/pdfium-download
+/home/idir/Desktop/Projects/dive-club/build/linux/x64/debug/pdfium-download/CMakeFiles/pdfium-download.rule
+/home/idir/Desktop/Projects/dive-club/build/linux/x64/debug/pdfium-download/CMakeFiles/pdfium-download-complete.rule
+/home/idir/Desktop/Projects/dive-club/build/linux/x64/debug/pdfium-download/pdfium-download-prefix/src/pdfium-download-stamp/pdfium-download-build.rule
+/home/idir/Desktop/Projects/dive-club/build/linux/x64/debug/pdfium-download/pdfium-download-prefix/src/pdfium-download-stamp/pdfium-download-configure.rule
+/home/idir/Desktop/Projects/dive-club/build/linux/x64/debug/pdfium-download/pdfium-download-prefix/src/pdfium-download-stamp/pdfium-download-download.rule
+/home/idir/Desktop/Projects/dive-club/build/linux/x64/debug/pdfium-download/pdfium-download-prefix/src/pdfium-download-stamp/pdfium-download-install.rule
+/home/idir/Desktop/Projects/dive-club/build/linux/x64/debug/pdfium-download/pdfium-download-prefix/src/pdfium-download-stamp/pdfium-download-mkdir.rule
+/home/idir/Desktop/Projects/dive-club/build/linux/x64/debug/pdfium-download/pdfium-download-prefix/src/pdfium-download-stamp/pdfium-download-patch.rule
+/home/idir/Desktop/Projects/dive-club/build/linux/x64/debug/pdfium-download/pdfium-download-prefix/src/pdfium-download-stamp/pdfium-download-test.rule
+/home/idir/Desktop/Projects/dive-club/build/linux/x64/debug/pdfium-download/pdfium-download-prefix/src/pdfium-download-stamp/pdfium-download-update.rule

@@ -1,0 +1,12 @@
+# This is a generated file and its contents are an internal implementation detail.
+# The download step will be re-executed if anything in this file changes.
+# No other meaning or use of this file is supported.
+
+method=url
+command=/usr/bin/cmake;-P;/home/idir/Desktop/Projects/dive-club/build/linux/x64/debug/pdfium-download/pdfium-download-prefix/src/pdfium-download-stamp/download-pdfium-download.cmake;COMMAND;/usr/bin/cmake;-P;/home/idir/Desktop/Projects/dive-club/build/linux/x64/debug/pdfium-download/pdfium-download-prefix/src/pdfium-download-stamp/verify-pdfium-download.cmake;COMMAND;/usr/bin/cmake;-P;/home/idir/Desktop/Projects/dive-club/build/linux/x64/debug/pdfium-download/pdfium-download-prefix/src/pdfium-download-stamp/extract-pdfium-download.cmake
+source_dir=/home/idir/Desktop/Projects/dive-club/build/linux/x64/debug/pdfium-src
+work_dir=/home/idir/Desktop/Projects/dive-club/build/linux/x64/debug
+url(s)=https://github.com/bblanchon/pdfium-binaries/releases/download/chromium/5200/pdfium-linux-x64.tgz
+hash=
+no_extract=
+
