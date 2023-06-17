@@ -12,7 +12,12 @@ export const authOptions =
     secret: process.env.NEXTJS_SECRET,
     session: {
         strategy: "jwt",
-      },
+    },
+
+
+    pages: {
+        signIn: "/login",
+    },
 
     providers: [
         GoogleProvider({
