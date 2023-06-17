@@ -2,9 +2,10 @@
 
 import { ClubNavigationDrawer } from "@/features/navigation";
 import { store } from "@/stores/clubsStore/store";
-import { Box } from "@mui/material";
+import { Box, Container } from "@mui/material";
 import { Provider } from "react-redux"
-
+import { LocalizationProvider } from '@mui/x-date-pickers';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 
 
 export default function RootLayout({
@@ -17,8 +18,11 @@ export default function RootLayout({
     <Provider store={store}>
       <Box className="flex flex-row">
         <ClubNavigationDrawer />
-        {children}
-
+        <Container className="flex justify-center align-center p-4">
+          <LocalizationProvider dateAdapter={AdapterDayjs}>
+            {children}
+          </LocalizationProvider>
+        </Container>
       </Box>
     </Provider>
 

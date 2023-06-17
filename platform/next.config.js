@@ -7,6 +7,9 @@ const nextConfig = {
 
         return config;
       },
+      generateEtags: false,
+      reactStrictMode: true,
+
 }
 
 module.exports = nextConfig

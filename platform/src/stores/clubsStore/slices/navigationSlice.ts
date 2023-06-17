@@ -1,16 +1,18 @@
-import { clubPanels, PanelEntity } from '@/features/navigation'
+import {clubPanels, PanelEntity } from '../../../features/navigation/logic/panelEntity'
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
 
 interface StoreInitialState {
     panels: PanelEntity[],
-    selectedPanelIndex: number
+    selectedPanelIndex: number,
+    isModalOpen:boolean,
 }
 
 
 const initialState: StoreInitialState = {
     panels: clubPanels,
-    selectedPanelIndex: 0
+    selectedPanelIndex: 0,
+    isModalOpen : false
 }
 
 export const navigationSlice = createSlice({
@@ -21,11 +23,16 @@ export const navigationSlice = createSlice({
 
             state.selectedPanelIndex = action.payload.index
         },
-
+        openModal(state){
+            state.isModalOpen = true
+        },
+        closeModal(state){
+            state.isModalOpen = false
+        }
 
     },
 })
 
-export const { setActivePanel } = navigationSlice.actions
+export const { setActivePanel,openModal,closeModal } = navigationSlice.actions
 
 export default navigationSlice.reducer

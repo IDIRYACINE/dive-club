@@ -47,7 +47,7 @@ export function ClubNavigationDrawer() {
 
 
     return (
-        <Box>
+        <Box className="flex flex-col">
             {
                 panels.map((panel, index) => <ClubNavigationButton key={panel.index} panel={panel} selectedIndex={activeIndex} />)
             }
