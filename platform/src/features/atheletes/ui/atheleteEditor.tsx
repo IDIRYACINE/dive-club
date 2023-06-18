@@ -1,6 +1,6 @@
-import {  IAthelete } from "@/core/athelete/AtheleteEntity";
-import { selectEditedAthelete, useAppDispatch, useAppSelector } from "@/stores/clubsStore/hooks";
-import { addAthelete, deleteAthelete, updateAthelete } from "@/stores/clubsStore/slices/atheleteSlice";
+import {  IAthelete } from "@/core/athelete/atheleteEntity";
+import {  useAppDispatch, useAppSelector } from "@/stores/clubsStore/hooks";
+import { addAthelete,selectEditedAthelete, deleteAthelete, updateAthelete } from "@/stores/clubsStore/slices/atheleteSlice";
 import { closeModal } from "@/stores/clubsStore/slices/navigationSlice";
 import { Box, Typography,Button, Modal, Container } from "@mui/material";
 import dayjs from "dayjs";

@@ -1,23 +1,25 @@
-import { IAthelete } from "@/core/athelete/atheleteEntity";
 import { useAppDispatch, useAppSelector } from "@/stores/clubsStore/hooks";
-import { selectAthelete } from "@/stores/clubsStore/slices/atheleteSlice";
 import { openModal } from "@/stores/clubsStore/slices/navigationSlice";
+import {selectParticipant} from "@/stores/clubsStore/slices/participantsSlice"
 import {
     Box, TableCell,Button,
     TableRow, Paper, Table, TableBody, TableContainer, TableHead, Typography
 } from "@mui/material";
 import clsx from "clsx";
+import {useRouter} from "next/navigation"
+import {IParticipant} from "@/core/participants/participantsEntity"
 
 interface ActionsHeaderProps {
     className?: string
 }
+
 function ActionsHeader(props:ActionsHeaderProps) {
 
-    const dispatch = useAppDispatch()
+    const router = useRouter()
 
 
-    function handleAddAthelete() {
-        dispatch(openModal())
+    function handleAddParticipant() {
+        router.push("/clubs/participants/new")
 
     }
 
@@ -29,21 +31,21 @@ function ActionsHeader(props:ActionsHeaderProps) {
 
     return (<Box className={boxClassName}>
 
-        <Typography variant="h6">Atheletes</Typography>
+        <Typography variant="h6">Participants</Typography>
 
-        <Button onClick={handleAddAthelete} color="primary" variant="contained">
-        Add Athelete
+        <Button onClick={handleAddParticipant} color="primary" variant="contained">
+        Add Participant
     </Button>
 
 
     </Box>)
 }
 
-interface AtheleteHeaderProps {
+interface ParticipantHeaderProps {
     headers: string[]
 }
 
-function AtheleteHeader(props: AtheleteHeaderProps) {
+function ParticipantHeader(props: ParticipantHeaderProps) {
     const className = "font-bold";
     return (
         <TableHead>
@@ -59,36 +61,36 @@ function AtheleteHeader(props: AtheleteHeaderProps) {
 }
 
 
-interface AtheleteRowProps {
-    athelet: IAthelete,
-    onClick : (athelte:IAthelete) => void
+interface ParticipantRowProps {
+    participant: IParticipant,
+    onClick : (participant:IParticipant) => void
 }
 
-function AtheleteRow(props: AtheleteRowProps) {
-    const { athelet } = props
+function ParticipantRow(props: ParticipantRowProps) {
+    const { participant } = props
 
     function handleClick(){
-        props.onClick(athelet)
+        props.onClick(participant)
     }
 
     return (
         <TableRow onClick={handleClick} hover>
-            <TableCell>{athelet.firstName}</TableCell>
-            <TableCell>{athelet.lastName}</TableCell>
-            <TableCell>{athelet.gender}</TableCell>
+            <TableCell>{participant.athelete.firstName}</TableCell>
+            <TableCell>{participant.athelete.lastName}</TableCell>
+            <TableCell>{participant.athelete.gender}</TableCell>
         </TableRow>
     )
 }
 
 
-export function AtheleteTable() {
+export function ParticipantTable() {
 
-    const atheletes = useAppSelector(state => state.athelete.atheletes)
+    const Participants = useAppSelector(state => state.participant.participants)
     const headersData = ["firstName", "lastName", "gender"]
     const dispatch = useAppDispatch()
 
-    function handleRowClick(athelete:IAthelete){
-        dispatch(selectAthelete(athelete.atheleteId))
+    function handleRowClick(participant:IParticipant){
+        dispatch(selectParticipant(participant.athelete.atheleteId))
         dispatch(openModal())
     }
 
@@ -98,12 +100,12 @@ export function AtheleteTable() {
             <TableContainer component={Paper}>
                 <Table sx={{ minWidth: 700 }} aria-label="customized table">
 
-                    <AtheleteHeader headers={headersData} />
+                    <ParticipantHeader headers={headersData} />
                     <TableBody>
-                        {atheletes.map((athelete) => (
-                            <AtheleteRow
-                                key={athelete.atheleteId}
-                                athelet={athelete}
+                        {Participants.map((participant) => (
+                            <ParticipantRow
+                                key={participant.athelete.atheleteId}
+                                participant={participant}
                                 onClick={handleRowClick}
                             />
                         ))}

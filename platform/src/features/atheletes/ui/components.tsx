@@ -1,6 +1,6 @@
 "use client";
 
-import { AtheleteGender } from "@/core/athelete/AtheleteEntity";
+import { AtheleteGender } from "@/core/athelete/atheleteEntity";
 import { Box, MenuItem, Select, SelectChangeEvent, TextField } from "@mui/material";
 import { DatePicker } from "@mui/x-date-pickers";
 import { Dayjs } from "dayjs";

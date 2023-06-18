@@ -1,5 +1,6 @@
-import {  IAthelete } from '@/core/athelete/AtheleteEntity'
-import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { IAthelete } from '@/core/athelete/atheleteEntity'
+import { RootState } from '@/stores'
+import { createSelector, createSlice, PayloadAction } from '@reduxjs/toolkit'
 
 
 interface StoreInitialState {
@@ -29,7 +30,7 @@ export const atheleteSlice = createSlice({
         },
         updateAthelete(state, action: PayloadAction<IAthelete>) {
             const index = state.atheletes.findIndex(target => target.atheleteId === action.payload.atheleteId)
-            if(index !== -1){
+            if (index !== -1) {
                 state.atheletes[index] = action.payload
             }
             state.selectedAtheleteId = null
@@ -38,11 +39,32 @@ export const atheleteSlice = createSlice({
         selectAthelete(state, action: PayloadAction<string>) {
             state.selectedAtheleteId = action.payload
         },
-        
+
 
     },
 })
 
-export const {addAthelete,updateAthelete,deleteAthelete } = atheleteSlice.actions
-export const {selectAthelete} = atheleteSlice.actions
+
+export const selectAtheletes = (state: RootState) => state.athelete.atheletes
+export const selectEditAtheleteId = (state: RootState) => state.athelete.selectedAtheleteId
+
+export const selectEditedAthelete = createSelector([selectAtheletes, selectEditAtheleteId],
+    (atheletes, atheleteId) => {
+        return atheletes.find((athelete) => athelete.atheleteId === atheleteId)
+    }
+
+)
+
+export const selectAtheleteById = createSelector(
+    [selectAtheletes, (license : {atheleteLicense:string}) => license.atheleteLicense],
+    (atheletes, atheleteId) => {
+        return atheletes.find((athelete) => athelete.atheleteId === atheleteId)
+    }
+)
+
+
+export const { addAthelete, updateAthelete, deleteAthelete } = atheleteSlice.actions
+export const { selectAthelete } = atheleteSlice.actions
 export default atheleteSlice.reducer
+
+
