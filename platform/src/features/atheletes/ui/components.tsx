@@ -9,7 +9,9 @@ import { useState } from "react";
 
 interface GenderDropdownProps {
     updateGender: (value: string) => void,
-    initialValue?: string,
+    initialGender?: string,
+    className?: string,
+
 }
 export function GenderDropdown(props: GenderDropdownProps) {
     const genders = [
@@ -17,7 +19,7 @@ export function GenderDropdown(props: GenderDropdownProps) {
         AtheleteGender.female().value
     ]
 
-    const [gender,setGender] = useState(props.initialValue??genders[0]) 
+    const [gender, setGender] = useState(props.initialGender ?? genders[0])
 
     function handleChange(event: SelectChangeEvent<string>) {
         const value = event.target.value
@@ -27,6 +29,7 @@ export function GenderDropdown(props: GenderDropdownProps) {
 
     return (
         <Select
+            className={props.className}
             labelId="athelete-gender-select-label"
             id="athelete-gender-select"
             value={gender}
@@ -45,67 +48,72 @@ export function GenderDropdown(props: GenderDropdownProps) {
 
 interface AgeDropdownProps {
     updateAge: (value: string) => void,
-    initialValue?: Dayjs,
+    initialAge?: Dayjs,
+    className?: string,
 
 }
 export function AgeDropdown(props: AgeDropdownProps) {
 
-    const [age,setAge] = useState<Dayjs | null>(props.initialValue??null)
+    const [age, setAge] = useState<Dayjs | null>(props.initialAge ?? null)
 
-    
+
     function handleChange(newValue: Dayjs | null): void {
         setAge(newValue)
         props.updateAge(newValue?.format("YYYY-MM-DD") || "")
     }
 
-    return(<DatePicker value ={age} onChange={(newValue) => handleChange(newValue)}/>)
+    return (<DatePicker className={props.className} value={age} onChange={(newValue) => handleChange(newValue)} />)
 }
 
 
-interface AtheleteNameFieldProps{
+interface AtheleteNameFieldProps {
     updateName: (firstName: string) => void,
     updateLastName: (lastName: string) => void,
-    initalFirstName? :string,
-    initalLastName?:string
+    initialFirstName?: string,
+    initialLastName?: string,
+    className?: string,
+
 }
 
-export function AtheleteNameField(props: AtheleteNameFieldProps){
-    const [firstName, setFirstName] = useState<string>(props.initalFirstName??"")
-    const [lastName, setLastName] = useState<string>(props.initalLastName??"")
+export function AtheleteNameField(props: AtheleteNameFieldProps) {
+    const [firstName, setFirstName] = useState<string>(props.initialFirstName ?? "")
+    const [lastName, setLastName] = useState<string>(props.initialLastName ?? "")
 
-    function handleFirstNameChange(event: React.ChangeEvent<HTMLInputElement>){
+    function handleFirstNameChange(event: React.ChangeEvent<HTMLInputElement>) {
         setFirstName(event.target.value)
         props.updateName(event.target.value)
     }
 
-    function handleLastNameChange(event: React.ChangeEvent<HTMLInputElement>){
+    function handleLastNameChange(event: React.ChangeEvent<HTMLInputElement>) {
         setLastName(event.target.value)
         props.updateLastName(event.target.value)
     }
 
-    return(
+    return (
         <Box className="flex flex-row">
-            <TextField value={firstName} id="first-name" label="First Name" variant="outlined" onChange={handleFirstNameChange}/>
-            <TextField value={lastName} id="last-name" label="Last Name" variant="outlined" onChange={handleLastNameChange}/>
+            <TextField className={props.className} value={firstName} id="first-name" label="First Name" variant="outlined" onChange={handleFirstNameChange} />
+            <TextField className={props.className} value={lastName} id="last-name" label="Last Name" variant="outlined" onChange={handleLastNameChange} />
         </Box>
     )
 }
 
-interface AtheleteLicenseProps{
+interface AtheleteLicenseProps {
     updateAtheleteLicense: (license: string) => void,
-    initialLicense? :string
-}
-export function AtheleteLicense(props: AtheleteLicenseProps){
-    const [license, setLicense] = useState<string>(props.initialLicense??"")
+    initialLicense?: string,
+    className?: string,
 
-    function handleLicenseChange(event: React.ChangeEvent<HTMLInputElement>){
+}
+export function AtheleteLicense(props: AtheleteLicenseProps) {
+    const [license, setLicense] = useState<string>(props.initialLicense ?? "")
+
+    function handleLicenseChange(event: React.ChangeEvent<HTMLInputElement>) {
         setLicense(event.target.value)
         props.updateAtheleteLicense(event.target.value)
     }
 
-    return(
+    return (
         <Box className="flex flex-row">
-            <TextField value={license} id="athelete-license" label="Athelete License" variant="outlined" onChange={handleLicenseChange}/>
+            <TextField className={props.className} value={license} id="athelete-license" label="Athelete License" variant="outlined" onChange={handleLicenseChange} />
         </Box>
     )
 }

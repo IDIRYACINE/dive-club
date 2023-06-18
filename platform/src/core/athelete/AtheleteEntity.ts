@@ -4,12 +4,17 @@ export class AtheleteId {
     constructor(public readonly value: number) { }
 
 
-    equals(other: AtheleteId): boolean {
+    equals(other: AtheleteId | null): boolean {
+        if(other === null) return false
         return other.value === this.value
     }
 
     static fromString(value: string): AtheleteId {
         return new AtheleteId(parseInt(value))
+    }
+
+    toString(): string {
+        return this.value.toString()
     }
 }
 
@@ -36,13 +41,29 @@ export class AtheleteGender {
     }
 }
 
+
+export class AtheleteBirthDate{
+    constructor(public readonly value: Date){
+
+    }
+
+    static fromRaw(raw: string): AtheleteBirthDate{
+        return new AtheleteBirthDate(new Date(raw))
+    }
+
+    toString(): string{
+        return this.value.toISOString()
+    }
+}
+
 export class AtheleteEntity {
 
     constructor(
         public readonly atheleteId: AtheleteId,
         public readonly firstName: AtheleteName,
         public readonly lastName: AtheleteName,
-        public readonly gender: AtheleteGender
+        public readonly gender: AtheleteGender,
+        public readonly dateOfBirth: AtheleteBirthDate
 
     ) {
 
@@ -57,9 +78,12 @@ export class AtheleteEntity {
             AtheleteId.fromString(raw.atheleteId),
             new AtheleteName(raw.firstName),
             new AtheleteName(raw.lastName),
-            AtheleteGender.fromRaw(raw.gender)
+            AtheleteGender.fromRaw(raw.gender),
+            AtheleteBirthDate.fromRaw(raw.dateOfBirth)
         )
     }
+
+    
 }
 
 export interface IAthelete {

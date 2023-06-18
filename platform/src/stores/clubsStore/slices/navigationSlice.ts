@@ -1,9 +1,9 @@
-import {clubPanels, PanelEntity } from '../../../features/navigation/logic/panelEntity'
+import {clubPanels, IPanelEntity } from '../../../features/navigation/logic/panelEntity'
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
 
 interface StoreInitialState {
-    panels: PanelEntity[],
+    panels: IPanelEntity[],
     selectedPanelIndex: number,
     isModalOpen:boolean,
 }
@@ -19,7 +19,7 @@ export const navigationSlice = createSlice({
     name: 'navigation',
     initialState: initialState,
     reducers: {
-        setActivePanel(state, action: PayloadAction<PanelEntity>) {
+        setActivePanel(state, action: PayloadAction<IPanelEntity>) {
 
             state.selectedPanelIndex = action.payload.index
         },

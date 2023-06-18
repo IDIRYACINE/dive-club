@@ -5,16 +5,14 @@ import { createTheme, ThemeOptions } from '@mui/material/styles';
     mode: 'light',
     primary: {
       main: '#3f51b5',
+      contrastText: "#fff" 
     },
-    secondary: {
-      main: '#ce7e00',
+    secondary : {
+      main: "#808080",
+      contrastText: "#fff"
     },
-    background : {
-        default : '#ce7e00'
-    },
-    action  :{
-        disabled: '#3f51b5',
-
+    background: {
+      default: '#cbcbcb',
     }
   },
 };

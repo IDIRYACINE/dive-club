@@ -1,16 +1,17 @@
-import { PrimaryTextButton } from "@/components/buttons";
-import { AtheleteEntity } from "@/core/athelete/AtheleteEntity";
+import { IAthelete } from "@/core/athelete/AtheleteEntity";
 import { useAppDispatch, useAppSelector } from "@/stores/clubsStore/hooks";
-import { selectAthelete, setEditMode } from "@/stores/clubsStore/slices/atheleteSlice";
+import { selectAthelete } from "@/stores/clubsStore/slices/atheleteSlice";
 import { openModal } from "@/stores/clubsStore/slices/navigationSlice";
 import {
-    Box, TableCell,
+    Box, TableCell,Button,
     TableRow, Paper, Table, TableBody, TableContainer, TableHead, Typography
 } from "@mui/material";
+import clsx from "clsx";
 
-
-
-function ActionsHeader() {
+interface ActionsHeaderProps {
+    className?: string
+}
+function ActionsHeader(props:ActionsHeaderProps) {
 
     const dispatch = useAppDispatch()
 
@@ -20,17 +21,19 @@ function ActionsHeader() {
 
     }
 
-    const props = {
-        text: "Add Athelete",
-        onClick: handleAddAthelete,
-    }
+    const boxClassName= clsx([
+        props.className,
+        "flex flex-row justify-between"
+    ])
 
 
-    return (<Box className="flex flex-row justify-between">
+    return (<Box className={boxClassName}>
 
         <Typography variant="h6">Atheletes</Typography>
 
-        <PrimaryTextButton {...props} />
+        <Button onClick={handleAddAthelete} color="primary" variant="contained">
+        Add Athelete
+    </Button>
 
 
     </Box>)
@@ -57,8 +60,8 @@ function AtheleteHeader(props: AtheleteHeaderProps) {
 
 
 interface AtheleteRowProps {
-    athelet: AtheleteEntity,
-    onClick : (athelte:AtheleteEntity) => void
+    athelet: IAthelete,
+    onClick : (athelte:IAthelete) => void
 }
 
 function AtheleteRow(props: AtheleteRowProps) {
@@ -70,9 +73,9 @@ function AtheleteRow(props: AtheleteRowProps) {
 
     return (
         <TableRow onClick={handleClick} hover>
-            <TableCell>{athelet.firstName.value}</TableCell>
-            <TableCell>{athelet.lastName.value}</TableCell>
-            <TableCell>{athelet.gender.value}</TableCell>
+            <TableCell>{athelet.firstName}</TableCell>
+            <TableCell>{athelet.lastName}</TableCell>
+            <TableCell>{athelet.gender}</TableCell>
         </TableRow>
     )
 }
@@ -80,19 +83,18 @@ function AtheleteRow(props: AtheleteRowProps) {
 
 export function AtheleteTable() {
 
-    const atheletes = useAppSelector(state => state.athelete.athelete)
+    const atheletes = useAppSelector(state => state.athelete.atheletes)
     const headersData = ["firstName", "lastName", "gender"]
     const dispatch = useAppDispatch()
 
-    function handleRowClick(athelete:AtheleteEntity){
+    function handleRowClick(athelete:IAthelete){
         dispatch(selectAthelete(athelete.atheleteId))
-        dispatch(setEditMode(true))
         dispatch(openModal())
     }
 
     return (
         <Box>
-            <ActionsHeader />
+            <ActionsHeader className="m-4" />
             <TableContainer component={Paper}>
                 <Table sx={{ minWidth: 700 }} aria-label="customized table">
 
@@ -100,7 +102,7 @@ export function AtheleteTable() {
                     <TableBody>
                         {atheletes.map((athelete) => (
                             <AtheleteRow
-                                key={athelete.atheleteId.value}
+                                key={athelete.atheleteId}
                                 athelet={athelete}
                                 onClick={handleRowClick}
                             />

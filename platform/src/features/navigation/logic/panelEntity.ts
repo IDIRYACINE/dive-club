@@ -1,41 +1,23 @@
 
 
- interface IPanelEntity {
+export interface IPanelEntity {
     title: string,
+    path: string,
     index: number
 }
 
 
- class PanelEntity {
-    public readonly title: string;
-    public readonly index: number;
 
-    constructor(props : {
-        title: string,
-        index: number
-    }
-    ) { 
-        this.title = props.title;
-        this.index = props.index;
-    }
 
-    toRaw(): IPanelEntity {
-        return {
-            title: this.title,
-            index: this.index
-        }
-    }
-}
-
- const clubPanels:PanelEntity[] = [
-    new PanelEntity({
+export const clubPanels:IPanelEntity[] = [
+   {
         title:"Atheletes",
+        path:"/clubs/",
         index:0,
-    }),
-    new PanelEntity({
+    },
+   {
         title:"Participants",
+        path:"/clubs/participants",
         index:1
-    })
+    }
 ]
-
-export {clubPanels,PanelEntity}

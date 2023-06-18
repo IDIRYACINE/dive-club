@@ -2,7 +2,8 @@
 
 import { ClubNavigationDrawer } from "@/features/navigation";
 import { store } from "@/stores/clubsStore/store";
-import { Box, Container, ThemeProvider } from "@mui/material";
+import { Box, Container } from "@mui/material";
+import {ThemeProvider} from "@mui/material/styles"
 import { Provider } from "react-redux"
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
@@ -15,8 +16,9 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <ThemeProvider theme={clubTheme}>
       <Provider store={store}>
+            <ThemeProvider theme={clubTheme}>
+
         <Box className="flex flex-row">
           <ClubNavigationDrawer />
           <Container className="flex justify-center align-center p-4">
@@ -25,8 +27,9 @@ export default function RootLayout({
             </LocalizationProvider>
           </Container>
         </Box>
-      </Provider>
     </ThemeProvider>
+
+      </Provider>
 
 
   )
