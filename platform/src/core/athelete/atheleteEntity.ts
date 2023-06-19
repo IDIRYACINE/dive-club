@@ -5,7 +5,7 @@ export class AtheleteId {
 
 
     equals(other: AtheleteId | null): boolean {
-        if(other === null) return false
+        if (other === null) return false
         return other.value === this.value
     }
 
@@ -42,16 +42,16 @@ export class AtheleteGender {
 }
 
 
-export class AtheleteBirthDate{
-    constructor(public readonly value: Date){
+export class AtheleteBirthDate {
+    constructor(public readonly value: Date) {
 
     }
 
-    static fromRaw(raw: string): AtheleteBirthDate{
+    static fromRaw(raw: string): AtheleteBirthDate {
         return new AtheleteBirthDate(new Date(raw))
     }
 
-    toString(): string{
+    toString(): string {
         return this.value.toISOString()
     }
 }
@@ -83,7 +83,7 @@ export class AtheleteEntity {
         )
     }
 
-    
+
 }
 
 export interface IAthelete {
@@ -93,3 +93,21 @@ export interface IAthelete {
     gender: string,
     dateOfBirth: string,
 }
+
+
+export const mockAtheletes: IAthelete[] = [
+    {
+        atheleteId: "1",
+        firstName: "John",
+        lastName: "Doe",
+        gender: "Male",
+        dateOfBirth: "1990/01/01"
+    },
+    {
+        atheleteId: "2",
+        firstName: "Jane",
+        lastName: "Doe",
+        gender: "Female",
+        dateOfBirth: "1990/01/01"
+    },
+]

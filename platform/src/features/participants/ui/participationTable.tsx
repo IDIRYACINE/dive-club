@@ -1,13 +1,14 @@
+"use client";
+
 import { useAppDispatch, useAppSelector } from "@/stores/clubsStore/hooks";
-import { openModal } from "@/stores/clubsStore/slices/navigationSlice";
-import {selectParticipant} from "@/stores/clubsStore/slices/participantsSlice"
+import {selectParticipant, setEditingMode} from "@/stores/clubsStore/slices/participantsSlice"
 import {
     Box, TableCell,Button,
     TableRow, Paper, Table, TableBody, TableContainer, TableHead, Typography
 } from "@mui/material";
 import clsx from "clsx";
-import {useRouter} from "next/navigation"
 import {IParticipant} from "@/core/participants/participantsEntity"
+import { openModal } from "@/stores/clubsStore/slices/navigationSlice";
 
 interface ActionsHeaderProps {
     className?: string
@@ -15,11 +16,12 @@ interface ActionsHeaderProps {
 
 function ActionsHeader(props:ActionsHeaderProps) {
 
-    const router = useRouter()
+    const dispatch = useAppDispatch()
 
 
     function handleAddParticipant() {
-        router.push("/clubs/participants/new")
+        dispatch(setEditingMode(false))
+        dispatch(openModal())
 
     }
 
@@ -71,6 +73,7 @@ function ParticipantRow(props: ParticipantRowProps) {
 
     function handleClick(){
         props.onClick(participant)
+
     }
 
     return (
@@ -91,6 +94,7 @@ export function ParticipantTable() {
 
     function handleRowClick(participant:IParticipant){
         dispatch(selectParticipant(participant.athelete.atheleteId))
+        dispatch(setEditingMode(true))
         dispatch(openModal())
     }
 

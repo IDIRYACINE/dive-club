@@ -1,5 +1,7 @@
-import { IParticipant,IParticipation, IParticipationEntity } from '@/core/participants/participantsEntity'
-import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { IAthelete } from '@/core/athelete/atheleteEntity'
+import { specialties, divisions } from '@/core/divisions/divisions'
+import { IParticipant, IParticipation, IParticipationEntity, mockParticipants } from '@/core/participants/participantsEntity'
+import { createSelector, createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { RootState } from '../store'
 
 
@@ -8,14 +10,16 @@ interface StoreInitialState {
     participants: IParticipant[],
     specialties: IParticipationEntity[],
     divisions: IParticipationEntity[],
-    selectedParticipantId: string | null
+    selectedParticipantId: string | null,
+    isEditing: boolean
 }
 
 const initialState: StoreInitialState = {
-    participants: [],
-    divisions: [],
-    specialties: [],
+    participants: mockParticipants,
+    divisions: divisions,
+    specialties: specialties,
     selectedParticipantId: null,
+    isEditing: false
 }
 
 export const participantsSlice = createSlice({
@@ -66,11 +70,21 @@ export const participantsSlice = createSlice({
             const index = state.participants.findIndex(target => target.athelete.atheleteId === state.selectedParticipantId)
             if (index !== -1) {
                 state.participants[index].participations = state.participants[index].participations
-                .filter(participation => 
-                    !(participation.division.id === action.payload.division.id
-                        && participation.specialty.id === action.payload.specialty.id)
-                )
+                    .filter(participation =>
+                        !(participation.division.id === action.payload.division.id
+                            && participation.specialty.id === action.payload.specialty.id)
+                    )
             }
+        },
+        updateAtheleteParticipation(state, action: PayloadAction<IParticipation[]>) {
+            const index = state.participants.findIndex(target => target.athelete.atheleteId === state.selectedParticipantId)
+            if (index !== -1) {
+                state.participants[index].participations = action.payload
+            }
+
+        },
+        setEditingMode(state, action: PayloadAction<boolean>) {
+            state.isEditing = action.payload
         }
 
 
@@ -79,13 +93,25 @@ export const participantsSlice = createSlice({
 })
 
 export const selectParticipants = (state: RootState) => state.participant.participants
-export const selectEditedParticipant = (state: RootState) => state.participant.participants.find(target => target.athelete.atheleteId === state.participant.selectedParticipantId)
 export const selectEditParticipantId = (state: RootState) => state.participant.selectedParticipantId
 export const selectSpecialties = (state: RootState) => state.participant.specialties
 export const selectDivisions = (state: RootState) => state.participant.divisions
-export const selectParticipantById = (state: RootState) => state.participant.participants.find(target => target.athelete.atheleteId === state.participant.selectedParticipantId)
-export const selectParticipantParticipations = (state: RootState) => state.participant.participants.find(target => target.athelete.atheleteId === state.participant.selectedParticipantId)!.participations
+const selectedParticipantIndex = (state: StoreInitialState) => state.participants.findIndex(target => target.athelete.atheleteId === state.selectedParticipantId)
 
-export const { addParticipant, updateParticipant, deleteParticipant,addAtheleteParticipation } = participantsSlice.actions
-export const { selectParticipant,deleteAtheleteParticipation, setSpecialties, setDivisions } = participantsSlice.actions
+export const selectEditedParticipant = createSelector(
+    [selectParticipants, selectEditParticipantId], (participants, selectedParticipantId) =>
+    participants.find(target => target.athelete.atheleteId === selectedParticipantId)
+
+)
+
+export const selectParticipantParticipations =
+    createSelector(
+        [selectParticipants, selectEditParticipantId], (participants, selectedParticipantId) =>
+        participants.find(target => target.athelete.atheleteId === selectedParticipantId)?.participations ?? []
+
+    )
+
+
+export const { addParticipant,setEditingMode, updateParticipant, deleteParticipant, addAtheleteParticipation } = participantsSlice.actions
+export const { selectParticipant, updateAtheleteParticipation,deleteAtheleteParticipation, setSpecialties, setDivisions } = participantsSlice.actions
 export default participantsSlice.reducer

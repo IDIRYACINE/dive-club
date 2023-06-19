@@ -1,9 +1,13 @@
-import {ParticipantTable} from "@/features/participants"
+"use client";
 
-export default function Page(){
+import {ParticipantTable,ParticipationDialog} from "@/features/participants"
+
+export default function ParticipantsPage(){
     return (
-        
+            <>
             <ParticipantTable />
+            <ParticipationDialog />
+            </>
         
     )
 }

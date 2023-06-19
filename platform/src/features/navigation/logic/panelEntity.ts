@@ -1,3 +1,4 @@
+import { atheletesRoute, participantsRoute } from "./routes"
 
 
 export interface IPanelEntity {
@@ -12,12 +13,12 @@ export interface IPanelEntity {
 export const clubPanels:IPanelEntity[] = [
    {
         title:"Atheletes",
-        path:"/clubs/",
+        path:atheletesRoute,
         index:0,
     },
    {
         title:"Participants",
-        path:"/clubs/participants",
+        path:participantsRoute,
         index:1
     }
 ]

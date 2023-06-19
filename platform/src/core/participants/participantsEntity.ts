@@ -1,17 +1,51 @@
-import { IAthelete } from "@/core/athelete/atheleteEntity";
+import { IAthelete, mockAtheletes } from "@/core/athelete/atheleteEntity";
 
 export interface IParticipation {
-    specialty:IParticipationEntity,
-    division:IParticipationEntity,
+    specialty: IParticipationEntity,
+    division: IParticipationEntity,
 }
 
 export interface IParticipant {
     athelete: IAthelete,
-    participations : IParticipation[]
+    participations: IParticipation[]
 
 }
 
-export interface  IParticipationEntity{
+export interface IParticipationEntity {
     id: number,
     name: string,
 }
+
+
+export const mockParticipants: IParticipant[] = [
+    {
+        athelete: mockAtheletes[0],
+        participations: [
+            {
+                specialty: {
+                    id: 1,
+                    name: "Specialty 1"
+                },
+                division: {
+                    id: 1,
+                    name: "Division 1"
+                }
+            }
+        ]
+    },
+    {
+        athelete: mockAtheletes[1],
+        participations: [
+            {
+                specialty: {
+                    id: 2,
+                    name: "Specialty 2"
+                },
+                division: {
+                    id: 2,
+                    name: "Division 2"
+                }
+            }
+        ]
+    },
+]

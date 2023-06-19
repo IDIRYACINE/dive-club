@@ -1,7 +1,11 @@
+"use client";
+
 import { useAppDispatch, useAppSelector } from "@/stores/clubsStore/hooks"
 import { selectEditedParticipant, selectEditParticipantId, selectParticipant } from "@/stores/clubsStore/slices/participantsSlice"
-import { Box, Button, TextField, Container, Typography, SelectChangeEvent, MenuItem, Select } from "@mui/material"
+import { TextField, Container, Typography, SelectChangeEvent, MenuItem, Select } from "@mui/material"
 import { useState, ChangeEvent } from "react"
+import Stack from '@mui/material/Stack';
+import Button from '@mui/material/Button';
 
 
 import { IAthelete } from "@/core/athelete/atheleteEntity"
@@ -21,16 +25,20 @@ export function AtheleteLicenseSearch() {
     }
 
     return (
-        <Box>
+        <Stack direction="row" spacing={2} >
             <TextField value={license} onChange={handleOnChange} id="outlined-license" label="Athelete License" variant="outlined" />
             <Button onClick={handleSearch} color="primary" variant="contained">Search</Button>
-        </Box>
+        </Stack>
     )
 }
 
-export function ParticipantCard() {
-    const athelete = useAppSelector(state => selectEditedParticipant(state)?.athelete)
+interface ParticipantCardProps {
+    athelete?: IAthelete
+}
 
+export function ParticipantCard(props: ParticipantCardProps) {
+    const { athelete } = props
+    
     const containerStyle = {
         display: "flex",
         flexDirection: "column",
@@ -41,10 +49,10 @@ export function ParticipantCard() {
 
     return (
         <Container sx={containerStyle}>
-            <Box className="flex flex-row justify-between">
+            <Stack direction="row" spacing={2} >
                 <Typography variant="body1">Athelete : {athelete?.lastName ?? unkown} {athelete?.firstName ?? unkown}</Typography>
                 <Typography variant="body1">Birth : {athelete?.dateOfBirth ?? unkown}</Typography>
-            </Box>
+            </Stack>
 
         </Container>
     )
@@ -54,7 +62,7 @@ export function ParticipantCard() {
 
 
 interface ParticipationEntityDropdownProps {
-    updateEntity: (value: number) => void,
+    updateEntity: (value: IParticipationEntity) => void,
     initialValue?: string,
     className?: string,
     entities: IParticipationEntity[],
@@ -71,7 +79,7 @@ export function ParticipationEntityDropdown(props: ParticipationEntityDropdownPr
         const index = parseInt(event.target.value)
         const value = entities.find(target => target.id === index)!
         setEntity(value)
-        updateEntity(index)
+        updateEntity(value)
     }
 
     return (

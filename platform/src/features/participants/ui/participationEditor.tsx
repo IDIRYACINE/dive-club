@@ -1,7 +1,14 @@
+"use client";
+
+import { IAthelete } from "@/core/athelete/atheleteEntity";
 import { IParticipationEntity, IParticipation } from "@/core/participants/participantsEntity"
+import { participantsRoute } from "@/features/navigation/logic/routes";
 import { useAppDispatch, useAppSelector } from "@/stores/clubsStore/hooks"
-import { addAtheleteParticipation, deleteAtheleteParticipation, selectParticipantParticipations } from "@/stores/clubsStore/slices/participantsSlice"
-import { Typography, TableHead, TableCell, TableRow, Box, Button, TableContainer, Table, TableBody, Paper } from "@mui/material"
+import { updateAthelete } from "@/stores/clubsStore/slices/atheleteSlice";
+import { addAtheleteParticipation, addParticipant, deleteAtheleteParticipation, selectEditedParticipant, selectParticipantParticipations, updateAtheleteParticipation } from "@/stores/clubsStore/slices/participantsSlice"
+import { Typography, TableHead, TableCell, TableRow, Box, Button, TableContainer, Table, TableBody, Paper, Stack } from "@mui/material"
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 import { AtheleteLicenseSearch, ParticipantCard, ParticipationEntityDropdown } from "./components"
 
 
@@ -44,25 +51,31 @@ function ParticipationEntityHeader(props: AtheleteHeaderProps) {
     );
 }
 
-function AtheleteParticipationActions() {
+interface AtheleteParticipationActionsProps {
+    participations: IParticipation[]
+    onAdd: (participation: IParticipation) => void
+}
+
+function AtheleteParticipationActions(props: AtheleteParticipationActionsProps) {
 
     const sharedClassName = "m-2"
 
     const divisions = useAppSelector(state => state.participant.divisions)
     const specialties = useAppSelector(state => state.participant.specialties)
-    const dispatch = useAppDispatch()
 
-    const divisionSpecialtySelection = {
-        divisionId: 0,
-        specialtyId: 0,
+
+
+    const divisionSpecialtySelection: IParticipation = {
+        division: divisions[0],
+        specialty: specialties[0],
     }
 
-    function updateDivision(value: number) {
-        divisionSpecialtySelection.divisionId = value
+    function updateDivision(value: IParticipationEntity) {
+        divisionSpecialtySelection.division = value
     }
 
-    function updateSpecialty(value: number) {
-        divisionSpecialtySelection.specialtyId = value
+    function updateSpecialty(value: IParticipationEntity) {
+        divisionSpecialtySelection.specialty = value
     }
 
     const specialtyDropdownProps = {
@@ -80,17 +93,7 @@ function AtheleteParticipationActions() {
     }
 
     function handleAdd() {
-
-        dispatch(addAtheleteParticipation({
-            division: {
-                id: divisionSpecialtySelection.divisionId,
-                name: ""
-            },
-            specialty: {
-                id: divisionSpecialtySelection.specialtyId,
-                name: ""
-            }
-        }))
+        props.onAdd(divisionSpecialtySelection)
     }
 
     return (
@@ -105,46 +108,97 @@ function AtheleteParticipationActions() {
         </Box>
     )
 }
+interface AtheleteParticipationTableProps {
+    onDeletion: (participation: IParticipation) => void,
+    participations: IParticipation[],
+    athelete: IAthelete | undefined | null
+}
 
-function AtheleteParticipationTable() {
-    const participations = useAppSelector(state => selectParticipantParticipations(state))
+function AtheleteParticipationTable(props: AtheleteParticipationTableProps) {
     const headersData = ["division", "specialty"]
     const dispatch = useAppDispatch()
+    const router = useRouter()
+    const isEditMode = useAppSelector(state => state.participant.isEditing)
 
     function handleRowClick(participation: IParticipation) {
-        dispatch(deleteAtheleteParticipation(
-            participation
-        ))
+        props.onDeletion(participation)
+    }
+
+    function cancel() {
+        router.push(participantsRoute)
+    }
+
+    function save() {
+        if (isEditMode) {
+            dispatch(updateAtheleteParticipation(props.participations))
+
+        }
+        else {
+
+            if (!props.athelete) {
+                return;
+            }
+
+            dispatch(addParticipant({
+                athelete: props.athelete,
+                participations: props.participations,
+            }))
+        }
+        router.push(participantsRoute)
     }
 
     return (
+        <Stack direction="column" spacing={4}>
+            <TableContainer component={Paper}>
+                <Table sx={{ minWidth: 700 }} aria-label="customized table">
 
-        <TableContainer component={Paper}>
-            <Table sx={{ minWidth: 700 }} aria-label="customized table">
+                    <ParticipationEntityHeader headers={headersData} />
+                    <TableBody>
+                        {props.participations.map((participation, index) => (
+                            <ParticipationEntityRow
+                                key={"participation" + index}
+                                participation={participation}
+                                onClick={handleRowClick}
+                            />
+                        ))}
+                    </TableBody>
+                </Table>
+            </TableContainer>
 
-                <ParticipationEntityHeader headers={headersData} />
-                <TableBody>
-                    {participations.map((participation, index) => (
-                        <ParticipationEntityRow
-                            key={"participation" + index}
-                            participation={participation}
-                            onClick={handleRowClick}
-                        />
-                    ))}
-                </TableBody>
-            </Table>
-        </TableContainer>
+            <Box className="flex flex-row justify-between">
+                <Button onClick={cancel} >Cancel</Button>
+                <Button onClick={save} variant="contained" color="primary">Save</Button>
+            </Box>
+
+        </Stack>
 
     )
 }
 
 export function ParticipationEditor() {
+    const participationsQuery = useAppSelector(state => selectParticipantParticipations(state))
+    const [participations, setParticipations] = useState(participationsQuery)
+    const athelete = useAppSelector(state => selectEditedParticipant(state)?.athelete)
+
+
+    function addParticipation(participation: IParticipation) {
+        const exists = participations.find((target) => target.division.id === participation.division.id && target.specialty.id === participation.specialty.id)
+
+        if (!exists) {
+            setParticipations([...participations, participation])
+        }
+    }
+
+    function deleteParticipation(participation: IParticipation) {
+        setParticipations(participations.filter((target) => target.division.id !== participation.division.id && target.specialty.id !== participation.specialty.id))
+    }
+
     return (
-        <Box>
+        <Box sx={{"backgroundColor":"white","padding":"4rem","overflowY":"scroll"}}>
             <AtheleteLicenseSearch />
-            <ParticipantCard />
-            <AtheleteParticipationActions />
-            <AtheleteParticipationTable />
+            <ParticipantCard athelete={athelete} />
+            <AtheleteParticipationActions participations={participations} onAdd={addParticipation} />
+            <AtheleteParticipationTable athelete={athelete} onDeletion={deleteParticipation} participations={participations} />
         </Box>
     )
 }

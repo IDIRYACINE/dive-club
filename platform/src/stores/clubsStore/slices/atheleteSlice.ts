@@ -1,4 +1,4 @@
-import { IAthelete } from '@/core/athelete/atheleteEntity'
+import { IAthelete, mockAtheletes } from '@/core/athelete/atheleteEntity'
 import { RootState } from '@/stores'
 import { createSelector, createSlice, PayloadAction } from '@reduxjs/toolkit'
 
@@ -9,7 +9,7 @@ interface StoreInitialState {
 }
 
 const initialState: StoreInitialState = {
-    atheletes: [],
+    atheletes: mockAtheletes,
     selectedAtheleteId: null,
 }
 
