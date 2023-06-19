@@ -1,9 +1,10 @@
+"use client"
+
+import { ClubStartLists } from "@/features/startLists";
 
 
 export default function Page(){
     return (
-        <div>
-            <h1>Page</h1>
-        </div>
+       <ClubStartLists/>
     )
 }

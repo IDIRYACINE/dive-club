@@ -111,6 +111,13 @@ export const selectParticipantParticipations =
 
     )
 
+export const selectFilteredParticipants = createSelector(
+    [selectParticipants,(_,gender:string) => gender],
+    (participants,gender) => participants.filter(
+        target => target.athelete.gender === gender
+    )
+)    
+
 
 export const { addParticipant,setEditingMode, updateParticipant, deleteParticipant, addAtheleteParticipation } = participantsSlice.actions
 export const { selectParticipant, updateAtheleteParticipation,deleteAtheleteParticipation, setSpecialties, setDivisions } = participantsSlice.actions
