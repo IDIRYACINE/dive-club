@@ -49,5 +49,8 @@
     "generateStartListsLabel": "Generer StartList",
     "printStartListsLabel": "Imprimer StartList",
     "printPapillonsLabel": "Imprimer Papillons",
-    "importParticipantsFromPlatform": "Importer Platforme Engagements"
+    "importParticipantsFromPlatform": "Importer Platforme Engagements",
+    "participantActionsLabel" : "Participant Actions",
+    "editParticipantLabel" : "Edit Participant",
+    "deleteParticipantLabel" : "Delete Participant"
 }

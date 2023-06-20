@@ -2951,6 +2951,33 @@ abstract class _$AppDb extends GeneratedDatabase {
     });
   }
 
+  Future<int> deleteParticipant({required int participantId}) {
+    return customUpdate(
+      'DELETE FROM Participants WHERE participant_id = ?1',
+      variables: [Variable<int>(participantId)],
+      updates: {participants},
+      updateKind: UpdateKind.delete,
+    );
+  }
+
+  Future<int> deleteScore(
+      {required int divisionId,
+      required int specialtyId,
+      required int ageDivisionYear,
+      required int participantId}) {
+    return customUpdate(
+      'DELETE FROM Scores WHERE division_id = ?1 AND specialty_id = ?2 AND age_division_year = ?3 AND participant_id = ?4',
+      variables: [
+        Variable<int>(divisionId),
+        Variable<int>(specialtyId),
+        Variable<int>(ageDivisionYear),
+        Variable<int>(participantId)
+      ],
+      updates: {scores},
+      updateKind: UpdateKind.delete,
+    );
+  }
+
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();

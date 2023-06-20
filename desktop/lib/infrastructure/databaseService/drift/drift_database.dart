@@ -369,6 +369,20 @@ class DriftDatabaseService implements DatabasePort {
     return DatabaseOperationResult();
   }
 
+
+  @override
+  Future<DatabaseOperationResult> deleteParticipant(DeleteParticipantOptions options) async {
+      _database.deleteParticipant(participantId: options.id);
+
+      return DatabaseOperationResult();
+  }
+  
+  @override
+  Future<DatabaseOperationResult> updateParticipantOptions(UpdateParticipantOptions options) {
+    // TODO: implement updateParticipantOptions
+    throw UnimplementedError();
+  }
+
   @override
   Future<DatabaseOperationResult> insertDefaultValues() async {
     _database.doWhenOpened((e) async {
@@ -382,4 +396,19 @@ class DriftDatabaseService implements DatabasePort {
 
     return DatabaseOperationResult();
   }
+  
+  @override
+  Future<DatabaseOperationResult> deleteScore(DeleteScoreOptions options) async {
+    _database.deleteScore(participantId: options.participantId, divisionId: options.divisionId, specialtyId: options.specialityId, ageDivisionYear: options.ageDivisionId);
+
+    return DatabaseOperationResult();
+  }
+  
+  @override
+  Future<DatabaseOperationResult> updateScoreOptions(UpdateScoreOptions options) async{
+    _database.updateScore(participantId: options.participantId, divisionId: options.divisionId, specialtyId: options.specialityId, score: options.score);
+
+    return DatabaseOperationResult();
+  }
+  
 }

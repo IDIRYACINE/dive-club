@@ -39,4 +39,11 @@ abstract class DatabasePort {
       List<ParticipantEngagement> engagements);
 
   Future<DatabaseOperationResult> insertDefaultValues();
+
+  Future<DatabaseOperationResult> deleteParticipant(DeleteParticipantOptions options);
+  Future<DatabaseOperationResult> updateParticipantOptions(UpdateParticipantOptions options);
+
+  Future<DatabaseOperationResult> deleteScore(DeleteScoreOptions options);
+  Future<DatabaseOperationResult> updateScoreOptions(UpdateScoreOptions options);
+
 }

@@ -34,7 +34,7 @@ include CMakeFiles/rules.ninja
 #############################################
 # Logical path to working directory; prefix for absolute paths.
 
-cmake_ninja_workdir = /home/idir/Desktop/Projects/dive-club/build/linux/x64/debug/pdfium-download/
+cmake_ninja_workdir = /home/idir/Desktop/Projects/dive-club/desktop/build/linux/x64/debug/pdfium-download/
 
 #############################################
 # Utility command for pdfium-download
@@ -46,7 +46,7 @@ build pdfium-download: phony CMakeFiles/pdfium-download CMakeFiles/pdfium-downlo
 # Utility command for edit_cache
 
 build CMakeFiles/edit_cache.util: CUSTOM_COMMAND
-  COMMAND = cd /home/idir/Desktop/Projects/dive-club/build/linux/x64/debug/pdfium-download && /usr/bin/ccmake -S/home/idir/Desktop/Projects/dive-club/build/linux/x64/debug/pdfium-download -B/home/idir/Desktop/Projects/dive-club/build/linux/x64/debug/pdfium-download
+  COMMAND = cd /home/idir/Desktop/Projects/dive-club/desktop/build/linux/x64/debug/pdfium-download && /usr/bin/ccmake -S/home/idir/Desktop/Projects/dive-club/desktop/build/linux/x64/debug/pdfium-download -B/home/idir/Desktop/Projects/dive-club/desktop/build/linux/x64/debug/pdfium-download
   DESC = Running CMake cache editor...
   pool = console
   restat = 1
@@ -58,7 +58,7 @@ build edit_cache: phony CMakeFiles/edit_cache.util
 # Utility command for rebuild_cache
 
 build CMakeFiles/rebuild_cache.util: CUSTOM_COMMAND
-  COMMAND = cd /home/idir/Desktop/Projects/dive-club/build/linux/x64/debug/pdfium-download && /usr/bin/cmake --regenerate-during-build -S/home/idir/Desktop/Projects/dive-club/build/linux/x64/debug/pdfium-download -B/home/idir/Desktop/Projects/dive-club/build/linux/x64/debug/pdfium-download
+  COMMAND = cd /home/idir/Desktop/Projects/dive-club/desktop/build/linux/x64/debug/pdfium-download && /usr/bin/cmake --regenerate-during-build -S/home/idir/Desktop/Projects/dive-club/desktop/build/linux/x64/debug/pdfium-download -B/home/idir/Desktop/Projects/dive-club/desktop/build/linux/x64/debug/pdfium-download
   DESC = Running CMake to regenerate build system...
   pool = console
   restat = 1
@@ -76,7 +76,7 @@ build CMakeFiles/pdfium-download | ${cmake_ninja_workdir}CMakeFiles/pdfium-downl
 # Custom command for CMakeFiles/pdfium-download-complete
 
 build CMakeFiles/pdfium-download-complete pdfium-download-prefix/src/pdfium-download-stamp/pdfium-download-done | ${cmake_ninja_workdir}CMakeFiles/pdfium-download-complete ${cmake_ninja_workdir}pdfium-download-prefix/src/pdfium-download-stamp/pdfium-download-done: CUSTOM_COMMAND pdfium-download-prefix/src/pdfium-download-stamp/pdfium-download-install pdfium-download-prefix/src/pdfium-download-stamp/pdfium-download-mkdir pdfium-download-prefix/src/pdfium-download-stamp/pdfium-download-download pdfium-download-prefix/src/pdfium-download-stamp/pdfium-download-update pdfium-download-prefix/src/pdfium-download-stamp/pdfium-download-patch pdfium-download-prefix/src/pdfium-download-stamp/pdfium-download-configure pdfium-download-prefix/src/pdfium-download-stamp/pdfium-download-build pdfium-download-prefix/src/pdfium-download-stamp/pdfium-download-install pdfium-download-prefix/src/pdfium-download-stamp/pdfium-download-test
-  COMMAND = cd /home/idir/Desktop/Projects/dive-club/build/linux/x64/debug/pdfium-download && /usr/bin/cmake -E make_directory /home/idir/Desktop/Projects/dive-club/build/linux/x64/debug/pdfium-download/CMakeFiles && /usr/bin/cmake -E touch /home/idir/Desktop/Projects/dive-club/build/linux/x64/debug/pdfium-download/CMakeFiles/pdfium-download-complete && /usr/bin/cmake -E touch /home/idir/Desktop/Projects/dive-club/build/linux/x64/debug/pdfium-download/pdfium-download-prefix/src/pdfium-download-stamp/pdfium-download-done
+  COMMAND = cd /home/idir/Desktop/Projects/dive-club/desktop/build/linux/x64/debug/pdfium-download && /usr/bin/cmake -E make_directory /home/idir/Desktop/Projects/dive-club/desktop/build/linux/x64/debug/pdfium-download/CMakeFiles && /usr/bin/cmake -E touch /home/idir/Desktop/Projects/dive-club/desktop/build/linux/x64/debug/pdfium-download/CMakeFiles/pdfium-download-complete && /usr/bin/cmake -E touch /home/idir/Desktop/Projects/dive-club/desktop/build/linux/x64/debug/pdfium-download/pdfium-download-prefix/src/pdfium-download-stamp/pdfium-download-done
   DESC = Completed 'pdfium-download'
   restat = 1
 
@@ -85,7 +85,7 @@ build CMakeFiles/pdfium-download-complete pdfium-download-prefix/src/pdfium-down
 # Custom command for pdfium-download-prefix/src/pdfium-download-stamp/pdfium-download-build
 
 build pdfium-download-prefix/src/pdfium-download-stamp/pdfium-download-build | ${cmake_ninja_workdir}pdfium-download-prefix/src/pdfium-download-stamp/pdfium-download-build: CUSTOM_COMMAND pdfium-download-prefix/src/pdfium-download-stamp/pdfium-download-configure
-  COMMAND = cd /home/idir/Desktop/Projects/dive-club/build/linux/x64/debug/pdfium-build && /usr/bin/cmake -E echo_append && /usr/bin/cmake -E touch /home/idir/Desktop/Projects/dive-club/build/linux/x64/debug/pdfium-download/pdfium-download-prefix/src/pdfium-download-stamp/pdfium-download-build
+  COMMAND = cd /home/idir/Desktop/Projects/dive-club/desktop/build/linux/x64/debug/pdfium-build && /usr/bin/cmake -E echo_append && /usr/bin/cmake -E touch /home/idir/Desktop/Projects/dive-club/desktop/build/linux/x64/debug/pdfium-download/pdfium-download-prefix/src/pdfium-download-stamp/pdfium-download-build
   DESC = No build step for 'pdfium-download'
   restat = 1
 
@@ -94,7 +94,7 @@ build pdfium-download-prefix/src/pdfium-download-stamp/pdfium-download-build | $
 # Custom command for pdfium-download-prefix/src/pdfium-download-stamp/pdfium-download-configure
 
 build pdfium-download-prefix/src/pdfium-download-stamp/pdfium-download-configure | ${cmake_ninja_workdir}pdfium-download-prefix/src/pdfium-download-stamp/pdfium-download-configure: CUSTOM_COMMAND pdfium-download-prefix/tmp/pdfium-download-cfgcmd.txt pdfium-download-prefix/src/pdfium-download-stamp/pdfium-download-patch
-  COMMAND = cd /home/idir/Desktop/Projects/dive-club/build/linux/x64/debug/pdfium-build && /usr/bin/cmake -E echo_append && /usr/bin/cmake -E touch /home/idir/Desktop/Projects/dive-club/build/linux/x64/debug/pdfium-download/pdfium-download-prefix/src/pdfium-download-stamp/pdfium-download-configure
+  COMMAND = cd /home/idir/Desktop/Projects/dive-club/desktop/build/linux/x64/debug/pdfium-build && /usr/bin/cmake -E echo_append && /usr/bin/cmake -E touch /home/idir/Desktop/Projects/dive-club/desktop/build/linux/x64/debug/pdfium-download/pdfium-download-prefix/src/pdfium-download-stamp/pdfium-download-configure
   DESC = No configure step for 'pdfium-download'
   restat = 1
 
@@ -103,7 +103,7 @@ build pdfium-download-prefix/src/pdfium-download-stamp/pdfium-download-configure
 # Custom command for pdfium-download-prefix/src/pdfium-download-stamp/pdfium-download-download
 
 build pdfium-download-prefix/src/pdfium-download-stamp/pdfium-download-download | ${cmake_ninja_workdir}pdfium-download-prefix/src/pdfium-download-stamp/pdfium-download-download: CUSTOM_COMMAND pdfium-download-prefix/src/pdfium-download-stamp/download-pdfium-download.cmake pdfium-download-prefix/src/pdfium-download-stamp/pdfium-download-urlinfo.txt pdfium-download-prefix/src/pdfium-download-stamp/pdfium-download-mkdir
-  COMMAND = cd /home/idir/Desktop/Projects/dive-club/build/linux/x64/debug && /usr/bin/cmake -P /home/idir/Desktop/Projects/dive-club/build/linux/x64/debug/pdfium-download/pdfium-download-prefix/src/pdfium-download-stamp/download-pdfium-download.cmake && /usr/bin/cmake -P /home/idir/Desktop/Projects/dive-club/build/linux/x64/debug/pdfium-download/pdfium-download-prefix/src/pdfium-download-stamp/verify-pdfium-download.cmake && /usr/bin/cmake -P /home/idir/Desktop/Projects/dive-club/build/linux/x64/debug/pdfium-download/pdfium-download-prefix/src/pdfium-download-stamp/extract-pdfium-download.cmake && /usr/bin/cmake -E touch /home/idir/Desktop/Projects/dive-club/build/linux/x64/debug/pdfium-download/pdfium-download-prefix/src/pdfium-download-stamp/pdfium-download-download
+  COMMAND = cd /home/idir/Desktop/Projects/dive-club/desktop/build/linux/x64/debug && /usr/bin/cmake -P /home/idir/Desktop/Projects/dive-club/desktop/build/linux/x64/debug/pdfium-download/pdfium-download-prefix/src/pdfium-download-stamp/download-pdfium-download.cmake && /usr/bin/cmake -P /home/idir/Desktop/Projects/dive-club/desktop/build/linux/x64/debug/pdfium-download/pdfium-download-prefix/src/pdfium-download-stamp/verify-pdfium-download.cmake && /usr/bin/cmake -P /home/idir/Desktop/Projects/dive-club/desktop/build/linux/x64/debug/pdfium-download/pdfium-download-prefix/src/pdfium-download-stamp/extract-pdfium-download.cmake && /usr/bin/cmake -E touch /home/idir/Desktop/Projects/dive-club/desktop/build/linux/x64/debug/pdfium-download/pdfium-download-prefix/src/pdfium-download-stamp/pdfium-download-download
   DESC = Performing download step (download, verify and extract) for 'pdfium-download'
   restat = 1
 
@@ -112,7 +112,7 @@ build pdfium-download-prefix/src/pdfium-download-stamp/pdfium-download-download 
 # Custom command for pdfium-download-prefix/src/pdfium-download-stamp/pdfium-download-install
 
 build pdfium-download-prefix/src/pdfium-download-stamp/pdfium-download-install | ${cmake_ninja_workdir}pdfium-download-prefix/src/pdfium-download-stamp/pdfium-download-install: CUSTOM_COMMAND pdfium-download-prefix/src/pdfium-download-stamp/pdfium-download-build
-  COMMAND = cd /home/idir/Desktop/Projects/dive-club/build/linux/x64/debug/pdfium-build && /usr/bin/cmake -E echo_append && /usr/bin/cmake -E touch /home/idir/Desktop/Projects/dive-club/build/linux/x64/debug/pdfium-download/pdfium-download-prefix/src/pdfium-download-stamp/pdfium-download-install
+  COMMAND = cd /home/idir/Desktop/Projects/dive-club/desktop/build/linux/x64/debug/pdfium-build && /usr/bin/cmake -E echo_append && /usr/bin/cmake -E touch /home/idir/Desktop/Projects/dive-club/desktop/build/linux/x64/debug/pdfium-download/pdfium-download-prefix/src/pdfium-download-stamp/pdfium-download-install
   DESC = No install step for 'pdfium-download'
   restat = 1
 
@@ -121,7 +121,7 @@ build pdfium-download-prefix/src/pdfium-download-stamp/pdfium-download-install |
 # Custom command for pdfium-download-prefix/src/pdfium-download-stamp/pdfium-download-mkdir
 
 build pdfium-download-prefix/src/pdfium-download-stamp/pdfium-download-mkdir | ${cmake_ninja_workdir}pdfium-download-prefix/src/pdfium-download-stamp/pdfium-download-mkdir: CUSTOM_COMMAND
-  COMMAND = cd /home/idir/Desktop/Projects/dive-club/build/linux/x64/debug/pdfium-download && /usr/bin/cmake -Dcfgdir= -P /home/idir/Desktop/Projects/dive-club/build/linux/x64/debug/pdfium-download/pdfium-download-prefix/tmp/pdfium-download-mkdirs.cmake && /usr/bin/cmake -E touch /home/idir/Desktop/Projects/dive-club/build/linux/x64/debug/pdfium-download/pdfium-download-prefix/src/pdfium-download-stamp/pdfium-download-mkdir
+  COMMAND = cd /home/idir/Desktop/Projects/dive-club/desktop/build/linux/x64/debug/pdfium-download && /usr/bin/cmake -Dcfgdir= -P /home/idir/Desktop/Projects/dive-club/desktop/build/linux/x64/debug/pdfium-download/pdfium-download-prefix/tmp/pdfium-download-mkdirs.cmake && /usr/bin/cmake -E touch /home/idir/Desktop/Projects/dive-club/desktop/build/linux/x64/debug/pdfium-download/pdfium-download-prefix/src/pdfium-download-stamp/pdfium-download-mkdir
   DESC = Creating directories for 'pdfium-download'
   restat = 1
 
@@ -130,7 +130,7 @@ build pdfium-download-prefix/src/pdfium-download-stamp/pdfium-download-mkdir | $
 # Custom command for pdfium-download-prefix/src/pdfium-download-stamp/pdfium-download-patch
 
 build pdfium-download-prefix/src/pdfium-download-stamp/pdfium-download-patch | ${cmake_ninja_workdir}pdfium-download-prefix/src/pdfium-download-stamp/pdfium-download-patch: CUSTOM_COMMAND pdfium-download-prefix/src/pdfium-download-stamp/pdfium-download-update
-  COMMAND = cd /home/idir/Desktop/Projects/dive-club/build/linux/x64/debug/pdfium-download && /usr/bin/cmake -E echo_append && /usr/bin/cmake -E touch /home/idir/Desktop/Projects/dive-club/build/linux/x64/debug/pdfium-download/pdfium-download-prefix/src/pdfium-download-stamp/pdfium-download-patch
+  COMMAND = cd /home/idir/Desktop/Projects/dive-club/desktop/build/linux/x64/debug/pdfium-download && /usr/bin/cmake -E echo_append && /usr/bin/cmake -E touch /home/idir/Desktop/Projects/dive-club/desktop/build/linux/x64/debug/pdfium-download/pdfium-download-prefix/src/pdfium-download-stamp/pdfium-download-patch
   DESC = No patch step for 'pdfium-download'
   restat = 1
 
@@ -139,7 +139,7 @@ build pdfium-download-prefix/src/pdfium-download-stamp/pdfium-download-patch | $
 # Custom command for pdfium-download-prefix/src/pdfium-download-stamp/pdfium-download-test
 
 build pdfium-download-prefix/src/pdfium-download-stamp/pdfium-download-test | ${cmake_ninja_workdir}pdfium-download-prefix/src/pdfium-download-stamp/pdfium-download-test: CUSTOM_COMMAND pdfium-download-prefix/src/pdfium-download-stamp/pdfium-download-install
-  COMMAND = cd /home/idir/Desktop/Projects/dive-club/build/linux/x64/debug/pdfium-build && /usr/bin/cmake -E echo_append && /usr/bin/cmake -E touch /home/idir/Desktop/Projects/dive-club/build/linux/x64/debug/pdfium-download/pdfium-download-prefix/src/pdfium-download-stamp/pdfium-download-test
+  COMMAND = cd /home/idir/Desktop/Projects/dive-club/desktop/build/linux/x64/debug/pdfium-build && /usr/bin/cmake -E echo_append && /usr/bin/cmake -E touch /home/idir/Desktop/Projects/dive-club/desktop/build/linux/x64/debug/pdfium-download/pdfium-download-prefix/src/pdfium-download-stamp/pdfium-download-test
   DESC = No test step for 'pdfium-download'
   restat = 1
 
@@ -148,7 +148,7 @@ build pdfium-download-prefix/src/pdfium-download-stamp/pdfium-download-test | ${
 # Custom command for pdfium-download-prefix/src/pdfium-download-stamp/pdfium-download-update
 
 build pdfium-download-prefix/src/pdfium-download-stamp/pdfium-download-update | ${cmake_ninja_workdir}pdfium-download-prefix/src/pdfium-download-stamp/pdfium-download-update: CUSTOM_COMMAND pdfium-download-prefix/src/pdfium-download-stamp/pdfium-download-download
-  COMMAND = cd /home/idir/Desktop/Projects/dive-club/build/linux/x64/debug/pdfium-download && /usr/bin/cmake -E echo_append && /usr/bin/cmake -E touch /home/idir/Desktop/Projects/dive-club/build/linux/x64/debug/pdfium-download/pdfium-download-prefix/src/pdfium-download-stamp/pdfium-download-update
+  COMMAND = cd /home/idir/Desktop/Projects/dive-club/desktop/build/linux/x64/debug/pdfium-download && /usr/bin/cmake -E echo_append && /usr/bin/cmake -E touch /home/idir/Desktop/Projects/dive-club/desktop/build/linux/x64/debug/pdfium-download/pdfium-download-prefix/src/pdfium-download-stamp/pdfium-download-update
   DESC = No update step for 'pdfium-download'
   restat = 1
 
@@ -161,7 +161,7 @@ build pdfium-download-prefix/src/pdfium-download-stamp/pdfium-download-update | 
 # =============================================================================
 
 #############################################
-# Folder: /home/idir/Desktop/Projects/dive-club/build/linux/x64/debug/pdfium-download
+# Folder: /home/idir/Desktop/Projects/dive-club/desktop/build/linux/x64/debug/pdfium-download
 
 build all: phony pdfium-download
 

@@ -20,6 +20,22 @@ class UpdateScoreOptions {
   });
 }
 
+class DeleteScoreOptions{
+
+  final int participantId;
+  final int divisionId;
+  final int specialityId;
+  final int ageDivisionId;
+
+  DeleteScoreOptions({
+    required this.participantId,
+    required this.divisionId,
+    required this.ageDivisionId,
+    required this.specialityId,
+  });
+  
+}
+
 class CreateScoreOptions {
   final int participantId;
   final int divisionId;
@@ -95,6 +111,43 @@ class CreateClubOptions {
   });
 }
 
+class DeleteParticipantOptions {
+  final int id;
+
+  DeleteParticipantOptions({
+    required this.id,
+  });
+}
+
+class UpdateParticipantOptions {
+  final int id;
+
+  final String? firstName;
+  final int? divisionId;
+  final int? specialityId;
+
+  final int? clubId;
+
+  final int? entryTime;
+
+  final int? genderId;
+
+  final String? lastName;
+
+  final int? ageDivisionId;
+
+  UpdateParticipantOptions(
+      {required this.id,
+      this.firstName,
+      this.divisionId,
+      this.specialityId,
+      this.clubId,
+      this.entryTime,
+      this.genderId,
+      this.lastName,
+      this.ageDivisionId});
+}
+
 class UpdateClubOptions {
   final String clubName;
   final int clubId;
@@ -165,5 +218,6 @@ class LoadCompetitionScoresOptions {
   final int? genderId;
   final int? ageDivisionId;
 
-  LoadCompetitionScoresOptions({this.ageDivisionId,this.genderId, this.divisionId, this.specialityId});
+  LoadCompetitionScoresOptions(
+      {this.ageDivisionId, this.genderId, this.divisionId, this.specialityId});
 }

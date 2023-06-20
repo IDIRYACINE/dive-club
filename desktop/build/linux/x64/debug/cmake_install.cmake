@@ -1,8 +1,8 @@
-# Install script for directory: /home/idir/Desktop/Projects/dive-club/linux
+# Install script for directory: /home/idir/Desktop/Projects/dive-club/desktop/linux
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
-  set(CMAKE_INSTALL_PREFIX "/home/idir/Desktop/Projects/dive-club/build/linux/x64/debug/bundle")
+  set(CMAKE_INSTALL_PREFIX "/home/idir/Desktop/Projects/dive-club/desktop/build/linux/x64/debug/bundle")
 endif()
 string(REGEX REPLACE "/$" "" CMAKE_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}")
 
@@ -44,121 +44,121 @@ endif()
 
 if(CMAKE_INSTALL_COMPONENT STREQUAL "Runtime" OR NOT CMAKE_INSTALL_COMPONENT)
   
-  file(REMOVE_RECURSE "/home/idir/Desktop/Projects/dive-club/build/linux/x64/debug/bundle/")
+  file(REMOVE_RECURSE "/home/idir/Desktop/Projects/dive-club/desktop/build/linux/x64/debug/bundle/")
   
 endif()
 
 if(CMAKE_INSTALL_COMPONENT STREQUAL "Runtime" OR NOT CMAKE_INSTALL_COMPONENT)
-  if(EXISTS "$ENV{DESTDIR}/home/idir/Desktop/Projects/dive-club/build/linux/x64/debug/bundle/dive_club" AND
-     NOT IS_SYMLINK "$ENV{DESTDIR}/home/idir/Desktop/Projects/dive-club/build/linux/x64/debug/bundle/dive_club")
+  if(EXISTS "$ENV{DESTDIR}/home/idir/Desktop/Projects/dive-club/desktop/build/linux/x64/debug/bundle/dive_club" AND
+     NOT IS_SYMLINK "$ENV{DESTDIR}/home/idir/Desktop/Projects/dive-club/desktop/build/linux/x64/debug/bundle/dive_club")
     file(RPATH_CHECK
-         FILE "$ENV{DESTDIR}/home/idir/Desktop/Projects/dive-club/build/linux/x64/debug/bundle/dive_club"
+         FILE "$ENV{DESTDIR}/home/idir/Desktop/Projects/dive-club/desktop/build/linux/x64/debug/bundle/dive_club"
          RPATH "$ORIGIN/lib")
   endif()
   list(APPEND CMAKE_ABSOLUTE_DESTINATION_FILES
-   "/home/idir/Desktop/Projects/dive-club/build/linux/x64/debug/bundle/dive_club")
+   "/home/idir/Desktop/Projects/dive-club/desktop/build/linux/x64/debug/bundle/dive_club")
   if(CMAKE_WARN_ON_ABSOLUTE_INSTALL_DESTINATION)
     message(WARNING "ABSOLUTE path INSTALL DESTINATION : ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
   endif()
   if(CMAKE_ERROR_ON_ABSOLUTE_INSTALL_DESTINATION)
     message(FATAL_ERROR "ABSOLUTE path INSTALL DESTINATION forbidden (by caller): ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
   endif()
-  file(INSTALL DESTINATION "/home/idir/Desktop/Projects/dive-club/build/linux/x64/debug/bundle" TYPE EXECUTABLE FILES "/home/idir/Desktop/Projects/dive-club/build/linux/x64/debug/intermediates_do_not_run/dive_club")
-  if(EXISTS "$ENV{DESTDIR}/home/idir/Desktop/Projects/dive-club/build/linux/x64/debug/bundle/dive_club" AND
-     NOT IS_SYMLINK "$ENV{DESTDIR}/home/idir/Desktop/Projects/dive-club/build/linux/x64/debug/bundle/dive_club")
+  file(INSTALL DESTINATION "/home/idir/Desktop/Projects/dive-club/desktop/build/linux/x64/debug/bundle" TYPE EXECUTABLE FILES "/home/idir/Desktop/Projects/dive-club/desktop/build/linux/x64/debug/intermediates_do_not_run/dive_club")
+  if(EXISTS "$ENV{DESTDIR}/home/idir/Desktop/Projects/dive-club/desktop/build/linux/x64/debug/bundle/dive_club" AND
+     NOT IS_SYMLINK "$ENV{DESTDIR}/home/idir/Desktop/Projects/dive-club/desktop/build/linux/x64/debug/bundle/dive_club")
     file(RPATH_CHANGE
-         FILE "$ENV{DESTDIR}/home/idir/Desktop/Projects/dive-club/build/linux/x64/debug/bundle/dive_club"
-         OLD_RPATH "/home/idir/Desktop/Projects/dive-club/build/linux/x64/debug/plugins/printing:/home/idir/Desktop/Projects/dive-club/build/linux/x64/debug/plugins/sqlite3_flutter_libs:/home/idir/Desktop/Projects/dive-club/linux/flutter/ephemeral:/home/idir/Desktop/Projects/dive-club/build/linux/x64/debug/pdfium-src/lib:"
+         FILE "$ENV{DESTDIR}/home/idir/Desktop/Projects/dive-club/desktop/build/linux/x64/debug/bundle/dive_club"
+         OLD_RPATH "/home/idir/Desktop/Projects/dive-club/desktop/build/linux/x64/debug/plugins/printing:/home/idir/Desktop/Projects/dive-club/desktop/build/linux/x64/debug/plugins/sqlite3_flutter_libs:/home/idir/Desktop/Projects/dive-club/desktop/linux/flutter/ephemeral:/home/idir/Desktop/Projects/dive-club/desktop/build/linux/x64/debug/pdfium-src/lib:"
          NEW_RPATH "$ORIGIN/lib")
     if(CMAKE_INSTALL_DO_STRIP)
-      execute_process(COMMAND "/usr/bin/strip" "$ENV{DESTDIR}/home/idir/Desktop/Projects/dive-club/build/linux/x64/debug/bundle/dive_club")
+      execute_process(COMMAND "/usr/bin/strip" "$ENV{DESTDIR}/home/idir/Desktop/Projects/dive-club/desktop/build/linux/x64/debug/bundle/dive_club")
     endif()
   endif()
 endif()
 
 if(CMAKE_INSTALL_COMPONENT STREQUAL "Runtime" OR NOT CMAKE_INSTALL_COMPONENT)
   list(APPEND CMAKE_ABSOLUTE_DESTINATION_FILES
-   "/home/idir/Desktop/Projects/dive-club/build/linux/x64/debug/bundle/data/icudtl.dat")
+   "/home/idir/Desktop/Projects/dive-club/desktop/build/linux/x64/debug/bundle/data/icudtl.dat")
   if(CMAKE_WARN_ON_ABSOLUTE_INSTALL_DESTINATION)
     message(WARNING "ABSOLUTE path INSTALL DESTINATION : ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
   endif()
   if(CMAKE_ERROR_ON_ABSOLUTE_INSTALL_DESTINATION)
     message(FATAL_ERROR "ABSOLUTE path INSTALL DESTINATION forbidden (by caller): ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
   endif()
-  file(INSTALL DESTINATION "/home/idir/Desktop/Projects/dive-club/build/linux/x64/debug/bundle/data" TYPE FILE FILES "/home/idir/Desktop/Projects/dive-club/linux/flutter/ephemeral/icudtl.dat")
+  file(INSTALL DESTINATION "/home/idir/Desktop/Projects/dive-club/desktop/build/linux/x64/debug/bundle/data" TYPE FILE FILES "/home/idir/Desktop/Projects/dive-club/desktop/linux/flutter/ephemeral/icudtl.dat")
 endif()
 
 if(CMAKE_INSTALL_COMPONENT STREQUAL "Runtime" OR NOT CMAKE_INSTALL_COMPONENT)
   list(APPEND CMAKE_ABSOLUTE_DESTINATION_FILES
-   "/home/idir/Desktop/Projects/dive-club/build/linux/x64/debug/bundle/lib/libflutter_linux_gtk.so")
+   "/home/idir/Desktop/Projects/dive-club/desktop/build/linux/x64/debug/bundle/lib/libflutter_linux_gtk.so")
   if(CMAKE_WARN_ON_ABSOLUTE_INSTALL_DESTINATION)
     message(WARNING "ABSOLUTE path INSTALL DESTINATION : ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
   endif()
   if(CMAKE_ERROR_ON_ABSOLUTE_INSTALL_DESTINATION)
     message(FATAL_ERROR "ABSOLUTE path INSTALL DESTINATION forbidden (by caller): ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
   endif()
-  file(INSTALL DESTINATION "/home/idir/Desktop/Projects/dive-club/build/linux/x64/debug/bundle/lib" TYPE FILE FILES "/home/idir/Desktop/Projects/dive-club/linux/flutter/ephemeral/libflutter_linux_gtk.so")
+  file(INSTALL DESTINATION "/home/idir/Desktop/Projects/dive-club/desktop/build/linux/x64/debug/bundle/lib" TYPE FILE FILES "/home/idir/Desktop/Projects/dive-club/desktop/linux/flutter/ephemeral/libflutter_linux_gtk.so")
 endif()
 
 if(CMAKE_INSTALL_COMPONENT STREQUAL "Runtime" OR NOT CMAKE_INSTALL_COMPONENT)
   list(APPEND CMAKE_ABSOLUTE_DESTINATION_FILES
-   "/home/idir/Desktop/Projects/dive-club/build/linux/x64/debug/bundle/lib/libprinting_plugin.so")
+   "/home/idir/Desktop/Projects/dive-club/desktop/build/linux/x64/debug/bundle/lib/libprinting_plugin.so")
   if(CMAKE_WARN_ON_ABSOLUTE_INSTALL_DESTINATION)
     message(WARNING "ABSOLUTE path INSTALL DESTINATION : ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
   endif()
   if(CMAKE_ERROR_ON_ABSOLUTE_INSTALL_DESTINATION)
     message(FATAL_ERROR "ABSOLUTE path INSTALL DESTINATION forbidden (by caller): ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
   endif()
-  file(INSTALL DESTINATION "/home/idir/Desktop/Projects/dive-club/build/linux/x64/debug/bundle/lib" TYPE FILE FILES "/home/idir/Desktop/Projects/dive-club/build/linux/x64/debug/plugins/printing/libprinting_plugin.so")
+  file(INSTALL DESTINATION "/home/idir/Desktop/Projects/dive-club/desktop/build/linux/x64/debug/bundle/lib" TYPE FILE FILES "/home/idir/Desktop/Projects/dive-club/desktop/build/linux/x64/debug/plugins/printing/libprinting_plugin.so")
 endif()
 
 if(CMAKE_INSTALL_COMPONENT STREQUAL "Runtime" OR NOT CMAKE_INSTALL_COMPONENT)
   list(APPEND CMAKE_ABSOLUTE_DESTINATION_FILES
-   "/home/idir/Desktop/Projects/dive-club/build/linux/x64/debug/bundle/lib/libpdfium.so")
+   "/home/idir/Desktop/Projects/dive-club/desktop/build/linux/x64/debug/bundle/lib/libpdfium.so")
   if(CMAKE_WARN_ON_ABSOLUTE_INSTALL_DESTINATION)
     message(WARNING "ABSOLUTE path INSTALL DESTINATION : ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
   endif()
   if(CMAKE_ERROR_ON_ABSOLUTE_INSTALL_DESTINATION)
     message(FATAL_ERROR "ABSOLUTE path INSTALL DESTINATION forbidden (by caller): ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
   endif()
-  file(INSTALL DESTINATION "/home/idir/Desktop/Projects/dive-club/build/linux/x64/debug/bundle/lib" TYPE FILE FILES "/home/idir/Desktop/Projects/dive-club/build/linux/x64/debug/pdfium-src/lib/libpdfium.so")
+  file(INSTALL DESTINATION "/home/idir/Desktop/Projects/dive-club/desktop/build/linux/x64/debug/bundle/lib" TYPE FILE FILES "/home/idir/Desktop/Projects/dive-club/desktop/build/linux/x64/debug/pdfium-src/lib/libpdfium.so")
 endif()
 
 if(CMAKE_INSTALL_COMPONENT STREQUAL "Runtime" OR NOT CMAKE_INSTALL_COMPONENT)
   list(APPEND CMAKE_ABSOLUTE_DESTINATION_FILES
-   "/home/idir/Desktop/Projects/dive-club/build/linux/x64/debug/bundle/lib/libsqlite3_flutter_libs_plugin.so")
+   "/home/idir/Desktop/Projects/dive-club/desktop/build/linux/x64/debug/bundle/lib/libsqlite3_flutter_libs_plugin.so")
   if(CMAKE_WARN_ON_ABSOLUTE_INSTALL_DESTINATION)
     message(WARNING "ABSOLUTE path INSTALL DESTINATION : ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
   endif()
   if(CMAKE_ERROR_ON_ABSOLUTE_INSTALL_DESTINATION)
     message(FATAL_ERROR "ABSOLUTE path INSTALL DESTINATION forbidden (by caller): ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
   endif()
-  file(INSTALL DESTINATION "/home/idir/Desktop/Projects/dive-club/build/linux/x64/debug/bundle/lib" TYPE FILE FILES "/home/idir/Desktop/Projects/dive-club/build/linux/x64/debug/plugins/sqlite3_flutter_libs/libsqlite3_flutter_libs_plugin.so")
+  file(INSTALL DESTINATION "/home/idir/Desktop/Projects/dive-club/desktop/build/linux/x64/debug/bundle/lib" TYPE FILE FILES "/home/idir/Desktop/Projects/dive-club/desktop/build/linux/x64/debug/plugins/sqlite3_flutter_libs/libsqlite3_flutter_libs_plugin.so")
 endif()
 
 if(CMAKE_INSTALL_COMPONENT STREQUAL "Runtime" OR NOT CMAKE_INSTALL_COMPONENT)
   
-  file(REMOVE_RECURSE "/home/idir/Desktop/Projects/dive-club/build/linux/x64/debug/bundle/data/flutter_assets")
+  file(REMOVE_RECURSE "/home/idir/Desktop/Projects/dive-club/desktop/build/linux/x64/debug/bundle/data/flutter_assets")
   
 endif()
 
 if(CMAKE_INSTALL_COMPONENT STREQUAL "Runtime" OR NOT CMAKE_INSTALL_COMPONENT)
   list(APPEND CMAKE_ABSOLUTE_DESTINATION_FILES
-   "/home/idir/Desktop/Projects/dive-club/build/linux/x64/debug/bundle/data/flutter_assets")
+   "/home/idir/Desktop/Projects/dive-club/desktop/build/linux/x64/debug/bundle/data/flutter_assets")
   if(CMAKE_WARN_ON_ABSOLUTE_INSTALL_DESTINATION)
     message(WARNING "ABSOLUTE path INSTALL DESTINATION : ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
   endif()
   if(CMAKE_ERROR_ON_ABSOLUTE_INSTALL_DESTINATION)
     message(FATAL_ERROR "ABSOLUTE path INSTALL DESTINATION forbidden (by caller): ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
   endif()
-  file(INSTALL DESTINATION "/home/idir/Desktop/Projects/dive-club/build/linux/x64/debug/bundle/data" TYPE DIRECTORY FILES "/home/idir/Desktop/Projects/dive-club/build//flutter_assets")
+  file(INSTALL DESTINATION "/home/idir/Desktop/Projects/dive-club/desktop/build/linux/x64/debug/bundle/data" TYPE DIRECTORY FILES "/home/idir/Desktop/Projects/dive-club/desktop/build//flutter_assets")
 endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for each subdirectory.
-  include("/home/idir/Desktop/Projects/dive-club/build/linux/x64/debug/flutter/cmake_install.cmake")
-  include("/home/idir/Desktop/Projects/dive-club/build/linux/x64/debug/plugins/printing/cmake_install.cmake")
-  include("/home/idir/Desktop/Projects/dive-club/build/linux/x64/debug/plugins/sqlite3_flutter_libs/cmake_install.cmake")
+  include("/home/idir/Desktop/Projects/dive-club/desktop/build/linux/x64/debug/flutter/cmake_install.cmake")
+  include("/home/idir/Desktop/Projects/dive-club/desktop/build/linux/x64/debug/plugins/printing/cmake_install.cmake")
+  include("/home/idir/Desktop/Projects/dive-club/desktop/build/linux/x64/debug/plugins/sqlite3_flutter_libs/cmake_install.cmake")
 
 endif()
 
@@ -170,5 +170,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "/home/idir/Desktop/Projects/dive-club/build/linux/x64/debug/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "/home/idir/Desktop/Projects/dive-club/desktop/build/linux/x64/debug/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")

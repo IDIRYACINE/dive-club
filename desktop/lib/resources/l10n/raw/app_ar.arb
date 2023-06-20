@@ -49,6 +49,9 @@
     "generateStartListsLabel" : "تحضير قوائم الانطلاق",
     "printStartListsLabel" : "طباعة قوائم الانطلاق",
     "printPapillonsLabel" :"طباعة الفراشات",
-    "importParticipantsFromPlatform" : "استيراد المشاركين من المنصة"
+    "importParticipantsFromPlatform" : "استيراد المشاركين من المنصة",
+    "participantActionsLabel" : "إجراءات المشارك",
+    "editParticipantLabel" : "تعديل المشارك",
+    "deleteParticipantLabel" : "حذف المشارك"
 
 }

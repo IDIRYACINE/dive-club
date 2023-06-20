@@ -1,15 +1,21 @@
+import 'package:dive_club/application/commons/dialogs/common.dart';
 import 'package:dive_club/application/commons/widgets_custom/sized_query_box.dart';
+import 'package:dive_club/application/features/competition/feature.dart';
+import 'package:dive_club/application/navigation/feature.dart';
 import 'package:dive_club/core/entities/competition/export.dart';
 import 'package:dive_club/resources/l10n/l10n.dart';
 import 'package:dive_club/resources/measures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../logic/form_controller.dart';
 
 class CompetitionTable extends StatelessWidget {
   const CompetitionTable({super.key, this.scores = const []});
 
   final List<CompetitionScoreEntity> scores;
 
-  DataRow _buildRow(int index, ThemeData theme) {
+  DataRow _buildRow(int index, ThemeData theme,BuildContext context) {
     CompetitionScoreEntity score = scores[index];
 
     return DataRow(
@@ -28,7 +34,18 @@ class CompetitionTable extends StatelessWidget {
           DataCell(Text(score.participantName.toString())),
           DataCell(Text(score.score.toString())),
         ],
-        onSelectChanged: (isSelected) {});
+        onSelectChanged: (isSelected) {
+          final bloc = BlocProvider.of<CompetitionBloc>(context);
+
+          final dialog = ConfirmationDialog(
+              title: "Score",
+              content: 
+              "Are you sure you want to delete this score?",
+              onConfirm: () {
+                deleteScore(bloc,score);
+              });
+          NavigationService.displayDialog(dialog);
+        });
   }
 
   @override
@@ -52,7 +69,7 @@ class CompetitionTable extends StatelessWidget {
           ],
           rows: List<DataRow>.generate(
             scores.length,
-            (index) => _buildRow(index, theme),
+            (index) => _buildRow(index, theme,context),
           ),
         ),
       ),

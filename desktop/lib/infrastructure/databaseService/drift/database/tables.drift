@@ -703,3 +703,23 @@ where
     AND Participants.gender_id = :gender_id
 ORDER BY
     Participants.entry_time;
+
+deleteParticipant(REQUIRED :participant_id AS INTEGER):
+DELETE FROM
+    Participants
+WHERE
+    participant_id = :participant_id;
+
+deleteScore(
+    REQUIRED :participant_id AS INTEGER,
+    REQUIRED :division_id AS INTEGER,
+    REQUIRED :specialty_id AS INTEGER,
+    REQUIRED :age_division_year AS INTEGER
+):
+DELETE FROM
+    Scores
+WHERE
+    division_id = :division_id
+    AND specialty_id = :specialty_id
+    AND age_division_year = :age_division_year
+    AND participant_id = :participant_id;

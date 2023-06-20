@@ -14,8 +14,8 @@ project(sqlite3-populate NONE)
 include(ExternalProject)
 ExternalProject_Add(sqlite3-populate
                      "UPDATE_DISCONNECTED" "False" "DOWNLOAD_EXTRACT_TIMESTAMP" "NEW" "URL" "https://sqlite.org/2023/sqlite-autoconf-3410000.tar.gz"
-                    SOURCE_DIR          "/home/idir/Desktop/Projects/dive-club/build/linux/x64/debug/_deps/sqlite3-src"
-                    BINARY_DIR          "/home/idir/Desktop/Projects/dive-club/build/linux/x64/debug/_deps/sqlite3-build"
+                    SOURCE_DIR          "/home/idir/Desktop/Projects/dive-club/desktop/build/linux/x64/debug/_deps/sqlite3-src"
+                    BINARY_DIR          "/home/idir/Desktop/Projects/dive-club/desktop/build/linux/x64/debug/_deps/sqlite3-build"
                     CONFIGURE_COMMAND   ""
                     BUILD_COMMAND       ""
                     INSTALL_COMMAND     ""

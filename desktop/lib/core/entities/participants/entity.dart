@@ -32,4 +32,27 @@ class ParticipantEntity {
     required this.entryTime,
     required this.genderId,
   });
+
+
+  ParticipantEntity copyWith({
+     AgeDivisionEntity? ageDivision,
+      ParticipantName? participantName,
+      ClubEntity? club,
+      ParticipantColumn? column,
+      ParticipantSeries? series,
+
+  }){
+    return ParticipantEntity(
+      ageDivision: ageDivision ?? this.ageDivision,
+      participantId: participantId,
+      participantName: participantName ?? this.participantName,
+      division: division,
+      specialty: specialty,
+      club: club ?? this.club,
+      column: column ?? this.column,
+      series: series ?? this.series,
+      entryTime: entryTime,
+      genderId: genderId,
+    );
+  }
 }

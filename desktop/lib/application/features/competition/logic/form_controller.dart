@@ -162,3 +162,8 @@ class ScoreController {
     NavigationService.displayDialog(dialog);
   }
 }
+
+
+Future<void> deleteScore(CompetitionBloc bloc,CompetitionScoreEntity entity) async {
+  
+}

@@ -47,7 +47,7 @@ class _ParticipantsTableState extends State<ParticipantsTable> {
       onSelectChanged: (selected) {
         if (_selectedRowIndex == index) {
           final bloc = BlocProvider.of<ParticipantBloc>(context);
-          _rowController.displayActions(DisplayActionsOptions(
+          _rowController.displayActionsDialog(DisplayActionsOptions(
               bloc: bloc, context: context, entity: participant));
         }
 

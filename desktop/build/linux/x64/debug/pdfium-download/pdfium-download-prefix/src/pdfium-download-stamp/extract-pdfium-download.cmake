@@ -5,8 +5,8 @@ cmake_minimum_required(VERSION 3.5)
 
 # Make file names absolute:
 #
-get_filename_component(filename "/home/idir/Desktop/Projects/dive-club/build/linux/x64/debug/pdfium-download/pdfium-download-prefix/src/pdfium-linux-x64.tgz" ABSOLUTE)
-get_filename_component(directory "/home/idir/Desktop/Projects/dive-club/build/linux/x64/debug/pdfium-src" ABSOLUTE)
+get_filename_component(filename "/home/idir/Desktop/Projects/dive-club/desktop/build/linux/x64/debug/pdfium-download/pdfium-download-prefix/src/pdfium-linux-x64.tgz" ABSOLUTE)
+get_filename_component(directory "/home/idir/Desktop/Projects/dive-club/desktop/build/linux/x64/debug/pdfium-src" ABSOLUTE)
 
 message(STATUS "extracting...
      src='${filename}'

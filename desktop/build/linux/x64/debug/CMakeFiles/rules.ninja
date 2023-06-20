@@ -90,7 +90,7 @@ rule CXX_SHARED_LIBRARY_LINKER__sqlite3_flutter_libs_plugin_Debug
 # Rule for re-running cmake.
 
 rule RERUN_CMAKE
-  command = /usr/bin/cmake --regenerate-during-build -S/home/idir/Desktop/Projects/dive-club/linux -B/home/idir/Desktop/Projects/dive-club/build/linux/x64/debug
+  command = /usr/bin/cmake --regenerate-during-build -S/home/idir/Desktop/Projects/dive-club/desktop/linux -B/home/idir/Desktop/Projects/dive-club/desktop/build/linux/x64/debug
   description = Re-running CMake...
   generator = 1
 

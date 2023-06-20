@@ -14,6 +14,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../state/bloc.dart';
 import '../state/events.dart';
+import '../ui/dialogs.dart';
 import 'options.dart';
 
 class RegistrationDataHolder {
@@ -74,7 +75,6 @@ class ParticipantController {
     if (isFormValid) {
       final bloc = BlocProvider.of<ParticipantBloc>(context);
 
-
       final entity = ParticipantEntity(
           participantId: ParticipantId(bloc.state.participants.length + 1),
           participantName: ParticipantName(_data.firstName, _data.lastName),
@@ -97,11 +97,31 @@ class ParticipantController {
     }
   }
 
+  onUpdate(BuildContext context,ParticipantEntity oldEntity) {
+    final isFormValid = key.currentState!.validate();
+    if (isFormValid) {
+      final bloc = BlocProvider.of<ParticipantBloc>(context);
+
+      final entity = oldEntity.copyWith(
+          participantName: ParticipantName(_data.firstName, _data.lastName),
+          ageDivision: _data.ageDivision!,
+          club: _data.club!,
+      );
+
+      _updateParticipant(entity);
+
+      final event = UpdateParticipantEvent(entity);
+
+      bloc.add(event);
+
+      NavigationService.pop();
+    }
+  }
+
   void addParticipant() {
     const dialog = ParticipantDialog();
     NavigationService.displayDialog(dialog);
   }
-
 
   void updateFirstName(String value) {
     _data.firstName = value;
@@ -163,6 +183,12 @@ class ParticipantController {
 class RowController {
   void addParticipantScore(ParticipantEntity entity) {}
 
+
+  Future<void> displayActionsDialog(DisplayActionsOptions options) async {
+    final dialog = ParticipantActionsDialog(entity: options.entity,);
+    NavigationService.displayDialog(dialog);
+  }
+
   Future<void> displayActions(DisplayActionsOptions options) async {
     final RenderBox overlay =
         Overlay.of(options.context).context.findRenderObject() as RenderBox;
@@ -195,6 +221,22 @@ class RowController {
   }
 }
 
+
+Future<void> _updateParticipant(ParticipantEntity entity) async {
+  // final options = UpdateParticipantOptions(
+  //     id: entity.participantId.value,
+  //     firstName: entity.participantName.firstName,
+  //     divisionId: entity.division.divisionId.value,
+  //     specialityId: entity.specialty.specialtyId.value,
+  //     ageDivisionId: entity.ageDivision.divisionId.value,
+  //     clubId: entity.club.clubId.value,
+  //     entryTime: entity.entryTime.toIntCode(),
+  //     genderId: entity.genderId.value,
+  //     lastName: entity.participantName.lastName);
+  // ServicesProvider.instance().databasePort.insertParticipant(options);
+}
+
+
 Future<void> _registerParticipant(ParticipantEntity entity) async {
   final options = CreateParticipantOptions(
       id: entity.participantId.value,
@@ -207,4 +249,12 @@ Future<void> _registerParticipant(ParticipantEntity entity) async {
       genderId: entity.genderId.value,
       lastName: entity.participantName.lastName);
   ServicesProvider.instance().databasePort.insertParticipant(options);
+}
+
+
+Future<void> deleteParticipant(ParticipantEntity entity) async {
+  final options = DeleteParticipantOptions(
+      id: entity.participantId.value,
+     );
+  ServicesProvider.instance().databasePort.deleteParticipant(options);
 }

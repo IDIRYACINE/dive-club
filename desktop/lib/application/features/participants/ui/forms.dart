@@ -12,16 +12,18 @@ import 'package:dive_club/resources/l10n/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../core/entities/participants/export.dart';
 import '../logic/participant_controller.dart';
 
 class ParticipantForm extends StatelessWidget {
-  ParticipantForm(
-      {super.key,
-      required this.divisions,
-      required this.specialties,
-      required this.ageDivisions,
-      required this.clubs,
-      required this.genders});
+  ParticipantForm({
+    super.key,
+    required this.divisions,
+    required this.specialties,
+    required this.ageDivisions,
+    required this.clubs,
+    required this.genders,
+  });
 
   final ParticipantController controller = ParticipantController();
 
@@ -32,8 +34,8 @@ class ParticipantForm extends StatelessWidget {
   final List<ClubEntity> clubs;
 
   @override
-  Widget build(BuildContext context) {    final localizations = AppLocalizations.of(context)!;
-
+  Widget build(BuildContext context) {
+    final localizations = AppLocalizations.of(context)!;
 
     return Form(
       key: ParticipantController.key,
@@ -55,7 +57,7 @@ class ParticipantForm extends StatelessWidget {
             validator: validatorEmptyText,
             onChanged: controller.updateLastName,
           ),
-           TextFormField(
+          TextFormField(
             decoration: const InputDecoration(
               labelText: "entry time",
             ),
@@ -87,7 +89,6 @@ class ParticipantForm extends StatelessWidget {
             items: clubs,
             onSelected: controller.updateClub,
           ),
-         
           const SizedBox(
             height: 20,
           ),
@@ -101,8 +102,89 @@ class ParticipantForm extends StatelessWidget {
   }
 }
 
+class UpdateParticipantForm extends StatelessWidget {
+  UpdateParticipantForm({
+    super.key,
+    required this.ageDivisions,
+    required this.clubs,
+    required this.genders,
+    required this.participant,
+  });
+
+  final ParticipantEntity participant;
+  final ParticipantController controller = ParticipantController();
+  final List<AgeDivisionEntity> ageDivisions;
+  final List<GenderEntity> genders;
+  final List<ClubEntity> clubs;
+
+  @override
+  Widget build(BuildContext context) {
+    final localizations = AppLocalizations.of(context)!;
+
+    return Form(
+      key: ParticipantController.key,
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          TextFormField(
+            decoration: const InputDecoration(
+              labelText: "firstName",
+            ),
+            initialValue: participant.participantName.firstName,
+            validator: validatorEmptyText,
+            onChanged: controller.updateFirstName,
+          ),
+          TextFormField(
+            decoration: const InputDecoration(
+              labelText: "lastName",
+            ),
+            initialValue: participant.participantName.lastName,
+            validator: validatorEmptyText,
+            onChanged: controller.updateLastName,
+          ),
+          TextFormField(
+            decoration: const InputDecoration(
+              labelText: "entry time",
+            ),
+            initialValue: participant.entryTime.toString(),
+            onChanged: controller.updateEntryTime,
+            validator: validatorScore,
+          ),
+          TextFormField(
+            decoration: InputDecoration(
+              labelText: localizations.birthDateLabel,
+            ),
+            controller: controller.birthDateTextController,
+            readOnly: true,
+            onTap: () => controller.selectBirthDate(context),
+            validator: validatorEmptyText,
+          ),
+          GenderDropdown(
+            items: genders,
+            onSelected: controller.updateGender,
+          ),
+          ClubDropdown(
+            items: clubs,
+            onSelected: controller.updateClub,
+          ),
+          const SizedBox(
+            height: 20,
+          ),
+          GenericFormActions(
+            onCancelPressed: controller.onCancel,
+            onConfirmPressed: () => controller.onUpdate(context,participant),
+          )
+        ],
+      ),
+    );
+  }
+}
+
 class ParticipantDialog extends StatelessWidget {
-  const ParticipantDialog({Key? key}) : super(key: key);
+  const ParticipantDialog({Key? key, this.participant}) : super(key: key);
+
+  final ParticipantEntity? participant;
 
   @override
   Widget build(BuildContext context) {

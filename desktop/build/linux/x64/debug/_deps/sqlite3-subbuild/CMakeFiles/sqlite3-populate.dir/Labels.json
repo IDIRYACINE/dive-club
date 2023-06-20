@@ -2,37 +2,37 @@
 	"sources" : 
 	[
 		{
-			"file" : "/home/idir/Desktop/Projects/dive-club/build/linux/x64/debug/_deps/sqlite3-subbuild/CMakeFiles/sqlite3-populate"
+			"file" : "/home/idir/Desktop/Projects/dive-club/desktop/build/linux/x64/debug/_deps/sqlite3-subbuild/CMakeFiles/sqlite3-populate"
 		},
 		{
-			"file" : "/home/idir/Desktop/Projects/dive-club/build/linux/x64/debug/_deps/sqlite3-subbuild/CMakeFiles/sqlite3-populate.rule"
+			"file" : "/home/idir/Desktop/Projects/dive-club/desktop/build/linux/x64/debug/_deps/sqlite3-subbuild/CMakeFiles/sqlite3-populate.rule"
 		},
 		{
-			"file" : "/home/idir/Desktop/Projects/dive-club/build/linux/x64/debug/_deps/sqlite3-subbuild/CMakeFiles/sqlite3-populate-complete.rule"
+			"file" : "/home/idir/Desktop/Projects/dive-club/desktop/build/linux/x64/debug/_deps/sqlite3-subbuild/CMakeFiles/sqlite3-populate-complete.rule"
 		},
 		{
-			"file" : "/home/idir/Desktop/Projects/dive-club/build/linux/x64/debug/_deps/sqlite3-subbuild/sqlite3-populate-prefix/src/sqlite3-populate-stamp/sqlite3-populate-build.rule"
+			"file" : "/home/idir/Desktop/Projects/dive-club/desktop/build/linux/x64/debug/_deps/sqlite3-subbuild/sqlite3-populate-prefix/src/sqlite3-populate-stamp/sqlite3-populate-build.rule"
 		},
 		{
-			"file" : "/home/idir/Desktop/Projects/dive-club/build/linux/x64/debug/_deps/sqlite3-subbuild/sqlite3-populate-prefix/src/sqlite3-populate-stamp/sqlite3-populate-configure.rule"
+			"file" : "/home/idir/Desktop/Projects/dive-club/desktop/build/linux/x64/debug/_deps/sqlite3-subbuild/sqlite3-populate-prefix/src/sqlite3-populate-stamp/sqlite3-populate-configure.rule"
 		},
 		{
-			"file" : "/home/idir/Desktop/Projects/dive-club/build/linux/x64/debug/_deps/sqlite3-subbuild/sqlite3-populate-prefix/src/sqlite3-populate-stamp/sqlite3-populate-download.rule"
+			"file" : "/home/idir/Desktop/Projects/dive-club/desktop/build/linux/x64/debug/_deps/sqlite3-subbuild/sqlite3-populate-prefix/src/sqlite3-populate-stamp/sqlite3-populate-download.rule"
 		},
 		{
-			"file" : "/home/idir/Desktop/Projects/dive-club/build/linux/x64/debug/_deps/sqlite3-subbuild/sqlite3-populate-prefix/src/sqlite3-populate-stamp/sqlite3-populate-install.rule"
+			"file" : "/home/idir/Desktop/Projects/dive-club/desktop/build/linux/x64/debug/_deps/sqlite3-subbuild/sqlite3-populate-prefix/src/sqlite3-populate-stamp/sqlite3-populate-install.rule"
 		},
 		{
-			"file" : "/home/idir/Desktop/Projects/dive-club/build/linux/x64/debug/_deps/sqlite3-subbuild/sqlite3-populate-prefix/src/sqlite3-populate-stamp/sqlite3-populate-mkdir.rule"
+			"file" : "/home/idir/Desktop/Projects/dive-club/desktop/build/linux/x64/debug/_deps/sqlite3-subbuild/sqlite3-populate-prefix/src/sqlite3-populate-stamp/sqlite3-populate-mkdir.rule"
 		},
 		{
-			"file" : "/home/idir/Desktop/Projects/dive-club/build/linux/x64/debug/_deps/sqlite3-subbuild/sqlite3-populate-prefix/src/sqlite3-populate-stamp/sqlite3-populate-patch.rule"
+			"file" : "/home/idir/Desktop/Projects/dive-club/desktop/build/linux/x64/debug/_deps/sqlite3-subbuild/sqlite3-populate-prefix/src/sqlite3-populate-stamp/sqlite3-populate-patch.rule"
 		},
 		{
-			"file" : "/home/idir/Desktop/Projects/dive-club/build/linux/x64/debug/_deps/sqlite3-subbuild/sqlite3-populate-prefix/src/sqlite3-populate-stamp/sqlite3-populate-test.rule"
+			"file" : "/home/idir/Desktop/Projects/dive-club/desktop/build/linux/x64/debug/_deps/sqlite3-subbuild/sqlite3-populate-prefix/src/sqlite3-populate-stamp/sqlite3-populate-test.rule"
 		},
 		{
-			"file" : "/home/idir/Desktop/Projects/dive-club/build/linux/x64/debug/_deps/sqlite3-subbuild/sqlite3-populate-prefix/src/sqlite3-populate-stamp/sqlite3-populate-update.rule"
+			"file" : "/home/idir/Desktop/Projects/dive-club/desktop/build/linux/x64/debug/_deps/sqlite3-subbuild/sqlite3-populate-prefix/src/sqlite3-populate-stamp/sqlite3-populate-update.rule"
 		}
 	],
 	"target" : 
