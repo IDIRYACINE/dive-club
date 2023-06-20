@@ -50,5 +50,5 @@ export async function DELETE(req: Request) {
         clubId: (clubId as string), atheleteId: (atheleteId as string)
     });
 
-    return NextResponse.json({ data: [] });
+    return NextResponse.json({ data: response });
 }

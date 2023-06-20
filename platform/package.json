@@ -9,13 +9,13 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@next-auth/firebase-adapter": "^2.0.1",
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
     "@mui/base": "^5.0.0-beta.4",
     "@mui/material": "^5.13.5",
     "@mui/system": "^5.13.5",
     "@mui/x-date-pickers": "^6.8.0",
+    "@next-auth/firebase-adapter": "^2.0.1",
     "@reduxjs/toolkit": "^1.9.5",
     "@types/node": "20.3.1",
     "@types/react": "18.2.12",

@@ -3,6 +3,7 @@ import { IAthelete, mockAtheletes } from "@/core/athelete/atheleteEntity";
 export interface IParticipation {
     specialty: IParticipationEntity,
     division: IParticipationEntity,
+    entryTime: string
 }
 
 export interface IParticipant {
@@ -29,7 +30,8 @@ export const mockParticipants: IParticipant[] = [
                 division: {
                     id: 1,
                     name: "Division 1"
-                }
+                },
+                entryTime:"99:99.99"
             }
         ]
     },
@@ -44,7 +46,9 @@ export const mockParticipants: IParticipant[] = [
                 division: {
                     id: 2,
                     name: "Division 2"
-                }
+                },
+                entryTime:"99:99.99"
+
             }
         ]
     },

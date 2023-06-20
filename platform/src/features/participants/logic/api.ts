@@ -49,7 +49,7 @@ export async function updateParticipantApi(options: UpdateParticipantApiOptions)
 }
 
 export async function deleteParticipantApi(options: DeleteParticipantApiOptions) {
-  const response = await fetch(`${baseUrl}?participantId=${options.participantId}clubId=${options.clubId}`, {
+  const response = await fetch(`${baseUrl}?participantId=${options.participantId}&clubId=${options.clubId}`, {
     method: "DELETE",
   });
 

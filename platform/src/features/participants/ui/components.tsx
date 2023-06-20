@@ -1,27 +1,34 @@
 "use client";
 
-import { useAppDispatch, useAppSelector } from "@/stores/clubsStore/hooks"
-import { selectEditedParticipant, selectEditParticipantId, selectParticipant } from "@/stores/clubsStore/slices/participantsSlice"
+import { useAppDispatch } from "@/stores/clubsStore/hooks"
+import { setSearchedAthelete } from "@/stores/clubsStore/slices/participantsSlice"
 import { TextField, Container, Typography, SelectChangeEvent, MenuItem, Select } from "@mui/material"
 import { useState, ChangeEvent } from "react"
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
-
-
 import { IAthelete } from "@/core/athelete/atheleteEntity"
 import { IParticipationEntity } from "@/core/participants/participantsEntity"
 
-export function AtheleteLicenseSearch() {
+
+interface AtheleteLicenseSearchProps {
+    atheletes: IAthelete[]
+}
+export function AtheleteLicenseSearch(props: AtheleteLicenseSearchProps) {
+
+    const { atheletes } = props
 
     const [license, setLicense] = useState<string>("")
     const dispatch = useAppDispatch()
+
 
     function handleOnChange(event: ChangeEvent<HTMLInputElement>) {
         setLicense(event.target.value)
     }
 
     function handleSearch() {
-        dispatch(selectParticipant(license))
+        const athelete = atheletes.find((target) => target.atheleteId === license)
+
+        dispatch(setSearchedAthelete(athelete))
     }
 
     return (
@@ -33,12 +40,12 @@ export function AtheleteLicenseSearch() {
 }
 
 interface ParticipantCardProps {
-    athelete?: IAthelete
+    athelete?: IAthelete | null
 }
 
 export function ParticipantCard(props: ParticipantCardProps) {
     const { athelete } = props
-    
+
     const containerStyle = {
         display: "flex",
         flexDirection: "column",
@@ -101,3 +108,24 @@ export function ParticipationEntityDropdown(props: ParticipationEntityDropdownPr
     )
 }
 
+interface EntryTimeFieldProps {
+    initialValue?: string,
+    onUpdate: (value: String) => void,
+    className?: string
+}
+export function EntryTimeField(props: EntryTimeFieldProps) {
+    const { initialValue, onUpdate, className } = props
+
+    const [entryTime, setEntryTime] = useState(initialValue ?? "99:99.9")
+
+    function updateEntryTime(e) {
+        const value = e.target.value
+        setEntryTime(value)
+        onUpdate(value)
+    }
+
+    return (
+        <TextField onChange={updateEntryTime} value={entryTime}  />
+    );
+
+}

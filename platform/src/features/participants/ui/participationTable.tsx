@@ -1,7 +1,7 @@
 "use client";
 
 import { useAppDispatch, useAppSelector } from "@/stores/clubsStore/hooks";
-import {selectParticipant, setEditingMode} from "@/stores/clubsStore/slices/participantsSlice"
+import {selectParticipant} from "@/stores/clubsStore/slices/participantsSlice"
 import {
     Box, TableCell,Button,
     TableRow, Paper, Table, TableBody, TableContainer, TableHead, Typography
@@ -20,7 +20,7 @@ function ActionsHeader(props:ActionsHeaderProps) {
 
 
     function handleAddParticipant() {
-        dispatch(setEditingMode(false))
+        dispatch(selectParticipant(null))
         dispatch(openModal())
 
     }
@@ -94,7 +94,6 @@ export function ParticipantTable() {
 
     function handleRowClick(participant:IParticipant){
         dispatch(selectParticipant(participant.athelete.atheleteId))
-        dispatch(setEditingMode(true))
         dispatch(openModal())
     }
 

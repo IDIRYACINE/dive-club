@@ -8,7 +8,8 @@ import { Provider } from "react-redux"
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import { clubTheme } from "@/components/clubThemes";
-import { getSession, SessionProvider } from "next-auth/react";
+import {  SessionProvider } from "next-auth/react";
+import { ClubStorePreloader } from "@/stores/clubsStore/preloader";
 
 export default function RootLayout({
   children
@@ -20,7 +21,7 @@ export default function RootLayout({
     <SessionProvider>
       <Provider store={store}>
         <ThemeProvider theme={clubTheme}>
-
+          <ClubStorePreloader/>
           <Box className="flex flex-row">
             <ClubNavigationDrawer />
             <Container className="flex justify-center align-center p-4">

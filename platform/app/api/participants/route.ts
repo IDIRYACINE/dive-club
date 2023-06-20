@@ -1,6 +1,5 @@
 import { FirebaseServicesProvider } from '@/infrastracture';
 import { ParticipantsServicePort } from '@/infrastracture/participantsService/port';
-import { NextApiRequest, NextApiResponse } from 'next'
 import { NextResponse } from 'next/server';
 
 const participantService: ParticipantsServicePort = FirebaseServicesProvider.create().getParticipationsService()
