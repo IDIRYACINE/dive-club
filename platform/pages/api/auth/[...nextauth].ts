@@ -1,8 +1,8 @@
 import NextAuth from "next-auth"
 
-import { FirestoreAdapter } from "@auth/firebase-adapter";
 import GoogleProvider from "next-auth/providers/google";
 import * as firestoreFunction from "firebase/firestore";
+import { FirestoreAdapter } from "@next-auth/firebase-adapter";
 
 
 
@@ -11,13 +11,11 @@ export const authOptions =
     adapter: FirestoreAdapter(),
     secret: process.env.NEXTJS_SECRET,
     session: {
-        strategy: "jwt",
+        strategy: "jwt"
     },
-
-
-    pages: {
-        signIn: "/login",
-    },
+    // pages: {
+    //     signIn: "/login",
+    // },
 
     providers: [
         GoogleProvider({
@@ -30,28 +28,33 @@ export const authOptions =
 
     ],
     callbacks: {
-        authorized({ req, token }) {
-            if (token) return true
-        },
 
         async signIn({ user, account, profile }) {
+
             return true
         },
 
 
         async session({ session, user, token }) {
-            session.role = "customer"
-            session.user = user
-            session.token = token
+            if(token){
+                session.user = token
+            }
+            if(user){
+                session.user = user
+            }
+            
 
             return session
         },
 
-        async jwt({ user, token, account, profile }) {
+        async jwt({ user, token, account, profile,session }) {
+
             if (account) {
                 token.accessToken = account.access_token
-                token.id = profile.id
+                token.id = account.id
             }
+
+
             return token
         },
 

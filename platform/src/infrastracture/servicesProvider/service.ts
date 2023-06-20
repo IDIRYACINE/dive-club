@@ -27,7 +27,7 @@ export class FirebaseServicesProvider implements ServicesProviderPort {
     getParticipationsService(): ParticipantsServicePort { return this.participantsService };
 
 
-     static async create(): Promise<ServicesProviderPort> {
+     static  create(): ServicesProviderPort {
         if(FirebaseServicesProvider.instance) return FirebaseServicesProvider.instance;
 
 

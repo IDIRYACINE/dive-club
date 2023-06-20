@@ -1,18 +1,22 @@
 import {  IAthelete } from "@/core/athelete/atheleteEntity";
 import {  useAppDispatch, useAppSelector } from "@/stores/clubsStore/hooks";
-import { addAthelete,selectEditedAthelete, deleteAthelete, updateAthelete } from "@/stores/clubsStore/slices/atheleteSlice";
+import { addAthelete,selectEditedAthelete, deleteAthelete, updateAthelete, unselectAthelete } from "@/stores/clubsStore/slices/atheleteSlice";
 import { closeModal } from "@/stores/clubsStore/slices/navigationSlice";
 import { Box, Typography,Button, Modal, Container } from "@mui/material";
 import dayjs from "dayjs";
-import { useRef } from "react";
+import { useRef,useEffect } from "react";
 import { AtheleteNameField, GenderDropdown, AgeDropdown, AtheleteLicense } from "./components";
 import clsx from "clsx";
+import { createAtheleteApi, deleteAtheleteApi, updateAtheleteApi } from "../logic/api";
 
+interface AtheleteEditorProps {
+    clubId: string|number}
 export function AtheleteEditor() {
 
     const dispatch = useAppDispatch()
     const isModalOpen = useAppSelector(state => state.navigation.isModalOpen)
     const editedAtheleteEntity = useAppSelector (state => selectEditedAthelete(state))
+    const clubId = useAppSelector(state => state.navigation.clubId!)
 
     const isEditMode = editedAtheleteEntity !== null
 
@@ -24,43 +28,64 @@ export function AtheleteEditor() {
         atheleteId: editedAtheleteEntity?.atheleteId ?? "",
     });
 
+    useEffect(() => {
+        if (editedAtheleteEntity) {
+          athelete.current = {
+            firstName: editedAtheleteEntity.firstName ?? "",
+            lastName: editedAtheleteEntity.lastName ?? "",
+            dateOfBirth: editedAtheleteEntity.dateOfBirth ?? "",
+            gender: editedAtheleteEntity.gender ?? "",
+            atheleteId: editedAtheleteEntity.atheleteId ?? "",
+          };
+        }
+      }, [editedAtheleteEntity]);
+
     function updateName(firstName: string) {
-        athelete.current.firstName = firstName
+        athelete.current = {...athelete.current , firstName: firstName}
     }
 
     function updateLastName(lastName: string) {
-        athelete.current.lastName = lastName
+        athelete.current = {...athelete.current , lastName: lastName}
     }
 
     function updateAge(age: string) {
-        athelete.current.dateOfBirth = age
+        athelete.current = {...athelete.current , dateOfBirth: age}
     }
 
     function updateGender(gender: string) {
-        athelete.current.gender = gender
+        athelete.current = {...athelete.current , gender:gender}
     }
 
 
     function updateAtheleteLicense(license: string) {
-        athelete.current.atheleteId = license
+        athelete.current = {...athelete.current , atheleteId: license}
     }
 
     function onConfirm() {
 
         if (isEditMode) {
             dispatch(updateAthelete(athelete.current))
-
+            updateAtheleteApi({
+                clubId,
+                atheleteId: athelete.current.atheleteId,
+                athelete: athelete.current
+            })
         }
         else {
             dispatch(addAthelete(athelete.current))
 
+            createAtheleteApi({
+                clubId,
+                atheleteId: athelete.current.atheleteId,
+                athelete: athelete.current
+            })
         }
 
         dispatch(closeModal())
     }
 
     function onCancel() {
-
+        dispatch(unselectAthelete())
         dispatch(closeModal())
     }
 
@@ -69,6 +94,11 @@ export function AtheleteEditor() {
         dispatch(deleteAthelete(athelete.current.atheleteId))
 
         dispatch(closeModal())
+
+        deleteAtheleteApi({
+            clubId,
+            atheleteId: athelete.current.atheleteId,
+        })
 
     }
 
@@ -83,29 +113,29 @@ export function AtheleteEditor() {
 
     const licenseProps = {
         updateAtheleteLicense: updateAtheleteLicense,
-        initialLicense: athelete.current.atheleteId,
+        initialLicense: editedAtheleteEntity?.atheleteId,
         className: sharedClassName
     }
 
     const atheleteNameProps = {
         updateName: updateName,
         updateLastName: updateLastName,
-        initialFirstName: athelete.current.firstName,
-        initialLastName: athelete.current.lastName,
+        initialFirstName: editedAtheleteEntity?.firstName,
+        initialLastName: editedAtheleteEntity?.lastName,
         className: sharedClassName
 
     }
 
     const genderProps = {
         updateGender: updateGender,
-        initialGender: athelete.current.gender,
+        initialGender: editedAtheleteEntity?.gender,
         className: sharedClassName
 
     }
 
     const ageProps = {
         updateAge: updateAge,
-        initialAge: dayjs(athelete.current.dateOfBirth, "MM/DD/YYYY"),
+        initialAge: dayjs(editedAtheleteEntity?.dateOfBirth, "DD/MM/YYYY"),
         className: sharedClassName
 
     }

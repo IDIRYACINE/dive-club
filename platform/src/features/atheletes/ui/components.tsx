@@ -56,10 +56,9 @@ export function AgeDropdown(props: AgeDropdownProps) {
 
     const [age, setAge] = useState<Dayjs | null>(props.initialAge ?? null)
 
-
     function handleChange(newValue: Dayjs | null): void {
         setAge(newValue)
-        props.updateAge(newValue?.format("YYYY-MM-DD") || "")
+        props.updateAge(newValue?.format("DD/MM/YYYY") || "01/01/1990")
     }
 
     return (<DatePicker className={props.className} value={age} onChange={(newValue) => handleChange(newValue)} />)

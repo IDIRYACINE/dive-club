@@ -6,13 +6,15 @@ interface StoreInitialState {
     panels: IPanelEntity[],
     selectedPanelIndex: number,
     isModalOpen:boolean,
+    clubId : string|number | null,
 }
 
 
 const initialState: StoreInitialState = {
     panels: clubPanels,
     selectedPanelIndex: 0,
-    isModalOpen : false
+    clubId: null,
+    isModalOpen : false,
 }
 
 export const navigationSlice = createSlice({
@@ -28,11 +30,14 @@ export const navigationSlice = createSlice({
         },
         closeModal(state){
             state.isModalOpen = false
+        },
+        setClubId(state,action:PayloadAction<string|number>){
+            state.clubId = action.payload
         }
 
     },
 })
 
-export const { setActivePanel,openModal,closeModal } = navigationSlice.actions
+export const { setActivePanel,openModal,closeModal,setClubId } = navigationSlice.actions
 
 export default navigationSlice.reducer

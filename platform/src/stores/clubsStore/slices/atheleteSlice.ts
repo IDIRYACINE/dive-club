@@ -40,6 +40,13 @@ export const atheleteSlice = createSlice({
             state.selectedAtheleteId = action.payload
         },
 
+        setAtheletes(state, action: PayloadAction<IAthelete[]>) {
+            state.atheletes = action.payload
+        },
+        unselectAthelete(state) {
+            state.selectedAtheleteId = null
+        }
+
 
     },
 })
@@ -50,6 +57,7 @@ export const selectEditAtheleteId = (state: RootState) => state.athelete.selecte
 
 export const selectEditedAthelete = createSelector([selectAtheletes, selectEditAtheleteId],
     (atheletes, atheleteId) => {
+        if(!atheleteId) return null
         return atheletes.find((athelete) => athelete.atheleteId === atheleteId)
     }
 
@@ -64,7 +72,7 @@ export const selectAtheleteById = createSelector(
 
 
 export const { addAthelete, updateAthelete, deleteAthelete } = atheleteSlice.actions
-export const { selectAthelete } = atheleteSlice.actions
+export const { selectAthelete,unselectAthelete,setAtheletes } = atheleteSlice.actions
 export default atheleteSlice.reducer
 
 

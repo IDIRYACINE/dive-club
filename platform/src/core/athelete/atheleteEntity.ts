@@ -101,13 +101,13 @@ export const mockAtheletes: IAthelete[] = [
         firstName: "John",
         lastName: "Doe",
         gender: "Male",
-        dateOfBirth: "1990/01/01"
+        dateOfBirth: "01/01/1990"
     },
     {
         atheleteId: "2",
         firstName: "Jane",
         lastName: "Doe",
         gender: "Female",
-        dateOfBirth: "1990/01/01"
+        dateOfBirth: "01/01/1990"
     },
 ]

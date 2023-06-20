@@ -1,4 +1,3 @@
-import { IAthelete } from '@/core/athelete/atheleteEntity'
 import { specialties, divisions } from '@/core/divisions/divisions'
 import { IParticipant, IParticipation, IParticipationEntity, mockParticipants } from '@/core/participants/participantsEntity'
 import { createSelector, createSlice, PayloadAction } from '@reduxjs/toolkit'
@@ -82,9 +81,13 @@ export const participantsSlice = createSlice({
                 state.participants[index].participations = action.payload
             }
 
+
         },
         setEditingMode(state, action: PayloadAction<boolean>) {
             state.isEditing = action.payload
+        },
+        setParticipants(state, action: PayloadAction<IParticipant[]>) {
+            state.participants = action.payload
         }
 
 
@@ -121,4 +124,6 @@ export const selectFilteredParticipants = createSelector(
 
 export const { addParticipant,setEditingMode, updateParticipant, deleteParticipant, addAtheleteParticipation } = participantsSlice.actions
 export const { selectParticipant, updateAtheleteParticipation,deleteAtheleteParticipation, setSpecialties, setDivisions } = participantsSlice.actions
+export const { setParticipants } = participantsSlice.actions
+
 export default participantsSlice.reducer

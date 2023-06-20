@@ -8,28 +8,31 @@ import { Provider } from "react-redux"
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import { clubTheme } from "@/components/clubThemes";
-
+import { getSession, SessionProvider } from "next-auth/react";
 
 export default function RootLayout({
-  children,
+  children
 }: {
-  children: React.ReactNode
+  children: React.ReactNode,
 }) {
+
   return (
-    <Provider store={store}>
-      <ThemeProvider theme={clubTheme}>
+    <SessionProvider>
+      <Provider store={store}>
+        <ThemeProvider theme={clubTheme}>
 
-        <Box className="flex flex-row">
-          <ClubNavigationDrawer />
-          <Container className="flex justify-center align-center p-4">
-            <LocalizationProvider dateAdapter={AdapterDayjs}>
-              {children}
-            </LocalizationProvider>
-          </Container>
-        </Box>
-      </ThemeProvider>
+          <Box className="flex flex-row">
+            <ClubNavigationDrawer />
+            <Container className="flex justify-center align-center p-4">
+              <LocalizationProvider dateAdapter={AdapterDayjs}>
+                {children}
+              </LocalizationProvider>
+            </Container>
+          </Box>
+        </ThemeProvider>
 
-    </Provider>
+      </Provider>
+    </SessionProvider>
 
 
   )
