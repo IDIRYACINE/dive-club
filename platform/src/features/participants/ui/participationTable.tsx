@@ -1,20 +1,20 @@
 "use client";
 
 import { useAppDispatch, useAppSelector } from "@/stores/clubsStore/hooks";
-import {selectParticipant} from "@/stores/clubsStore/slices/participantsSlice"
+import { selectParticipant } from "@/stores/clubsStore/slices/participantsSlice"
 import {
-    Box, TableCell,Button,
+    Box, TableCell, Button,
     TableRow, Paper, Table, TableBody, TableContainer, TableHead, Typography
 } from "@mui/material";
 import clsx from "clsx";
-import {IParticipant} from "@/core/participants/participantsEntity"
+import { IParticipant } from "@/core/participants/participantsEntity"
 import { openModal } from "@/stores/clubsStore/slices/navigationSlice";
 
 interface ActionsHeaderProps {
     className?: string
 }
 
-function ActionsHeader(props:ActionsHeaderProps) {
+function ActionsHeader(props: ActionsHeaderProps) {
 
     const dispatch = useAppDispatch()
 
@@ -25,7 +25,7 @@ function ActionsHeader(props:ActionsHeaderProps) {
 
     }
 
-    const boxClassName= clsx([
+    const boxClassName = clsx([
         props.className,
         "flex flex-row justify-between"
     ])
@@ -36,8 +36,8 @@ function ActionsHeader(props:ActionsHeaderProps) {
         <Typography variant="h6">Participants</Typography>
 
         <Button onClick={handleAddParticipant} color="primary" variant="contained">
-        Add Participant
-    </Button>
+            Add Participant
+        </Button>
 
 
     </Box>)
@@ -50,7 +50,7 @@ interface ParticipantHeaderProps {
 function ParticipantHeader(props: ParticipantHeaderProps) {
     const className = "font-bold";
     return (
-        <TableHead>
+        <TableHead sx={{backgroundColor:"lightgray"}}>
             <TableRow >
                 {props.headers.map((header) => (
                     <TableCell className={className} key={header}>
@@ -65,19 +65,20 @@ function ParticipantHeader(props: ParticipantHeaderProps) {
 
 interface ParticipantRowProps {
     participant: IParticipant,
-    onClick : (participant:IParticipant) => void
+    onClick: (participant: IParticipant) => void
 }
 
 function ParticipantRow(props: ParticipantRowProps) {
     const { participant } = props
 
-    function handleClick(){
+    function handleClick() {
         props.onClick(participant)
 
     }
 
     return (
         <TableRow onClick={handleClick} hover>
+            <TableCell>{participant.athelete.atheleteId}</TableCell>
             <TableCell>{participant.athelete.firstName}</TableCell>
             <TableCell>{participant.athelete.lastName}</TableCell>
             <TableCell>{participant.athelete.gender}</TableCell>
@@ -89,10 +90,10 @@ function ParticipantRow(props: ParticipantRowProps) {
 export function ParticipantTable() {
 
     const Participants = useAppSelector(state => state.participant.participants)
-    const headersData = ["firstName", "lastName", "gender"]
+    const headersData = ["License", "FirstName", "LastName", "Gender"]
     const dispatch = useAppDispatch()
 
-    function handleRowClick(participant:IParticipant){
+    function handleRowClick(participant: IParticipant) {
         dispatch(selectParticipant(participant.athelete.atheleteId))
         dispatch(openModal())
     }

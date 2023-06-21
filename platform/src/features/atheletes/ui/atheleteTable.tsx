@@ -45,8 +45,12 @@ interface AtheleteHeaderProps {
 
 function AtheleteHeader(props: AtheleteHeaderProps) {
     const className = "font-bold";
+
+    const headerStyle = {
+        backgroundColor: "lightgray",
+    }
     return (
-        <TableHead>
+        <TableHead sx={headerStyle}>
             <TableRow >
                 {props.headers.map((header) => (
                     <TableCell className={className} key={header}>
@@ -73,6 +77,8 @@ function AtheleteRow(props: AtheleteRowProps) {
 
     return (
         <TableRow onClick={handleClick} hover>
+                        <TableCell>{athelet.atheleteId}</TableCell>
+
             <TableCell>{athelet.firstName}</TableCell>
             <TableCell>{athelet.lastName}</TableCell>
             <TableCell>{athelet.gender}</TableCell>
@@ -84,7 +90,7 @@ function AtheleteRow(props: AtheleteRowProps) {
 export function AtheleteTable() {
 
     const atheletes = useAppSelector(state => state.athelete.atheletes)
-    const headersData = ["firstName", "lastName", "gender"]
+    const headersData = ["License","FirstName", "LastName", "Gender"]
     const dispatch = useAppDispatch()
 
     function handleRowClick(athelete:IAthelete){

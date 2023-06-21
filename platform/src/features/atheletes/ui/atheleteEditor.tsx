@@ -23,7 +23,7 @@ export function AtheleteEditor() {
     const athelete = useRef<IAthelete>({
         firstName: editedAtheleteEntity?.firstName ?? "",
         lastName: editedAtheleteEntity?.lastName ?? "",
-        dateOfBirth: editedAtheleteEntity?.dateOfBirth ?? "",
+        dateOfBirth: editedAtheleteEntity?.dateOfBirth ?? "01/01/1990",
         gender: editedAtheleteEntity?.gender ?? "",
         atheleteId: editedAtheleteEntity?.atheleteId ?? "",
     });
@@ -33,7 +33,7 @@ export function AtheleteEditor() {
           athelete.current = {
             firstName: editedAtheleteEntity.firstName ?? "",
             lastName: editedAtheleteEntity.lastName ?? "",
-            dateOfBirth: editedAtheleteEntity.dateOfBirth ?? "",
+            dateOfBirth: editedAtheleteEntity.dateOfBirth ?? "01/01/1990",
             gender: editedAtheleteEntity.gender ?? "",
             atheleteId: editedAtheleteEntity.atheleteId ?? "",
           };
@@ -184,9 +184,9 @@ function ActionsRow(props: ActionsProps) {
 
     return (
         <Box className={boxClassName}>
-            {props.onDelete != null ? <Button onClick={props.onDelete}> Delete </Button> : null}
+            {props.onDelete != null ? <Button onClick={props.onDelete} variant="contained" color="error"> Delete </Button> : null}
             <Button onClick={props.onCancel}> Cancel </Button>
-            <Button onClick={props.onConfirm}> Confirm </Button>
+            <Button onClick={props.onConfirm} variant="contained"> Confirm </Button>
 
         </Box>
     )

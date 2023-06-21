@@ -9,7 +9,7 @@ import { addParticipant, deleteParticipant, selectParticipantParticipations, set
 import { Typography, TableHead, TableCell, TableRow, Box, Button, TableContainer, Table, TableBody, Paper, Stack, Modal } from "@mui/material"
 import { useEffect, useState } from "react";
 import { createParticipantApi, deleteParticipantApi, updateParticipantApi } from "../logic/api";
-import { AtheleteLicenseSearch,EntryTimeField, ParticipantCard, ParticipationEntityDropdown } from "./components"
+import { AtheleteLicenseSearch, EntryTimeField, ParticipantCard, ParticipationEntityDropdown } from "./components"
 
 
 interface ParticipationEntityRowProps {
@@ -40,7 +40,7 @@ interface AtheleteHeaderProps {
 function ParticipationEntityHeader(props: AtheleteHeaderProps) {
     const className = "font-bold";
     return (
-        <TableHead>
+        <TableHead sx={{ backgroundColor: "lightgray" }}>
             <TableRow >
                 {props.headers.map((header) => (
                     <TableCell className={className} key={header}>
@@ -63,14 +63,14 @@ function AtheleteParticipationActions(props: AtheleteParticipationActionsProps) 
 
     const divisions = useAppSelector(state => state.participant.divisions)
     const specialties = useAppSelector(state => state.participant.specialties)
-    let entryTime ="99:99.99"
+    let entryTime = "99:99.99"
 
 
 
     const divisionSpecialtySelection: IParticipation = {
         division: divisions[0],
         specialty: specialties[0],
-        entryTime:entryTime
+        entryTime: entryTime
     }
 
     function updateDivision(value: IParticipationEntity) {
@@ -81,7 +81,7 @@ function AtheleteParticipationActions(props: AtheleteParticipationActionsProps) 
         divisionSpecialtySelection.specialty = value
     }
 
-    function updateEntryTime(value:string){
+    function updateEntryTime(value: string) {
         entryTime = value
     }
 
@@ -101,7 +101,7 @@ function AtheleteParticipationActions(props: AtheleteParticipationActionsProps) 
 
     const entryTimeFieldProps = {
         onUpdate: updateEntryTime,
-        className:sharedClassName
+        className: sharedClassName
     }
 
     function handleAdd() {
@@ -109,14 +109,14 @@ function AtheleteParticipationActions(props: AtheleteParticipationActionsProps) 
     }
 
     return (
-        <Box className="flex flex-col ">
+        <Box className="flex flex-col">
             <Typography variant="h6">Participation</Typography>
-            <Box className="flex flex-row">
+            <Stack direction="row" spacing={2} className="justify-start items-center">
                 <ParticipationEntityDropdown {...divisionDropdownProps} />
                 <ParticipationEntityDropdown {...specialtyDropdownProps} />
                 <EntryTimeField {...entryTimeFieldProps} />
                 <Button onClick={handleAdd} variant="contained" color="primary">Add</Button>
-            </Box>
+            </Stack>
 
         </Box>
     )
@@ -125,13 +125,13 @@ interface AtheleteParticipationTableProps {
     onDeletion: (participation: IParticipation) => void,
     participations: IParticipation[],
     athelete: IAthelete | undefined | null,
-    isEditMode:boolean
+    isEditMode: boolean
 }
 
 function AtheleteParticipationTable(props: AtheleteParticipationTableProps) {
-    const headersData = ["division", "specialty","entryTime"]
+    const headersData = ["Division", "Specialty", "EntryTime"]
     const dispatch = useAppDispatch()
-    const{onDeletion,participations,athelete,isEditMode} = props
+    const { onDeletion, participations, athelete, isEditMode } = props
 
     const clubId = useAppSelector(state => state.navigation.clubId!)
 
@@ -218,7 +218,7 @@ function AtheleteParticipationTable(props: AtheleteParticipationTableProps) {
             </TableContainer>
 
             <Box className="flex flex-row justify-between">
-            {isEditMode ? <Button onClick={onDelete} color="warning" variant="contained"> Delete </Button> : null}
+                {isEditMode ? <Button onClick={onDelete} color="error" variant="contained"> Delete </Button> : null}
 
                 <Button onClick={cancel} >Cancel</Button>
                 <Button onClick={save} variant="contained" color="primary">Save</Button>
@@ -240,9 +240,9 @@ export function ParticipationEditor() {
 
     useEffect(() => {
         setParticipations(participationsQuery);
-      }, [participationsQuery]);
+    }, [participationsQuery]);
 
-    const dispatch=useAppDispatch()
+    const dispatch = useAppDispatch()
 
     function addParticipation(participation: IParticipation) {
         const exists = participations.find((target) => target.division.id === participation.division.id && target.specialty.id === participation.specialty.id)
@@ -256,7 +256,7 @@ export function ParticipationEditor() {
         setParticipations(participations.filter((target) => target.division.id !== participation.division.id && target.specialty.id !== participation.specialty.id))
     }
 
-    
+
     const modalStyle = {
         "display": "flex",
         "flexDirection": "column",
@@ -273,12 +273,12 @@ export function ParticipationEditor() {
 
     return (
         <Modal sx={modalStyle} onClose={onCancel} open={isModalOpen}>
-            <Box sx={{ "backgroundColor": "white", "padding": "4rem", "overflowY": "scroll" }}>
-            {isEditMode? null : <AtheleteLicenseSearch atheletes={atheletes} />} 
-            <ParticipantCard athelete={athelete} />
-            <AtheleteParticipationActions participations={participations} onAdd={addParticipation} />
-            <AtheleteParticipationTable isEditMode={isEditMode} athelete={athelete} onDeletion={deleteParticipation} participations={participations} />
-        </Box>
+            <Stack direction="column" sx={{ "backgroundColor": "white", "padding": "4rem", "overflowY": "scroll" }}>
+                {isEditMode ? null : <AtheleteLicenseSearch atheletes={atheletes} />}
+                <ParticipantCard athelete={athelete} />
+                <AtheleteParticipationActions participations={participations} onAdd={addParticipation} />
+                <AtheleteParticipationTable isEditMode={isEditMode} athelete={athelete} onDeletion={deleteParticipation} participations={participations} />
+            </Stack>
 
         </Modal>
     )

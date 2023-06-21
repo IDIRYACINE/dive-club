@@ -17,7 +17,10 @@ function StartListFilter(props: StartListFilterProps) {
 
 
     return (
-        <GenderDropdown initialGender={initialGender} updateGender={onUpdateGender} />
+        <Stack className="items-center" direction="row" spacing={4}>
+            <Typography variant="h6">Filters</Typography>
+            <GenderDropdown initialGender={initialGender} updateGender={onUpdateGender} />
+        </Stack>
     )
 }
 
@@ -28,7 +31,7 @@ function StartListTable(props: StartListTableProps) {
     const { participants } = props
 
     return (
-        <Stack direction="column" spacing={4}>
+        <Stack  direction="column" spacing={4}>
             {
                 participants.map((participant) => {
                     return (
@@ -36,6 +39,7 @@ function StartListTable(props: StartListTableProps) {
                             <CardContent>
                                 <Stack direction="column" spacing={4}>
                                     <Typography variant="h6">{participant.athelete.lastName} {participant.athelete.firstName}</Typography>
+                                    <Typography variant="h6">BirthDate : {participant.athelete.dateOfBirth}</Typography>
 
                                     {
                                         participant.participations.map((participation) => {
@@ -68,7 +72,7 @@ export function ClubStartLists() {
     }
 
     return (
-        <Stack direction="column" spacing={4}>
+        <Stack className="p-4 justify-center h-screen overflow-y-scroll" direction="column" spacing={4}>
             <StartListFilter initialGender={gender} onUpdateGender={updateGender} />
             <StartListTable participants={filteredParticipants} />
         </Stack>

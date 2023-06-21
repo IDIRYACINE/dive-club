@@ -47,21 +47,20 @@ export function ParticipantCard(props: ParticipantCardProps) {
     const { athelete } = props
 
     const containerStyle = {
-        display: "flex",
-        flexDirection: "column",
-        justifyContent: "start",
-        alignItems: "center",
+        paddingTop: "1rem",
+        paddingBottom:"1rem",
+        width: "100%"
     }
+
     const unkown = "unkown"
 
     return (
-        <Container sx={containerStyle}>
-            <Stack direction="row" spacing={2} >
-                <Typography variant="body1">Athelete : {athelete?.lastName ?? unkown} {athelete?.firstName ?? unkown}</Typography>
-                <Typography variant="body1">Birth : {athelete?.dateOfBirth ?? unkown}</Typography>
-            </Stack>
 
-        </Container>
+        <Stack sx={containerStyle} direction="row" spacing={8} >
+            <Typography variant="body1">Athelete : {athelete?.lastName ?? unkown} {athelete?.firstName ?? unkown}</Typography>
+            <Typography variant="body1">Birth : {athelete?.dateOfBirth ?? unkown}</Typography>
+
+        </Stack>
     )
 
 
@@ -125,7 +124,7 @@ export function EntryTimeField(props: EntryTimeFieldProps) {
     }
 
     return (
-        <TextField onChange={updateEntryTime} value={entryTime}  />
+        <TextField onChange={updateEntryTime} value={entryTime} />
     );
 
 }

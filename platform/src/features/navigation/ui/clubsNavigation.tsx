@@ -33,10 +33,11 @@ function ClubNavigationButton(props: ClubNavigationButtonProps) {
         router.push(panel.path)
     }
 
+    const variant = isSelected ? "contained" : "text"
     const color = isSelected ? "primary" : "secondary"
 
     return (
-        <Button color={color} onClick={handleClick} className={className}>
+        <Button color={color} variant={variant} onClick={handleClick} className={className}>
             {
                 panel.title
             }
@@ -56,7 +57,7 @@ export function ClubNavigationDrawer() {
         justifyContent:"center",
     }
     return (
-        <Box sx={boxStyle} >
+        <Box className="bg-slate-100 pl-2" sx={boxStyle} >
             {
                 panels.map((panel, index) => <ClubNavigationButton key={panel.index} panel={panel} selectedIndex={activeIndex} />)
             }
