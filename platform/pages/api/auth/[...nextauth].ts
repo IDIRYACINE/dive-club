@@ -9,14 +9,13 @@ import { FirestoreAdapter } from "@next-auth/firebase-adapter";
 export const authOptions =
 {
     adapter: FirestoreAdapter(),
-    secret: process.env.NEXTJS_SECRET,
+    secret: process.env.NEXTAUTH_SECRET,
     session: {
         strategy: "jwt"
     },
-    // pages: {
-    //     signIn: "/login",
-    // },
-
+    pages: {
+        signIn: "/login",
+    },
     providers: [
         GoogleProvider({
             clientId: process.env.GOOGLE_CLIENT_ID!,

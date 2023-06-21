@@ -6,6 +6,7 @@ import { useAppDispatch, useAppSelector } from "@/stores/clubsStore/hooks"
 import { selectAtheletes } from "@/stores/clubsStore/slices/atheleteSlice";
 import { closeModal } from "@/stores/clubsStore/slices/navigationSlice";
 import { addParticipant, deleteParticipant, selectParticipantParticipations, setSearchedAthelete, updateAtheleteParticipation } from "@/stores/clubsStore/slices/participantsSlice"
+import { validateParticipation } from "@/utility/validators";
 import { Typography, TableHead, TableCell, TableRow, Box, Button, TableContainer, Table, TableBody, Paper, Stack, Modal } from "@mui/material"
 import { useEffect, useState } from "react";
 import { createParticipantApi, deleteParticipantApi, updateParticipantApi } from "../logic/api";
@@ -166,6 +167,12 @@ function AtheleteParticipationTable(props: AtheleteParticipationTableProps) {
     }
 
     function save() {
+
+        if(!validateParticipation(athelete?.atheleteId,participations)){
+            return
+        }
+
+
         if (isEditMode) {
             dispatch(updateAtheleteParticipation(props.participations))
             updateParticipantApi(

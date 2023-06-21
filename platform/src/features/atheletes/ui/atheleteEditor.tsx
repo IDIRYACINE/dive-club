@@ -8,6 +8,7 @@ import { useRef,useEffect } from "react";
 import { AtheleteNameField, GenderDropdown, AgeDropdown, AtheleteLicense } from "./components";
 import clsx from "clsx";
 import { createAtheleteApi, deleteAtheleteApi, updateAtheleteApi } from "../logic/api";
+import { validateAthelete } from "../../../utility/validators";
 
 interface AtheleteEditorProps {
     clubId: string|number}
@@ -61,7 +62,12 @@ export function AtheleteEditor() {
         athelete.current = {...athelete.current , atheleteId: license}
     }
 
+
     function onConfirm() {
+
+        if(!validateAthelete(athelete.current)){
+            return
+        }
 
         if (isEditMode) {
             dispatch(updateAthelete(athelete.current))

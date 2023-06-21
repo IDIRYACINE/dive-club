@@ -1,6 +1,7 @@
 "use client";
 
 import { AtheleteGender } from "@/core/athelete/atheleteEntity";
+import { validateName } from "@/utility/validators";
 import { Box, MenuItem, Select, SelectChangeEvent, TextField } from "@mui/material";
 import { DatePicker } from "@mui/x-date-pickers";
 import { Dayjs } from "dayjs";
@@ -78,6 +79,7 @@ export function AtheleteNameField(props: AtheleteNameFieldProps) {
     const [firstName, setFirstName] = useState<string>(props.initialFirstName ?? "")
     const [lastName, setLastName] = useState<string>(props.initialLastName ?? "")
 
+
     function handleFirstNameChange(event: React.ChangeEvent<HTMLInputElement>) {
         setFirstName(event.target.value)
         props.updateName(event.target.value)
@@ -90,8 +92,16 @@ export function AtheleteNameField(props: AtheleteNameFieldProps) {
 
     return (
         <Box className="flex flex-row">
-            <TextField className={props.className} value={firstName} id="first-name" label="First Name" variant="outlined" onChange={handleFirstNameChange} />
-            <TextField className={props.className} value={lastName} id="last-name" label="Last Name" variant="outlined" onChange={handleLastNameChange} />
+            <TextField required
+                error={!validateName(firstName)}
+                helperText={!validateName(firstName) ? "Invalid Name" : null}
+                className={props.className} value={firstName} id="first-name" label="First Name" variant="outlined" onChange={handleFirstNameChange} />
+            <TextField
+                error={!validateName(lastName)}
+                helperText={!validateName(lastName) ? "Invalid Name" : null}
+                required className={props.className}
+                value={lastName} id="last-name" label="Last Name"
+                variant="outlined" onChange={handleLastNameChange} />
         </Box>
     )
 }
@@ -103,16 +113,26 @@ interface AtheleteLicenseProps {
 
 }
 export function AtheleteLicense(props: AtheleteLicenseProps) {
-    const [license, setLicense] = useState<string>(props.initialLicense ?? "")
+    const [license, setLicense] = useState<string | null>(props.initialLicense ?? "")
 
     function handleLicenseChange(event: React.ChangeEvent<HTMLInputElement>) {
+        const value = parseInt(event.target.value)
         setLicense(event.target.value)
-        props.updateAtheleteLicense(event.target.value)
+
+        if (!isNaN(value)) {
+            props.updateAtheleteLicense(event.target.value)
+
+        }
     }
 
     return (
         <Box className="flex flex-row">
-            <TextField className={props.className} value={license} id="athelete-license" label="Athelete License" variant="outlined" onChange={handleLicenseChange} />
+            <TextField required className={props.className}
+                value={license} id="athelete-license" label="Athelete License"
+                variant="outlined" onChange={handleLicenseChange}
+                error={!license}
+                helperText="EmptyField or Invalid Number"
+            />
         </Box>
     )
 }

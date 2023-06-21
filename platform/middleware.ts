@@ -1,7 +1,7 @@
 import withAuth from "next-auth/middleware"
 
 export default withAuth({
-  secret: process.env.NEXTJS_SECRET,
+  secret: process.env.NEXTAUTH_SECRET,
 
 })
 

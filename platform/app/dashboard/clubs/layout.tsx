@@ -22,9 +22,9 @@ export default function RootLayout({
       <Provider store={store}>
         <ThemeProvider theme={clubTheme}>
           <ClubStorePreloader/>
-          <Box className="flex flex-row h-screen overflow-y-scroll">
+          <Box className="flex flex-row h-screen">
             <ClubNavigationDrawer />
-            <Container className="flex justify-center align-center ">
+            <Container className="flex justify-center align-center h-screen overflow-y-scroll">
               <LocalizationProvider dateAdapter={AdapterDayjs}>
                 {children}
               </LocalizationProvider>

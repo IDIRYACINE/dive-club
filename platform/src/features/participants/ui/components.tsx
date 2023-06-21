@@ -8,6 +8,7 @@ import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
 import { IAthelete } from "@/core/athelete/atheleteEntity"
 import { IParticipationEntity } from "@/core/participants/participantsEntity"
+import { validateEntryTime, validateLicense } from "@/utility/validators";
 
 
 interface AtheleteLicenseSearchProps {
@@ -17,15 +18,21 @@ export function AtheleteLicenseSearch(props: AtheleteLicenseSearchProps) {
 
     const { atheletes } = props
 
-    const [license, setLicense] = useState<string>("")
+    const [license, setLicense] = useState<string | null>(null)
     const dispatch = useAppDispatch()
 
 
     function handleOnChange(event: ChangeEvent<HTMLInputElement>) {
-        setLicense(event.target.value)
+        const value = event.target.value
+        if (value && validateLicense(value)) {
+            setLicense(value)
+
+        }
     }
 
     function handleSearch() {
+        if (!license) return
+
         const athelete = atheletes.find((target) => target.atheleteId === license)
 
         dispatch(setSearchedAthelete(athelete))
@@ -33,7 +40,12 @@ export function AtheleteLicenseSearch(props: AtheleteLicenseSearchProps) {
 
     return (
         <Stack direction="row" spacing={2} >
-            <TextField value={license} onChange={handleOnChange} id="outlined-license" label="Athelete License" variant="outlined" />
+            <TextField required error={!license}
+                helperText={!license ? "Invalid License" : null}
+                value={license}
+                onChange={handleOnChange}
+                id="outlined-license"
+                label="Athelete License" variant="outlined" />
             <Button onClick={handleSearch} color="primary" variant="contained">Search</Button>
         </Stack>
     )
@@ -48,7 +60,7 @@ export function ParticipantCard(props: ParticipantCardProps) {
 
     const containerStyle = {
         paddingTop: "1rem",
-        paddingBottom:"1rem",
+        paddingBottom: "1rem",
         width: "100%"
     }
 
@@ -124,7 +136,10 @@ export function EntryTimeField(props: EntryTimeFieldProps) {
     }
 
     return (
-        <TextField onChange={updateEntryTime} value={entryTime} />
+        <TextField required error={!validateEntryTime(entryTime)} 
+        
+        helperText={!validateEntryTime(entryTime) ? "Invalid EntryTime":null}
+        onChange={updateEntryTime} value={entryTime} />
     );
 
 }
