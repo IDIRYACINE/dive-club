@@ -53,6 +53,10 @@ export const authOptions =
             return session
         },
 
+        async redirect({ url, baseUrl }) {
+            return baseUrl
+          },
+
         async jwt({ user, token, account, profile,session }) {
 
             if (account) {
