@@ -13,9 +13,6 @@ export const authOptions =
     session: {
         strategy: "jwt"
     },
-    pages: {
-        signIn: "/login",
-    },
     providers: [
         GoogleProvider({
             clientId: process.env.GOOGLE_CLIENT_ID!,
@@ -52,6 +49,7 @@ export const authOptions =
                 token.accessToken = account.access_token
                 token.id = account.id
             }
+
 
 
             return token

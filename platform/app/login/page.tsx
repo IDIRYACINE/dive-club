@@ -7,11 +7,12 @@ import { Box } from "@mui/material";
 
 export default function LoginPage() {
     const boxStyle = {
-        "minHeight": "100vh",
+        "height": "100vh",
         "display": "flex",
         "justifyContent": "center",
         "alignItems": "center",
-        "padding": "2rem",
+        "padding": "0",
+        "overflowY":"hidden"
     }
 
     return (

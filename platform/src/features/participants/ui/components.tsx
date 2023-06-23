@@ -9,6 +9,7 @@ import Button from '@mui/material/Button';
 import { IAthelete } from "@/core/athelete/atheleteEntity"
 import { IParticipationEntity } from "@/core/participants/participantsEntity"
 import { validateEntryTime, validateLicense } from "@/utility/validators";
+import { formatEntryTime } from "@/utility/formaters";
 
 
 interface AtheleteLicenseSearchProps {
@@ -127,19 +128,34 @@ interface EntryTimeFieldProps {
 export function EntryTimeField(props: EntryTimeFieldProps) {
     const { initialValue, onUpdate, className } = props
 
-    const [entryTime, setEntryTime] = useState(initialValue ?? "99:99.9")
+    const [entryTime, setEntryTime] = useState({
+        raw: initialValue ?? "",
+        formated: initialValue ?? ""
+    })
+
 
     function updateEntryTime(e) {
-        const value = e.target.value
-        setEntryTime(value)
-        onUpdate(value)
+        const raw = e.target.value
+        const formated = formatEntryTime(raw)
+
+
+        setEntryTime({
+            raw,
+            formated
+        })
+
+        onUpdate(formated)
     }
 
     return (
-        <TextField required error={!validateEntryTime(entryTime)} 
-        
-        helperText={!validateEntryTime(entryTime) ? "Invalid EntryTime":null}
-        onChange={updateEntryTime} value={entryTime} />
+        <Stack direction="row" spacing={2} sx={{ "alignItems": "center" }}>
+            <TextField required error={!validateEntryTime(entryTime.formated)}
+                value={entryTime.raw}
+                onChange={updateEntryTime} />
+
+            <Typography variant="body1">{!validateEntryTime(entryTime.formated) ? "Invalid EntryTime" : entryTime.formated}</Typography>
+
+        </Stack>
     );
 
 }
