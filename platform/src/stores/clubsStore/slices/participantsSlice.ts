@@ -15,7 +15,7 @@ interface StoreInitialState {
 }
 
 const initialState: StoreInitialState = {
-    participants: mockParticipants,
+    participants: [],
     divisions: divisions,
     specialties: specialties,
     selectedParticipantId: null,

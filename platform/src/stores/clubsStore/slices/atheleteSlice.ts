@@ -9,7 +9,7 @@ interface StoreInitialState {
 }
 
 const initialState: StoreInitialState = {
-    atheletes: mockAtheletes,
+    atheletes: [],
     selectedAtheleteId: null,
 }
 

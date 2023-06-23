@@ -1,16 +1,24 @@
-//@ts-nocheck 
+// @ts-nocheck
 
-import NextAuth,{NextAuthOptions} from "next-auth"
+import NextAuth from "next-auth"
 
 import GoogleProvider from "next-auth/providers/google";
 import * as firestoreFunction from "firebase/firestore";
 import { FirestoreAdapter } from "@next-auth/firebase-adapter";
+import { cert } from "firebase-admin/app";
 
 
 
-export const authOptions:NextAuthOptions =
+export const authOptions =
 {
-    adapter: FirestoreAdapter(),
+    adapter: FirestoreAdapter({
+        credential: cert({
+          projectId: process.env.FIREBASE_PROJECT_ID,
+          clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
+          privateKey: process.env.FIREBASE_PRIVATE_KEY,
+        })
+      }),
+      
     secret: process.env.NEXTAUTH_SECRET,
     session: {
         strategy: "jwt"
