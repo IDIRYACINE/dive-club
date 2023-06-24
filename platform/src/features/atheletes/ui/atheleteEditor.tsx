@@ -25,7 +25,7 @@ export function AtheleteEditor() {
         firstName: editedAtheleteEntity?.firstName ?? "",
         lastName: editedAtheleteEntity?.lastName ?? "",
         dateOfBirth: editedAtheleteEntity?.dateOfBirth ?? "01/01/1990",
-        gender: editedAtheleteEntity?.gender ?? "",
+        gender: editedAtheleteEntity?.gender ?? "Male",
         atheleteId: editedAtheleteEntity?.atheleteId ?? "",
     });
 
@@ -35,7 +35,7 @@ export function AtheleteEditor() {
             firstName: editedAtheleteEntity.firstName ?? "",
             lastName: editedAtheleteEntity.lastName ?? "",
             dateOfBirth: editedAtheleteEntity.dateOfBirth ?? "01/01/1990",
-            gender: editedAtheleteEntity.gender ?? "",
+            gender: editedAtheleteEntity.gender ?? "Male",
             atheleteId: editedAtheleteEntity.atheleteId ?? "",
           };
         }

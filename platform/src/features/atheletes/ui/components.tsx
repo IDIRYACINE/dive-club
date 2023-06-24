@@ -1,7 +1,7 @@
 "use client";
 
 import { AtheleteGender } from "@/core/athelete/atheleteEntity";
-import { validateName } from "@/utility/validators";
+import { validateLicense, validateName } from "@/utility/validators";
 import { Box, MenuItem, Select, SelectChangeEvent, TextField } from "@mui/material";
 import { DatePicker } from "@mui/x-date-pickers";
 import { Dayjs } from "dayjs";
@@ -130,8 +130,8 @@ export function AtheleteLicense(props: AtheleteLicenseProps) {
             <TextField required className={props.className}
                 value={license} id="athelete-license" label="Athelete License"
                 variant="outlined" onChange={handleLicenseChange}
-                error={!license}
-                helperText="EmptyField or Invalid Number"
+                error={!validateLicense(license??"")}
+                helperText={!validateLicense(license??"")? "Invalid License Number": null}
             />
         </Box>
     )
