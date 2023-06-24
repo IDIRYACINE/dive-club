@@ -19,13 +19,13 @@ export function validateName(value: string) {
 }
 
 export function validateLicense(value: string) {
-    const licensePattern = /^[0-9]+/
+    const licensePattern = /^[0-9]+$/
     return licensePattern.test(value)
 
 }
 
 export function validateBirthDate(value: string) {
-    const dateRegex = /^(?:(?:31(\/)(?:0[13578]|1[02]))\1|(?:(?:29|30)(\/)(?:0[1,3-9]|1[0-2])\2))(?:(?:1[6-9]|[2-9]\d)?\d{2})$/;
+    const dateRegex = /^(0[1-9]|[12][0-9]|3[01])\/(0[1-9]|1[0-2])\/([0-9]{4})$/;
     return dateRegex.test(value)
 }
 
