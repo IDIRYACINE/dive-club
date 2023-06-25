@@ -39,10 +39,14 @@ typedef OnSpecialtySelected = void Function(DivingSpecialtyEntity? item);
 
 class SpecialtyDropdown extends StatelessWidget {
   const SpecialtyDropdown(
-      {super.key, required this.onSelected, required this.items});
+      {super.key,
+      required this.onSelected,
+      required this.items,
+      this.initialValue});
 
   final OnSpecialtySelected onSelected;
   final List<DivingSpecialtyEntity> items;
+  final DivingSpecialtyEntity? initialValue;
 
   List<SpecialtyDropdownItem> _buildItems() {
     List<SpecialtyDropdownItem> result = [];
@@ -61,9 +65,18 @@ class SpecialtyDropdown extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    DivingSpecialtyEntity? firstSelection;
+    
+    if (initialValue != null) {
+      firstSelection =
+          items.firstWhere((element) => element.equals(initialValue!));
+    } else if (items.isNotEmpty) {
+      firstSelection = items.first;
+    }
+
     return DropdownButtonFormField<DivingSpecialtyEntity>(
       items: _buildItems(),
-      value: items.isNotEmpty ? items.first : null,
+      value: firstSelection,
       onChanged: onSelected,
       hint: const Text("Specialty"),
       validator: validatorDivingSpecialty,

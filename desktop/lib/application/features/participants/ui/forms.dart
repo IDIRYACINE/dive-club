@@ -8,11 +8,11 @@ import 'package:dive_club/application/features/specialties/feature.dart';
 import 'package:dive_club/core/entities/clubs/export.dart';
 import 'package:dive_club/core/entities/diving/entity.dart';
 import 'package:dive_club/core/entities/genders/export.dart';
+import 'package:dive_club/core/entities/participants/export.dart';
 import 'package:dive_club/resources/l10n/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../core/entities/participants/export.dart';
 import '../logic/participant_controller.dart';
 
 class ParticipantForm extends StatelessWidget {
@@ -23,6 +23,7 @@ class ParticipantForm extends StatelessWidget {
     required this.ageDivisions,
     required this.clubs,
     required this.genders,
+    this.participant,
   });
 
   final ParticipantController controller = ParticipantController();
@@ -32,10 +33,25 @@ class ParticipantForm extends StatelessWidget {
   final List<AgeDivisionEntity> ageDivisions;
   final List<GenderEntity> genders;
   final List<ClubEntity> clubs;
+  final ParticipantEntity? participant;
+
+  void onConfirm(bool isUpdateMode, ParticipantController controller,BuildContext context){
+    if (isUpdateMode) {
+      controller.onUpdate(context,participant!);
+    } else {
+      controller.onRegister(context);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     final localizations = AppLocalizations.of(context)!;
+
+    final isUpdateMode = participant != null;
+
+    if(isUpdateMode){
+      controller.setupUpdateMode(participant!);
+    }
 
     return Form(
       key: ParticipantController.key,
@@ -47,6 +63,7 @@ class ParticipantForm extends StatelessWidget {
             decoration: const InputDecoration(
               labelText: "firstName",
             ),
+            initialValue: participant?.participantName.firstName,
             validator: validatorEmptyText,
             onChanged: controller.updateFirstName,
           ),
@@ -54,6 +71,7 @@ class ParticipantForm extends StatelessWidget {
             decoration: const InputDecoration(
               labelText: "lastName",
             ),
+            initialValue: participant?.participantName.lastName,
             validator: validatorEmptyText,
             onChanged: controller.updateLastName,
           ),
@@ -61,6 +79,7 @@ class ParticipantForm extends StatelessWidget {
             decoration: const InputDecoration(
               labelText: "entry time",
             ),
+            initialValue: participant?.entryTime.toString(),
             onChanged: controller.updateEntryTime,
             validator: validatorScore,
           ),
@@ -76,25 +95,30 @@ class ParticipantForm extends StatelessWidget {
           DivisionDropdown(
             items: divisions,
             onSelected: controller.updateDivision,
+            initialValue: participant?.division,
           ),
           SpecialtyDropdown(
             items: specialties,
             onSelected: controller.updateSpecialty,
+            initialValue: participant?.specialty,
           ),
           GenderDropdown(
             items: genders,
             onSelected: controller.updateGender,
+            initialValue : participant?.genderId
+
           ),
           ClubDropdown(
             items: clubs,
             onSelected: controller.updateClub,
+            initialValue: participant?.club,
           ),
           const SizedBox(
             height: 20,
           ),
           GenericFormActions(
             onCancelPressed: controller.onCancel,
-            onConfirmPressed: () => controller.onRegister(context),
+            onConfirmPressed: () => onConfirm(isUpdateMode,controller,context),
           )
         ],
       ),
@@ -102,84 +126,6 @@ class ParticipantForm extends StatelessWidget {
   }
 }
 
-class UpdateParticipantForm extends StatelessWidget {
-  UpdateParticipantForm({
-    super.key,
-    required this.ageDivisions,
-    required this.clubs,
-    required this.genders,
-    required this.participant,
-  });
-
-  final ParticipantEntity participant;
-  final ParticipantController controller = ParticipantController();
-  final List<AgeDivisionEntity> ageDivisions;
-  final List<GenderEntity> genders;
-  final List<ClubEntity> clubs;
-
-  @override
-  Widget build(BuildContext context) {
-    final localizations = AppLocalizations.of(context)!;
-
-    return Form(
-      key: ParticipantController.key,
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          TextFormField(
-            decoration: const InputDecoration(
-              labelText: "firstName",
-            ),
-            initialValue: participant.participantName.firstName,
-            validator: validatorEmptyText,
-            onChanged: controller.updateFirstName,
-          ),
-          TextFormField(
-            decoration: const InputDecoration(
-              labelText: "lastName",
-            ),
-            initialValue: participant.participantName.lastName,
-            validator: validatorEmptyText,
-            onChanged: controller.updateLastName,
-          ),
-          TextFormField(
-            decoration: const InputDecoration(
-              labelText: "entry time",
-            ),
-            initialValue: participant.entryTime.toString(),
-            onChanged: controller.updateEntryTime,
-            validator: validatorScore,
-          ),
-          TextFormField(
-            decoration: InputDecoration(
-              labelText: localizations.birthDateLabel,
-            ),
-            controller: controller.birthDateTextController,
-            readOnly: true,
-            onTap: () => controller.selectBirthDate(context),
-            validator: validatorEmptyText,
-          ),
-          GenderDropdown(
-            items: genders,
-            onSelected: controller.updateGender,
-          ),
-          ClubDropdown(
-            items: clubs,
-            onSelected: controller.updateClub,
-          ),
-          const SizedBox(
-            height: 20,
-          ),
-          GenericFormActions(
-            onCancelPressed: controller.onCancel,
-            onConfirmPressed: () => controller.onUpdate(context,participant),
-          )
-        ],
-      ),
-    );
-  }
-}
 
 class ParticipantDialog extends StatelessWidget {
   const ParticipantDialog({Key? key, this.participant}) : super(key: key);
@@ -196,9 +142,11 @@ class ParticipantDialog extends StatelessWidget {
         BlocProvider.of<AgeDivisionBloc>(context).state.ageDivisions;
     final clubs = BlocProvider.of<ClubBloc>(context).state.clubs;
 
+    final title = participant == null ? localizations.addParticipantLabel : localizations.editParticipantLabel;
     return AlertDialog(
-      title: Text(localizations.addParticipantLabel),
+      title: Text(title),
       content: ParticipantForm(
+        participant: participant,
         divisions: divisions,
         specialties: specialties,
         ageDivisions: ageDivisions,

@@ -97,15 +97,19 @@ class ParticipantController {
     }
   }
 
-  onUpdate(BuildContext context,ParticipantEntity oldEntity) {
+  onUpdate(BuildContext context, ParticipantEntity oldEntity) {
     final isFormValid = key.currentState!.validate();
     if (isFormValid) {
       final bloc = BlocProvider.of<ParticipantBloc>(context);
 
       final entity = oldEntity.copyWith(
-          participantName: ParticipantName(_data.firstName, _data.lastName),
-          ageDivision: _data.ageDivision!,
-          club: _data.club!,
+        participantName: ParticipantName(_data.firstName, _data.lastName),
+        division: _data.division!,
+        specialty: _data.specialty!,
+        ageDivision: _data.ageDivision!,
+        club: _data.club!,
+        entryTime: Score.fromString(_data.score!),
+        genderId: _data.gender!.genderId,
       );
 
       _updateParticipant(entity);
@@ -178,64 +182,45 @@ class ParticipantController {
       filterOptions.participantBloc!.add(event);
     });
   }
+
+  void setupUpdateMode(ParticipantEntity participantEntity) {
+    _data.firstName = participantEntity.participantName.firstName;
+    _data.lastName = participantEntity.participantName.lastName;
+    _data.division = participantEntity.division;
+    _data.specialty = participantEntity.specialty;
+    _data.ageDivision = participantEntity.ageDivision;
+    _data.club = participantEntity.club;
+    _data.birthDateTextController.text =
+        participantEntity.ageDivision.divisionId.toString();
+    _data.birthDate = DateTime(participantEntity.ageDivision.divisionId.value);
+    _data.score = participantEntity.entryTime.toString();
+
+    _data.gender = GenderEntity.fromId(participantEntity.genderId);
+  }
 }
 
 class RowController {
-  void addParticipantScore(ParticipantEntity entity) {}
-
-
   Future<void> displayActionsDialog(DisplayActionsOptions options) async {
-    final dialog = ParticipantActionsDialog(entity: options.entity,);
+    final dialog = ParticipantActionsDialog(
+      entity: options.entity,
+    );
     NavigationService.displayDialog(dialog);
   }
-
-  Future<void> displayActions(DisplayActionsOptions options) async {
-    final RenderBox overlay =
-        Overlay.of(options.context).context.findRenderObject() as RenderBox;
-    final RenderBox button = options.context.findRenderObject() as RenderBox;
-    final position = button.localToGlobal(Offset.zero);
-
-    final action = await showMenu(
-      context: options.context,
-      position: RelativeRect.fromLTRB(
-        position.dx,
-        position.dy + 50,
-        overlay.size.width - position.dx - button.size.width,
-        overlay.size.height - position.dy,
-      ),
-      items: const [
-        PopupMenuItem(
-          value: 'addScore',
-          child: Text('Add Score'),
-        ),
-      ],
-    );
-
-    if (action != null) {
-      switch (action) {
-        case 'addScore':
-          addParticipantScore(options.entity);
-          break;
-      }
-    }
-  }
 }
-
 
 Future<void> _updateParticipant(ParticipantEntity entity) async {
-  // final options = UpdateParticipantOptions(
-  //     id: entity.participantId.value,
-  //     firstName: entity.participantName.firstName,
-  //     divisionId: entity.division.divisionId.value,
-  //     specialityId: entity.specialty.specialtyId.value,
-  //     ageDivisionId: entity.ageDivision.divisionId.value,
-  //     clubId: entity.club.clubId.value,
-  //     entryTime: entity.entryTime.toIntCode(),
-  //     genderId: entity.genderId.value,
-  //     lastName: entity.participantName.lastName);
-  // ServicesProvider.instance().databasePort.insertParticipant(options);
+  final options = UpdateParticipantOptions(
+      id: entity.participantId.value,
+      firstName: entity.participantName.firstName,
+      divisionId: entity.division.divisionId.value,
+      specialityId: entity.specialty.specialtyId.value,
+      ageDivisionId: entity.ageDivision.divisionId.value,
+      clubId: entity.club.clubId.value,
+      entryTime: entity.entryTime.toIntCode(),
+      genderId: entity.genderId.value,
+      lastName: entity.participantName.lastName);
+  ServicesProvider.instance().databasePort.updateParticipant(options);
 }
-
 
 Future<void> _registerParticipant(ParticipantEntity entity) async {
   final options = CreateParticipantOptions(
@@ -251,10 +236,16 @@ Future<void> _registerParticipant(ParticipantEntity entity) async {
   ServicesProvider.instance().databasePort.insertParticipant(options);
 }
 
+void deleteParticipant(ParticipantEntity entity, ParticipantBloc bloc) {
+  final event = DeleteParticipantEvent(entity.participantId);
+  bloc.add(event);
+  _deleteParticipant(entity);
+  NavigationService.pop();
+}
 
-Future<void> deleteParticipant(ParticipantEntity entity) async {
+Future<void> _deleteParticipant(ParticipantEntity entity) async {
   final options = DeleteParticipantOptions(
-      id: entity.participantId.value,
-     );
+    id: entity.participantId.value,
+  );
   ServicesProvider.instance().databasePort.deleteParticipant(options);
 }

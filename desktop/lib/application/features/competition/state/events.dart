@@ -24,3 +24,9 @@ class UpdateScoreEvent extends  CompetitionEvent{
 
   UpdateScoreEvent(this.score);
 }
+
+class DeleteScoreEvent extends CompetitionEvent{
+  final CompetitionScoreEntity score;
+
+  DeleteScoreEvent(this.score);
+}

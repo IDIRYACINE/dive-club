@@ -20,8 +20,7 @@ class UpdateScoreOptions {
   });
 }
 
-class DeleteScoreOptions{
-
+class DeleteScoreOptions {
   final int participantId;
   final int divisionId;
   final int specialityId;
@@ -33,7 +32,6 @@ class DeleteScoreOptions{
     required this.ageDivisionId,
     required this.specialityId,
   });
-  
 }
 
 class CreateScoreOptions {
@@ -122,30 +120,30 @@ class DeleteParticipantOptions {
 class UpdateParticipantOptions {
   final int id;
 
-  final String? firstName;
-  final int? divisionId;
-  final int? specialityId;
+  final String firstName;
+  final int divisionId;
+  final int specialityId;
 
-  final int? clubId;
+  final int clubId;
 
-  final int? entryTime;
+  final int entryTime;
 
-  final int? genderId;
+  final int genderId;
 
-  final String? lastName;
+  final String lastName;
 
-  final int? ageDivisionId;
+  final int ageDivisionId;
 
   UpdateParticipantOptions(
       {required this.id,
-      this.firstName,
-      this.divisionId,
-      this.specialityId,
-      this.clubId,
-      this.entryTime,
-      this.genderId,
-      this.lastName,
-      this.ageDivisionId});
+      required this.firstName,
+      required this.divisionId,
+      required this.specialityId,
+      required this.clubId,
+      required this.entryTime,
+      required this.genderId,
+      required this.lastName,
+      required this.ageDivisionId});
 }
 
 class UpdateClubOptions {

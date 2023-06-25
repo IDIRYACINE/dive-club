@@ -100,12 +100,18 @@ updateParticipant(
     REQUIRED :specialtyId AS INTEGER,
     REQUIRED :ageDivisionYear AS INTEGER,
     REQUIRED :genderId AS INTEGER,
-    REQUIRED :entryTime AS INTEGER
+    REQUIRED :entryTime AS INTEGER,
+    REQUIRED :clubId AS INTEGER
 ):
 UPDATE
     Participants
 SET
-    participant_first_name = :name,
+    club_id = :clubId,
+    participant_first_name = :firstName,
+    participant_last_name = :lastName,
+    entry_time = :entryTime,
+    age_division_year = :ageDivisionYear,
+    gender_id = :genderId,
     division_id = :divisionId,
     specialty_id = :specialtyId
 WHERE
@@ -223,7 +229,7 @@ UPDATE
 SET
     age_division_name = :name
 WHERE
-    age_division_year = :id;
+    age_division_id = :id;
 
 selectCompetitionScores:
 SELECT

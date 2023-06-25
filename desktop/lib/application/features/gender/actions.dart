@@ -7,10 +7,14 @@ typedef OnDivisionSelected = void Function(GenderEntity? item);
 
 class GenderDropdown extends StatelessWidget {
   const GenderDropdown(
-      {super.key, required this.onSelected, required this.items});
+      {super.key,
+      required this.onSelected,
+      required this.items,
+      this.initialValue});
 
   final OnDivisionSelected onSelected;
   final List<GenderEntity> items;
+  final GenderId? initialValue;
 
   List<GenderDropdownItem> _buildItems() {
     List<GenderDropdownItem> result = [];
@@ -28,10 +32,18 @@ class GenderDropdown extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    GenderEntity? firstSelection;
+    if (initialValue != null) {
+      firstSelection =
+          items.firstWhere((element) => element.genderId.equals(initialValue!) );
+    } else if (items.isNotEmpty) {
+      firstSelection = items.first;
+    }
+
     return DropdownButtonFormField<GenderEntity>(
       items: _buildItems(),
       onChanged: onSelected,
-      value: items.isNotEmpty ? items.first : null,
+      value: firstSelection,
       hint: const Text("Gender"),
       validator: validatorGender,
     );

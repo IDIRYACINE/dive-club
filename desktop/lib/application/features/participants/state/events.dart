@@ -24,3 +24,9 @@ class UpdateParticipantEvent extends  ParticipantEvent{
 
   UpdateParticipantEvent(this.participant);
 }
+
+class DeleteParticipantEvent extends ParticipantEvent{
+  final ParticipantId participantId;
+
+  DeleteParticipantEvent(this.participantId);
+}

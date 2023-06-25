@@ -163,7 +163,16 @@ class ScoreController {
   }
 }
 
+void deleteScore(CompetitionBloc bloc, CompetitionScoreEntity entity) {
+  final event = DeleteScoreEvent(entity);
+  bloc.add(event);
 
-Future<void> deleteScore(CompetitionBloc bloc,CompetitionScoreEntity entity) async {
-  
+  final options = DeleteScoreOptions(
+      participantId: entity.participantId.value,
+      divisionId: entity.divisionId.value,
+      ageDivisionId: entity.ageDivision.divisionId.value,
+      specialityId: entity.specialtyId.value);
+
+  ServicesProvider.instance().databasePort.deleteScore(options);
+  NavigationService.pop();
 }

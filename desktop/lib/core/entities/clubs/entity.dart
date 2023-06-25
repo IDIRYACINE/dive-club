@@ -16,4 +16,8 @@ class ClubEntity{
     );
   }
 
+  bool equals(ClubEntity other) {
+    return clubId.value == other.clubId.value ;
+  }
+
 }
