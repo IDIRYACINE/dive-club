@@ -32,4 +32,10 @@ class CompetitionScoreEntity {
     required this.gender,
     required this.ageDivision,
   });
+
+  bool equals(CompetitionScoreEntity other) {
+    return participantId.value == other.participantId.value &&
+        divisionId.value == other.divisionId.value &&
+        specialtyId.value == other.specialtyId.value;
+  }
 }

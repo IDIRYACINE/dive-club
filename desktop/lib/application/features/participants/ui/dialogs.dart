@@ -1,9 +1,12 @@
 import 'package:dive_club/application/commons/dialogs/common.dart';
+import 'package:dive_club/application/features/participants/feature.dart';
+import 'package:dive_club/application/features/participants/logic/participant_controller.dart';
 import 'package:dive_club/application/navigation/feature.dart';
+import 'package:dive_club/core/entities/participants/export.dart';
 import 'package:dive_club/resources/l10n/l10n.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../core/entities/participants/export.dart';
 import 'forms.dart';
 
 class ParticipantActionsDialog extends StatelessWidget {
@@ -12,11 +15,13 @@ class ParticipantActionsDialog extends StatelessWidget {
 
   final ParticipantEntity entity;
 
-  void onDelete() {
+  void onDelete(BuildContext context) {
+    final bloc = BlocProvider.of<ParticipantBloc>(context);
+    
     final dialog = ConfirmationDialog(
       title: "Delete participant",
       content: "Are you sure you want to delete this participant?",
-      onConfirm: () => {},
+      onConfirm: () => deleteParticipant(entity,bloc),
     );
 
     NavigationService.replaceDialog(dialog);
@@ -40,7 +45,7 @@ class ParticipantActionsDialog extends StatelessWidget {
             child: Text(localizations.editParticipantLabel),
           ),
           TextButton(
-            onPressed: onDelete,
+            onPressed: () => onDelete(context),
             child: Text(localizations.deleteParticipantLabel),
           ),
         ],

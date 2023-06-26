@@ -41,9 +41,10 @@ abstract class DatabasePort {
   Future<DatabaseOperationResult> insertDefaultValues();
 
   Future<DatabaseOperationResult> deleteParticipant(DeleteParticipantOptions options);
-  Future<DatabaseOperationResult> updateParticipantOptions(UpdateParticipantOptions options);
 
   Future<DatabaseOperationResult> deleteScore(DeleteScoreOptions options);
   Future<DatabaseOperationResult> updateScoreOptions(UpdateScoreOptions options);
+
+  Future<DatabaseOperationResult> updateParticipant(UpdateParticipantOptions options);
 
 }

@@ -111,12 +111,12 @@ function AtheleteParticipationActions(props: AtheleteParticipationActionsProps) 
 
     return (
         <Box className="flex flex-col">
-            <Typography variant="h6">Participation</Typography>
+            <Typography variant="h6">المشاركات</Typography>
             <Stack direction="row" spacing={2} className="justify-start items-center">
                 <ParticipationEntityDropdown {...divisionDropdownProps} />
                 <ParticipationEntityDropdown {...specialtyDropdownProps} />
                 <EntryTimeField {...entryTimeFieldProps} />
-                <Button onClick={handleAdd} variant="contained" color="primary">Add</Button>
+                <Button onClick={handleAdd} variant="contained" color="primary">اضافة</Button>
             </Stack>
 
         </Box>
@@ -130,7 +130,7 @@ interface AtheleteParticipationTableProps {
 }
 
 function AtheleteParticipationTable(props: AtheleteParticipationTableProps) {
-    const headersData = ["Division", "Specialty", "EntryTime"]
+    const headersData = ["الفئة", "التخصص", "وقت الدخول"]
     const dispatch = useAppDispatch()
     const { onDeletion, participations, athelete, isEditMode } = props
 
@@ -224,11 +224,14 @@ function AtheleteParticipationTable(props: AtheleteParticipationTableProps) {
                 </Table>
             </TableContainer>
 
-            <Box className="flex flex-row justify-between">
-                {isEditMode ? <Button onClick={onDelete} color="error" variant="contained"> Delete </Button> : null}
+            <Box className="flex flex-row justify-between items-end">
+                {isEditMode ? <Button onClick={onDelete} color="error" variant="contained"> حذف </Button> : <div/>}
+               
+                <Stack direction="row" spacing={2}>
 
-                <Button onClick={cancel} >Cancel</Button>
-                <Button onClick={save} variant="contained" color="primary">Save</Button>
+                <Button onClick={cancel} >الغاء</Button>
+                <Button onClick={save} variant="contained" color="primary">تاكيد</Button>
+                </Stack>
 
             </Box>
 

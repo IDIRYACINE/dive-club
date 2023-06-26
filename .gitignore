@@ -42,6 +42,5 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
-desktop/build/
-/deskto/build/
 /build/
+/desktop/build/

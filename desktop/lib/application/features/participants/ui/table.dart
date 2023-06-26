@@ -45,20 +45,16 @@ class _ParticipantsTableState extends State<ParticipantsTable> {
         return null;
       }),
       onSelectChanged: (selected) {
-        if (_selectedRowIndex == index) {
-          final bloc = BlocProvider.of<ParticipantBloc>(context);
-          _rowController.displayActionsDialog(DisplayActionsOptions(
-              bloc: bloc, context: context, entity: participant));
-        }
-
         if (selected != null && selected) {
           updateSelectedRowIndex(index);
         }
+        final bloc = BlocProvider.of<ParticipantBloc>(context);
+        _rowController.displayActionsDialog(DisplayActionsOptions(
+            bloc: bloc, context: context, entity: participant));
       },
       cells: [
         DataCell(Text(participant.participantName.toString())),
-        DataCell(Text(
-            participant.ageDivision.divisionId.value.toString())),
+        DataCell(Text(participant.ageDivision.divisionId.value.toString())),
         DataCell(Text(participant.division.divisionName.value)),
         DataCell(Text(participant.specialty.specialtyName.value)),
       ],

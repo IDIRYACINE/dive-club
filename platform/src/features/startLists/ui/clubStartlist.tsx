@@ -18,7 +18,7 @@ function StartListFilter(props: StartListFilterProps) {
 
     return (
         <Stack className="items-center" direction="row" spacing={4}>
-            <Typography variant="h6">Filters</Typography>
+            <Typography variant="h6">البحث</Typography>
             <GenderDropdown initialGender={initialGender} updateGender={onUpdateGender} />
         </Stack>
     )
@@ -39,7 +39,7 @@ function StartListTable(props: StartListTableProps) {
                             <CardContent>
                                 <Stack direction="column" spacing={4}>
                                     <Typography variant="h6">{participant.athelete.lastName} {participant.athelete.firstName}</Typography>
-                                    <Typography variant="h6">BirthDate : {participant.athelete.dateOfBirth}</Typography>
+                                    <Typography variant="h6">تاريخ الميلاد : {participant.athelete.dateOfBirth}</Typography>
 
                                     {
                                         participant.participations.map((participation) => {
