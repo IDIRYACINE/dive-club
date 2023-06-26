@@ -52,5 +52,9 @@
     "importParticipantsFromPlatform" : "Import Platform Engagements",
     "participantActionsLabel" : "Participant Actions",
     "editParticipantLabel" : "Edit Participant",
-    "deleteParticipantLabel" : "Delete Participant"
+    "deleteParticipantLabel" : "Delete Participant",
+    "customPrintPrize" : "Print Custom Prize",
+    "autoPrint" : "Auto Print Prizes",
+    "printerMode" : "Print Mode"
+
 }

@@ -8,6 +8,7 @@ import 'package:dive_club/core/entities/competition/export.dart';
 import 'package:dive_club/core/entities/genders/export.dart';
 import 'package:dive_club/core/entities/participants/export.dart';
 import 'package:dive_club/core/infrastrucutre/database/export.dart';
+import 'package:dive_club/infrastructure/printerService/export.dart';
 import 'package:dive_club/infrastructure/service_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -107,9 +108,8 @@ class ScoreController {
   }
 
   void printPrizes(CompetitionBloc bloc) async {
-    ServicesProvider.instance()
-        .printerPort
-        .printCertificates(bloc.state.scores);
+    final dialog =  ChoosePrintModeDialog(bloc:bloc);
+    NavigationService.displayDialog(dialog);
   }
 
   void updateScore(String? value) {

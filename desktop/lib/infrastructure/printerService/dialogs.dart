@@ -1,6 +1,10 @@
 import 'dart:typed_data';
 
+import 'package:dive_club/application/commons/utility/validators.dart';
+import 'package:dive_club/application/commons/widgets/buttons.dart';
+import 'package:dive_club/application/features/competition/feature.dart';
 import 'package:dive_club/application/navigation/feature.dart';
+import 'package:dive_club/infrastructure/service_provider.dart';
 import 'package:dive_club/resources/l10n/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:printing/printing.dart';
@@ -27,20 +31,158 @@ class PrinterDialog extends StatelessWidget {
   }
 }
 
-class PreparingPrinterDialog extends StatelessWidget{
+class PreparingPrinterDialog extends StatelessWidget {
   const PreparingPrinterDialog({super.key});
 
   @override
   Widget build(BuildContext context) {
     final localization = AppLocalizations.of(context)!;
 
-    return  AlertDialog(
+    return AlertDialog(
       content: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
           Text(localization.preparingPrint),
-          const SizedBox(height: 20,),
+          const SizedBox(
+            height: 20,
+          ),
           const CircularProgressIndicator(),
+        ],
+      ),
+    );
+  }
+}
+
+class ChoosePrintModeDialog extends StatelessWidget {
+  const ChoosePrintModeDialog({super.key, required this.bloc});
+  final CompetitionBloc bloc;
+
+  void onAutoPrint() {
+    ServicesProvider.instance()
+        .printerPort
+        .printCertificates(bloc.state.scores);
+  }
+
+  void onCustomPrint() {
+    final dialog = CustomPrizeDialog( bloc: bloc,);
+    NavigationService.replaceDialog(dialog);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final localization = AppLocalizations.of(context)!;
+
+    return AlertDialog(
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text(localization.printerMode),
+          const SizedBox(
+            height: 20,
+          ),
+          ButtonPrimary(
+            onPressed: onAutoPrint,
+            text: localization.autoPrint,
+          ),
+          ButtonPrimary(
+            onPressed: onCustomPrint,
+            text: localization.customPrintPrize,
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _CustomPrizeController {
+   _CustomPrizeController();
+
+  int participantId = -1;
+  int participantRank = -1;
+  late CompetitionBloc bloc;
+
+
+  static final key = GlobalKey<FormState>();
+
+
+  void onCancel() {
+    NavigationService.maybePop();
+  }
+
+  void onPrint() {
+    final isFormValid = key.currentState!.validate();
+    final validInput = participantId != -1 && participantRank != -1;
+
+    if (isFormValid && validInput) {
+        final participant = bloc.state.scores.firstWhere(
+          (element) => element.participantId.
+        );
+        
+        ServicesProvider.instance()
+        .printerPort
+        .printCustomCertificate(participant,participantRank);
+    }
+  }
+
+  void updateParticipantId(String value) {
+    participantId = int.tryParse(value) ?? -1;
+  }
+
+  void updateParticipantRank(String value) {
+    participantRank = int.tryParse(value) ?? -1;
+  }
+}
+
+class CustomPrizeDialog extends StatelessWidget {
+  CustomPrizeDialog({super.key, required this.bloc});
+
+  final CompetitionBloc bloc;
+  final controller = _CustomPrizeController();
+
+  @override
+  Widget build(BuildContext context) {
+    final localization = AppLocalizations.of(context)!;
+    controller.bloc = bloc;
+
+    return AlertDialog(
+      title: Text(localization.customPrintPrize),
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Form(
+            key: _CustomPrizeController.key,
+            child: Column(children: [
+              TextFormField(
+                decoration: const InputDecoration(
+                  labelText: "Participant Id",
+                ),
+                validator: validatorId,
+                onChanged: controller.updateParticipantId,
+              ),
+              TextFormField(
+                decoration: const InputDecoration(
+                  labelText: "Participant Rank",
+                ),
+                validator: validatorId,
+                onChanged: controller.updateParticipantRank,
+              )
+            ]),
+          ),
+          const SizedBox(
+            height: 20,
+          ),
+          Row(
+            children: [
+              ButtonPrimary(
+                onPressed: controller.onCancel,
+                text: localization.cancelLabel,
+              ),
+              ButtonPrimary(
+                onPressed: controller.onPrint,
+                text: localization.confirmLabel,
+              ),
+            ],
+          )
         ],
       ),
     );
