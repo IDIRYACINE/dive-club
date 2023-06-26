@@ -2,7 +2,6 @@
 
 import { Button, Card, Box, CardMedia, CardContent, TextField } from "@mui/material"
 import clsx from "clsx";
-import { useState } from "react";
 import { signIn } from "next-auth/react"
 
 function LoginForm() {
@@ -20,7 +19,7 @@ function LoginForm() {
           <Button variant="contained" onClick={() => signIn(
             "google",
            
-          )} >Login</Button>
+          )} >تسجيل الدخول</Button>
 
         </CardContent>
       </Box>
