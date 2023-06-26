@@ -12,17 +12,17 @@ export interface IPanelEntity {
 
 export const clubPanels:IPanelEntity[] = [
    {
-        title:"Atheletes",
+        title:"الرياضيين",
         path:atheletesRoute,
         index:0,
     },
    {
-        title:"Participants",
+        title:"المشاركين",
         path:participantsRoute,
         index:1
     },
     {
-        title:"Startlists",
+        title:"قائمة الانطلاق",
         path:clubStartListsRoute,
         index:2
     }

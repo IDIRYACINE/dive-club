@@ -42,12 +42,12 @@ export function AtheleteLicenseSearch(props: AtheleteLicenseSearchProps) {
     return (
         <Stack direction="row" spacing={2} >
             <TextField required error={!license}
-                helperText={!license ? "Invalid License" : null}
+                helperText={!license ? "رقم الترخيص خاطئ" : null}
                 value={license}
                 onChange={handleOnChange}
                 id="outlined-license"
-                label="Athelete License" variant="outlined" />
-            <Button onClick={handleSearch} color="primary" variant="contained">Search</Button>
+                label="رقم الترخيص" variant="outlined" />
+            <Button onClick={handleSearch} color="primary" variant="contained">بحث</Button>
         </Stack>
     )
 }
@@ -70,8 +70,8 @@ export function ParticipantCard(props: ParticipantCardProps) {
     return (
 
         <Stack sx={containerStyle} direction="row" spacing={8} >
-            <Typography variant="body1">Athelete : {athelete?.lastName ?? unkown} {athelete?.firstName ?? unkown}</Typography>
-            <Typography variant="body1">Birth : {athelete?.dateOfBirth ?? unkown}</Typography>
+            <Typography variant="body1">الرياضي : {athelete?.lastName ?? unkown} {athelete?.firstName ?? unkown}</Typography>
+            <Typography variant="body1">تاريخ الميلاد : {athelete?.dateOfBirth ?? unkown}</Typography>
 
         </Stack>
     )
@@ -153,7 +153,7 @@ export function EntryTimeField(props: EntryTimeFieldProps) {
                 value={entryTime.raw}
                 onChange={updateEntryTime} />
 
-            <Typography variant="body1">{!validateEntryTime(entryTime.formated) ? "Invalid EntryTime" : entryTime.formated}</Typography>
+            <Typography variant="body1">{!validateEntryTime(entryTime.formated) ? "وقت الدخول خاطئ" : entryTime.formated}</Typography>
 
         </Stack>
     );

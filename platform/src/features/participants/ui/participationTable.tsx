@@ -33,10 +33,10 @@ function ActionsHeader(props: ActionsHeaderProps) {
 
     return (<Box className={boxClassName}>
 
-        <Typography variant="h6">Participants</Typography>
+        <Typography variant="h6">المشاركين</Typography>
 
         <Button onClick={handleAddParticipant} color="primary" variant="contained">
-            Add Participant
+            اضافة مشارك
         </Button>
 
 
@@ -79,8 +79,8 @@ function ParticipantRow(props: ParticipantRowProps) {
     return (
         <TableRow onClick={handleClick} hover>
             <TableCell>{participant.athelete.atheleteId}</TableCell>
-            <TableCell>{participant.athelete.firstName}</TableCell>
             <TableCell>{participant.athelete.lastName}</TableCell>
+            <TableCell>{participant.athelete.firstName}</TableCell>
             <TableCell>{participant.athelete.gender}</TableCell>
         </TableRow>
     )
@@ -90,7 +90,7 @@ function ParticipantRow(props: ParticipantRowProps) {
 export function ParticipantTable() {
 
     const Participants = useAppSelector(state => state.participant.participants)
-    const headersData = ["License", "FirstName", "LastName", "Gender"]
+    const headersData = ["الترخيص","اللقب", "الاسم",  "الجنس"]
     const dispatch = useAppDispatch()
 
     function handleRowClick(participant: IParticipant) {

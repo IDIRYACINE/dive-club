@@ -369,18 +369,12 @@ class DriftDatabaseService implements DatabasePort {
     return DatabaseOperationResult();
   }
 
-
   @override
-  Future<DatabaseOperationResult> deleteParticipant(DeleteParticipantOptions options) async {
-      _database.deleteParticipant(participantId: options.id);
+  Future<DatabaseOperationResult> deleteParticipant(
+      DeleteParticipantOptions options) async {
+    _database.deleteParticipant(participantId: options.id);
 
-      return DatabaseOperationResult();
-  }
-  
-  @override
-  Future<DatabaseOperationResult> updateParticipantOptions(UpdateParticipantOptions options) {
-    // TODO: implement updateParticipantOptions
-    throw UnimplementedError();
+    return DatabaseOperationResult();
   }
 
   @override
@@ -396,19 +390,45 @@ class DriftDatabaseService implements DatabasePort {
 
     return DatabaseOperationResult();
   }
-  
+
   @override
-  Future<DatabaseOperationResult> deleteScore(DeleteScoreOptions options) async {
-    _database.deleteScore(participantId: options.participantId, divisionId: options.divisionId, specialtyId: options.specialityId, ageDivisionYear: options.ageDivisionId);
+  Future<DatabaseOperationResult> deleteScore(
+      DeleteScoreOptions options) async {
+    _database.deleteScore(
+        participantId: options.participantId,
+        divisionId: options.divisionId,
+        specialtyId: options.specialityId,
+        ageDivisionYear: options.ageDivisionId);
 
     return DatabaseOperationResult();
   }
-  
+
   @override
-  Future<DatabaseOperationResult> updateScoreOptions(UpdateScoreOptions options) async{
-    _database.updateScore(participantId: options.participantId, divisionId: options.divisionId, specialtyId: options.specialityId, score: options.score);
+  Future<DatabaseOperationResult> updateScoreOptions(
+      UpdateScoreOptions options) async {
+    _database.updateScore(
+        participantId: options.participantId,
+        divisionId: options.divisionId,
+        specialtyId: options.specialityId,
+        score: options.score);
 
     return DatabaseOperationResult();
   }
-  
+
+  @override
+  Future<DatabaseOperationResult> updateParticipant(
+      UpdateParticipantOptions options) async {
+    _database.updateParticipant(
+        id: options.id,
+        firstName: options.firstName,
+        divisionId: options.divisionId,
+        specialtyId: options.specialityId,
+        ageDivisionYear: options.ageDivisionId,
+        clubId: options.clubId,
+        entryTime: options.entryTime,
+        genderId: options.genderId,
+        lastName: options.lastName);
+
+    return DatabaseOperationResult();
+  }
 }

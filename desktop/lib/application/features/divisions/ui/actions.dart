@@ -37,10 +37,11 @@ typedef OnDivisionSelected = void Function(DivingDivisionEntity? item);
 
 class DivisionDropdown extends StatelessWidget {
   const DivisionDropdown(
-      {super.key, required this.onSelected, required this.items});
+      {super.key, required this.onSelected, required this.items, this.initialValue});
 
   final OnDivisionSelected onSelected;
   final List<DivingDivisionEntity> items;
+  final DivingDivisionEntity? initialValue;
 
   List<DivisionDropdownItem> _buildItems() {
     List<DivisionDropdownItem> result = [];
@@ -58,9 +59,19 @@ class DivisionDropdown extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+     DivingDivisionEntity? firstSelection;
+    
+    if (initialValue != null) {
+      firstSelection =
+          items.firstWhere((element) => element.equals(initialValue!));
+    } else if (items.isNotEmpty) {
+      firstSelection = items.first;
+    }
+
     return DropdownButtonFormField<DivingDivisionEntity>(
         items: _buildItems(), onChanged: onSelected,
-        value:  items.isNotEmpty ? items.first : null,
+        value:  firstSelection,
               hint: const Text("Division"),
 
         validator: validatorDivingDivision,

@@ -18,7 +18,8 @@ class CompetitionScoreEntity {
   final ParticipantSeries series;
   final ClubEntity club;
 
-  CompetitionScoreEntity( {required this.club,
+  CompetitionScoreEntity({
+    required this.club,
     required this.column,
     required this.series,
     required this.participantName,
@@ -28,6 +29,13 @@ class CompetitionScoreEntity {
     required this.divisionId,
     required this.specialtyId,
     required this.score,
-    required this.gender, required this.ageDivision,
+    required this.gender,
+    required this.ageDivision,
   });
+
+  bool equals(CompetitionScoreEntity other) {
+    return participantId.value == other.participantId.value &&
+        divisionId.value == other.divisionId.value &&
+        specialtyId.value == other.specialtyId.value;
+  }
 }

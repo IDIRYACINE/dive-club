@@ -3,7 +3,7 @@ import { useAppDispatch, useAppSelector } from "@/stores/clubsStore/hooks";
 import { selectAthelete } from "@/stores/clubsStore/slices/atheleteSlice";
 import { openModal } from "@/stores/clubsStore/slices/navigationSlice";
 import {
-    Box, TableCell,Button,
+    Box, TableCell, Button,
     TableRow, Paper, Table, TableBody, TableContainer, TableHead, Typography
 } from "@mui/material";
 import clsx from "clsx";
@@ -11,7 +11,7 @@ import clsx from "clsx";
 interface ActionsHeaderProps {
     className?: string
 }
-function ActionsHeader(props:ActionsHeaderProps) {
+function ActionsHeader(props: ActionsHeaderProps) {
 
     const dispatch = useAppDispatch()
 
@@ -21,7 +21,7 @@ function ActionsHeader(props:ActionsHeaderProps) {
 
     }
 
-    const boxClassName= clsx([
+    const boxClassName = clsx([
         props.className,
         "flex flex-row justify-between"
     ])
@@ -29,11 +29,11 @@ function ActionsHeader(props:ActionsHeaderProps) {
 
     return (<Box className={boxClassName}>
 
-        <Typography variant="h6">Atheletes</Typography>
+        <Typography variant="h6">الرياضيين</Typography>
 
         <Button onClick={handleAddAthelete} color="primary" variant="contained">
-        Add Athelete
-    </Button>
+            اضافة الرياضي
+        </Button>
 
 
     </Box>)
@@ -65,22 +65,21 @@ function AtheleteHeader(props: AtheleteHeaderProps) {
 
 interface AtheleteRowProps {
     athelet: IAthelete,
-    onClick : (athelte:IAthelete) => void
+    onClick: (athelte: IAthelete) => void
 }
 
 function AtheleteRow(props: AtheleteRowProps) {
     const { athelet } = props
 
-    function handleClick(){
+    function handleClick() {
         props.onClick(athelet)
     }
 
     return (
         <TableRow onClick={handleClick} hover>
-                        <TableCell>{athelet.atheleteId}</TableCell>
-
-            <TableCell>{athelet.firstName}</TableCell>
+            <TableCell>{athelet.atheleteId}</TableCell>
             <TableCell>{athelet.lastName}</TableCell>
+            <TableCell>{athelet.firstName}</TableCell>
             <TableCell>{athelet.gender}</TableCell>
         </TableRow>
     )
@@ -90,10 +89,10 @@ function AtheleteRow(props: AtheleteRowProps) {
 export function AtheleteTable() {
 
     const atheletes = useAppSelector(state => state.athelete.atheletes)
-    const headersData = ["License","FirstName", "LastName", "Gender"]
+    const headersData = ["الترخيص", "اللقب", "الاسم", "الجنس"]
     const dispatch = useAppDispatch()
 
-    function handleRowClick(athelete:IAthelete){
+    function handleRowClick(athelete: IAthelete) {
         dispatch(selectAthelete(athelete.atheleteId))
         dispatch(openModal())
     }

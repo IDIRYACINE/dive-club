@@ -38,10 +38,11 @@ typedef OnSpecialtySelected = void Function(ClubEntity? item);
 
 class ClubDropdown extends StatelessWidget {
   const ClubDropdown(
-      {super.key, required this.onSelected, required this.items});
+      {super.key, required this.onSelected, required this.items, this.initialValue});
 
   final OnSpecialtySelected onSelected;
   final List<ClubEntity> items;
+  final ClubEntity? initialValue;
 
   List<ClubDropdownItem> _buildItems() {
     List<ClubDropdownItem> result = [];
@@ -60,9 +61,18 @@ class ClubDropdown extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    ClubEntity? firstSelection;
+    
+    if (initialValue != null) {
+      firstSelection =
+          items.firstWhere((element) => element.equals(initialValue!));
+    } else if (items.isNotEmpty) {
+      firstSelection = items.first;
+    }
+
     return DropdownButtonFormField<ClubEntity>(
       items: _buildItems(),
-      value: items.isNotEmpty ? items.first : null,
+      value: firstSelection,
       hint: const Text("Club"),
       onChanged: onSelected,
       validator: validatorClub,

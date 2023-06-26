@@ -54,7 +54,7 @@ export const authOptions =
         },
 
         async redirect({ url, baseUrl }) {
-            return baseUrl
+            return `${baseUrl}/dashboard/clubs`
           },
 
         async jwt({ user, token, account, profile,session }) {

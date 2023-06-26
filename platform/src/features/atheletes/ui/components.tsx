@@ -34,7 +34,7 @@ export function GenderDropdown(props: GenderDropdownProps) {
             labelId="athelete-gender-select-label"
             id="athelete-gender-select"
             value={gender}
-            label="Gender"
+            label="الجنس"
             onChange={handleChange}
         >
             {
@@ -94,13 +94,13 @@ export function AtheleteNameField(props: AtheleteNameFieldProps) {
         <Box className="flex flex-row">
             <TextField required
                 error={!validateName(firstName)}
-                helperText={!validateName(firstName) ? "Invalid Name" : null}
-                className={props.className} value={firstName} id="first-name" label="First Name" variant="outlined" onChange={handleFirstNameChange} />
+                helperText={!validateName(firstName) ? "الاسم المدخل خاطئ" : null}
+                className={props.className} value={firstName} id="first-name" label="الاسم" variant="outlined" onChange={handleFirstNameChange} />
             <TextField
                 error={!validateName(lastName)}
-                helperText={!validateName(lastName) ? "Invalid Name" : null}
+                helperText={!validateName(lastName) ? "الاسم المدخل خاطئ" : null}
                 required className={props.className}
-                value={lastName} id="last-name" label="Last Name"
+                value={lastName} id="last-name" label="اللقب"
                 variant="outlined" onChange={handleLastNameChange} />
         </Box>
     )
@@ -128,7 +128,7 @@ export function AtheleteLicense(props: AtheleteLicenseProps) {
     return (
         <Box className="flex flex-row">
             <TextField required className={props.className}
-                value={license} id="athelete-license" label="Athelete License"
+                value={license} id="athelete-license" label="رقم الترخيص"
                 variant="outlined" onChange={handleLicenseChange}
                 error={!validateLicense(license??"")}
                 helperText={!validateLicense(license??"")? "Invalid License Number": null}

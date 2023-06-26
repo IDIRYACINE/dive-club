@@ -15,7 +15,7 @@ class CompetitionTable extends StatelessWidget {
 
   final List<CompetitionScoreEntity> scores;
 
-  DataRow _buildRow(int index, ThemeData theme,BuildContext context) {
+  DataRow _buildRow(int index, ThemeData theme, BuildContext context) {
     CompetitionScoreEntity score = scores[index];
 
     return DataRow(
@@ -30,7 +30,7 @@ class CompetitionTable extends StatelessWidget {
           return null;
         }),
         cells: [
-          DataCell(Text((index+1).toString())),
+          DataCell(Text((index + 1).toString())),
           DataCell(Text(score.participantName.toString())),
           DataCell(Text(score.score.toString())),
         ],
@@ -39,11 +39,8 @@ class CompetitionTable extends StatelessWidget {
 
           final dialog = ConfirmationDialog(
               title: "Score",
-              content: 
-              "Are you sure you want to delete this score?",
-              onConfirm: () {
-                deleteScore(bloc,score);
-              });
+              content: "Are you sure you want to delete this score?",
+              onConfirm: () => deleteScore(bloc, score));
           NavigationService.displayDialog(dialog);
         });
   }
@@ -69,7 +66,7 @@ class CompetitionTable extends StatelessWidget {
           ],
           rows: List<DataRow>.generate(
             scores.length,
-            (index) => _buildRow(index, theme,context),
+            (index) => _buildRow(index, theme, context),
           ),
         ),
       ),

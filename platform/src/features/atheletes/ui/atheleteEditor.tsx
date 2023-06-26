@@ -2,7 +2,7 @@ import {  IAthelete } from "@/core/athelete/atheleteEntity";
 import {  useAppDispatch, useAppSelector } from "@/stores/clubsStore/hooks";
 import { addAthelete,selectEditedAthelete, deleteAthelete, updateAthelete, unselectAthelete } from "@/stores/clubsStore/slices/atheleteSlice";
 import { closeModal } from "@/stores/clubsStore/slices/navigationSlice";
-import { Box, Typography,Button, Modal, Container } from "@mui/material";
+import { Box, Stack,Typography,Button, Modal, Container } from "@mui/material";
 import dayjs from "dayjs";
 import { useRef,useEffect } from "react";
 import { AtheleteNameField, GenderDropdown, AgeDropdown, AtheleteLicense } from "./components";
@@ -165,7 +165,7 @@ export function AtheleteEditor() {
         <Modal sx={modalStyle} onClose={onCancel} open={isModalOpen}>
 
             <Container sx={containerStyle}>
-                <Typography className={sharedClassName} variant="h5"> {isEditMode ? "Update Athelete" : "Create Athelete"} </Typography>
+                <Typography className={sharedClassName} variant="h5"> {isEditMode ? "تحديث الرياضي" : "اضافة الرياضي"} </Typography>
                 <AtheleteLicense  {...licenseProps} />
                 <AtheleteNameField {...atheleteNameProps} />
                 <GenderDropdown {...genderProps} />
@@ -190,9 +190,12 @@ function ActionsRow(props: ActionsProps) {
 
     return (
         <Box className={boxClassName}>
-            {props.onDelete != null ? <Button onClick={props.onDelete} variant="contained" color="error"> Delete </Button> : null}
-            <Button onClick={props.onCancel}> Cancel </Button>
-            <Button onClick={props.onConfirm} variant="contained"> Confirm </Button>
+            {props.onDelete != null ? <Button onClick={props.onDelete} variant="contained" color="error"> حذف </Button> : <div/>}
+            
+            <Stack direction="row" spacing={2}>
+            <Button onClick={props.onCancel}> الغاء </Button>
+            <Button onClick={props.onConfirm} variant="contained"> تأكيد </Button>
+            </Stack>
 
         </Box>
     )

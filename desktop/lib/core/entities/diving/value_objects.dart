@@ -36,6 +36,11 @@ class AgeDivisionId {
     final year = value.year;
     return AgeDivisionId(year < 2012 ? 2012 : year);
   }
+
+  @override
+  String toString() {
+    return value.toString();
+  }
 }
 
 class AgeDivisionName {

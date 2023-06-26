@@ -12,6 +12,10 @@ class DivingDivisionEntity {
         divisionId: divisionId ?? this.divisionId,
         divisionName: divisionName ?? this.divisionName);
   }
+
+  bool equals(DivingDivisionEntity other) {
+    return divisionId.value == other.divisionId.value;
+  }
 }
 
 class DivingSpecialtyEntity {
@@ -26,6 +30,10 @@ class DivingSpecialtyEntity {
     return DivingSpecialtyEntity(
         specialtyId: specialtyId ?? this.specialtyId,
         specialtyName: specialtyName ?? this.specialtyName);
+  }
+
+  bool equals(DivingSpecialtyEntity other) {
+    return specialtyId.value == other.specialtyId.value;
   }
 }
 

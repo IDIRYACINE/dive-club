@@ -2094,14 +2094,24 @@ abstract class _$AppDb extends GeneratedDatabase {
   }
 
   Future<int> updateParticipant(
-      {required String name,
+      {required int clubId,
+      required String firstName,
+      required String lastName,
+      required int entryTime,
+      required int ageDivisionYear,
+      required int genderId,
       required int divisionId,
       required int specialtyId,
       required int id}) {
     return customUpdate(
-      'UPDATE Participants SET participant_first_name = ?1, division_id = ?2, specialty_id = ?3 WHERE participant_id = ?4',
+      'UPDATE Participants SET club_id = ?1, participant_first_name = ?2, participant_last_name = ?3, entry_time = ?4, age_division_year = ?5, gender_id = ?6, division_id = ?7, specialty_id = ?8 WHERE participant_id = ?9',
       variables: [
-        Variable<String>(name),
+        Variable<int>(clubId),
+        Variable<String>(firstName),
+        Variable<String>(lastName),
+        Variable<int>(entryTime),
+        Variable<int>(ageDivisionYear),
+        Variable<int>(genderId),
         Variable<int>(divisionId),
         Variable<int>(specialtyId),
         Variable<int>(id)
@@ -2221,7 +2231,7 @@ abstract class _$AppDb extends GeneratedDatabase {
 
   Future<int> updateAgeDivisions({required String name, required int id}) {
     return customUpdate(
-      'UPDATE AgeDivisions SET age_division_name = ?1 WHERE age_division_year = ?2',
+      'UPDATE AgeDivisions SET age_division_name = ?1 WHERE age_division_id = ?2',
       variables: [Variable<String>(name), Variable<int>(id)],
       updates: {ageDivisions},
       updateKind: UpdateKind.update,
