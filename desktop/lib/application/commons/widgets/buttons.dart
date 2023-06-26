@@ -2,11 +2,12 @@ import 'package:dive_club/resources/l10n/l10n.dart';
 import 'package:flutter/material.dart';
 
 class ButtonPrimary extends StatelessWidget {
-  const ButtonPrimary({Key? key, required this.onPressed, required this.text})
+  const ButtonPrimary({Key? key, required this.onPressed,this.width, required this.text})
       : super(key: key);
 
   final VoidCallback onPressed;
   final String text;
+  final double? width;
 
   @override
   Widget build(BuildContext context) {
@@ -16,6 +17,7 @@ class ButtonPrimary extends StatelessWidget {
     );
 
     return MaterialButton(
+      minWidth: width,
       color: theme.colorScheme.primary,
       onPressed: onPressed,
       child: Text(

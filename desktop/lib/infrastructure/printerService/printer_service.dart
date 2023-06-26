@@ -47,8 +47,9 @@ class PrinterService implements PrinterPort {
     compute((message) async {
       final participants = message["participant"] as CompetitionScoreEntity;
       final font = message["font"] as pw.TtfFont;
+      final rank = message["rank"] as int;
       return await createCustomCertificateDocument(participants, rank, font);
-    }, {"participant": participant, "font": font}).then((binaryDocument) {
+    }, {"participant": participant, "font": font,"rank":rank}).then((binaryDocument) {
       _displayPreview(binaryDocument);
     });
   }

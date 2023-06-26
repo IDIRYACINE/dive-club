@@ -15,28 +15,25 @@ class CompetitionBloc extends Bloc<CompetitionEvent, CompetitionState> {
 
   FutureOr<void> _handleUpdateScoreEvent(
       UpdateScoreEvent event, Emitter<CompetitionState> emit) {
-        final updatedScores = state.scores.map((e) => e.equals(event.score)  ? event.score : e).toList();
-
-        emit(state.copyWith(scores: updatedScores));
-      }
+    final updatedScores = state.aggregate.updateScore(event.score);
+    emit(state.copyWith(scores: updatedScores));
+  }
 
   FutureOr<void> _handleAddScoreEvent(
       AddScoreEvent event, Emitter<CompetitionState> emit) {
-        final newState = state.copyWith(
-          scores: [...state.scores , event.score]
-        );
+    final updatedScores = state.aggregate.addScore(event.score);
 
-        emit(newState);
-      }
+    emit(state.copyWith(scores: updatedScores));
+  }
 
   FutureOr<void> _handleLoadScoresEvent(
       LoadScoresEvent event, Emitter<CompetitionState> emit) {
-        emit(state.copyWith(scores: event.scores));
-      }
+    emit(state.copyWith(scores: event.scores));
+  }
 
-  FutureOr<void> _handleDeleteScoreEvent(DeleteScoreEvent event, Emitter<CompetitionState> emit) {
-    final updatedScores = state.scores.where((element) => !element.equals(event.score)).toList();
-
+  FutureOr<void> _handleDeleteScoreEvent(
+      DeleteScoreEvent event, Emitter<CompetitionState> emit) {
+    final updatedScores = state.aggregate.deleteScore(event.score);
     emit(state.copyWith(scores: updatedScores));
   }
 }

@@ -38,4 +38,11 @@ class CompetitionScoreEntity {
         divisionId.value == other.divisionId.value &&
         specialtyId.value == other.specialtyId.value;
   }
+
+  bool equalsByIds({required int participantId, required int divisionId, required int specialtyId}) {
+   
+    return this.participantId.value == participantId &&
+        this.divisionId.value == divisionId &&
+        this.specialtyId.value == specialtyId;
+  }
 }

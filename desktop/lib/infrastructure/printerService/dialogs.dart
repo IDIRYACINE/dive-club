@@ -64,7 +64,9 @@ class ChoosePrintModeDialog extends StatelessWidget {
   }
 
   void onCustomPrint() {
-    final dialog = CustomPrizeDialog( bloc: bloc,);
+    final dialog = CustomPrizeDialog(
+      bloc: bloc,
+    );
     NavigationService.replaceDialog(dialog);
   }
 
@@ -73,18 +75,20 @@ class ChoosePrintModeDialog extends StatelessWidget {
     final localization = AppLocalizations.of(context)!;
 
     return AlertDialog(
+      title: Text(localization.printerMode),
       content: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Text(localization.printerMode),
+          ButtonPrimary(
+            width: double.infinity,
+            onPressed: onAutoPrint,
+            text: localization.autoPrint,
+          ),
           const SizedBox(
             height: 20,
           ),
           ButtonPrimary(
-            onPressed: onAutoPrint,
-            text: localization.autoPrint,
-          ),
-          ButtonPrimary(
+            width: double.infinity,
             onPressed: onCustomPrint,
             text: localization.customPrintPrize,
           ),
@@ -95,15 +99,13 @@ class ChoosePrintModeDialog extends StatelessWidget {
 }
 
 class _CustomPrizeController {
-   _CustomPrizeController();
+  _CustomPrizeController();
 
   int participantId = -1;
   int participantRank = -1;
   late CompetitionBloc bloc;
 
-
   static final key = GlobalKey<FormState>();
-
 
   void onCancel() {
     NavigationService.maybePop();
@@ -114,13 +116,17 @@ class _CustomPrizeController {
     final validInput = participantId != -1 && participantRank != -1;
 
     if (isFormValid && validInput) {
-        final participant = bloc.state.scores.firstWhere(
-          (element) => element.participantId.
-        );
-        
-        ServicesProvider.instance()
-        .printerPort
-        .printCustomCertificate(participant,participantRank);
+      final participant = bloc.state.aggregate.searchScore(
+        participantId: participantId,
+      );
+
+      if (participant == null) {
+        return;
+      }
+
+      ServicesProvider.instance()
+          .printerPort
+          .printCustomCertificate(participant, participantRank);
     }
   }
 
@@ -159,6 +165,9 @@ class CustomPrizeDialog extends StatelessWidget {
                 validator: validatorId,
                 onChanged: controller.updateParticipantId,
               ),
+              const SizedBox(
+                height: 20,
+              ),
               TextFormField(
                 decoration: const InputDecoration(
                   labelText: "Participant Rank",
@@ -172,11 +181,13 @@ class CustomPrizeDialog extends StatelessWidget {
             height: 20,
           ),
           Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               ButtonPrimary(
                 onPressed: controller.onCancel,
                 text: localization.cancelLabel,
               ),
+             
               ButtonPrimary(
                 onPressed: controller.onPrint,
                 text: localization.confirmLabel,

@@ -1,23 +1,25 @@
 
 
 
+import 'package:dive_club/core/aggregates/scores_aggregate.dart';
 import 'package:dive_club/core/entities/competition/export.dart';
 
 class CompetitionState{
 
+  final ScoresAggregate aggregate;
 
-  final List<CompetitionScoreEntity> scores;
+  List<CompetitionScoreEntity> get  scores => aggregate.scores;
 
-  CompetitionState(this.scores);
+  CompetitionState( this.aggregate);
 
 
   CompetitionState copyWith({List<CompetitionScoreEntity>? scores}){
-    return CompetitionState(scores ?? this.scores);
+    return CompetitionState(aggregate.copyWith(scores:scores));
   }
 
 
   factory CompetitionState.initial(){
-    return CompetitionState([]);
+    return CompetitionState(ScoresAggregate(scores: []));
   }
   
 }
