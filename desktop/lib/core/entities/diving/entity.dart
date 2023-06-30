@@ -37,24 +37,28 @@ class DivingSpecialtyEntity {
   }
 }
 
-
-class AgeDivisionEntity{
+class AgeDivisionEntity {
   final AgeDivisionId divisionId;
   final AgeDivisionName divisionName;
 
-  AgeDivisionEntity({required this.divisionId,required this.divisionName});
+  AgeDivisionEntity({required this.divisionId, required this.divisionName});
 
-  AgeDivisionEntity copyWith ({AgeDivisionId? divisionId, AgeDivisionName? divisionName}) {
+  AgeDivisionEntity copyWith(
+      {AgeDivisionId? divisionId, AgeDivisionName? divisionName}) {
     return AgeDivisionEntity(
         divisionId: divisionId ?? this.divisionId,
         divisionName: divisionName ?? this.divisionName);
   }
-
 }
 
-
 final List<AgeDivisionEntity> ageDivisions = [
-  AgeDivisionEntity(divisionId: AgeDivisionId(0), divisionName: AgeDivisionName("مدارس")),
-    AgeDivisionEntity(divisionId: AgeDivisionId(1),divisionName: AgeDivisionName("براعم"))
-
+  AgeDivisionEntity(
+      divisionId: AgeDivisionId(0), divisionName: AgeDivisionName("مدارس")),
+  AgeDivisionEntity(
+      divisionId: AgeDivisionId(1), divisionName: AgeDivisionName("براعم")),
+  AgeDivisionEntity(
+      divisionId: AgeDivisionId(2), divisionName: AgeDivisionName("أصاغر")),
+  AgeDivisionEntity(
+      divisionId: AgeDivisionId(3),
+      divisionName: AgeDivisionName("الأواسط والأكابر")),
 ];

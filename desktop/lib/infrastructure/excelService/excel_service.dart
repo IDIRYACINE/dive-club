@@ -15,7 +15,7 @@ import 'package:excel/excel.dart';
 import 'package:path_provider/path_provider.dart';
 
 class ExcelService implements ExcelManagerPort {
-  final _sheetName = "Sheet1";
+  final _sheetName = "engagement";
 
   late Excel _excel;
 
@@ -138,7 +138,7 @@ class ExcelService implements ExcelManagerPort {
 
       final sheet = excel[_sheetName];
 
-      for (int rowIndex = 11; rowIndex < sheet.maxRows; rowIndex++) {
+      for (int rowIndex = 20; rowIndex < sheet.maxRows; rowIndex++) {
         final firstName = sheet.cell(CellIndex.indexByColumnRow(
             rowIndex: rowIndex, columnIndex: EngagementsSheetRows.nameIndex));
         final lastName = sheet.cell(CellIndex.indexByColumnRow(
@@ -179,9 +179,10 @@ class ExcelService implements ExcelManagerPort {
         final nageStyle = sheet.cell(CellIndex.indexByColumnRow(
             rowIndex: rowIndex, columnIndex: EngagementsSheetRows.nageStyle));
 
-        if (firstName.value == null) {
+        if (firstName.value == null || firstName.value == "null") {
           continue;
         }
+
 
         final entryScoresRaw = [
           freeStyle50m,
@@ -261,7 +262,7 @@ class ExcelService implements ExcelManagerPort {
 
     for (ParticipantEngagement engagement in engagementRows) {
       _appendStartListRows(sheet, engagement);
-      final currGender =engagement.gender.genderId;
+      final currGender = engagement.gender.genderId;
       genderSwapped = !lastGender.equals(currGender);
 
       if (genderSwapped) {

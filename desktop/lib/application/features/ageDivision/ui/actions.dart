@@ -35,13 +35,13 @@ class AgeDivisionActions extends StatelessWidget {
 }
 
 typedef AgeDivisionDropdownItem = DropdownMenuItem<AgeDivisionEntity>;
-typedef OnSpecialtySelected = void Function(AgeDivisionEntity? item);
+typedef OnAgeDivisionSelected = void Function(AgeDivisionEntity? item);
 
 class AgeDivisionDropdown extends StatelessWidget {
   const AgeDivisionDropdown(
       {super.key, required this.onSelected, required this.items});
 
-  final OnSpecialtySelected onSelected;
+  final OnAgeDivisionSelected onSelected;
   final List<AgeDivisionEntity> items;
 
   List<AgeDivisionDropdownItem> _buildItems() {

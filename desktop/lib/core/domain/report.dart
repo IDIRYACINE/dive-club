@@ -42,6 +42,7 @@ class DiveReportGenerator {
             lastName: participant.participantName.lastName,
             ageDivisionId: participant.ageDivisionId.value);
 
+
         index++;
         dbPort.insertParticipant(options);
       }
@@ -201,6 +202,7 @@ class DiveReportGenerator {
     }
 
     excelPort.exportResultsFile(engagementsOutputDirectory, resultsRecords);
+
   }
 
   List<ParticipantResult> _generateParticipantResults(

@@ -1,12 +1,11 @@
 import 'package:dive_club/core/entities/diving/export.dart';
 
 class EngagementsSheetRows {
-  static const nameIndex = 1;
-  static const lastNameIndex = 2;
-  static const ageDivisionIndex = 3;
-  static const categoryIndex = 4;
-  static const clubIndex = 5;
-  static const sexIndex = 6;
+  static const nameIndex = 2;
+  static const lastNameIndex = 3;
+  static const ageDivisionIndex = 4;
+  static const sexIndex = 5;
+  static const clubIndex = 6;
   static const freeStyle50m = 7;
   static const freeStyle100m = 8;
   static const freeStyle200m = 9;
@@ -15,7 +14,7 @@ class EngagementsSheetRows {
   static const brassStyle50m = 12;
   static const brassStyle100m = 13;
   static const papillonStyle50m = 14;
-  static const nageStyle = 16;
+  static const nageStyle = 15;
 
   static DivisionProfile divisionProfileFromIndex(int columnIndex) {
     switch (columnIndex) {

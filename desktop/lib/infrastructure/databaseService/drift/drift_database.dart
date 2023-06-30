@@ -237,6 +237,19 @@ class DriftDatabaseService implements DatabasePort {
           );
     }
 
+    if (options.ageDivisionId != null) {
+      return _database
+          .selectParticiapnsByAgeDivision(
+              ageDivisionId: options.ageDivisionId!,)
+          .get()
+          .then(
+            (value) => LoadParticipantsResult(
+              participants: ParticipantMapper.bySelect(
+                  value, _mapperService.participantMapper),
+            ),
+          );
+    }
+
     if (options.divisionId == null && options.specialityId == null) {
       return _database.selectParticiapnts().get().then(
             (value) => LoadParticipantsResult(

@@ -2988,6 +2988,43 @@ abstract class _$AppDb extends GeneratedDatabase {
     );
   }
 
+  Selectable<SelectParticiapnsByAgeDivisionResult>
+      selectParticiapnsByAgeDivision({required int ageDivisionId}) {
+    return customSelect(
+        'SELECT Participants.*, DivingSpecialties.specialty_name, DivingDivisions.division_name, AgeDivisions.age_division_name, Genders.gender_name, Clubs.club_name FROM Participants INNER JOIN DivingSpecialties USING(specialty_id)INNER JOIN AgeDivisionsEntry USING(age_division_year)INNER JOIN AgeDivisions ON AgeDivisions.age_division_id = AgeDivisionsEntry.age_division_id INNER JOIN Genders USING(gender_id)INNER JOIN DivingDivisions USING(division_id)INNER JOIN Clubs USING(club_id)WHERE AgeDivisions.age_division_id = ?1 ORDER BY Participants.gender_id',
+        variables: [
+          Variable<int>(ageDivisionId)
+        ],
+        readsFrom: {
+          divingSpecialties,
+          divingDivisions,
+          ageDivisions,
+          genders,
+          clubs,
+          participants,
+          ageDivisionsEntry,
+        }).map((QueryRow row) {
+      return SelectParticiapnsByAgeDivisionResult(
+        participantId: row.read<int>('participant_id'),
+        participantFirstName: row.read<String>('participant_first_name'),
+        participantLastName: row.read<String>('participant_last_name'),
+        entryTime: row.read<int>('entry_time'),
+        participantSeries: row.readNullable<int>('participant_series'),
+        participantColumn: row.readNullable<int>('participant_column'),
+        clubId: row.read<int>('club_id'),
+        genderId: row.read<int>('gender_id'),
+        divisionId: row.read<int>('division_id'),
+        specialtyId: row.read<int>('specialty_id'),
+        ageDivisionYear: row.read<int>('age_division_year'),
+        specialtyName: row.read<String>('specialty_name'),
+        divisionName: row.read<String>('division_name'),
+        ageDivisionName: row.read<String>('age_division_name'),
+        genderName: row.read<String>('gender_name'),
+        clubName: row.read<String>('club_name'),
+      );
+    });
+  }
+
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
@@ -3630,6 +3667,43 @@ class SelectParticiapntsByAgeAndDivisionAndSpecialtyAndGenderResult {
   final String genderName;
   final String clubName;
   SelectParticiapntsByAgeAndDivisionAndSpecialtyAndGenderResult({
+    required this.participantId,
+    required this.participantFirstName,
+    required this.participantLastName,
+    required this.entryTime,
+    this.participantSeries,
+    this.participantColumn,
+    required this.clubId,
+    required this.genderId,
+    required this.divisionId,
+    required this.specialtyId,
+    required this.ageDivisionYear,
+    required this.specialtyName,
+    required this.divisionName,
+    required this.ageDivisionName,
+    required this.genderName,
+    required this.clubName,
+  });
+}
+
+class SelectParticiapnsByAgeDivisionResult {
+  final int participantId;
+  final String participantFirstName;
+  final String participantLastName;
+  final int entryTime;
+  final int? participantSeries;
+  final int? participantColumn;
+  final int clubId;
+  final int genderId;
+  final int divisionId;
+  final int specialtyId;
+  final int ageDivisionYear;
+  final String specialtyName;
+  final String divisionName;
+  final String ageDivisionName;
+  final String genderName;
+  final String clubName;
+  SelectParticiapnsByAgeDivisionResult({
     required this.participantId,
     required this.participantFirstName,
     required this.participantLastName,

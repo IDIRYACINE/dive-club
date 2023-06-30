@@ -46,17 +46,15 @@ class SettingsController {
     await report.generateParticipantsSeries(
       updateDb: false,
     );
-    NavigationService.pop();
   }
 
   Future<void> printPapillons() async {
     await report.printPapillons();
-    NavigationService.pop();
   }
 
   Future<void> printRankings() async {
     await report.generateParticipantResults();
-    NavigationService.pop();
+    
   }
 
   Future<void> generateStartLists() async {

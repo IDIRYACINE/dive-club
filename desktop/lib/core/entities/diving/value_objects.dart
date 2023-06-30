@@ -29,12 +29,13 @@ class AgeDivisionId {
 
   factory AgeDivisionId.fromString(String value) {
 
-    return AgeDivisionId(int.tryParse(value) ?? 2012);
+
+    return AgeDivisionId(int.tryParse(value) ?? 1999);
   }
 
   static AgeDivisionId fromDate(DateTime value) {
     final year = value.year;
-    return AgeDivisionId(year < 2012 ? 2012 : year);
+    return AgeDivisionId(year);
   }
 
   @override

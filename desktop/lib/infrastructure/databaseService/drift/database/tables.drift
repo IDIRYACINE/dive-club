@@ -729,3 +729,24 @@ WHERE
     AND specialty_id = :specialty_id
     AND age_division_year = :age_division_year
     AND participant_id = :participant_id;
+
+selectParticiapnsByAgeDivision(REQUIRED :age_division_id AS INTEGER) :
+SELECT
+    Participants.*,
+    DivingSpecialties.specialty_name,
+    DivingDivisions.division_name,
+    AgeDivisions.age_division_name,
+    Genders.gender_name,
+    Clubs.club_name
+FROM
+    Participants
+    INNER JOIN DivingSpecialties USING(specialty_id)
+    INNER JOIN AgeDivisionsEntry USING(age_division_year)
+    INNER JOIN AgeDivisions ON AgeDivisions.age_division_id = AgeDivisionsEntry.age_division_id
+    INNER JOIN Genders USING(gender_id)
+    INNER JOIN DivingDivisions USING(division_id)
+    INNER JOIN Clubs USING(club_id)
+where
+    AgeDivisions.age_division_id = :age_division_id
+ORDER BY
+    Participants.gender_id;

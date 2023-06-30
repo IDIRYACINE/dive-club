@@ -19,8 +19,8 @@ class Score {
   }
 
   factory Score.fromString(String source) {
-    source = source.replaceAll(RegExp(r'[.:]'), '');
-
+    
+    source = source.replaceAll(RegExp(r'[.:\s]'), '');
 
     final mm =source.substring(0, 2);
     final ss = source.substring(2, 4);

@@ -100,6 +100,7 @@ class FilterController {
 
   void updateAgeDivision(AgeDivisionEntity? item) {
     ageDivision = item;
+
   }
 }
 
