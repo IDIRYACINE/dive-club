@@ -32,13 +32,11 @@ jobs:
         with:
           type: 'zip'
           filename: App-${{github.ref_name}}-windows.zip
-          directory: build/windows/runner/Release
-          working-directory: ./desktop
+          directory: desktop/build/windows/runner/Release
 
           
       - uses: ncipollo/release-action@v1
         with:
-          working-directory: ./desktop
-          artifacts: "build/windows/runner/Release/App-${{github.ref_name}}-windows.zip"
+          artifacts: "desktop/build/windows/runner/Release/App-${{github.ref_name}}-windows.zip"
           tag: v1.0.${{ github.run_number }}
           token: ${{ secrets.RELEASE_TOKEN }}
