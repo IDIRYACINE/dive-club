@@ -11,6 +11,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - uses: subosito/flutter-action@v2
+      - run: cd desktop
       - run: flutter pub get
       - run: flutter config --enable-windows-desktop
       - run: flutter build windows --release
