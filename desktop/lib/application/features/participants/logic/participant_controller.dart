@@ -82,7 +82,7 @@ class ParticipantController {
           specialty: _data.specialty!,
           ageDivision: _data.ageDivision!,
           club: _data.club!,
-          entryTime: Score.fromString(_data.score!),
+          entryTime: Score.fromString(_data.score!)!,
           genderId: _data.gender!.genderId,
           column: ParticipantColumn.from(-1),
           series: ParticipantSeries(-1));

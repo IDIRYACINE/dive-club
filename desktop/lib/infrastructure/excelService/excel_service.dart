@@ -135,6 +135,7 @@ class ExcelService implements ExcelManagerPort {
     for (File file in files) {
       Uint8List bytes = file.readAsBytesSync();
       Excel excel = Excel.decodeBytes(bytes);
+      print(file.path);
 
       final sheet = excel[_sheetName];
 
@@ -184,6 +185,7 @@ class ExcelService implements ExcelManagerPort {
         }
 
 
+
         final entryScoresRaw = [
           freeStyle50m,
           freeStyle100m,
@@ -205,6 +207,7 @@ class ExcelService implements ExcelManagerPort {
               AgeDivisionId.fromString(ageDivision.value.toString());
         }
 
+
         final registration = ParticipantRegistration(
             participantName: ParticipantName(
                 firstName.value.toString(), lastName.value.toString()),
@@ -213,6 +216,8 @@ class ExcelService implements ExcelManagerPort {
             clubId: ClubId(_getClubId(club.value.toString())),
             genderId: GenderId.fromString(sex.value.toString()),
             entryScores: _processEntryScores(entryScoresRaw));
+
+
 
         results.add(registration);
       }
@@ -229,6 +234,7 @@ class ExcelService implements ExcelManagerPort {
 
       if ((entry.cellType.name == "String") &&
           (entry.value.toString() != "null")) {
+
         score = Score.fromString(entry.value.toString());
       }
 
@@ -304,20 +310,23 @@ class ExcelService implements ExcelManagerPort {
     switch (value) {
       case 'CNDBBA':
         return 0;
-      case 'omr':
+      case 'OMR':
         return 1;
-      case 'UN BBA ':
+      case 'UNBBA':
         return 3;
-      case 'CSA BAS':
+      case 'CSABAS':
         return 2;
-      case 'csa/afak':
+      case 'afak':
         return 4;
-      case 'المنصورة':
+      case 'CSANM':
         return 5;
-      case 'EN':
+      case 'ENBBA':
         return 6;
       case 'U S K':
         return 7;
+      case 'CAB':
+        return 9;
+
       default:
         return 0;
     }

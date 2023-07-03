@@ -4,7 +4,8 @@ class GenderId {
   GenderId(this.value);
 
   factory GenderId.fromString(String value) {
-    if (value == "H" || value == "G") {
+    value = value.toUpperCase();
+    if (value == "H" || value == "G" || value == "M") {
       return GenderId(0);
     }
 

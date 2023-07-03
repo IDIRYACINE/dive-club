@@ -29,6 +29,9 @@ class RankingsPage extends pw.StatelessWidget {
     bool isOdd = true;
     rows.add(_buildHeaderRow());
 
+    const tDirection = pw.TextDirection.rtl;
+    const tAlign = pw.TextAlign.left;
+
     for (CompetitionScoreEntity participant in participants) {
       isOdd = !isOdd;
 
@@ -39,15 +42,15 @@ class RankingsPage extends pw.StatelessWidget {
           ),
           children: [
             pw.Text(participant.participantName.toString(),
-                textDirection: pw.TextDirection.rtl),
+                textDirection: tDirection, textAlign: tAlign),
             pw.Text(participant.club.clubName.value,
-                textDirection: pw.TextDirection.rtl),
+                textDirection: tDirection, textAlign: tAlign),
             pw.Text(participant.series.toString(),
-                textDirection: pw.TextDirection.rtl),
+                textDirection: tDirection, textAlign: tAlign),
             pw.Text(participant.column.toString(),
-                textDirection: pw.TextDirection.rtl),
+                textDirection: tDirection, textAlign: tAlign),
             pw.Text(participant.score.toString(),
-                textDirection: pw.TextDirection.rtl),
+                textDirection: tDirection, textAlign: tAlign),
           ],
         ),
       );

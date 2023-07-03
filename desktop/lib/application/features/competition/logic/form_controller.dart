@@ -63,11 +63,14 @@ class ScoreController {
 
       final gender = GenderEntity.fromId(_data.participant!.genderId);
 
+      final score =Score.fromString(_data.score!)!;
+
+
       final entity = CompetitionScoreEntity(
         specialtyId: specialtyId,
         divisionId: divisionId,
         participantId: _data.participant!.participantId,
-        score: Score.fromString(_data.score!),
+        score: score,
         divisionName: divisionBloc.state.divisionById(divisionId).divisionName,
         participantName: _data.participant!.participantName,
         specialtyName:

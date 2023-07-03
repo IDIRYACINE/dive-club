@@ -66,23 +66,28 @@ class ParticipantsPage extends pw.StatelessWidget {
   }
 
   String _generateStartListSheetName(ParticipantEngagement engagement) {
-    return "${engagement.ageDivisionName.value} ${engagement.divisionName.value} ${engagement.specialtyName.value} ";
+    return "${engagement.divisionName.value} ${engagement.specialtyName.value} ";
   }
 
   String _generateStartListSubTitle(ParticipantEngagement engagement) {
     return engagement.gender.isMale ? "ذكور" : "اناث";
   }
 
+  String _generateStartListSecondTitle(ParticipantEngagement engagement){
+    return engagement.ageDivisionName.value ;
+  }
   @override
   pw.Widget build(pw.Context context) {
-    final title = _generateStartListSheetName(participants.first);
+    final secondTitle = _generateStartListSheetName(participants.first);
+    final title = _generateStartListSecondTitle(participants.first);
     final subtitle = _generateStartListSubTitle(participants.first);
+
 
     return pw.Padding(
       padding: const pw.EdgeInsets.all(8.0),
       child: pw.Column(
         children: [
-          pw.Flexible(child: StartListHeader(title, subtitle)),
+          pw.Flexible(child: StartListHeader(title, subtitle,secondTitle)),
           pw.SizedBox(height: 40),
           pw.Expanded(child: pw.Table(children: _buildTableRows())),
         ],
@@ -94,8 +99,9 @@ class ParticipantsPage extends pw.StatelessWidget {
 class StartListHeader extends pw.StatelessWidget {
   final String title;
   final String subtitle;
+  final String secondtitle;
 
-  StartListHeader(this.title, this.subtitle);
+  StartListHeader(this.title, this.subtitle,this.secondtitle);
 
   @override
   pw.Widget build(pw.Context context) {
@@ -108,6 +114,14 @@ class StartListHeader extends pw.StatelessWidget {
       pw.Column(mainAxisSize: pw.MainAxisSize.min, children: [
         pw.Text(
           title,
+          textDirection: pw.TextDirection.rtl,
+          style: pw.TextStyle(
+            fontSize: 20,
+            fontWeight: pw.FontWeight.bold,
+          ),
+        ),
+         pw.Text(
+          secondtitle,
           textDirection: pw.TextDirection.rtl,
           style: pw.TextStyle(
             fontSize: 20,

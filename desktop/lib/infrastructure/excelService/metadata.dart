@@ -9,12 +9,12 @@ class EngagementsSheetRows {
   static const freeStyle50m = 7;
   static const freeStyle100m = 8;
   static const freeStyle200m = 9;
-  static const dosStyle50m = 10;
-  static const dosStyle100m = 11;
-  static const brassStyle50m = 12;
-  static const brassStyle100m = 13;
-  static const papillonStyle50m = 14;
-  static const nageStyle = 15;
+  static const dosStyle50m = 13;
+  static const dosStyle100m = 14;
+  static const brassStyle50m = 16;
+  static const brassStyle100m = 17;
+  static const papillonStyle50m = 19;
+  static const nageStyle = 22;
 
   static DivisionProfile divisionProfileFromIndex(int columnIndex) {
     switch (columnIndex) {

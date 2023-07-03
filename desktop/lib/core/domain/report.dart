@@ -42,7 +42,6 @@ class DiveReportGenerator {
             lastName: participant.participantName.lastName,
             ageDivisionId: participant.ageDivisionId.value);
 
-
         index++;
         dbPort.insertParticipant(options);
       }
@@ -174,7 +173,7 @@ class DiveReportGenerator {
   }
 
   Future<void> generateParticipantResults() async {
-    final ResultsRecords resultsRecords = [];
+    final List<List<CompetitionScoreEntity>> resultsRecords = [];
 
     const genderIds = [0, 1];
     final divisions = (await dbPort.loadDivingDivisions()).divisions;
@@ -194,15 +193,14 @@ class DiveReportGenerator {
             final scores = (await dbPort.loadCompetitionScores(options)).scores;
 
             if (scores.isNotEmpty) {
-              resultsRecords.add(_generateParticipantResults(scores));
+              resultsRecords.add(scores);
             }
           }
         }
       }
     }
 
-    excelPort.exportResultsFile(engagementsOutputDirectory, resultsRecords);
-
+    printerPort.printRankings(resultsRecords);
   }
 
   List<ParticipantResult> _generateParticipantResults(
