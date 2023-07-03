@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:dive_club/application/commons/dialogs/common.dart';
 import 'package:dive_club/application/navigation/feature.dart';
 import 'package:dive_club/core/entities/competition/export.dart';
 import 'package:dive_club/core/entities/participants/entity.dart';
@@ -6,6 +9,7 @@ import 'package:dive_club/core/infrastrucutre/utilities/excel_manager_port.dart'
 import 'package:dive_club/core/infrastrucutre/utilities/printer_port.dart';
 import 'package:dive_club/infrastructure/printerService/results/results_printer.dart';
 import 'package:flutter/foundation.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:printing/printing.dart';
 
 import 'package:pdf/widgets.dart' as pw;
@@ -16,6 +20,11 @@ import 'papillon/papillon_printer.dart';
 import 'startLists/startlists_printer.dart';
 
 class PrinterService implements PrinterPort {
+  static const papillonFileName = "papillon";
+  static const startListsFileName = "startlists";
+  static const engagementsFileName = "engaements";
+  static const rankingsFileName = "rankings";
+
   final DatabasePort databasePort;
   late pw.TtfFont font;
 
@@ -49,44 +58,49 @@ class PrinterService implements PrinterPort {
       final font = message["font"] as pw.TtfFont;
       final rank = message["rank"] as int;
       return await createCustomCertificateDocument(participants, rank, font);
-    }, {"participant": participant, "font": font,"rank":rank}).then((binaryDocument) {
+    }, {"participant": participant, "font": font, "rank": rank})
+        .then((binaryDocument) {
       _displayPreview(binaryDocument);
     });
   }
 
   @override
-  Future<void> printEngagements(List<ParticipantEngagement> engagements) {
-    // TODO: implement printEngagements
-    throw UnimplementedError();
+  Future<void> printEngagements(
+    EngagementsRecords engagements,
+  ) async {
+    NavigationService.displayDialog(const PreparingPrinterDialog());
+
+    compute((message) async {
+      final engagements = message["engagements"] as EngagementsRecords;
+      final font = message["font"] as pw.TtfFont;
+      return await createStartListsDocument(engagements, font, clubs: true);
+    }, {"engagements": engagements, "font": font})
+        .then((doc) => _printWithoutPreview(doc, engagementsFileName));
   }
 
   @override
-  Future<void> printPapillons(List<ParticipantEntity> pariticpants ) async {
+  Future<void> printPapillons(List<ParticipantEntity> pariticpants) async {
     NavigationService.displayDialog(const PreparingPrinterDialog());
-
-   
 
     compute((message) async {
       final participants = message["participants"] as List<ParticipantEntity>;
       final font = message["font"] as pw.TtfFont;
       return await createPapillonsDocument(participants, font);
-    }, {"participants": pariticpants, "font": font}).then((binaryDocument) {
-      _displayPreview(binaryDocument);
-    });
+    }, {"participants": pariticpants, "font": font})
+        .then((doc) => _printWithoutPreview(doc, papillonFileName));
   }
 
   @override
   Future<void> printRankings(RankingsList rankings) async {
     NavigationService.displayDialog(const PreparingPrinterDialog());
 
-
     compute((message) async {
-      final rankings = message["rankings"] as List<List<CompetitionScoreEntity>>;
+      final rankings =
+          message["rankings"] as List<List<CompetitionScoreEntity>>;
       final font = message["font"] as pw.TtfFont;
       return await createRankingsDocument(rankings, font);
-    }, {"rankings": rankings, "font": font}).then((binaryDocument) {
-      _displayPreview(binaryDocument);
-    });
+    }, {"rankings": rankings, "font": font})
+        .then((doc) => _printWithoutPreview(doc, rankingsFileName));
   }
 
   @override
@@ -97,13 +111,26 @@ class PrinterService implements PrinterPort {
       final engagements = message["engagements"] as EngagementsRecords;
       final font = message["font"] as pw.TtfFont;
       return await createStartListsDocument(engagements, font);
-    }, {"engagements": engagements, "font": font}).then((binaryDocument) {
-      _displayPreview(binaryDocument);
-    });
+    }, {"engagements": engagements, "font": font})
+        .then((doc) => _printWithoutPreview(doc, startListsFileName));
   }
 
   void _displayPreview(Uint8List preparedDocBytes) async {
     final dialog = PrinterDialog(preparedDoc: preparedDocBytes);
     NavigationService.replaceDialog(dialog);
+  }
+
+  Future<void> _printWithoutPreview(
+      Uint8List preparedDocBytes, String fileName) async {
+    final output = await getApplicationDocumentsDirectory();
+    final file = File('${output.path}/diveClub/outputs/$fileName.pdf');
+    file.writeAsBytesSync(preparedDocBytes);
+    NavigationService.replaceDialog(ConfirmationDialog(
+      title: "",
+      content: file.path,
+      onConfirm: () {
+        NavigationService.pop();
+      },
+    ));
   }
 }

@@ -84,17 +84,17 @@ class PapillonPage extends pw.StatelessWidget {
             ),
           ),
           pw.Positioned(
-            top: nameTopPosition + (spaceBetweenElements * 6.4),
+            top: nameTopPosition + (spaceBetweenElements * 6.1),
             left: nameLeftPosition + (spaceBetweenElements),
-            child: pw.Row(
+            child: pw.Column(
               children: [
-                pw.Text(participant.specialty.specialtyName.value,
-                    style: const pw.TextStyle(color: PdfColors.blue),
+                pw.Text(participant.division.divisionName.value,
+                    style: const pw.TextStyle(color: PdfColors.red),
                     textScaleFactor: 0.8,
                     textDirection: pw.TextDirection.rtl),
                 pw.SizedBox(width: 4),
-                pw.Text(participant.division.divisionName.value,
-                    style: const pw.TextStyle(color: PdfColors.red),
+                pw.Text(participant.specialty.specialtyName.value,
+                    style: const pw.TextStyle(color: PdfColors.blue),
                     textScaleFactor: 0.8,
                     textDirection: pw.TextDirection.rtl),
               ],

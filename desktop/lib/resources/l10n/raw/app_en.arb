@@ -55,6 +55,7 @@
     "deleteParticipantLabel" : "Delete Participant",
     "customPrintPrize" : "Print Custom Prize",
     "autoPrint" : "Auto Print Prizes",
-    "printerMode" : "Print Mode"
+    "printerMode" : "Print Mode",
+    "printEngagementsLabel" : "Print Engagements"
 
 }

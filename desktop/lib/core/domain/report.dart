@@ -98,35 +98,38 @@ class DiveReportGenerator {
   }
 
   Future<void> generateEngagementsReport() async {
+    final EngagementsRecords engagementsRecords = [];
+
+    const genderIds = [0, 1];
+    final divisions = (await dbPort.loadDivingDivisions()).divisions;
+    final ageDivisions = (await dbPort.loadAgeDivisions()).ageDivisions;
+    final specialties = (await dbPort.loadDivingSpecialities()).specialties;
     final clubs = (await dbPort.loadClubs()).clubs;
 
     for (ClubEntity club in clubs) {
-      final options = LoadParticipantsOptions(clubId: club.clubId.value);
+      for (int genderId in genderIds) {
+        for (AgeDivisionEntity ageDvision in ageDivisions) {
+          for (DivingSpecialtyEntity specialty in specialties) {
+            for (DivingDivisionEntity division in divisions) {
+              final options = LoadParticipantsOptions(
+                  divisionId: division.divisionId.value,
+                  specialityId: specialty.specialtyId.value,
+                  ageDivisionId: ageDvision.divisionId.value,
+                  genderId: genderId,
+                  clubId: club.clubId.value);
 
-      final participants =
-          (await dbPort.loadParticipants(options)).participants;
+              final participants =
+                  (await dbPort.loadParticipants(options)).participants;
 
-      final List<ParticipantEngagement> engagements = [];
-
-      for (ParticipantEntity participant in participants) {
-        final engagement = ParticipantEngagement(
-            column: participant.column,
-            participantId: participant.participantId,
-            series: participant.series.value,
-            participantName: participant.participantName,
-            ageDivisionId: participant.ageDivision.divisionId,
-            clubName: club.clubName,
-            divisionName: participant.division.divisionName,
-            specialtyName: participant.specialty.specialtyName,
-            gender: GenderEntity.fromId(participant.genderId),
-            entryScore: participant.entryTime,
-            ageDivisionName: participant.ageDivision.divisionName);
-
-        engagements.add(engagement);
+              if (participants.isNotEmpty) {
+                engagementsRecords.add(_generateEngagements(participants));
+              }
+            }
+          }
+        }
       }
-
-      excelPort.exportEngagementsFiles(engagementsOutputDirectory, engagements);
     }
+    printerPort.printEngagements(engagementsRecords);
   }
 
   Future<EngagementsRecords> generateParticipantsSeries(
@@ -163,10 +166,10 @@ class DiveReportGenerator {
           dbPort.updateParticipantsSeries(engagements);
         }
       }
+    }
 
-      if (print) {
-        printerPort.printStartLists(engagementsRecords);
-      }
+    if (print) {
+      printerPort.printStartLists(engagementsRecords);
     }
 
     return engagementsRecords;
@@ -201,29 +204,6 @@ class DiveReportGenerator {
     }
 
     printerPort.printRankings(resultsRecords);
-  }
-
-  List<ParticipantResult> _generateParticipantResults(
-      List<CompetitionScoreEntity> scores) {
-    final List<ParticipantResult> results = [];
-
-    for (CompetitionScoreEntity score in scores) {
-      final result = ParticipantResult(
-          column: score.column,
-          ageDivisionName: score.ageDivision.divisionName,
-          participantId: score.participantId,
-          series: score.series,
-          participantName: score.participantName,
-          ageDivision: score.ageDivision,
-          clubName: score.club.clubName,
-          divisionName: score.divisionName,
-          specialtyName: score.specialtyName,
-          gender: score.gender.genderName,
-          score: score.score);
-      results.add(result);
-    }
-
-    return results;
   }
 
   Future<void> printPapillons() async {

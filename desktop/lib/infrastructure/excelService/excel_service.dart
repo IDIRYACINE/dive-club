@@ -184,8 +184,6 @@ class ExcelService implements ExcelManagerPort {
           continue;
         }
 
-
-
         final entryScoresRaw = [
           freeStyle50m,
           freeStyle100m,
@@ -207,7 +205,6 @@ class ExcelService implements ExcelManagerPort {
               AgeDivisionId.fromString(ageDivision.value.toString());
         }
 
-
         final registration = ParticipantRegistration(
             participantName: ParticipantName(
                 firstName.value.toString(), lastName.value.toString()),
@@ -217,7 +214,8 @@ class ExcelService implements ExcelManagerPort {
             genderId: GenderId.fromString(sex.value.toString()),
             entryScores: _processEntryScores(entryScoresRaw));
 
-
+        print(
+            '$rowIndex ${firstName.value} ${lastName.value} count: ${registration.entryScores.length}');
 
         results.add(registration);
       }
@@ -232,21 +230,25 @@ class ExcelService implements ExcelManagerPort {
     for (Data entry in entryScoresRaw) {
       Score? score;
 
-      if ((entry.cellType.name == "String") &&
-          (entry.value.toString() != "null")) {
-
-        score = Score.fromString(entry.value.toString());
+      if ((entry.value != null)) {
+        String val = entry.value.toString();
+        if (entry.cellType.name != "String") {
+          val = "02 00 00";
+        }
+        score = Score.fromString(val);
       }
 
-      final divisionProfile = EngagementsSheetRows.divisionProfileFromIndex(
-          entry.cellIndex.columnIndex);
+      if (score != null) {
+        final divisionProfile = EngagementsSheetRows.divisionProfileFromIndex(
+            entry.cellIndex.columnIndex);
 
-      final engagement = ScoreEngagement(
-          divisionId: divisionProfile.divisionId,
-          specialtyId: divisionProfile.specialtyId,
-          score: score);
+        final engagement = ScoreEngagement(
+            divisionId: divisionProfile.divisionId,
+            specialtyId: divisionProfile.specialtyId,
+            score: score);
 
-      engagements.add(engagement);
+        engagements.add(engagement);
+      }
     }
 
     return engagements;
@@ -326,7 +328,8 @@ class ExcelService implements ExcelManagerPort {
         return 7;
       case 'CAB':
         return 9;
-
+      case 'CSMH':
+        return 10;
       default:
         return 0;
     }

@@ -55,5 +55,7 @@
     "deleteParticipantLabel": "حذف المشارك",
     "customPrintPrize": "طباعة جائزة مخصصة",
     "autoPrint": "طباعة تلقائية للجوائز",
-    "printerMode": "وضع الطباعة"
+    "printerMode": "وضع الطباعة",
+    "printEngagementsLabel": "طباعة المشاركات"
+
 }

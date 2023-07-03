@@ -8,9 +8,10 @@ import '../commons.dart';
 
 class ParticipantsPage extends pw.StatelessWidget {
   final List<ParticipantEngagement> participants;
+  final int totalParticipants;
 
   ParticipantsPage(
-    this.participants,
+    this.participants, this.totalParticipants,
   );
 
   pw.TableRow _buildHeaderRow() {
@@ -19,8 +20,10 @@ class ParticipantsPage extends pw.StatelessWidget {
 
     return pw.TableRow(
       children: [
-        pw.Text('الاسم', textAlign: tAlign, textDirection: pw.TextDirection.rtl),
-        pw.Text('النادي', textAlign: tAlign, textDirection: pw.TextDirection.rtl),
+        pw.Text('الاسم',
+            textAlign: tAlign, textDirection: pw.TextDirection.rtl),
+        pw.Text('النادي',
+            textAlign: tAlign, textDirection: pw.TextDirection.rtl),
         pw.Text('المجموعة',
             textAlign: tAlign, textDirection: pw.TextDirection.rtl),
         pw.Text('الرواق',
@@ -70,24 +73,24 @@ class ParticipantsPage extends pw.StatelessWidget {
   }
 
   String _generateStartListSubTitle(ParticipantEngagement engagement) {
-    return engagement.gender.isMale ? "ذكور" : "اناث";
+    return engagement.gender.isMale ? "($totalParticipants) ذكور" : "($totalParticipants) اناث";
   }
 
-  String _generateStartListSecondTitle(ParticipantEngagement engagement){
-    return engagement.ageDivisionName.value ;
+  String _generateStartListSecondTitle(ParticipantEngagement engagement) {
+    return engagement.ageDivisionName.value;
   }
+
   @override
   pw.Widget build(pw.Context context) {
     final secondTitle = _generateStartListSheetName(participants.first);
     final title = _generateStartListSecondTitle(participants.first);
     final subtitle = _generateStartListSubTitle(participants.first);
 
-
     return pw.Padding(
       padding: const pw.EdgeInsets.all(8.0),
       child: pw.Column(
         children: [
-          pw.Flexible(child: StartListHeader(title, subtitle,secondTitle)),
+          pw.Flexible(child: StartListHeader(title, subtitle, secondTitle)),
           pw.SizedBox(height: 40),
           pw.Expanded(child: pw.Table(children: _buildTableRows())),
         ],
@@ -96,12 +99,31 @@ class ParticipantsPage extends pw.StatelessWidget {
   }
 }
 
+class ClubPage extends pw.StatelessWidget {
+  final String clubName;
+
+  ClubPage(this.clubName);
+
+  @override
+  pw.Widget build(pw.Context context) {
+
+    return pw.Center( child:pw.Text(
+          clubName,
+          textDirection: pw.TextDirection.rtl,
+          style: pw.TextStyle(
+            fontSize: 20,
+            fontWeight: pw.FontWeight.bold,
+          ),
+        ),);
+  }
+}
+
 class StartListHeader extends pw.StatelessWidget {
   final String title;
   final String subtitle;
   final String secondtitle;
 
-  StartListHeader(this.title, this.subtitle,this.secondtitle);
+  StartListHeader(this.title, this.subtitle, this.secondtitle);
 
   @override
   pw.Widget build(pw.Context context) {
@@ -120,7 +142,7 @@ class StartListHeader extends pw.StatelessWidget {
             fontWeight: pw.FontWeight.bold,
           ),
         ),
-         pw.Text(
+        pw.Text(
           secondtitle,
           textDirection: pw.TextDirection.rtl,
           style: pw.TextStyle(

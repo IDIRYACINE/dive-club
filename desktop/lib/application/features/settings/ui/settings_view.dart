@@ -92,6 +92,10 @@ class SettingsView extends StatelessWidget {
                       title: localizations.printPapillonsLabel,
                       onClick: controller.printPapillons,
                     ),
+                     SettingRowData(
+                      title: localizations.printEngagementsLabel,
+                      onClick: controller.printEngagements,
+                    ),
                    
                   ],
                 )

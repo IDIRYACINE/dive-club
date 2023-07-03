@@ -60,4 +60,8 @@ class SettingsController {
   Future<void> generateStartLists() async {
     report.generateParticipantsSeries(print: false);
   }
+
+  Future<void> printEngagements() async{
+    await report.generateEngagementsReport();
+  }
 }

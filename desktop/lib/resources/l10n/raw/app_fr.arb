@@ -50,10 +50,11 @@
     "printStartListsLabel": "Imprimer StartList",
     "printPapillonsLabel": "Imprimer Papillons",
     "importParticipantsFromPlatform": "Importer Platforme Engagements",
-    "participantActionsLabel" : "Actions des participants",
-"editParticipantLabel" : "Modifier le participant",
-"deleteParticipantLabel" : "Supprimer le participant",
-"customPrintPrize" : "Imprimer un prix personnalisé",
-"autoPrint" : "Impression automatique des prix",
-"printerMode" : "Mode d'impression"
+    "participantActionsLabel": "Actions des participants",
+    "editParticipantLabel": "Modifier le participant",
+    "deleteParticipantLabel": "Supprimer le participant",
+    "customPrintPrize": "Imprimer un prix personnalisé",
+    "autoPrint": "Impression automatique des prix",
+    "printerMode": "Mode d'impression",
+    "printEngagementsLabel": "Imprimer les engagements"
 }

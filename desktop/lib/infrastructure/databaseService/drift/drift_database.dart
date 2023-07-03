@@ -172,6 +172,27 @@ class DriftDatabaseService implements DatabasePort {
     if (options.divisionId != null &&
         options.ageDivisionId != null &&
         options.specialityId != null &&
+        options.genderId != null &&
+        options.clubId != null) {
+      return _database
+          .selectClubEngagement(
+              ageDivisionId: options.ageDivisionId!,
+              divisionId: options.divisionId!,
+              specialtyId: options.specialityId!,
+              genderId: options.genderId!,
+              clubId: options.clubId!)
+          .get()
+          .then(
+            (value) => LoadParticipantsResult(
+              participants: ParticipantMapper.bySelect(
+                  value, _mapperService.participantMapper),
+            ),
+          );
+    }
+
+    if (options.divisionId != null &&
+        options.ageDivisionId != null &&
+        options.specialityId != null &&
         options.genderId != null) {
       return _database
           .selectParticiapntsByAgeAndDivisionAndSpecialtyAndGender(
@@ -240,7 +261,8 @@ class DriftDatabaseService implements DatabasePort {
     if (options.ageDivisionId != null) {
       return _database
           .selectParticiapnsByAgeDivision(
-              ageDivisionId: options.ageDivisionId!,)
+            ageDivisionId: options.ageDivisionId!,
+          )
           .get()
           .then(
             (value) => LoadParticipantsResult(

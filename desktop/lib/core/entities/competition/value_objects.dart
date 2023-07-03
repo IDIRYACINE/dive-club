@@ -20,10 +20,10 @@ class Score {
 
   static Score? fromString(String source) {
     try {
+
       List<String> test = source.split(RegExp(r'[.:,\s]'));
 
       if (test.length == 3) {
-
         if (test[0].length < 2) {
           test[0] = '0${test[0]}';
         }
@@ -33,12 +33,12 @@ class Score {
         }
       }
 
-      if(test[1] == "00"){
+      if (test[1] == "00") {
         final temp = test[1];
         test[1] = test[2];
         test[2] = temp;
       }
-
+      
       source = test.join();
 
       final mm = source.substring(0, 2);

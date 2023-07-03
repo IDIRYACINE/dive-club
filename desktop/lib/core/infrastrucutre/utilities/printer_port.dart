@@ -7,7 +7,7 @@ import 'excel_manager_port.dart';
 abstract class PrinterPort {
   Future<void> printStartLists(EngagementsRecords engagements);
 
-  Future<void> printEngagements(List<ParticipantEngagement> engagements);
+  Future<void> printEngagements(EngagementsRecords engagements);
 
   Future<void> printRankings(RankingsList rankings);
 
