@@ -20,10 +20,10 @@ class CertificatePage extends pw.StatelessWidget {
         pw.Image(pw.MemoryImage(image.readAsBytesSync())),
         pw.Positioned(
           top: 300,
-          left: center + 300,
+          left: center ,
           child: pw.Row(
-            mainAxisSize: pw.MainAxisSize.max,
-              mainAxisAlignment: pw.MainAxisAlignment.spaceEvenly,
+              mainAxisSize: pw.MainAxisSize.max,
+              mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
               children: [
                 pw.Text(
                   participant.club.clubName.value,
@@ -33,6 +33,7 @@ class CertificatePage extends pw.StatelessWidget {
                       fontWeight: pw.FontWeight.bold,
                       color: color),
                 ),
+                pw.SizedBox(width: 10),
                 pw.Text(
                   'نادي',
                   textDirection: pw.TextDirection.rtl,
@@ -41,6 +42,7 @@ class CertificatePage extends pw.StatelessWidget {
                     fontWeight: pw.FontWeight.bold,
                   ),
                 ),
+                pw.SizedBox(width: 10),
                 pw.Text(
                   participant.participantName.toString(),
                   style: pw.TextStyle(

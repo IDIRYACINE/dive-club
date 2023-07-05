@@ -1,4 +1,8 @@
+import 'dart:io';
+
 import 'package:dive_club/core/entities/competition/export.dart';
+import 'package:dive_club/resources/resources.dart';
+import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
 
 import '../commons.dart';
@@ -35,6 +39,20 @@ class RankingsPage extends pw.StatelessWidget {
     for (CompetitionScoreEntity participant in participants) {
       isOdd = !isOdd;
 
+      
+      String score = participant.score.toString(); 
+
+      final isAbsent = participant.isAbsent;
+      final isDisqualified = participant.isDisqualified;
+
+      if(isAbsent){
+        score = "غائب";
+      }
+
+      if(isDisqualified){
+        score = "مقصي";
+      }
+
       rows.add(
         pw.TableRow(
           decoration: pw.BoxDecoration(
@@ -49,7 +67,8 @@ class RankingsPage extends pw.StatelessWidget {
                 textDirection: tDirection, textAlign: tAlign),
             pw.Text(participant.column.toString(),
                 textDirection: tDirection, textAlign: tAlign),
-            pw.Text(participant.score.toString(),
+            pw.Text(score,
+            style: isAbsent || isDisqualified ? const pw.TextStyle(color: PdfColors.red) : null,
                 textDirection: tDirection, textAlign: tAlign),
           ],
         ),
@@ -60,18 +79,28 @@ class RankingsPage extends pw.StatelessWidget {
   }
 
   String _generateStartListSheetName(CompetitionScoreEntity engagement) {
-    return "${engagement.ageDivision.divisionName.value} ${engagement.divisionName.value} ${engagement.specialtyName.value} ";
+    return "${engagement.divisionName.value} ${engagement.specialtyName.value} ";
+  }
+
+  String _generateStartListSubTitle(CompetitionScoreEntity engagement) {
+    return engagement.gender.isMale ? "ذكور" : "اناث";
+  }
+
+  String _generateStartListSecondTitle(CompetitionScoreEntity engagement) {
+    return engagement.ageDivision.divisionName.value;
   }
 
   @override
   pw.Widget build(pw.Context context) {
-    final title = _generateStartListSheetName(participants.first);
+    final secondTitle = _generateStartListSheetName(participants.first);
+    final title = _generateStartListSecondTitle(participants.first);
+    final subtitle = _generateStartListSubTitle(participants.first);
 
     return pw.Padding(
       padding: const pw.EdgeInsets.all(8.0),
       child: pw.Column(
         children: [
-          ResultListHeader(title),
+          ResultListHeader(title, subtitle, secondTitle),
           pw.Expanded(child: pw.Table(children: _buildTableRows())),
         ],
       ),
@@ -81,18 +110,45 @@ class RankingsPage extends pw.StatelessWidget {
 
 class ResultListHeader extends pw.StatelessWidget {
   final String title;
+  final String subtitle;
+  final String secondtitle;
 
-  ResultListHeader(this.title);
+  ResultListHeader(this.title, this.subtitle, this.secondtitle);
 
   @override
   pw.Widget build(pw.Context context) {
-    return pw.Text(
-      title,
-      textDirection: pw.TextDirection.rtl,
-      style: pw.TextStyle(
-        fontSize: 20,
-        fontWeight: pw.FontWeight.bold,
+    final image = File(AppResources.logoAssetPath);
+
+    return pw.Row(children: [
+      pw.Image(
+        pw.MemoryImage(image.readAsBytesSync()),
       ),
-    );
+      pw.Column(mainAxisSize: pw.MainAxisSize.min, children: [
+        pw.Text(
+          title,
+          textDirection: pw.TextDirection.rtl,
+          style: pw.TextStyle(
+            fontSize: 20,
+            fontWeight: pw.FontWeight.bold,
+          ),
+        ),
+        pw.Text(
+          secondtitle,
+          textDirection: pw.TextDirection.rtl,
+          style: pw.TextStyle(
+            fontSize: 20,
+            fontWeight: pw.FontWeight.bold,
+          ),
+        ),
+        pw.Text(
+          subtitle,
+          textDirection: pw.TextDirection.rtl,
+          style: pw.TextStyle(
+            fontSize: 15,
+            fontWeight: pw.FontWeight.bold,
+          ),
+        )
+      ]),
+    ]);
   }
 }

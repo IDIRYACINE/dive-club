@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:dive_club/core/entities/genders/export.dart';
 import 'package:dive_club/core/entities/participants/export.dart';
-import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
 
 class PapillonPage extends pw.StatelessWidget {
@@ -89,12 +88,10 @@ class PapillonPage extends pw.StatelessWidget {
             child: pw.Column(
               children: [
                 pw.Text(participant.division.divisionName.value,
-                    style: const pw.TextStyle(color: PdfColors.red),
                     textScaleFactor: 0.8,
                     textDirection: pw.TextDirection.rtl),
                 pw.SizedBox(width: 4),
                 pw.Text(participant.specialty.specialtyName.value,
-                    style: const pw.TextStyle(color: PdfColors.blue),
                     textScaleFactor: 0.8,
                     textDirection: pw.TextDirection.rtl),
               ],

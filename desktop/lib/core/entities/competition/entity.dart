@@ -33,6 +33,10 @@ class CompetitionScoreEntity {
     required this.ageDivision,
   });
 
+  bool get isAbsent => score.minutes == 99;
+
+  bool get isDisqualified => score.minutes == 88;
+
   bool equals(CompetitionScoreEntity other) {
     return participantId.value == other.participantId.value &&
         divisionId.value == other.divisionId.value &&
