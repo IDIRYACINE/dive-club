@@ -24,6 +24,7 @@ class ScoreMapper {
           clubName: score.clubName,
           column: score.participantColumn,
           genderName: score.genderName,
+          entryTime: score.entryTime,
           series: score.participantSeries);
 
       final res = mapper.toDomainEntity(temp);

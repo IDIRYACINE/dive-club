@@ -31,7 +31,9 @@ class ScoreMapper
             genderId: GenderId(persistance.genderId),
             genderName: GenderName(persistance.genderName)),
         column: ParticipantColumn.from(persistance.column ?? 0),
-        series: ParticipantSeries(persistance.series ?? 0));
+        series: ParticipantSeries(persistance.series ?? 0),
+        entryTime: Score.fromInt(persistance.entryTime)
+        );
   }
 
   @override

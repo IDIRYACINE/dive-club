@@ -135,7 +135,6 @@ class ExcelService implements ExcelManagerPort {
     for (File file in files) {
       Uint8List bytes = file.readAsBytesSync();
       Excel excel = Excel.decodeBytes(bytes);
-      print(file.path);
 
       final sheet = excel[_sheetName];
 
@@ -213,9 +212,6 @@ class ExcelService implements ExcelManagerPort {
             clubId: ClubId(_getClubId(club.value.toString())),
             genderId: GenderId.fromString(sex.value.toString()),
             entryScores: _processEntryScores(entryScoresRaw));
-
-        print(
-            '$rowIndex ${firstName.value} ${lastName.value} count: ${registration.entryScores.length}');
 
         results.add(registration);
       }

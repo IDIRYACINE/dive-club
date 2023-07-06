@@ -17,9 +17,12 @@ class CompetitionScoreEntity {
   final ParticipantColumn column;
   final ParticipantSeries series;
   final ClubEntity club;
+  final Score entryTime;
+
 
   CompetitionScoreEntity({
     required this.club,
+    required this.entryTime,
     required this.column,
     required this.series,
     required this.participantName,

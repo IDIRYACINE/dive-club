@@ -65,6 +65,7 @@ class CompetitionScore extends DatabaseEntity {
   final int ageDivisionId;
 
   final int score;
+  final int entryTime;
   final DateTime date;
 
   final String participantFirstName;
@@ -88,6 +89,7 @@ class CompetitionScore extends DatabaseEntity {
     required this.participantId,
     required this.divisionId,
     required this.specialityId,
+    required this.entryTime,
     required this.genderId,
     required this.ageDivisionId,
     required this.score,

@@ -241,6 +241,7 @@ SELECT
     Participants.participant_column,
     Participants.participant_series,
     Participants.club_id,
+    Participants.entry_time,
     AgeDivisions.age_division_name,
     Genders.gender_name,
     Clubs.club_name
@@ -265,6 +266,7 @@ SELECT
     Participants.participant_last_name,
     Participants.participant_column,
     Participants.participant_series,
+    Participants.entry_time,
     AgeDivisions.age_division_name,
     Genders.gender_name
 FROM
@@ -290,6 +292,7 @@ SELECT
     Participants.participant_last_name,
     Participants.participant_column,
     Participants.participant_series,
+    Participants.entry_time,
     AgeDivisions.age_division_name,
     Genders.gender_name
 FROM
@@ -314,6 +317,7 @@ SELECT
     Participants.participant_first_name,
     Participants.participant_last_name,
     Participants.participant_column,
+    Participants.entry_time,
     Participants.participant_series,
     AgeDivisions.age_division_name,
     Genders.gender_name
@@ -342,6 +346,7 @@ SELECT
     Participants.participant_last_name,
     Participants.participant_column,
     Participants.participant_series,
+    Participants.entry_time,
     AgeDivisions.age_division_name,
     Genders.gender_name,
     Clubs.club_name
@@ -377,6 +382,7 @@ SELECT
     Participants.participant_column,
     Participants.participant_series,
     Participants.club_id,
+    Participants.entry_time,
     AgeDivisions.age_division_name,
     Genders.gender_name,
     Clubs.club_name
@@ -408,6 +414,7 @@ SELECT
     Participants.participant_last_name,
     Participants.participant_column,
     Participants.participant_series,
+    Participants.entry_time,
     AgeDivisions.age_division_name,
     Participants.club_id,
     Genders.gender_name,
@@ -444,6 +451,7 @@ SELECT
     Participants.participant_column,
     Participants.participant_series,
     Participants.club_id,
+    Participants.entry_time,
     AgeDivisions.age_division_name,
     Genders.gender_name,
     Clubs.club_name
@@ -732,7 +740,7 @@ WHERE
     AND age_division_year = :age_division_year
     AND participant_id = :participant_id;
 
-selectParticiapnsByAgeDivision(REQUIRED :age_division_id AS INTEGER) :
+selectParticiapnsByAgeDivision(REQUIRED :age_division_id AS INTEGER):
 SELECT
     Participants.*,
     DivingSpecialties.specialty_name,
@@ -759,7 +767,6 @@ selectClubEngagement(
     REQUIRED :age_division_id AS INTEGER,
     REQUIRED :gender_id AS INTEGER,
     REQUIRED :club_id AS INTEGER
-
 ):
 SELECT
     Participants.*,

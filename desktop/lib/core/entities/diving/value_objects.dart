@@ -2,6 +2,10 @@ class DivisionId {
   final int value;
 
   DivisionId(this.value);
+
+  bool equals(DivisionId cDivision) {
+    return cDivision.value == value;
+  }
 }
 
 class DivisionName {
@@ -14,6 +18,10 @@ class SpecialtyId {
   final int value;
 
   SpecialtyId(this.value);
+
+  bool equals(SpecialtyId cSpecialty) {
+    return cSpecialty.value == value;
+  }
 }
 
 class SpecialtyName {
@@ -43,6 +51,10 @@ class AgeDivisionId {
   @override
   String toString() {
     return value.toString();
+  }
+
+  bool equals(AgeDivisionId cAgeDivision) {
+    return cAgeDivision.value == value;
   }
 }
 

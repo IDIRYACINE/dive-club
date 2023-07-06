@@ -69,6 +69,7 @@ class ScoreController {
       final entity = CompetitionScoreEntity(
         specialtyId: specialtyId,
         divisionId: divisionId,
+        entryTime: _data.participant!.entryTime,
         participantId: _data.participant!.participantId,
         score: score,
         divisionName: divisionBloc.state.divisionById(divisionId).divisionName,
@@ -87,7 +88,7 @@ class ScoreController {
       final event = AddScoreEvent(entity);
 
       bloc.add(event);
-      NavigationService.pop();
+      // NavigationService.pop();
     }
   }
 

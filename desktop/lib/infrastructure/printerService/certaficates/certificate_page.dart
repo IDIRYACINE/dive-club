@@ -64,9 +64,9 @@ class CertificatePage extends pw.StatelessWidget {
         ),
         pw.Positioned(
           top: 396,
-          left: 370,
+          left: 350,
           child: pw.Text(
-            'عيد الطفولة',
+            'عيد الاستقلال',
             textDirection: pw.TextDirection.rtl,
             style: pw.TextStyle(
                 fontSize: 23, fontWeight: pw.FontWeight.bold, color: color),

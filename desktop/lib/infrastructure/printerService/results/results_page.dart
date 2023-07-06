@@ -9,9 +9,10 @@ import '../commons.dart';
 
 class RankingsPage extends pw.StatelessWidget {
   final List<CompetitionScoreEntity> participants;
+  final int currRank;
 
   RankingsPage(
-    this.participants,
+    this.participants, this.currRank,
   );
 
   pw.TableRow _buildHeaderRow() {
@@ -21,8 +22,7 @@ class RankingsPage extends pw.StatelessWidget {
       children: [
         pw.Text('الاسم', textAlign: tAlign, textDirection: tDirection),
         pw.Text('النادي', textAlign: tAlign, textDirection: tDirection),
-        pw.Text('المجموعة', textAlign: tAlign, textDirection: tDirection),
-        pw.Text('الرواق', textAlign: tAlign, textDirection: tDirection),
+        pw.Text('وقت الدخول', textAlign: tAlign, textDirection: tDirection),
         pw.Text('النتيجة', textAlign: tAlign, textDirection: tDirection),
       ],
     );
@@ -36,20 +36,21 @@ class RankingsPage extends pw.StatelessWidget {
     const tDirection = pw.TextDirection.rtl;
     const tAlign = pw.TextAlign.left;
 
+    int rank = currRank;
+
     for (CompetitionScoreEntity participant in participants) {
       isOdd = !isOdd;
 
-      
-      String score = participant.score.toString(); 
+      String score = participant.score.toString();
 
       final isAbsent = participant.isAbsent;
       final isDisqualified = participant.isDisqualified;
 
-      if(isAbsent){
+      if (isAbsent) {
         score = "غائب";
       }
 
-      if(isDisqualified){
+      if (isDisqualified) {
         score = "مقصي";
       }
 
@@ -59,20 +60,23 @@ class RankingsPage extends pw.StatelessWidget {
             color: getRowColorByOdd(isOdd),
           ),
           children: [
-            pw.Text(participant.participantName.toString(),
+            pw.Text("$rank - ${participant.participantName.toString().toUpperCase()}",
                 textDirection: tDirection, textAlign: tAlign),
             pw.Text(participant.club.clubName.value,
                 textDirection: tDirection, textAlign: tAlign),
-            pw.Text(participant.series.toString(),
-                textDirection: tDirection, textAlign: tAlign),
-            pw.Text(participant.column.toString(),
+            pw.Text(participant.entryTime.toString(),
                 textDirection: tDirection, textAlign: tAlign),
             pw.Text(score,
-            style: isAbsent || isDisqualified ? const pw.TextStyle(color: PdfColors.red) : null,
-                textDirection: tDirection, textAlign: tAlign),
+                style: isAbsent || isDisqualified
+                    ? const pw.TextStyle(color: PdfColors.red)
+                    : null,
+                textDirection: tDirection,
+                textAlign: tAlign),
           ],
         ),
       );
+
+      rank++;
     }
 
     return rows;

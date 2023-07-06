@@ -93,7 +93,7 @@ class ParticipantController {
 
       bloc.add(event);
 
-      NavigationService.pop();
+      // NavigationService.pop();
     }
   }
 

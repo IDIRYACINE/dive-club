@@ -51,7 +51,6 @@ class Score {
 
       return Score(m, s, ms);
     } catch (e) {
-      print(e.toString());
       return null;
     }
   }
