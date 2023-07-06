@@ -1,8 +1,10 @@
 import 'package:dive_club/application/commons/utility/validators.dart';
 import 'package:dive_club/application/commons/widgets/buttons.dart';
+import 'package:dive_club/application/features/ageDivision/feature.dart';
 import 'package:dive_club/core/entities/diving/entity.dart';
 import 'package:dive_club/resources/l10n/l10n.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../logic/form_controller.dart';
 
@@ -39,15 +41,16 @@ typedef OnAgeDivisionSelected = void Function(AgeDivisionEntity? item);
 
 class AgeDivisionDropdown extends StatelessWidget {
   const AgeDivisionDropdown(
-      {super.key, required this.onSelected, required this.items});
+      {super.key, required this.onSelected,  this.items});
 
   final OnAgeDivisionSelected onSelected;
-  final List<AgeDivisionEntity> items;
+  final List<AgeDivisionEntity>? items;
 
-  List<AgeDivisionDropdownItem> _buildItems() {
+  List<AgeDivisionDropdownItem> _buildItems(List<AgeDivisionEntity> wItems) {
+
     List<AgeDivisionDropdownItem> result = [];
 
-    for (AgeDivisionEntity element in items) {
+    for (AgeDivisionEntity element in wItems) {
       AgeDivisionDropdownItem item = AgeDivisionDropdownItem(
         value: element,
         child: Text(element.divisionName.value),
@@ -61,9 +64,12 @@ class AgeDivisionDropdown extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final bloc = BlocProvider.of<AgeDivisionBloc>(context);
+    final wItems = items ?? bloc.state.ageDivisions;
+
     return DropdownButtonFormField<AgeDivisionEntity>(
-      items: _buildItems(),
-       value: items.isNotEmpty ? items.first : null,
+      items: _buildItems(wItems),
+       value: wItems.isNotEmpty ? wItems.first : null,
       hint: const Text("Age Division"),
       onChanged: onSelected,
       validator: validatorAgeDivision,

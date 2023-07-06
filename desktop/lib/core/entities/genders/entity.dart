@@ -16,7 +16,12 @@ class GenderEntity {
         .firstWhere((element) => element.genderId.value == genderId.value);
   }
 
+
   bool get isFemale => genderId.value == 1;
 
   bool get isMale => genderId.value == 0;
+
+  bool equals(GenderEntity genderEntity) {
+    return genderEntity.genderId.equals(genderId);
+  }
 }

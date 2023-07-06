@@ -49,6 +49,10 @@ class AgeDivisionEntity {
         divisionId: divisionId ?? this.divisionId,
         divisionName: divisionName ?? this.divisionName);
   }
+
+  bool equals(AgeDivisionEntity ageEntity) {
+    return ageEntity.divisionId.equals(divisionId);
+  }
 }
 
 final List<AgeDivisionEntity> ageDivisions = [

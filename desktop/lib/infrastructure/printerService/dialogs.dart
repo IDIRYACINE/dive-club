@@ -9,6 +9,8 @@ import 'package:dive_club/resources/l10n/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:printing/printing.dart';
 
+import 'certaficates/certificate_dialog.dart';
+
 class PrinterDialog extends StatelessWidget {
   const PrinterDialog({super.key, required this.preparedDoc});
 
@@ -58,9 +60,11 @@ class ChoosePrintModeDialog extends StatelessWidget {
   final CompetitionBloc bloc;
 
   void onAutoPrint() {
-    ServicesProvider.instance()
-        .printerPort
-        .printCertificates(bloc.state.scores);
+    // ServicesProvider.instance()
+    //     .printerPort
+    //     .printCertificates(bloc.state.scores);
+    const dialog =  CertificateDialog();
+    NavigationService.replaceDialog(dialog);
   }
 
   void onCustomPrint() {

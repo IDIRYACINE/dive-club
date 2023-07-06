@@ -1,8 +1,10 @@
 import 'package:dive_club/application/commons/utility/validators.dart';
 import 'package:dive_club/application/commons/widgets/buttons.dart';
+import 'package:dive_club/application/features/divisions/state/bloc.dart';
 import 'package:dive_club/core/entities/diving/entity.dart';
 import 'package:dive_club/resources/l10n/l10n.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../logic/division_controller.dart';
 
@@ -37,16 +39,16 @@ typedef OnDivisionSelected = void Function(DivingDivisionEntity? item);
 
 class DivisionDropdown extends StatelessWidget {
   const DivisionDropdown(
-      {super.key, required this.onSelected, required this.items, this.initialValue});
+      {super.key, required this.onSelected,  this.items, this.initialValue});
 
   final OnDivisionSelected onSelected;
-  final List<DivingDivisionEntity> items;
+  final List<DivingDivisionEntity>? items;
   final DivingDivisionEntity? initialValue;
 
-  List<DivisionDropdownItem> _buildItems() {
+  List<DivisionDropdownItem> _buildItems(List<DivingDivisionEntity> wItems) {
     List<DivisionDropdownItem> result = [];
 
-    for (DivingDivisionEntity element in items) {
+    for (DivingDivisionEntity element in wItems) {
       DivisionDropdownItem item = DivisionDropdownItem(
         value: element,
         child: Text(element.divisionName.value),
@@ -60,17 +62,20 @@ class DivisionDropdown extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
+    final wItems = items ?? BlocProvider.of<DivisionBloc>(context).state.divisions;
+
      DivingDivisionEntity? firstSelection;
     
     if (initialValue != null) {
       firstSelection =
-          items.firstWhere((element) => element.equals(initialValue!));
-    } else if (items.isNotEmpty) {
-      firstSelection = items.first;
+          wItems.firstWhere((element) => element.equals(initialValue!));
+    } else if (wItems.isNotEmpty) {
+      firstSelection = wItems.first;
     }
 
     return DropdownButtonFormField<DivingDivisionEntity>(
-        items: _buildItems(), onChanged: onSelected,
+        items: _buildItems(wItems),
+         onChanged: onSelected,
         value:  firstSelection,
               hint: const Text("Division"),
 

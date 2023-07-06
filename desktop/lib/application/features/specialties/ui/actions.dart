@@ -1,8 +1,10 @@
 import 'package:dive_club/application/commons/utility/validators.dart';
 import 'package:dive_club/application/commons/widgets/buttons.dart';
+import 'package:dive_club/application/features/specialties/state/bloc.dart';
 import 'package:dive_club/core/entities/diving/entity.dart';
 import 'package:dive_club/resources/l10n/l10n.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../logic/form_controller.dart';
 
@@ -41,17 +43,17 @@ class SpecialtyDropdown extends StatelessWidget {
   const SpecialtyDropdown(
       {super.key,
       required this.onSelected,
-      required this.items,
+       this.items,
       this.initialValue});
 
   final OnSpecialtySelected onSelected;
-  final List<DivingSpecialtyEntity> items;
+  final List<DivingSpecialtyEntity>? items;
   final DivingSpecialtyEntity? initialValue;
 
-  List<SpecialtyDropdownItem> _buildItems() {
+  List<SpecialtyDropdownItem> _buildItems( List<DivingSpecialtyEntity> wItems) {
     List<SpecialtyDropdownItem> result = [];
 
-    for (DivingSpecialtyEntity element in items) {
+    for (DivingSpecialtyEntity element in wItems) {
       SpecialtyDropdownItem item = SpecialtyDropdownItem(
         value: element,
         child: Text(element.specialtyName.value),
@@ -65,17 +67,19 @@ class SpecialtyDropdown extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final wItems = items ?? BlocProvider.of<SpecialtyBloc>(context).state.specialties;
+
     DivingSpecialtyEntity? firstSelection;
     
     if (initialValue != null) {
       firstSelection =
-          items.firstWhere((element) => element.equals(initialValue!));
-    } else if (items.isNotEmpty) {
-      firstSelection = items.first;
+          wItems.firstWhere((element) => element.equals(initialValue!));
+    } else if (wItems.isNotEmpty) {
+      firstSelection = wItems.first;
     }
 
     return DropdownButtonFormField<DivingSpecialtyEntity>(
-      items: _buildItems(),
+      items: _buildItems(wItems),
       value: firstSelection,
       onChanged: onSelected,
       hint: const Text("Specialty"),
