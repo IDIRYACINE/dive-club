@@ -17,6 +17,7 @@ class CertificateController {
     final validGender = state.genderEntity != null;
     final validSpecialty = state.specialtyEntity != null;
 
+
     if (validAge && validDivision && validGender && validSpecialty) {
       state.addOption(CertificatePrinterOptions.fromState(state));
     }
@@ -49,4 +50,20 @@ class CertificatePrinterOptions {
         option.specialtyEntity.equals(specialtyEntity) &&
         option.genderEntity.equals(genderEntity);
   }
+}
+
+
+
+Future<void> onPrintCustomPrizes(GlobalKey<CertifiacteFormState> key) async {
+
+  final options = key.currentState?.options;
+
+  if(options != null && options.isNotEmpty){
+
+    // final printerPort = ServicesProvider.instance().printerPort;
+    // TODO: implement print custom prizes
+
+    return;
+  }
+
 }
