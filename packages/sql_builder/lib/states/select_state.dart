@@ -12,6 +12,11 @@ class SelectStateBuilder implements SqlQueryStatePort {
     query += options.fromTables;
     query += " WHERE";
     query += options.whereClause;
+    query += " ${options.joinClause}";
+    query += " ${options.groupByClause}";
+    query += " ${options.orderByClause}";
+    query += " ${options.limitClause}";
+
 
     return query;
 

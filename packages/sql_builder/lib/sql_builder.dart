@@ -13,6 +13,11 @@ class SqlBuilder implements SqlBuilderPort {
   final List<Column> _columns = [];
   final List<ColumnField> _columnFields = [];
   final List<ColumnField> _whereFileds = [];
+  final List<Join> _joins = [];
+  
+  Limit? _limit  ;
+  OrderBy? _orderBy  ;
+  GroupBy? _groupBy  ;
 
   late SqlQueryStatePort _stateBuilder;
 
@@ -45,23 +50,23 @@ class SqlBuilder implements SqlBuilderPort {
   }
 
   @override
-  void groupBy() {
-    // TODO: implement groupBy
+  void groupBy(GroupBy group) {
+    _groupBy = group;
   }
 
   @override
-  void join() {
-    // TODO: implement join
+  void join(Join joinParams) {
+    _joins.add(joinParams);
   }
 
   @override
-  void limit() {
-    // TODO: implement limit
+  void limit(Limit lim) {
+    _limit = lim;
   }
 
   @override
-  void orderBy() {
-    // TODO: implement orderBy
+  void orderBy(OrderBy order) {
+    _orderBy = order;
   }
 
   @override
@@ -75,6 +80,10 @@ class SqlBuilder implements SqlBuilderPort {
       selectColumns: buildSelect(_columns),
       fromTables: buildFrom(_tables),
       whereClause: buildWhere(_whereFileds),
+      limitClause: buildLimit(_limit),
+      groupByClause: buildGroupBy(_groupBy),
+      orderByClause: buildOrderBy(_orderBy),
+      joinClause: buildJoin(_joins),
     );
 
     return _stateBuilder.build(options);

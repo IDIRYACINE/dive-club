@@ -5,10 +5,10 @@ abstract class SqlBuilderPort {
   void update(List<ColumnField> columns);
   void delete();
   void where(List<ColumnField> columns);
-  void orderBy();
-  void groupBy();
-  void join();
-  void limit();
+  void orderBy(OrderBy order);
+  void groupBy(GroupBy group);
+  void join(Join joinParams);
+  void limit(Limit lim);
 
   String build();
 }
@@ -21,11 +21,21 @@ class StateBuildOptions {
   final String selectColumns;
   final String fromTables;
   final String whereClause;
+  final String limitClause ;
+  final String groupByClause ;
+  final String orderByClause ;
+  final String joinClause ;
+
+
 
   StateBuildOptions({
     this.selectColumns = "",
     this.fromTables = "",
     this.whereClause = "",
+    this.limitClause = "",
+    this.groupByClause = "",
+    this.orderByClause = "",
+    this.joinClause = "",
   });
 }
 
@@ -36,12 +46,43 @@ class Table {
   Table(this.name, {this.alias});
 }
 
+class JoinParam{
+  final Table table;
+  final Column column;
+
+  JoinParam(this.table,  this.column,);
+
+  String getStatement(){
+    String result = "";
+
+    result += table.alias??table.name;
+    result += '.';
+    result += column.name;
+
+    return result;
+  } 
+}
+
+class Join{
+  final JoinParam source;
+  final JoinParam target;
+  final JoinType joinType;
+
+  Join(this.source, this.target,{this.joinType = JoinType.inner});
+}
+
 class Column {
   final String name;
   final String? alias;
   final String? prefix;
 
   Column(this.name, {this.alias, this.prefix});
+}
+
+class GroupBy {
+  final List<Column> columns;
+
+  GroupBy({required this.columns});
 }
 
 class OrderBy {
@@ -56,6 +97,23 @@ class Limit {
   final int offset;
 
   Limit({required this.limit, this.offset = 0});
+}
+
+enum JoinType { inner, left, right }
+
+extension JoinTypeExtension on JoinType {
+  String get value {
+    switch (this) {
+      case JoinType.inner:
+        return " INNER JOIN ";
+      case JoinType.left:
+        return " LEFT JOIN ";
+      case JoinType.right:
+        return " RIGHT JOIN ";
+      default:
+        return " ";
+    }
+  }
 }
 
 enum SqlOperator { eq, ne, gt, lt, and, or,empty }

@@ -67,3 +67,74 @@ String buildWhere(List<ColumnField> whereFileds) {
 
     return result;
   }
+
+  String buildLimit(Limit? limit) {
+    if (limit == null) return "";
+
+    String result = "";
+    if (limit.limit > 0) {
+      result += "LIMIT ${limit.limit}";
+    }
+
+
+    return result;
+  }
+
+  String buildOrderBy(OrderBy? orderBy) {
+    if (orderBy == null) return "";
+
+    String result = "";
+    if (orderBy.column.name.isNotEmpty) {
+      result += "ORDER BY ${orderBy.column.name}";
+    }
+
+    if (!orderBy.asc) {
+      result += " DESC";
+    }
+
+    return result;
+  }
+
+  String buildGroupBy(GroupBy? groupBy) {
+    if (groupBy == null) return "";
+
+    String result = "";
+    if (groupBy.columns.isNotEmpty) {
+      result += "GROUP BY ";
+
+      for (var i = 0; i < groupBy.columns.length; i++) {
+        final column = groupBy.columns[i];
+
+        if (column.prefix != null) {
+          result += '${column.prefix}.';
+        }
+
+        result += column.name;
+
+        if (i < groupBy.columns.length - 1) {
+          result += ',';
+        }
+      }
+    }
+
+    return result;
+  }
+
+String buildJoin(List<Join> join){
+  String result = "";
+
+  if (join.isEmpty) return result;
+
+  for (var i = 0; i < join.length; i++) {
+    final joinParams = join[i];
+    
+    result += "${joinParams.joinType.value} ${joinParams.source.getStatement()} ON ${joinParams.target.getStatement()}";
+
+    if (i < join.length - 1) {
+      result += ',';
+    }
+  }
+
+
+  return result;
+}  
