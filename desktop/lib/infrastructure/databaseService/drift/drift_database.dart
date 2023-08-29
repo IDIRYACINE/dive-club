@@ -4,8 +4,10 @@ import 'package:dive_club/core/infrastrucutre/database/export.dart';
 import 'package:dive_club/core/infrastrucutre/utilities/excel_manager_port.dart';
 import 'package:dive_club/infrastructure/databaseService/drift/mappers/division_mapper.dart';
 import 'package:dive_club/resources/resources.dart';
+import 'package:sql_builder/sql_builder_port.dart';
 
 import 'database/database.dart';
+import 'helpers/load_competition_score.dart';
 import 'mappers/club_mapper.dart';
 import 'mappers/participant_mapper.dart';
 import 'mappers/score_mapper.dart';
@@ -70,80 +72,55 @@ class DriftDatabaseService implements DatabasePort {
   @override
   Future<LoadCompetitionScoresResult> loadCompetitionScores(
       LoadCompetitionScoresOptions options) async {
-    if (options.divisionId != null &&
-        options.specialityId != null &&
-        options.genderId != null &&
-        options.ageDivisionId != null) {
-      return _database
-          .selectCompetitionScoresBySpecialtyAndDivisionAndGenreAndAgeId(
-              divisionId: options.divisionId!,
-              genderId: options.genderId!,
-              ageId: options.ageDivisionId!,
-              specialtyId: options.specialityId!)
-          .get()
-          .then(
-            (value) => LoadCompetitionScoresResult(
-              scores: ScoreMapper.fromSelect(value, _mapperService.scoreMapper),
-            ),
-          );
+    final sqlBuilder = loadCompetitonScoreHelper();
+
+    final List<ColumnField> wheres = [];
+    if (options.divisionId != null) {
+      wheres.add(
+        ColumnField(Column("age_division_id", prefix: ("AgeDivisions")),
+            options.ageDivisionId),
+      );
     }
 
-    if (options.divisionId != null &&
-        options.specialityId != null &&
-        options.genderId != null) {
-      return _database
-          .selectCompetitionScoresBySpecialtyAndDivisionAndGenre(
-              divisionId: options.divisionId!,
-              genderId: options.genderId!,
-              specialtyId: options.specialityId!)
-          .get()
-          .then(
-            (value) => LoadCompetitionScoresResult(
-              scores: ScoreMapper.fromSelect(value, _mapperService.scoreMapper),
-            ),
-          );
+    if (options.divisionId != null) {
+      wheres.add(
+        ColumnField(
+            Column("division_id", prefix: ("Participants")), options.divisionId,
+            prefixOperator:
+                wheres.isNotEmpty ? SqlOperator.and : SqlOperator.empty),
+      );
     }
 
-    if (options.divisionId != null && options.specialityId != null) {
-      return _database
-          .selectCompetitionScoresBySpecialtyAndDivision(
-              divisionId: options.divisionId!,
-              specialtyId: options.specialityId!)
-          .get()
-          .then(
-            (value) => LoadCompetitionScoresResult(
-              scores: ScoreMapper.fromSelect(value, _mapperService.scoreMapper),
-            ),
-          );
+    if (options.specialityId != null) {
+      wheres.add(
+        ColumnField(Column("specialty_id", prefix: ("Participants")),
+            options.specialityId,
+            prefixOperator:
+                wheres.isNotEmpty ? SqlOperator.and : SqlOperator.empty),
+      );
     }
 
-    if (options.divisionId != null && options.specialityId == null) {
-      return _database
-          .selectCompetitionScoresByDivision(id: options.divisionId!)
-          .get()
-          .then(
-            (value) => LoadCompetitionScoresResult(
-              scores: ScoreMapper.fromSelect(value, _mapperService.scoreMapper),
-            ),
-          );
+    if (options.genderId != null) {
+      wheres.add(
+        ColumnField(
+            Column("gender_id", prefix: ("Participants")), options.specialityId,
+            prefixOperator:
+                wheres.isNotEmpty ? SqlOperator.and : SqlOperator.empty),
+      );
     }
 
-    if (options.divisionId == null && options.specialityId != null) {
-      return _database
-          .selectCompetitionScoresBySpecialty(id: options.specialityId!)
-          .get()
-          .then(
-            (value) => LoadCompetitionScoresResult(
-              scores: ScoreMapper.fromSelect(value, _mapperService.scoreMapper),
-            ),
-          );
-    }
+    sqlBuilder.where(wheres);
 
-    return _database.selectCompetitionScores().get().then(
-          (value) => LoadCompetitionScoresResult(
-            scores: ScoreMapper.fromSelect(value, _mapperService.scoreMapper),
-          ),
-        );
+    final query = sqlBuilder.build();
+    print(query);
+
+    return _database.executor
+        .runSelect(query, []).then((rawScores) {
+      final scores =
+          ScoreMapper.fromSelectJson(rawScores, _mapperService.scoreMapper);
+
+      return LoadCompetitionScoresResult(scores: scores);
+    });
   }
 
   @override

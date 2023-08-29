@@ -43,6 +43,8 @@ dependencies:
   file_picker: ^5.3.0
   printing: ^5.10.4
   excel: ^2.1.0
+  sql_builder :
+    path : ../packages/sql_builder
 
 dev_dependencies:
   flutter_test:

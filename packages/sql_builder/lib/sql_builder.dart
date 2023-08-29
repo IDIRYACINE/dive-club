@@ -55,8 +55,8 @@ class SqlBuilder implements SqlBuilderPort {
   }
 
   @override
-  void join(Join joinParams) {
-    _joins.add(joinParams);
+  void join(List<Join> joinParams) {
+    _joins.addAll(joinParams);
   }
 
   @override

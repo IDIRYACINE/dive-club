@@ -32,7 +32,7 @@ Future<void> initApp(InitAppOptions options) async {
   final databaseService = ServicesProvider.instance().databasePort;
   await databaseService.insertDefaultValues();
 
-  await _loadScores(databaseService, options.competitionBloc);
+  // await _loadScores(databaseService, options.competitionBloc);
   await _loadParticipants(databaseService, options.participantsBloc);
   await _loadDivisions(databaseService, options.divisionsBloc);
   await _loadSpecialties(databaseService, options.specialtiesBloc);

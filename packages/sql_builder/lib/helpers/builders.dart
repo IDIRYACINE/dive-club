@@ -2,9 +2,9 @@
   import 'package:sql_builder/sql_builder_port.dart';
 
 String buildWhere(List<ColumnField> whereFileds) {
-    String result = "";
+    String result = "WHERE ";
 
-    if (whereFileds.isEmpty) return result;
+    if (whereFileds.isEmpty) return "";
 
     for (var i = 0; i < whereFileds.length; i++) {
       final field = whereFileds[i];
@@ -128,10 +128,10 @@ String buildJoin(List<Join> join){
   for (var i = 0; i < join.length; i++) {
     final joinParams = join[i];
     
-    result += "${joinParams.joinType.value} ${joinParams.source.getStatement()} ON ${joinParams.target.getStatement()}";
+    result += "${joinParams.joinType.value} ${joinParams.source.table.name} ON ${joinParams.target.getStatement()}";
 
     if (i < join.length - 1) {
-      result += ',';
+      result += ' ';
     }
   }
 

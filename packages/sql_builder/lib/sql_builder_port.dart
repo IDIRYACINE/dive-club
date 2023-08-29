@@ -7,7 +7,7 @@ abstract class SqlBuilderPort {
   void where(List<ColumnField> columns);
   void orderBy(OrderBy order);
   void groupBy(GroupBy group);
-  void join(Join joinParams);
+  void join(List<Join> joinParams);
   void limit(Limit lim);
 
   String build();
