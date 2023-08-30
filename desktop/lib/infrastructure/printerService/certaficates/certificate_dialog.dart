@@ -65,7 +65,9 @@ class _CertificateDialogState extends State<CertificateDialog> {
                   child: Text(localizations.cancelLabel)),
               ButtonPrimary(
                 text: localizations.confirmLabel,
-                onPressed: () {},
+                onPressed: () {
+                  onPrintCustomPrizes(key);
+                },
               ),
             ],
           )

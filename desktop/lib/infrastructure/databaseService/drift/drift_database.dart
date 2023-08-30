@@ -109,9 +109,14 @@ class DriftDatabaseService implements DatabasePort {
       );
     }
 
+    if(options.limit != null) {
+      sqlBuilder.limit(Limit(limit: options.limit!));
+    }
+
     sqlBuilder.where(wheres);
 
     final query = sqlBuilder.build();
+
 
     return _database.executor.runSelect(query, []).then((rawScores) {
       final scores =
