@@ -33,7 +33,7 @@ class Participant extends DatabaseEntity {
     required this.specialityName,
     required this.specialityId,
     this.column = -1,
-    this.series = -1,
+    this.series = -1, 
   });
 }
 

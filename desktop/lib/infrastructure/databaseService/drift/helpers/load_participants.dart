@@ -1,12 +1,8 @@
 import 'package:sql_builder/sql_builder.dart';
 import 'package:sql_builder/sql_builder_port.dart';
 
-SqlBuilder loadCompetitonScoreHelper() {
+SqlBuilder loadParticipantsHelper() {
   final columns = [
-    Column(
-      "*",
-      prefix: "Scores",
-    ),
     Column(
       "*",
       prefix: "Participants",
@@ -33,7 +29,7 @@ SqlBuilder loadCompetitonScoreHelper() {
     ),
   ];
 
-  final tables = [Table("Scores")];
+  final tables = [Table("Participants")];
 
   final joins = [
     Join(
@@ -42,18 +38,8 @@ SqlBuilder loadCompetitonScoreHelper() {
         Column("specialty_id"),
       ),
       JoinParam(
-        Table("Scores"),
-        Column("specialty_id"),
-      ),
-    ),
-    Join(
-      JoinParam(
         Table("Participants"),
-        Column("participant_id"),
-      ),
-      JoinParam(
-        Table("Scores"),
-        Column("participant_id"),
+        Column("specialty_id"),
       ),
     ),
     Join(
@@ -62,7 +48,7 @@ SqlBuilder loadCompetitonScoreHelper() {
         Column("age_division_year"),
       ),
       JoinParam(
-        Table("Scores"),
+        Table("Participants"),
         Column("age_division_year"),
       ),
     ),
@@ -82,7 +68,7 @@ SqlBuilder loadCompetitonScoreHelper() {
         Column("gender_id"),
       ),
       JoinParam(
-        Table("Scores"),
+        Table("Participants"),
         Column("gender_id"),
       ),
     ),
@@ -92,7 +78,7 @@ SqlBuilder loadCompetitonScoreHelper() {
         Column("division_id"),
       ),
       JoinParam(
-        Table("Scores"),
+        Table("Participants"),
         Column("division_id"),
       ),
     ),
@@ -111,7 +97,5 @@ SqlBuilder loadCompetitonScoreHelper() {
   return SqlBuilder()
     ..select(columns)
     ..from(tables)
-    ..join(joins)
-    ..orderBy(
-        OrderBy(column: Column("score", prefix: "Score")));
+    ..join(joins);
 }

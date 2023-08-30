@@ -32,8 +32,6 @@ Future<void> initApp(InitAppOptions options) async {
   final databaseService = ServicesProvider.instance().databasePort;
   await databaseService.insertDefaultValues();
 
-  // await _loadScores(databaseService, options.competitionBloc);
-  await _loadParticipants(databaseService, options.participantsBloc);
   await _loadDivisions(databaseService, options.divisionsBloc);
   await _loadSpecialties(databaseService, options.specialtiesBloc);
   await _loadAgeDivisions(databaseService, options.ageDivisionBloc);
@@ -61,27 +59,6 @@ Future<void> _loadAgeDivisions(
   bloc.add(event);
 }
 
-Future<void> _loadScores(
-    DatabasePort databaseService, CompetitionBloc bloc) async {
-  final options = LoadCompetitionScoresOptions();
-
-  final scores = await databaseService.loadCompetitionScores(options);
-
-  final event = LoadScoresEvent(scores.scores);
-
-  bloc.add(event);
-}
-
-Future<void> _loadParticipants(
-    DatabasePort databaseService, ParticipantBloc bloc) async {
-  final options = LoadParticipantsOptions();
-
-  final participants = await databaseService.loadParticipants(options);
-
-  final event = LoadParticipantsEvent(participants.participants);
-
-  bloc.add(event);
-}
 
 Future<void> _loadDivisions(
     DatabasePort databaseService, DivisionBloc bloc) async {

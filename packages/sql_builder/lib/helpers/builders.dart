@@ -128,7 +128,7 @@ String buildJoin(List<Join> join){
   for (var i = 0; i < join.length; i++) {
     final joinParams = join[i];
     
-    result += "${joinParams.joinType.value} ${joinParams.source.table.name} ON ${joinParams.target.getStatement()}";
+    result += "${joinParams.joinType.value} ${joinParams.source.table.name} ON ${joinParams.source.getStatement()} = ${joinParams.target.getStatement()}";
 
     if (i < join.length - 1) {
       result += ' ';

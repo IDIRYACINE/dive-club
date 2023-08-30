@@ -8,6 +8,7 @@ import 'package:sql_builder/sql_builder_port.dart';
 
 import 'database/database.dart';
 import 'helpers/load_competition_score.dart';
+import 'helpers/load_participants.dart';
 import 'mappers/club_mapper.dart';
 import 'mappers/participant_mapper.dart';
 import 'mappers/score_mapper.dart';
@@ -75,7 +76,7 @@ class DriftDatabaseService implements DatabasePort {
     final sqlBuilder = loadCompetitonScoreHelper();
 
     final List<ColumnField> wheres = [];
-    if (options.divisionId != null) {
+    if (options.ageDivisionId != null) {
       wheres.add(
         ColumnField(Column("age_division_id", prefix: ("AgeDivisions")),
             options.ageDivisionId),
@@ -85,7 +86,7 @@ class DriftDatabaseService implements DatabasePort {
     if (options.divisionId != null) {
       wheres.add(
         ColumnField(
-            Column("division_id", prefix: ("Participants")), options.divisionId,
+            Column("division_id", prefix: ("Scores")), options.divisionId,
             prefixOperator:
                 wheres.isNotEmpty ? SqlOperator.and : SqlOperator.empty),
       );
@@ -93,8 +94,8 @@ class DriftDatabaseService implements DatabasePort {
 
     if (options.specialityId != null) {
       wheres.add(
-        ColumnField(Column("specialty_id", prefix: ("Participants")),
-            options.specialityId,
+        ColumnField(
+            Column("specialty_id", prefix: ("Scores")), options.specialityId,
             prefixOperator:
                 wheres.isNotEmpty ? SqlOperator.and : SqlOperator.empty),
       );
@@ -102,8 +103,7 @@ class DriftDatabaseService implements DatabasePort {
 
     if (options.genderId != null) {
       wheres.add(
-        ColumnField(
-            Column("gender_id", prefix: ("Participants")), options.specialityId,
+        ColumnField(Column("gender_id", prefix: ("Scores")), options.genderId,
             prefixOperator:
                 wheres.isNotEmpty ? SqlOperator.and : SqlOperator.empty),
       );
@@ -112,10 +112,8 @@ class DriftDatabaseService implements DatabasePort {
     sqlBuilder.where(wheres);
 
     final query = sqlBuilder.build();
-    print(query);
 
-    return _database.executor
-        .runSelect(query, []).then((rawScores) {
+    return _database.executor.runSelect(query, []).then((rawScores) {
       final scores =
           ScoreMapper.fromSelectJson(rawScores, _mapperService.scoreMapper);
 
@@ -146,150 +144,65 @@ class DriftDatabaseService implements DatabasePort {
   @override
   Future<LoadParticipantsResult> loadParticipants(
       LoadParticipantsOptions options) async {
-    if (options.divisionId != null &&
-        options.ageDivisionId != null &&
-        options.specialityId != null &&
-        options.genderId != null &&
-        options.clubId != null) {
-      return _database
-          .selectClubEngagement(
-              ageDivisionId: options.ageDivisionId!,
-              divisionId: options.divisionId!,
-              specialtyId: options.specialityId!,
-              genderId: options.genderId!,
-              clubId: options.clubId!)
-          .get()
-          .then(
-            (value) => LoadParticipantsResult(
-              participants: ParticipantMapper.bySelect(
-                  value, _mapperService.participantMapper),
-            ),
-          );
+    final sqlBuilder = loadParticipantsHelper();
+
+    final List<ColumnField> wheres = [];
+    if (options.ageDivisionId != null) {
+      wheres.add(
+        ColumnField(Column("age_division_id", prefix: ("AgeDivisions")),
+            options.ageDivisionId),
+      );
     }
 
-    if (options.divisionId != null &&
-        options.ageDivisionId != null &&
-        options.specialityId != null &&
-        options.genderId != null) {
-      return _database
-          .selectParticiapntsByAgeAndDivisionAndSpecialtyAndGender(
-              ageDivisionId: options.ageDivisionId!,
-              divisionId: options.divisionId!,
-              specialtyId: options.specialityId!,
-              genderId: options.genderId!)
-          .get()
-          .then(
-            (value) => LoadParticipantsResult(
-              participants: ParticipantMapper.bySelect(
-                  value, _mapperService.participantMapper),
-            ),
-          );
+    if (options.divisionId != null) {
+      wheres.add(
+        ColumnField(
+            Column("division_id", prefix: ("Participants")), options.divisionId,
+            prefixOperator:
+                wheres.isNotEmpty ? SqlOperator.and : SqlOperator.empty),
+      );
+    }
+
+    if (options.specialityId != null) {
+      wheres.add(
+        ColumnField(Column("specialty_id", prefix: ("Participants")),
+            options.specialityId,
+            prefixOperator:
+                wheres.isNotEmpty ? SqlOperator.and : SqlOperator.empty),
+      );
+    }
+
+    if (options.genderId != null) {
+      wheres.add(
+        ColumnField(
+            Column("gender_id", prefix: ("Participants")), options.genderId,
+            prefixOperator:
+                wheres.isNotEmpty ? SqlOperator.and : SqlOperator.empty),
+      );
+    }
+    if (options.participantId != null) {
+      wheres.add(
+        ColumnField(Column("participant_id", prefix: ("Participants")),
+            options.genderId,
+            prefixOperator:
+                wheres.isNotEmpty ? SqlOperator.and : SqlOperator.empty),
+      );
     }
 
     if (options.orderBySeries != null) {
-      return _database.selectParticipantsAndOrderBySeries().get().then(
-            (value) => LoadParticipantsResult(
-              participants: ParticipantMapper.fromOrderBySeries(
-                  value, _mapperService.participantMapper),
-            ),
-          );
-    }
-    if (options.participantId != null) {
-      return _database
-          .searchParticipantsById(id: options.participantId!)
-          .get()
-          .then(
-            (value) => LoadParticipantsResult(
-              participants: ParticipantMapper.fromSearchByName(
-                  value, _mapperService.participantMapper),
-            ),
-          );
+      sqlBuilder.orderBy(OrderBy(column: Column("participant_series")));
     }
 
-    if (options.clubId != null) {
-      return _database
-          .selectParticiapntsByClub(clubId: options.clubId!)
-          .get()
-          .then(
-            (value) => LoadParticipantsResult(
-              participants: ParticipantMapper.fromyByClub(
-                  value, _mapperService.participantMapper),
-            ),
-          );
-    }
+    sqlBuilder.where(wheres);
 
-    if (options.divisionId != null &&
-        options.ageDivisionId != null &&
-        options.specialityId != null) {
-      return _database
-          .selectParticiapntsByAgeAndDivisionAndSpecialty(
-              ageDivisionId: options.ageDivisionId!,
-              divisionId: options.divisionId!,
-              specialtyId: options.specialityId!)
-          .get()
-          .then(
-            (value) => LoadParticipantsResult(
-              participants: ParticipantMapper.byAgeAndDivisionAndSpecialty(
-                  value, _mapperService.participantMapper),
-            ),
-          );
-    }
+    final query = sqlBuilder.build();
 
-    if (options.ageDivisionId != null) {
-      return _database
-          .selectParticiapnsByAgeDivision(
-            ageDivisionId: options.ageDivisionId!,
-          )
-          .get()
-          .then(
-            (value) => LoadParticipantsResult(
-              participants: ParticipantMapper.bySelect(
-                  value, _mapperService.participantMapper),
-            ),
-          );
-    }
+    return _database.executor.runSelect(query, []).then((rawScores) {
+      final participants = ParticipantMapper.fromSelectJson(
+          rawScores, _mapperService.participantMapper);
 
-    if (options.divisionId == null && options.specialityId == null) {
-      return _database.selectParticiapnts().get().then(
-            (value) => LoadParticipantsResult(
-              participants: ParticipantMapper.fromSelectParticipant(
-                  value, _mapperService.participantMapper),
-            ),
-          );
-    }
-    if (options.divisionId != null && options.specialityId == null) {
-      return _database
-          .selectParticiapntsByDivision(id: options.divisionId!)
-          .get()
-          .then(
-            (value) => LoadParticipantsResult(
-              participants: ParticipantMapper.fromSelectByDivision(
-                  value, _mapperService.participantMapper),
-            ),
-          );
-    }
-    if (options.divisionId == null && options.specialityId != null) {
-      return _database
-          .selectParticiapnsBySpecialty(id: options.specialityId!)
-          .get()
-          .then(
-            (value) => LoadParticipantsResult(
-              participants: ParticipantMapper.fromSelectBySpecialty(
-                  value, _mapperService.participantMapper),
-            ),
-          );
-    }
-
-    return _database
-        .selectParticiapntsByDivisionAndSpecialty(
-            divisionId: options.divisionId!, specialtyId: options.specialityId!)
-        .get()
-        .then(
-          (value) => LoadParticipantsResult(
-            participants: ParticipantMapper.fromSelectBySpecialtyAndDivision(
-                value, _mapperService.participantMapper),
-          ),
-        );
+      return LoadParticipantsResult(participants: participants);
+    });
   }
 
   @override
