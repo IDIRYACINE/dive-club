@@ -73,7 +73,6 @@ Future<void> onPrintCustomPrizes(GlobalKey<CertifiacteFormState> key) async {
           final data = await servicesProvider.databasePort
               .loadCompetitionScores(loadOptions);
 
-              print(data.scores.length);
 
       prizedScores.addAll(data.scores);
     }
