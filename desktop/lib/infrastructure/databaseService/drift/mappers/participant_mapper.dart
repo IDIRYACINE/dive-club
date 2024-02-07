@@ -24,9 +24,9 @@ class ParticipantMapper {
           ageDivisionName: participant["age_division_name"],
           clubId: participant["club_id"],
           clubName: participant["club_name"],
-          column: participant["participant_column"],
+          column: participant["participant_column"] ?? -1,
           entryTime: participant["entry_time"],
-          series: participant["participant_series"], 
+          series: participant["participant_series"] ?? -1, 
            );
 
       final res = mapper.toDomainEntity(temp);

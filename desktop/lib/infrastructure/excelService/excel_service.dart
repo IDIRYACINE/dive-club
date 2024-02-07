@@ -108,7 +108,7 @@ class ExcelService implements ExcelManagerPort {
   Future<List<File>> _getEngagementFiles(String inputDirectory) async {
     final dir = await getApplicationDocumentsDirectory();
 
-    final directoryPath = '${dir.path}/$inputDirectory';
+    final directoryPath = '${dir.path}$inputDirectory';
 
     Directory dr = Directory(directoryPath);
     if (!dr.existsSync()) {

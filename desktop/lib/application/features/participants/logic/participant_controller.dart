@@ -74,6 +74,7 @@ class ParticipantController {
     final isFormValid = key.currentState!.validate();
     if (isFormValid) {
       final bloc = BlocProvider.of<ParticipantBloc>(context);
+      
 
       final entity = ParticipantEntity(
           participantId: ParticipantId(bloc.state.participants.length + 1),
