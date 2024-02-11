@@ -109,14 +109,13 @@ class DriftDatabaseService implements DatabasePort {
       );
     }
 
-    if(options.limit != null) {
+    if (options.limit != null) {
       sqlBuilder.limit(Limit(limit: options.limit!));
     }
 
     sqlBuilder.where(wheres);
 
     final query = sqlBuilder.build();
-
 
     return _database.executor.runSelect(query, []).then((rawScores) {
       final scores =
@@ -188,7 +187,7 @@ class DriftDatabaseService implements DatabasePort {
     if (options.participantId != null) {
       wheres.add(
         ColumnField(Column("participant_id", prefix: ("Participants")),
-            options.genderId,
+            options.participantId,
             prefixOperator:
                 wheres.isNotEmpty ? SqlOperator.and : SqlOperator.empty),
       );
@@ -201,7 +200,6 @@ class DriftDatabaseService implements DatabasePort {
     sqlBuilder.where(wheres);
 
     final query = sqlBuilder.build();
-
     return _database.executor.runSelect(query, []).then((rawScores) {
       final participants = ParticipantMapper.fromSelectJson(
           rawScores, _mapperService.participantMapper);

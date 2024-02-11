@@ -1,4 +1,4 @@
-package com.idir.dive_club
+package com.example.desktop
 
 import io.flutter.embedding.android.FlutterActivity
 

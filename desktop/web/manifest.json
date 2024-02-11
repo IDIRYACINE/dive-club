@@ -1,6 +1,6 @@
 {
-    "name": "dive_club",
-    "short_name": "dive_club",
+    "name": "desktop",
+    "short_name": "desktop",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",

@@ -123,7 +123,7 @@ class PrinterService implements PrinterPort {
   Future<void> _printWithoutPreview(
       Uint8List preparedDocBytes, String fileName) async {
     final output = await getApplicationDocumentsDirectory();
-    final file = File('${output.path}/diveClub/outputs/$fileName.pdf');
+    final file = File('${output.path}diveClub/outputs$fileName.pdf');
     file.writeAsBytesSync(preparedDocBytes);
     NavigationService.replaceDialog(ConfirmationDialog(
       title: "",
