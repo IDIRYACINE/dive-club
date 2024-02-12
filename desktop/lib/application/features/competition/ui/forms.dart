@@ -60,6 +60,7 @@ class _CompetittionScoreFormState extends State<CompetittionScoreForm> {
             GenericFormActions(
               onConfirmPressed: () => widget.controller.onRegister(context),
               onCancelPressed: widget.controller.onCancel,
+
             )
           ],
         ),

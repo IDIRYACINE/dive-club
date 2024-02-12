@@ -9,6 +9,7 @@ import 'package:dive_club/core/infrastrucutre/utilities/excel_manager_port.dart'
 import 'package:dive_club/core/infrastrucutre/utilities/printer_port.dart';
 import 'package:dive_club/infrastructure/printerService/results/results_printer.dart';
 import 'package:flutter/foundation.dart';
+import 'package:open_document/open_document.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:printing/printing.dart';
 
@@ -22,7 +23,7 @@ import 'startLists/startlists_printer.dart';
 class PrinterService implements PrinterPort {
   static const papillonFileName = "papillon";
   static const startListsFileName = "startlists";
-  static const engagementsFileName = "engaements";
+  static const engagementsFileName = "engagements";
   static const rankingsFileName = "rankings";
 
   final DatabasePort databasePort;
@@ -74,8 +75,8 @@ class PrinterService implements PrinterPort {
       final engagements = message["engagements"] as EngagementsRecords;
       final font = message["font"] as pw.TtfFont;
       return await createStartListsDocument(engagements, font, clubs: true);
-    }, {"engagements": engagements, "font": font})
-        .then((doc) => _printWithoutPreview(doc, engagementsFileName));
+    }, {"engagements": engagements, "font": font}).then((doc) =>
+        _printDoc(doc, engagementsFileName, engagementsFileName));
   }
 
   @override
@@ -86,8 +87,8 @@ class PrinterService implements PrinterPort {
       final participants = message["participants"] as List<ParticipantEntity>;
       final font = message["font"] as pw.TtfFont;
       return await createPapillonsDocument(participants, font);
-    }, {"participants": pariticpants, "font": font})
-        .then((doc) => _printWithoutPreview(doc, papillonFileName));
+    }, {"participants": pariticpants, "font": font}).then(
+        (doc) => _printDoc(doc, papillonFileName, papillonFileName));
   }
 
   @override
@@ -99,20 +100,19 @@ class PrinterService implements PrinterPort {
           message["rankings"] as List<List<CompetitionScoreEntity>>;
       final font = message["font"] as pw.TtfFont;
       return await createRankingsDocument(rankings, font);
-    }, {"rankings": rankings, "font": font})
-        .then((doc) => _printWithoutPreview(doc, rankingsFileName));
+    }, {"rankings": rankings, "font": font}).then(
+        (doc) => _printDoc(doc, rankingsFileName, rankingsFileName));
   }
 
   @override
   Future<void> printStartLists(EngagementsRecords engagements) async {
     NavigationService.displayDialog(const PreparingPrinterDialog());
-
     compute((message) async {
       final engagements = message["engagements"] as EngagementsRecords;
       final font = message["font"] as pw.TtfFont;
       return await createStartListsDocument(engagements, font);
-    }, {"engagements": engagements, "font": font})
-        .then((doc) => _printWithoutPreview(doc, startListsFileName));
+    }, {"engagements": engagements, "font": font}).then((doc) =>
+        _printDoc(doc, startListsFileName, startListsFileName));
   }
 
   void _displayPreview(Uint8List preparedDocBytes) async {
@@ -120,17 +120,29 @@ class PrinterService implements PrinterPort {
     NavigationService.replaceDialog(dialog);
   }
 
-  Future<void> _printWithoutPreview(
-      Uint8List preparedDocBytes, String fileName) async {
+  Future<void> _printDoc(
+      Uint8List preparedDocBytes, String fileName, String prePath) async {
     final output = await getApplicationDocumentsDirectory();
-    final file = File('${output.path}diveClub/outputs$fileName.pdf');
-    file.writeAsBytesSync(preparedDocBytes);
-    NavigationService.replaceDialog(ConfirmationDialog(
-      title: "",
-      content: file.path,
-      onConfirm: () {
-        NavigationService.pop();
-      },
-    ));
+    File('${output.path}/diveClub/outputs/$prePath/$fileName.pdf')
+        .create(recursive: true)
+        .then((File file) {
+      file.writeAsBytesSync(preparedDocBytes);
+      NavigationService.replaceDialog(ConfirmationDialog(
+        title: "",
+        content: file.path,
+        onConfirm: () {
+          _docPreview('${output.path}/diveClub/outputs/$prePath/$fileName.pdf');
+          NavigationService.pop();
+        },
+      ));
+    });
+  }
+
+  Future<void> _docPreview(String path) async {
+    await OpenDocument.openDocument(filePath: path)
+        .then((value) {})
+        .onError((error, stackTrace) {
+      debugPrint(error.toString());
+    });
   }
 }

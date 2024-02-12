@@ -13,7 +13,6 @@ class ParticipantsTable extends StatefulWidget {
   const ParticipantsTable({super.key, this.participants = const []});
 
   final List<ParticipantEntity> participants;
-
   @override
   State<ParticipantsTable> createState() => _ParticipantsTableState();
 }
