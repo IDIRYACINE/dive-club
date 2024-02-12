@@ -6,14 +6,21 @@ import 'package:dive_club/core/entities/participants/export.dart';
 import 'package:dive_club/core/infrastrucutre/database/export.dart';
 import 'package:dive_club/core/infrastrucutre/utilities/excel_manager_port.dart';
 import 'package:dive_club/core/infrastrucutre/utilities/printer_port.dart';
+import 'package:drift/drift.dart';
+import 'package:file_picker/file_picker.dart';
+import 'package:flutter/foundation.dart';
+import 'package:path_provider/path_provider.dart';
 
 class DiveReportGenerator {
   final ExcelManagerPort excelPort;
   final DatabasePort dbPort;
   final PrinterPort printerPort;
 
-  final String engagementFilesDirectory = "diveClub/data/engagements";
-  final String engagementsOutputDirectory = "diveClub/outputs/engagements";
+  String engagementFilesDirectory = "/diveClub/data/engagements";
+  final String engagementsOutputDirectory = "/diveClub/outputs/engagements";
+  void setEngagementFilesDirectory(String path) {
+    engagementFilesDirectory = path;
+  }
 
   DiveReportGenerator(
       {required this.printerPort,
@@ -21,8 +28,15 @@ class DiveReportGenerator {
       required this.dbPort});
 
   Future<void> registerParticipants() async {
+    final doc = await getApplicationDocumentsDirectory();
+    String? selectedDirectory =
+        await FilePicker.platform.getDirectoryPath().then((value) {
+          value ??= doc.path+engagementFilesDirectory;
+      return value;
+    });
+      debugPrint(selectedDirectory);
     final registrations =
-        await excelPort.processEngagementFiles(engagementFilesDirectory);
+        await excelPort.processEngagementFiles(selectedDirectory!);
 
     int index = 100;
     for (ParticipantRegistration participant in registrations) {

@@ -110,7 +110,7 @@ class ExcelService implements ExcelManagerPort {
 
     final directoryPath = '${dir.path}$inputDirectory';
 
-    Directory dr = Directory(directoryPath);
+    Directory dr = Directory(inputDirectory);
     if (!dr.existsSync()) {
       dr.createSync();
     }
