@@ -23,7 +23,9 @@ class _CompetittionScoreFormState extends State<CompetittionScoreForm> {
       widget.controller.searchParticipant(id).then((res) => {setState(() {})});
     }
   }
-
+void _onSubmit() {
+    widget.controller.onRegister(context);
+  }
   @override
   Widget build(BuildContext context) {
     final localizations = AppLocalizations.of(context)!;
@@ -47,7 +49,7 @@ class _CompetittionScoreFormState extends State<CompetittionScoreForm> {
               width: 10,
             ),
              CompetitionScoreTextField(
-                onUpdateScore: widget.controller.updateScore,
+                onUpdateScore: widget.controller.updateScore, onFieldSubmit: (_) => _onSubmit(),
               
             ),
             const Divider(),
@@ -58,7 +60,7 @@ class _CompetittionScoreFormState extends State<CompetittionScoreForm> {
               height: 30,
             ),
             GenericFormActions(
-              onConfirmPressed: () => widget.controller.onRegister(context),
+              onConfirmPressed: _onSubmit,
               onCancelPressed: widget.controller.onCancel,
 
             )
@@ -116,11 +118,11 @@ class ScoreDialog extends StatelessWidget {
 }
 
 typedef OnUpdateScore = void Function(String? value);
-
+typedef void OnFieldSubmit(String value);
 class CompetitionScoreTextField extends StatefulWidget {
   final OnUpdateScore onUpdateScore;
-
-  const CompetitionScoreTextField({super.key, required this.onUpdateScore});
+  final OnFieldSubmit onFieldSubmit;
+  const CompetitionScoreTextField({super.key, required this.onUpdateScore, required this.onFieldSubmit});
 
   @override
   State<CompetitionScoreTextField> createState() =>
@@ -140,12 +142,13 @@ class _CompetitionScoreTextFieldState extends State<CompetitionScoreTextField> {
   @override
   Widget build(BuildContext context) {
     final localizations = AppLocalizations.of(context)!;
-
+  
     return TextFormField(
       controller: _textController,
       decoration: InputDecoration(
         labelText: localizations.participantScoreLabel,
       ),
+      onFieldSubmitted: widget.onFieldSubmit,
       onChanged: _onUpdate,
       validator: validatorScore,
       keyboardType: TextInputType.number,

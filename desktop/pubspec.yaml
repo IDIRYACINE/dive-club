@@ -45,6 +45,7 @@ dependencies:
   excel: ^2.1.0
   sql_builder :
     path : ../packages/sql_builder
+  open_document: ^1.0.7
 
 dev_dependencies:
   flutter_test:
