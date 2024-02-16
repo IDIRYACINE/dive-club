@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:dive_club/core/entities/competition/export.dart';
+import 'package:dive_club/core/entities/genders/export.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
 
@@ -11,10 +12,18 @@ class CertificatePage extends pw.StatelessWidget {
 
   final CompetitionScoreEntity participant;
 
+  String getGenderInArabic(GenderEntity genderEntity){
+    if(genderEntity.isFemale){
+      return 'اناث';
+    }
+    return 'ذكور';
+  }
+
   @override
   pw.Widget build(pw.Context context) {
     final center = (context.page.pageFormat.width) / 2;
     final color = PdfColor.fromHex("#FF0000");
+    final genderArabic = getGenderInArabic(participant.gender);
     return pw.Stack(
       children: [
         pw.Image(pw.MemoryImage(image.readAsBytesSync())),
@@ -54,9 +63,9 @@ class CertificatePage extends pw.StatelessWidget {
         ),
         pw.Positioned(
           top: 370,
-          left: center,
+          left: center + 50,
           child: pw.Text(
-            '${participant.divisionName.value} ${participant.specialtyName.value}',
+            '${participant.ageDivision.divisionName.value} ${participant.divisionName.value} ${participant.specialtyName.value} $genderArabic',
             textDirection: pw.TextDirection.rtl,
             style: pw.TextStyle(
                 fontSize: 18, fontWeight: pw.FontWeight.bold, color: color),

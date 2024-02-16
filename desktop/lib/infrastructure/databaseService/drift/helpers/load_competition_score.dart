@@ -27,6 +27,10 @@ SqlBuilder loadCompetitonScoreHelper() {
       "participant_column",
       prefix: "Participants",
     ),
+     Column(
+      "club_id",
+      prefix: "Participants",
+    ),
     Column(
       "specialty_name",
       prefix: "DivingSpecialties",
@@ -128,5 +132,5 @@ SqlBuilder loadCompetitonScoreHelper() {
     ..select(columns)
     ..from(tables)
     ..join(joins)
-    ..orderBy(OrderBy(columns: [Column("score", prefix: "Score")]));
+    ..orderBy(OrderBy(columns: [Column("score", prefix: "Scores")]));
 }
