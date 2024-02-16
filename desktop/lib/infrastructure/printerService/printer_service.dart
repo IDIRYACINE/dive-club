@@ -144,8 +144,8 @@ class PrinterService implements PrinterPort {
     final output = await getApplicationDocumentsDirectory();
     File('${output.path}/diveClub/outputs/$prePath/$fileName.pdf')
         .create(recursive: true)
-        .then((File file) {
-      file.writeAsBytesSync(preparedDocBytes);
+        .then((File file) async {
+      await file.writeAsBytes(preparedDocBytes);
       NavigationService.replaceDialog(ConfirmationDialog(
         title: "",
         content: file.path,

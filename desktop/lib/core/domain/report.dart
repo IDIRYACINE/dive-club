@@ -129,6 +129,7 @@ class DiveReportGenerator {
     final specialties = (await dbPort.loadDivingSpecialities()).specialties;
     final clubs = (await dbPort.loadClubs()).clubs;
 
+
     for (ClubEntity club in clubs) {
       for (int genderId in genderIds) {
         for (AgeDivisionEntity ageDvision in ageDivisions) {
@@ -164,6 +165,8 @@ class DiveReportGenerator {
     final ageDivisions = (await dbPort.loadAgeDivisions()).ageDivisions;
     final specialties = (await dbPort.loadDivingSpecialities()).specialties;
 
+    final List<Column> orderBy = [Column(ParticipantsColumns.entryTime.name)];
+
     for (int genderId in genderIds) {
       for (AgeDivisionEntity ageDvision in ageDivisions) {
         for (DivingSpecialtyEntity specialty in specialties) {
@@ -172,7 +175,9 @@ class DiveReportGenerator {
                 divisionId: division.divisionId.value,
                 specialityId: specialty.specialtyId.value,
                 ageDivisionId: ageDvision.divisionId.value,
-                genderId: genderId);
+                genderId: genderId,
+                orderBy: orderBy
+                );
 
             final participants =
                 (await dbPort.loadParticipants(options)).participants;
