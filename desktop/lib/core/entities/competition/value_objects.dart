@@ -51,7 +51,7 @@ class Score {
 
       return Score(m, s, ms);
     } catch (e) {
-      return null;
+      return Score(02, 00, 00);
     }
   }
 

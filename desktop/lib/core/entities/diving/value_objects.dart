@@ -1,3 +1,5 @@
+import 'package:flutter/foundation.dart';
+
 class DivisionId {
   final int value;
 
@@ -37,10 +39,16 @@ class AgeDivisionId {
 
 
   factory AgeDivisionId.fromString(String value) {
+    int test = 1800;
 
+    try {
+      test = int.parse(value);
+    }
+    catch(e){
+      debugPrint("error parsing score : $value");
+    }
 
-
-    return AgeDivisionId(int.tryParse(value) ?? 1999);
+    return AgeDivisionId(test);
   }
 
   static AgeDivisionId fromDate(DateTime value) {
