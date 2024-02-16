@@ -118,7 +118,7 @@ class ScoreDialog extends StatelessWidget {
 }
 
 typedef OnUpdateScore = void Function(String? value);
-typedef void OnFieldSubmit(String value);
+typedef OnFieldSubmit = void Function(String value);
 class CompetitionScoreTextField extends StatefulWidget {
   final OnUpdateScore onUpdateScore;
   final OnFieldSubmit onFieldSubmit;

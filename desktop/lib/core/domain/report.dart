@@ -6,7 +6,6 @@ import 'package:dive_club/core/entities/participants/export.dart';
 import 'package:dive_club/core/infrastrucutre/database/export.dart';
 import 'package:dive_club/core/infrastrucutre/utilities/excel_manager_port.dart';
 import 'package:dive_club/core/infrastrucutre/utilities/printer_port.dart';
-import 'package:drift/drift.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/foundation.dart';
 import 'package:path_provider/path_provider.dart';
@@ -16,8 +15,8 @@ class DiveReportGenerator {
   final DatabasePort dbPort;
   final PrinterPort printerPort;
 
-  String engagementFilesDirectory = "/diveClub/data/engagements";
-  final String engagementsOutputDirectory = "/diveClub/outputs/engagements";
+  String engagementFilesDirectory = "diveClub/data/engagements";
+  final String engagementsOutputDirectory = "diveClub/outputs/engagements";
   void setEngagementFilesDirectory(String path) {
     engagementFilesDirectory = path;
   }
@@ -31,17 +30,25 @@ class DiveReportGenerator {
     final doc = await getApplicationDocumentsDirectory();
     String? selectedDirectory =
         await FilePicker.platform.getDirectoryPath().then((value) {
-          value ??= doc.path+engagementFilesDirectory;
+      String auxilary = "";
+      if (!doc.path.endsWith("/")) {
+        auxilary = "/";
+      }
+
+      value ??= doc.path + auxilary + engagementFilesDirectory;
       return value;
     });
-      debugPrint(selectedDirectory);
+    debugPrint(selectedDirectory);
     final registrations =
         await excelPort.processEngagementFiles(selectedDirectory!);
 
-    int index = 100;
+    debugPrint("registration : ${registrations.length}");
+
+    int index = 0;
     for (ParticipantRegistration participant in registrations) {
       for (ScoreEngagement entryScore in participant.entryScores) {
         if (entryScore.score == null) {
+          debugPrint("null score in clubId ${participant.clubId.value}");
           continue;
         }
 

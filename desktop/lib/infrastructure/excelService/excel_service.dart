@@ -1,7 +1,5 @@
 // ignore_for_file: unused_local_variable
 
-import 'dart:typed_data';
-
 import 'package:dive_club/core/entities/clubs/export.dart';
 import 'package:dive_club/core/entities/competition/export.dart';
 import 'package:dive_club/core/entities/diving/export.dart';
@@ -12,6 +10,7 @@ import 'package:dive_club/infrastructure/excelService/metadata.dart';
 import 'package:dive_club/resources/resources.dart';
 import 'dart:io';
 import 'package:excel/excel.dart';
+import 'package:flutter/foundation.dart';
 import 'package:path_provider/path_provider.dart';
 
 class ExcelService implements ExcelManagerPort {
@@ -78,7 +77,11 @@ class ExcelService implements ExcelManagerPort {
     final dir = await getApplicationDocumentsDirectory();
 
     File excelFile = File(AppResources.startListsExcel);
-    String fPath = '${dir.path}/$outputDirectory/startList.xlsx';
+    String fPath = dir.path;
+    if (!fPath.endsWith("/")) {
+      fPath += "/";
+    }
+    fPath += '$outputDirectory/startList.xlsx';
 
     File file = File(fPath);
 
@@ -120,6 +123,7 @@ class ExcelService implements ExcelManagerPort {
 
     for (FileSystemEntity inputStream in rawFiles) {
       files.add(inputStream as File);
+      debugPrint("detected engagement file ${inputStream.path}");
     }
 
     return files;
@@ -135,6 +139,7 @@ class ExcelService implements ExcelManagerPort {
     for (File file in files) {
       Uint8List bytes = file.readAsBytesSync();
       Excel excel = Excel.decodeBytes(bytes);
+      debugPrint("inside ${file.path}");
 
       final sheet = excel[_sheetName];
 
@@ -180,6 +185,8 @@ class ExcelService implements ExcelManagerPort {
             rowIndex: rowIndex, columnIndex: EngagementsSheetRows.nageStyle));
 
         if (firstName.value == null || firstName.value == "null") {
+          debugPrint(
+              "skipped participant null firstName at file : ${file.path}");
           continue;
         }
 
@@ -305,30 +312,58 @@ class ExcelService implements ExcelManagerPort {
   }
 
   int _getClubId(String value) {
+    value = value.toLowerCase();
+    value = value.replaceAll(" ", "");
+
+    int clubId = -99;
+
     switch (value) {
-      case 'CNDBBA':
-        return 0;
-      case 'OMR':
-        return 1;
-      case 'UNBBA':
-        return 3;
-      case 'CSABAS':
-        return 2;
-      case 'afak':
-        return 4;
-      case 'CSANM':
-        return 5;
-      case 'ENBBA':
-        return 6;
-      case 'U S K':
-        return 7;
-      case 'CAB':
-        return 9;
-      case 'CSMH':
-        return 10;
+      case EngagementsSheetRows.cndbba:
+        clubId = EngagementsSheetRows.cndbbaIndex;
+        break;
+      case EngagementsSheetRows.omr:
+        clubId = EngagementsSheetRows.omrIndex;
+        break;
+      case EngagementsSheetRows.csabas:
+        clubId = EngagementsSheetRows.csabasIndex;
+        break;
+      case EngagementsSheetRows.unbba:
+        clubId = EngagementsSheetRows.unbbaIndex;
+        break;
+      case EngagementsSheetRows.afak:
+        clubId = EngagementsSheetRows.afakIndex;
+        break;
+      case EngagementsSheetRows.csanm:
+        clubId = EngagementsSheetRows.csanmIndex;
+        break;
+      case EngagementsSheetRows.enbba:
+        clubId = EngagementsSheetRows.enbbaIndex;
+        break;
+      case EngagementsSheetRows.usk:
+        clubId = EngagementsSheetRows.uskIndex;
+        break;
+      case EngagementsSheetRows.csa:
+        clubId = EngagementsSheetRows.csaIndex;
+        break;
+      case EngagementsSheetRows.cab:
+        clubId = EngagementsSheetRows.cabIndex;
+        break;
+      case EngagementsSheetRows.camh:
+        clubId = EngagementsSheetRows.camhIndex;
+        break;
+      case EngagementsSheetRows.gbn:
+        clubId = EngagementsSheetRows.gbnIndex;
+        break;
+      case EngagementsSheetRows.cbn:
+        clubId = EngagementsSheetRows.cbnIndex;
+        break;
       default:
-        return 0;
+        clubId = -1;
+        debugPrint("couldn't map id of : $value");
+        break;
     }
+    debugPrint("$value mapped to $clubId");
+    return clubId;
   }
 
   void _appendStartListRows(Sheet sheet, ParticipantEngagement engagement) {

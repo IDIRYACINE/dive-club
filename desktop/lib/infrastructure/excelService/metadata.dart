@@ -16,6 +16,35 @@ class EngagementsSheetRows {
   static const papillonStyle50m = 19;
   static const nageStyle = 22;
 
+  static const int cndbbaIndex = 0;
+  static const int omrIndex = 1;
+  static const int csabasIndex = 2;
+  static const int unbbaIndex = 3;
+  static const int afakIndex = 4;
+  static const int csanmIndex = 5;
+  static const int enbbaIndex = 6;
+  static const int uskIndex = 7;
+  static const int csaIndex = 8;
+  static const int cabIndex = 9;
+  static const int camhIndex = 10;
+  static const int gbnIndex = 11;
+  static const int cbnIndex = 12;
+
+  static const cndbba = "cndbba";
+  static const omr = "omr";
+  static const csabas = "csabas";
+  static const unbba = "unbba";
+  static const afak = "afak";
+  static const csanm = "csanm";
+  static const enbba = "csenbba";
+  static const usk = "uskbba";
+  static const csa = "csapcbba";
+  static const cab = "cab";
+  static const camh = "camh";
+  static const gbn = "gbnbba";
+  static const cbn = "cbn";
+
+
   static DivisionProfile divisionProfileFromIndex(int columnIndex) {
     switch (columnIndex) {
       case freeStyle50m:

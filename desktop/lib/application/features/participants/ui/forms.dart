@@ -141,6 +141,7 @@ class ParticipantDialog extends StatelessWidget {
     final ageDivisions =
         BlocProvider.of<AgeDivisionBloc>(context).state.ageDivisions;
     final clubs = BlocProvider.of<ClubBloc>(context).state.clubs;
+    debugPrint(ageDivisions.length.toString());
 
     final title = participant == null ? localizations.addParticipantLabel : localizations.editParticipantLabel;
     return AlertDialog(

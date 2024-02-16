@@ -75,8 +75,8 @@ class PrinterService implements PrinterPort {
       final engagements = message["engagements"] as EngagementsRecords;
       final font = message["font"] as pw.TtfFont;
       return await createStartListsDocument(engagements, font, clubs: true);
-    }, {"engagements": engagements, "font": font}).then((doc) =>
-        _printDoc(doc, engagementsFileName, engagementsFileName));
+    }, {"engagements": engagements, "font": font}).then(
+        (doc) => _printWithoutPreview(doc, engagementsFileName, engagementsFileName));
   }
 
   @override
@@ -88,7 +88,7 @@ class PrinterService implements PrinterPort {
       final font = message["font"] as pw.TtfFont;
       return await createPapillonsDocument(participants, font);
     }, {"participants": pariticpants, "font": font}).then(
-        (doc) => _printDoc(doc, papillonFileName, papillonFileName));
+        (doc) => _printWithoutPreview(doc, papillonFileName, papillonFileName));
   }
 
   @override
@@ -101,7 +101,7 @@ class PrinterService implements PrinterPort {
       final font = message["font"] as pw.TtfFont;
       return await createRankingsDocument(rankings, font);
     }, {"rankings": rankings, "font": font}).then(
-        (doc) => _printDoc(doc, rankingsFileName, rankingsFileName));
+        (doc) => _printWithoutPreview(doc, rankingsFileName, rankingsFileName));
   }
 
   @override
@@ -111,8 +111,8 @@ class PrinterService implements PrinterPort {
       final engagements = message["engagements"] as EngagementsRecords;
       final font = message["font"] as pw.TtfFont;
       return await createStartListsDocument(engagements, font);
-    }, {"engagements": engagements, "font": font}).then((doc) =>
-        _printDoc(doc, startListsFileName, startListsFileName));
+    }, {"engagements": engagements, "font": font})
+        .then((doc) => _printWithoutPreview(doc, startListsFileName, startListsFileName));
   }
 
   void _displayPreview(Uint8List preparedDocBytes) async {
@@ -120,6 +120,7 @@ class PrinterService implements PrinterPort {
     NavigationService.replaceDialog(dialog);
   }
 
+  // ignore: unused_element
   Future<void> _printDoc(
       Uint8List preparedDocBytes, String fileName, String prePath) async {
     final output = await getApplicationDocumentsDirectory();
@@ -132,6 +133,23 @@ class PrinterService implements PrinterPort {
         content: file.path,
         onConfirm: () {
           _docPreview('${output.path}/diveClub/outputs/$prePath/$fileName.pdf');
+          NavigationService.pop();
+        },
+      ));
+    });
+  }
+
+  Future<void> _printWithoutPreview(
+      Uint8List preparedDocBytes, String fileName, String prePath) async {
+    final output = await getApplicationDocumentsDirectory();
+    File('${output.path}/diveClub/outputs/$prePath/$fileName.pdf')
+        .create(recursive: true)
+        .then((File file) {
+      file.writeAsBytesSync(preparedDocBytes);
+      NavigationService.replaceDialog(ConfirmationDialog(
+        title: "",
+        content: file.path,
+        onConfirm: () {
           NavigationService.pop();
         },
       ));

@@ -4,6 +4,7 @@ import 'package:dive_club/core/infrastrucutre/database/export.dart';
 import 'package:dive_club/core/infrastrucutre/utilities/excel_manager_port.dart';
 import 'package:dive_club/infrastructure/databaseService/drift/mappers/division_mapper.dart';
 import 'package:dive_club/resources/resources.dart';
+import 'package:flutter/foundation.dart';
 import 'package:sql_builder/sql_builder_port.dart';
 
 import 'database/database.dart';
@@ -193,6 +194,15 @@ class DriftDatabaseService implements DatabasePort {
       );
     }
 
+    if(options.clubId != null){
+      wheres.add(
+        ColumnField(Column("club_id", prefix: ("Participants")),
+            options.clubId,
+            prefixOperator:
+            wheres.isNotEmpty ? SqlOperator.and : SqlOperator.empty),
+      );
+    }
+
     if (options.orderBySeries != null) {
       sqlBuilder.orderBy(OrderBy(column: Column("participant_series")));
     }
@@ -200,6 +210,7 @@ class DriftDatabaseService implements DatabasePort {
     sqlBuilder.where(wheres);
 
     final query = sqlBuilder.build();
+    debugPrint(query);
     return _database.executor.runSelect(query, []).then((rawScores) {
       final participants = ParticipantMapper.fromSelectJson(
           rawScores, _mapperService.participantMapper);
