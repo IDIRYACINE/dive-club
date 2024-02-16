@@ -4,11 +4,13 @@ import 'package:dive_club/core/entities/diving/export.dart';
 import 'package:dive_club/core/entities/genders/export.dart';
 import 'package:dive_club/core/entities/participants/export.dart';
 import 'package:dive_club/core/infrastrucutre/database/export.dart';
+import 'package:dive_club/core/infrastrucutre/database/metadata.dart';
 import 'package:dive_club/core/infrastrucutre/utilities/excel_manager_port.dart';
 import 'package:dive_club/core/infrastrucutre/utilities/printer_port.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/foundation.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:sql_builder/sql_builder_port.dart';
 
 class DiveReportGenerator {
   final ExcelManagerPort excelPort;
@@ -228,7 +230,15 @@ class DiveReportGenerator {
   }
 
   Future<void> printPapillons() async {
-    final options = LoadParticipantsOptions(orderBySeries: true);
+    final List<Column> orderBy = [
+      Column(ParticipantsColumns.genderId.name),
+      Column(AgeDivisionsColumns.id.name, prefix: Tables.ageDivisions.name),
+      Column(ParticipantsColumns.divisionId.name),
+      Column(ParticipantsColumns.specialtyId.name),
+      Column(ParticipantsColumns.series.name),
+      Column(ParticipantsColumns.column.name),
+    ];
+    final options = LoadParticipantsOptions(orderBy: orderBy);
 
     final participants = (await dbPort.loadParticipants(options)).participants;
 

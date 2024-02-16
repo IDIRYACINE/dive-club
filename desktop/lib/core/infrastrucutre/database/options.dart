@@ -1,3 +1,5 @@
+import 'package:sql_builder/sql_builder_port.dart';
+
 class SearchParticipantOptions {
   final String name;
 
@@ -198,7 +200,7 @@ class LoadParticipantsOptions {
   final int? ageDivisionId;
   final int? genderId;
 
-  final bool? orderBySeries;
+  final List<Column>? orderBy;
 
   LoadParticipantsOptions(
       {this.genderId,
@@ -207,7 +209,8 @@ class LoadParticipantsOptions {
       this.clubId,
       this.participantId,
       this.ageDivisionId,
-      this.orderBySeries});
+      this.orderBy,
+      });
 }
 
 class LoadCompetitionScoresOptions {

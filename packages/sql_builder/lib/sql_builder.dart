@@ -14,10 +14,10 @@ class SqlBuilder implements SqlBuilderPort {
   final List<ColumnField> _columnFields = [];
   final List<ColumnField> _whereFileds = [];
   final List<Join> _joins = [];
-  
-  Limit? _limit  ;
-  OrderBy? _orderBy  ;
-  GroupBy? _groupBy  ;
+
+  Limit? _limit;
+  OrderBy? _orderBy;
+  GroupBy? _groupBy;
 
   late SqlQueryStatePort _stateBuilder;
 

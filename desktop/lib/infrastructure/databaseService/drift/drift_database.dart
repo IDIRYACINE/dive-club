@@ -194,17 +194,16 @@ class DriftDatabaseService implements DatabasePort {
       );
     }
 
-    if(options.clubId != null){
+    if (options.clubId != null) {
       wheres.add(
-        ColumnField(Column("club_id", prefix: ("Participants")),
-            options.clubId,
+        ColumnField(Column("club_id", prefix: ("Participants")), options.clubId,
             prefixOperator:
-            wheres.isNotEmpty ? SqlOperator.and : SqlOperator.empty),
+                wheres.isNotEmpty ? SqlOperator.and : SqlOperator.empty),
       );
     }
 
-    if (options.orderBySeries != null) {
-      sqlBuilder.orderBy(OrderBy(column: Column("participant_series")));
+    if (options.orderBy != null) {
+      sqlBuilder.orderBy(OrderBy(columns: options.orderBy!));
     }
 
     sqlBuilder.where(wheres);

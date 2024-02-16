@@ -8,7 +8,6 @@ class DeleteStateBuilder implements SqlQueryStatePort {
     query += 'DELETE ${options.fromTables}';
     query += ' ${options.whereClause}';
 
-
     return query.toString();
   }
 }

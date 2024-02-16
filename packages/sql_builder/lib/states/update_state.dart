@@ -1,4 +1,3 @@
-
 import 'package:sql_builder/sql_builder_port.dart';
 
 class UpdateStateBuilder implements SqlQueryStatePort {

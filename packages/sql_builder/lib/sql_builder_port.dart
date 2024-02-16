@@ -21,12 +21,10 @@ class StateBuildOptions {
   final String selectColumns;
   final String fromTables;
   final String whereClause;
-  final String limitClause ;
-  final String groupByClause ;
-  final String orderByClause ;
-  final String joinClause ;
-
-
+  final String limitClause;
+  final String groupByClause;
+  final String orderByClause;
+  final String joinClause;
 
   StateBuildOptions({
     this.selectColumns = "",
@@ -46,29 +44,32 @@ class Table {
   Table(this.name, {this.alias});
 }
 
-class JoinParam{
+class JoinParam {
   final Table table;
   final Column column;
 
-  JoinParam(this.table,  this.column,);
+  JoinParam(
+    this.table,
+    this.column,
+  );
 
-  String getStatement(){
+  String getStatement() {
     String result = "";
 
-    result += table.alias??table.name;
+    result += table.alias ?? table.name;
     result += '.';
     result += column.name;
 
     return result;
-  } 
+  }
 }
 
-class Join{
+class Join {
   final JoinParam source;
   final JoinParam target;
   final JoinType joinType;
 
-  Join(this.source, this.target,{this.joinType = JoinType.inner});
+  Join(this.source, this.target, {this.joinType = JoinType.inner});
 }
 
 class Column {
@@ -86,10 +87,10 @@ class GroupBy {
 }
 
 class OrderBy {
-  final Column column;
+  final List<Column> columns;
   final bool asc;
 
-  OrderBy({required this.column, this.asc = true});
+  OrderBy({required this.columns, this.asc = true});
 }
 
 class Limit {
@@ -116,7 +117,7 @@ extension JoinTypeExtension on JoinType {
   }
 }
 
-enum SqlOperator { eq, ne, gt, lt, and, or,empty }
+enum SqlOperator { eq, ne, gt, lt, and, or, empty }
 
 extension SqlOperatorExtension on SqlOperator {
   String get value {
@@ -147,5 +148,6 @@ class ColumnField {
   final SqlOperator op;
   final SqlOperator prefixOperator;
 
-  ColumnField(this.column, this.value, {this.op = SqlOperator.eq,this.prefixOperator= SqlOperator.empty});
+  ColumnField(this.column, this.value,
+      {this.op = SqlOperator.eq, this.prefixOperator = SqlOperator.empty});
 }

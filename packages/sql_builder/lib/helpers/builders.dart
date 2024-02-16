@@ -1,54 +1,119 @@
-
-  import 'package:sql_builder/sql_builder_port.dart';
+import 'package:sql_builder/sql_builder_port.dart';
 
 String buildWhere(List<ColumnField> whereFileds) {
-    String result = "WHERE ";
+  String result = "WHERE ";
 
-    if (whereFileds.isEmpty) return "";
+  if (whereFileds.isEmpty) return "";
 
-    for (var i = 0; i < whereFileds.length; i++) {
-      final field = whereFileds[i];
-      final column = field.column;
+  for (var i = 0; i < whereFileds.length; i++) {
+    final field = whereFileds[i];
+    final column = field.column;
 
-      result += field.prefixOperator.value;
+    result += field.prefixOperator.value;
 
-      if (column.prefix != null) {
-        result += '${column.prefix}.';
-      }
-
-      result += "${column.name}${field.op.value}${field.value}";
+    if (column.prefix != null) {
+      result += '${column.prefix}.';
     }
 
-    return result;
+    result += "${column.name}${field.op.value}${field.value}";
   }
 
-  String buildFrom(List<Table> tables) {
-    String result = "";
+  return result;
+}
 
-    for (var i = 0; i < tables.length; i++) {
-      final table = tables[i];
+String buildFrom(List<Table> tables) {
+  String result = "";
 
-      result += table.name;
+  for (var i = 0; i < tables.length; i++) {
+    final table = tables[i];
 
-      if (table.alias != null) {
-        result += ' as ${table.alias}';
-      }
+    result += table.name;
 
-      if (i < tables.length - 1) {
-        result += ',';
-      }
+    if (table.alias != null) {
+      result += ' as ${table.alias}';
     }
 
-    return result;
+    if (i < tables.length - 1) {
+      result += ',';
+    }
   }
 
-  String buildSelect(List<Column> columns) {
-    String result = "";
+  return result;
+}
 
-    if (columns.isEmpty) return '*';
+String buildSelect(List<Column> columns) {
+  String result = "";
 
-    for (var i = 0; i < columns.length; i++) {
-      final column = columns[i];
+  if (columns.isEmpty) return '*';
+
+  for (var i = 0; i < columns.length; i++) {
+    final column = columns[i];
+
+    if (column.prefix != null) {
+      result += '${column.prefix}.';
+    }
+
+    result += column.name;
+
+    if (column.alias != null) {
+      result += ' as ${column.alias}';
+    }
+
+    if (i < columns.length - 1) {
+      result += ',';
+    }
+  }
+
+  return result;
+}
+
+String buildLimit(Limit? limit) {
+  if (limit == null) return "";
+
+  String result = "";
+  if (limit.limit > 0) {
+    result += "LIMIT ${limit.limit}";
+  }
+
+  return result;
+}
+
+String buildOrderBy(OrderBy? orderBy) {
+  if (orderBy == null || orderBy.columns.isEmpty) return "";
+
+  String result = "ORDER BY ";
+  Column col;
+  int lastColIndex = orderBy.columns.length - 1;
+
+  for(int i =0;i<orderBy.columns.length;i++) {
+    col = orderBy.columns[i];
+    if (col.prefix != null) {
+      result += '${col.prefix}.';
+    }
+
+    result += col.name;
+
+    if (i < lastColIndex) {
+      result += ',';
+    }
+  }
+
+  if (!orderBy.asc) {
+    result += " DESC";
+  }
+
+  return result;
+}
+
+String buildGroupBy(GroupBy? groupBy) {
+  if (groupBy == null) return "";
+
+  String result = "";
+  if (groupBy.columns.isNotEmpty) {
+    result += "GROUP BY ";
+
+    for (var i = 0; i < groupBy.columns.length; i++) {
+      final column = groupBy.columns[i];
 
       if (column.prefix != null) {
         result += '${column.prefix}.';
@@ -56,85 +121,30 @@ String buildWhere(List<ColumnField> whereFileds) {
 
       result += column.name;
 
-      if (column.alias != null) {
-        result += ' as ${column.alias}';
-      }
-
-      if (i < columns.length - 1) {
+      if (i < groupBy.columns.length - 1) {
         result += ',';
       }
     }
-
-    return result;
   }
 
-  String buildLimit(Limit? limit) {
-    if (limit == null) return "";
+  return result;
+}
 
-    String result = "";
-    if (limit.limit > 0) {
-      result += "LIMIT ${limit.limit}";
-    }
-
-
-    return result;
-  }
-
-  String buildOrderBy(OrderBy? orderBy) {
-    if (orderBy == null) return "";
-
-    String result = "";
-    if (orderBy.column.name.isNotEmpty) {
-      result += "ORDER BY ${orderBy.column.name}";
-    }
-
-    if (!orderBy.asc) {
-      result += " DESC";
-    }
-
-    return result;
-  }
-
-  String buildGroupBy(GroupBy? groupBy) {
-    if (groupBy == null) return "";
-
-    String result = "";
-    if (groupBy.columns.isNotEmpty) {
-      result += "GROUP BY ";
-
-      for (var i = 0; i < groupBy.columns.length; i++) {
-        final column = groupBy.columns[i];
-
-        if (column.prefix != null) {
-          result += '${column.prefix}.';
-        }
-
-        result += column.name;
-
-        if (i < groupBy.columns.length - 1) {
-          result += ',';
-        }
-      }
-    }
-
-    return result;
-  }
-
-String buildJoin(List<Join> join){
+String buildJoin(List<Join> join) {
   String result = "";
 
   if (join.isEmpty) return result;
 
   for (var i = 0; i < join.length; i++) {
     final joinParams = join[i];
-    
-    result += "${joinParams.joinType.value} ${joinParams.source.table.name} ON ${joinParams.source.getStatement()} = ${joinParams.target.getStatement()}";
+
+    result +=
+        "${joinParams.joinType.value} ${joinParams.source.table.name} ON ${joinParams.source.getStatement()} = ${joinParams.target.getStatement()}";
 
     if (i < join.length - 1) {
       result += ' ';
     }
   }
 
-
   return result;
-}  
+}
