@@ -58,6 +58,10 @@ class AgeDivisionEntity {
 final List<AgeDivisionEntity> ageDivisions = [
   AgeDivisionEntity(
       divisionId: AgeDivisionId(0), divisionName: AgeDivisionName("مدارس")),
+  
+  AgeDivisionEntity(
+      divisionId: AgeDivisionId(4),
+      divisionName: AgeDivisionName("كتاكيت")),
   AgeDivisionEntity(
       divisionId: AgeDivisionId(1), divisionName: AgeDivisionName("براعم")),
   AgeDivisionEntity(
